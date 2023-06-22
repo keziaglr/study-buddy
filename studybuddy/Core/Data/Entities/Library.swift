@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-class Library: Identifiable, Codable{
-    var id: String = UUID().uuidString
-    var url: String?
-    var dateCreated: Date?
+struct Library: Identifiable, Codable{
+    var id: String
+    var url: String
+    var dateCreated: Date
 }
