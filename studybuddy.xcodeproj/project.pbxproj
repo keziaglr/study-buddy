@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024472A4474AB004FB6B0 /* LoginPageView.swift */; };
+		8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024492A44754C004FB6B0 /* RegisterPageView.swift */; };
+		8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350244C2A447598004FB6B0 /* OnboardingPageView.swift */; };
 		ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC12A43E9E90006AE64 /* Badge.swift */; };
 		ACC72EC42A43EA450006AE64 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC32A43EA450006AE64 /* Community.swift */; };
 		ACC72EC62A43EA650006AE64 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC52A43EA650006AE64 /* Library.swift */; };
@@ -47,6 +50,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		835024472A4474AB004FB6B0 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginPageView.swift; path = Views/Onboarding/LoginPageView.swift; sourceTree = SOURCE_ROOT; };
+		835024492A44754C004FB6B0 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RegisterPageView.swift; path = Views/Onboarding/RegisterPageView.swift; sourceTree = SOURCE_ROOT; };
+		8350244C2A447598004FB6B0 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingPageView.swift; path = Views/Onboarding/OnboardingPageView.swift; sourceTree = SOURCE_ROOT; };
 		ACC72EC12A43E9E90006AE64 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		ACC72EC32A43EA450006AE64 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		ACC72EC52A43EA650006AE64 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
@@ -98,6 +104,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8350244B2A447583004FB6B0 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				835024472A4474AB004FB6B0 /* LoginPageView.swift */,
+				835024492A44754C004FB6B0 /* RegisterPageView.swift */,
+				8350244C2A447598004FB6B0 /* OnboardingPageView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		ACC72EC92A43EAF20006AE64 /* Scene(DicopySndiriYa) */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +144,7 @@
 		ACC72ECC2A43EB240006AE64 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8350244B2A447583004FB6B0 /* Onboarding */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -434,13 +451,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */,
 				ACC72EC42A43EA450006AE64 /* Community.swift in Sources */,
 				ACF2739B2A41FD9F00DB1BA3 /* ContentView.swift in Sources */,
 				ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
+				8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */,
 				ACF808532A42D95F0050D549 /* User.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
+				835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
