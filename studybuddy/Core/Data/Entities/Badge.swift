@@ -8,9 +8,9 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-class Badge: Identifiable, Codable {
-    var id: String = UUID().uuidString
-    var name: String?
-    var image: String?
-    var description: String?
+struct Badge: Identifiable, Codable {
+    var id: String
+    var name: String
+    var image: String
+    var description: String
 }

@@ -11,6 +11,9 @@ struct LoginPageView: View {
     
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var avm = AuthenticationViewModel()
+    @State private var emailTxt = ""
+    @State private var passwordTxt = ""
     
     var body: some View {
         ZStack{
@@ -35,64 +38,20 @@ struct LoginPageView: View {
                     .padding(.top, 180)
                     .padding(.bottom, 95)
 
-                //email field
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 302, height: 70)
-                        .shadow(radius: 15)
-                    
-                    VStack{
-                        HStack {
-                            Text("Email")
-                                .fontWeight(.medium)
-                                .padding(.leading, 55)
-                            Spacer()
-                        }
-                        HStack {
-                            TextField("enter your email address", text: $email)
-                                .padding(.leading, 55)
-                        }
-                    }
-                }
-                
+                CustomTextField(label: "Email", placeholder: "Enter your email address", text: $emailTxt)
                 .padding(.bottom, 10)
-                
-                //password field
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 302, height: 70)
-                        .shadow(radius: 15)
-                    
-                    VStack{
-                        HStack {
-                            Text("Password")
-                                .fontWeight(.medium)
-                                .padding(.leading, 55)
-                            Spacer()
-                        }
-                        HStack {
-                            TextField("enter your password", text: $password)
-                                .padding(.leading, 55)
-                        }
-                    }
-                }
+                CustomTextField(label: "Password", placeholder: "Enter your password", text: $passwordTxt, showText: false)
             }
             
             VStack{
                 Spacer()
                 Button(action: {
-                    //add action
+                    avm.auth(email: emailTxt, password: passwordTxt)
                 }) {
-                    Text("LOGIN")
-                        .frame(width: 302, height: 40)
-                        .font(.system(size: 18))
-                        .bold()
-                        .foregroundColor(.white)
-                        .background(Color("Orange"))
-                        .cornerRadius(10)
+                    CustomButton(text: "LOGIN")
                 }
+                .disabled(avm.checkLogin(email: emailTxt, password: passwordTxt))
+                .opacity(avm.checkLogin(email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
                 .padding()
                 .padding(.bottom, 110)
             }

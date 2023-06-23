@@ -8,12 +8,12 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-class Community: Identifiable, Codable{
-    var id: String = UUID().uuidString
-    var title: String?
-    var description: String?
-    var image: String?
-    var chats: [Chat]?
-    var libraries: [Library]?
-    var members: [User]?
+struct Community: Identifiable, Codable{
+    var id: String
+    var title: String
+    var description: String
+    var image: String
+    var chats: [Chat]
+    var libraries: [Library]
+    var members: [UserModel]
 }

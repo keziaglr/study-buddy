@@ -8,9 +8,9 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-class Chat: Identifiable, Codable{
-    var id: String = UUID().uuidString
-    var content: String?
-    var dateCreated: Date?
-    var user: User?
+struct Chat: Identifiable, Codable{
+    var id: String
+    var content: String
+    var dateCreated: Date
+    var user: UserModel
 }

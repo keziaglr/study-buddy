@@ -10,10 +10,13 @@
 		835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024472A4474AB004FB6B0 /* LoginPageView.swift */; };
 		8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024492A44754C004FB6B0 /* RegisterPageView.swift */; };
 		8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350244C2A447598004FB6B0 /* OnboardingPageView.swift */; };
+		AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7422A455618001B45FD /* CustomTextField.swift */; };
+		AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7452A45578B001B45FD /* CustomButton.swift */; };
 		ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC12A43E9E90006AE64 /* Badge.swift */; };
 		ACC72EC42A43EA450006AE64 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC32A43EA450006AE64 /* Community.swift */; };
 		ACC72EC62A43EA650006AE64 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC52A43EA650006AE64 /* Library.swift */; };
 		ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC72A43EA8E0006AE64 /* Chat.swift */; };
+		ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */; };
 		ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */; };
 		ACF2739B2A41FD9F00DB1BA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2739A2A41FD9F00DB1BA3 /* ContentView.swift */; };
 		ACF2739D2A41FDA100DB1BA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2739C2A41FDA100DB1BA3 /* Assets.xcassets */; };
@@ -53,10 +56,13 @@
 		835024472A4474AB004FB6B0 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginPageView.swift; path = Views/Onboarding/LoginPageView.swift; sourceTree = SOURCE_ROOT; };
 		835024492A44754C004FB6B0 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RegisterPageView.swift; path = Views/Onboarding/RegisterPageView.swift; sourceTree = SOURCE_ROOT; };
 		8350244C2A447598004FB6B0 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingPageView.swift; path = Views/Onboarding/OnboardingPageView.swift; sourceTree = SOURCE_ROOT; };
+		AC2AB7422A455618001B45FD /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Views/Components/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
+		AC2AB7452A45578B001B45FD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = Views/Components/CustomButton.swift; sourceTree = SOURCE_ROOT; };
 		ACC72EC12A43E9E90006AE64 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		ACC72EC32A43EA450006AE64 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		ACC72EC52A43EA650006AE64 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		ACC72EC72A43EA8E0006AE64 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthenticationViewModel.swift; path = ViewModels/AuthenticationViewModel.swift; sourceTree = SOURCE_ROOT; };
 		ACF273952A41FD9F00DB1BA3 /* studybuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = studybuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = studybuddyApp.swift; sourceTree = "<group>"; };
 		ACF2739A2A41FD9F00DB1BA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +120,15 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		AC2AB7412A455602001B45FD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AC2AB7422A455618001B45FD /* CustomTextField.swift */,
+				AC2AB7452A45578B001B45FD /* CustomButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		ACC72EC92A43EAF20006AE64 /* Scene(DicopySndiriYa) */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,21 +144,14 @@
 			children = (
 				ACC72ECD2A43EB290006AE64 /* ViewModels */,
 				ACC72ECC2A43EB240006AE64 /* Views */,
-				ACC72ECB2A43EB1C0006AE64 /* Components */,
 			);
 			path = Presentation;
-			sourceTree = "<group>";
-		};
-		ACC72ECB2A43EB1C0006AE64 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		ACC72ECC2A43EB240006AE64 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AC2AB7412A455602001B45FD /* Components */,
 				8350244B2A447583004FB6B0 /* Onboarding */,
 			);
 			path = Views;
@@ -152,6 +160,7 @@
 		ACC72ECD2A43EB290006AE64 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -451,13 +460,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */,
 				8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */,
 				ACC72EC42A43EA450006AE64 /* Community.swift in Sources */,
 				ACF2739B2A41FD9F00DB1BA3 /* ContentView.swift in Sources */,
 				ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */,
+				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
 				8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */,
+				AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */,
 				ACF808532A42D95F0050D549 /* User.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
 				835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */,

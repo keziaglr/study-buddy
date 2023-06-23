@@ -12,6 +12,9 @@ struct RegisterPageView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var name: String = ""
+    @State private var emailTxt: String = ""
+    @State private var passwordTxt: String = ""
+    @State private var avm = AuthenticationViewModel()
     
     var body: some View {
         ZStack{
@@ -36,88 +39,24 @@ struct RegisterPageView: View {
                     .padding(.top, 180)
                     .padding(.bottom, 10)
                 
-                //name field
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 302, height: 70)
-                        .shadow(radius: 15)
-                    
-                    VStack{
-                        HStack {
-                            Text("Full Name")
-                                .fontWeight(.medium)
-                                .padding(.leading, 55)
-                            Spacer()
-                        }
-                        HStack {
-                            TextField("enter your full name", text: $name)
-                                .keyboardType(.default)
-                                .padding(.leading, 55)
-                        }
-                    }
-                }
-                
+                CustomTextField(label: "Full Name", placeholder: "Enter your full name", text: $name)
                 .padding(.bottom, 10)
 
-                //email field
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 302, height: 70)
-                        .shadow(radius: 15)
-                    
-                    VStack{
-                        HStack {
-                            Text("Email")
-                                .fontWeight(.medium)
-                                .padding(.leading, 55)
-                            Spacer()
-                        }
-                        HStack {
-                            TextField("enter your email address", text: $email)
-                                .padding(.leading, 55)
-                        }
-                    }
-                }
-                
+                CustomTextField(label: "Email", placeholder: "Enter your email address", text: $emailTxt)
                 .padding(.bottom, 10)
                 
-                //password field
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 302, height: 70)
-                        .shadow(radius: 15)
-                    
-                    VStack{
-                        HStack {
-                            Text("Password")
-                                .fontWeight(.medium)
-                                .padding(.leading, 55)
-                            Spacer()
-                        }
-                        HStack {
-                            TextField("enter your password", text: $password)
-                                .padding(.leading, 55)
-                        }
-                    }
-                }
+                CustomTextField(label: "Password", placeholder: "Enter your password", text: $passwordTxt, showText: false)
             }
             
             VStack{
                 Spacer()
                 Button(action: {
-                    //add action
+                    avm.createUser(name: name, email: emailTxt, password: passwordTxt)
                 }) {
-                    Text("REGISTER")
-                        .frame(width: 302, height: 40)
-                        .font(.system(size: 18))
-                        .bold()
-                        .foregroundColor(.white)
-                        .background(Color("Orange"))
-                        .cornerRadius(10)
+                    CustomButton(text: "REGISTER")
                 }
+                .disabled(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt))
+                .opacity(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
                 .padding()
                 .padding(.bottom, 110)
             }
