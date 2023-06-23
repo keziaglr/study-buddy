@@ -27,11 +27,12 @@ struct OnboardingPageView: View {
                 }
                 
                 VStack{
-                    Text("Hello!")
+                    Text("Find Perfect Buddy!")
                         .fontWeight(.black)
-                        .font(.system(size: 38))
+                        .font(.system(size: 28))
                         .foregroundColor(.white)
-                    Text("Find your Buddy here!")
+                    Text("Discover, Connect, and Thrive\nwith your Perfect\nStudy Buddy")
+                        .multilineTextAlignment(.center)
                         .fontWeight(.medium)
                         .font(.system(size: 23))
                         .foregroundColor(Color("LightBlue"))
