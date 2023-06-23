@@ -28,7 +28,7 @@ struct LoginPageView: View {
             }
             
             VStack{
-                Text("Login")
+                Text("Let’s Connect!")
                     .fontWeight(.heavy)
                     .font(.system(size: 36))
                     .foregroundColor(.white)
@@ -46,12 +46,12 @@ struct LoginPageView: View {
                         HStack {
                             Text("Email")
                                 .fontWeight(.medium)
-                                .padding(.leading, 55)
+                                .padding(.leading, 80)
                             Spacer()
                         }
                         HStack {
                             TextField("enter your email address", text: $email)
-                                .padding(.leading, 55)
+                                .padding(.leading, 80)
                         }
                     }
                 }
@@ -69,12 +69,12 @@ struct LoginPageView: View {
                         HStack {
                             Text("Password")
                                 .fontWeight(.medium)
-                                .padding(.leading, 55)
+                                .padding(.leading, 80)
                             Spacer()
                         }
                         HStack {
                             TextField("enter your password", text: $password)
-                                .padding(.leading, 55)
+                                .padding(.leading, 80)
                         }
                     }
                 }

@@ -29,7 +29,7 @@ struct RegisterPageView: View {
             }
             
             VStack{
-                Text("Register")
+                Text("Let’s get Started!")
                     .fontWeight(.heavy)
                     .font(.system(size: 36))
                     .foregroundColor(.white)
