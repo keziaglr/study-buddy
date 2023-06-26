@@ -73,7 +73,11 @@ struct LoginPageView: View {
                     .padding(.bottom, 90)
                 }
             }else if changePage == 2{
-                RegisterPageView()
+//                RegisterPageView()
+//                ChatTemp(manager: MessageManager())
+                ChatRoomView(manager: MessageManager())
+            }else if changePage == 3{
+                ChatTemp(manager: MessageManager())
             }
         }
     }

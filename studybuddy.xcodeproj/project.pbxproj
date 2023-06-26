@@ -20,15 +20,21 @@
 		83B64C552A46E5FE00CACF2C /* BadgeComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C542A46E5FE00CACF2C /* BadgeComponent.swift */; };
 		83B64C572A46E61D00CACF2C /* TabBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */; };
 		83B64C592A46E81E00CACF2C /* CreateCommunityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */; };
+		8D1C56D52A48536500FFF620 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C56D42A48536500FFF620 /* ChatRoomView.swift */; };
+		8DB10F4E2A48587E000A21F0 /* ChatRoomInfoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */; };
+		8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */; };
+		8DB10F522A485A3B000A21F0 /* StudyScheduleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F512A485A3B000A21F0 /* StudyScheduleComponent.swift */; };
+		8DB10F542A485A71000A21F0 /* MessageInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F532A485A71000A21F0 /* MessageInputComponent.swift */; };
+		8DB10F562A485AE5000A21F0 /* SetScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F552A485AE5000A21F0 /* SetScheduleView.swift */; };
 		AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7422A455618001B45FD /* CustomTextField.swift */; };
 		AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7452A45578B001B45FD /* CustomButton.swift */; };
+		AC49DFE32A496D2A000D7756 /* ChatTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49DFE22A496D2A000D7756 /* ChatTemp.swift */; };
 		ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC12A43E9E90006AE64 /* Badge.swift */; };
 		ACC72EC42A43EA450006AE64 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC32A43EA450006AE64 /* Community.swift */; };
 		ACC72EC62A43EA650006AE64 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC52A43EA650006AE64 /* Library.swift */; };
 		ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC72A43EA8E0006AE64 /* Chat.swift */; };
 		ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */; };
 		ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */; };
-		ACF2739B2A41FD9F00DB1BA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2739A2A41FD9F00DB1BA3 /* ContentView.swift */; };
 		ACF2739D2A41FDA100DB1BA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2739C2A41FDA100DB1BA3 /* Assets.xcassets */; };
 		ACF273A02A41FDA100DB1BA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2739F2A41FDA100DB1BA3 /* Preview Assets.xcassets */; };
 		ACF273A72A41FDEB00DB1BA3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACF273A62A41FDEB00DB1BA3 /* GoogleService-Info.plist */; };
@@ -76,8 +82,15 @@
 		83B64C542A46E5FE00CACF2C /* BadgeComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BadgeComponent.swift; path = Views/Components/BadgeComponent.swift; sourceTree = SOURCE_ROOT; };
 		83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarNavigation.swift; path = Views/Main/TabBarNavigation.swift; sourceTree = SOURCE_ROOT; };
 		83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreateCommunityPageView.swift; path = Views/Main/CreateCommunityPageView.swift; sourceTree = SOURCE_ROOT; };
+		8D1C56D42A48536500FFF620 /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomView.swift; path = Views/Main/ChatRoomView.swift; sourceTree = SOURCE_ROOT; };
+		8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomInfoComponent.swift; path = Views/Components/ChatRoomInfoComponent.swift; sourceTree = SOURCE_ROOT; };
+		8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageBubbleComponent.swift; path = Views/Components/MessageBubbleComponent.swift; sourceTree = SOURCE_ROOT; };
+		8DB10F512A485A3B000A21F0 /* StudyScheduleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StudyScheduleComponent.swift; path = Views/Components/StudyScheduleComponent.swift; sourceTree = SOURCE_ROOT; };
+		8DB10F532A485A71000A21F0 /* MessageInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageInputComponent.swift; path = Views/Components/MessageInputComponent.swift; sourceTree = SOURCE_ROOT; };
+		8DB10F552A485AE5000A21F0 /* SetScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SetScheduleView.swift; path = Views/Main/SetScheduleView.swift; sourceTree = SOURCE_ROOT; };
 		AC2AB7422A455618001B45FD /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Views/Components/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
 		AC2AB7452A45578B001B45FD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = Views/Components/CustomButton.swift; sourceTree = SOURCE_ROOT; };
+		AC49DFE22A496D2A000D7756 /* ChatTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatTemp.swift; path = Views/ChatTemp.swift; sourceTree = SOURCE_ROOT; };
 		ACC72EC12A43E9E90006AE64 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		ACC72EC32A43EA450006AE64 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		ACC72EC52A43EA650006AE64 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
@@ -85,7 +98,6 @@
 		ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthenticationViewModel.swift; path = ViewModels/AuthenticationViewModel.swift; sourceTree = SOURCE_ROOT; };
 		ACF273952A41FD9F00DB1BA3 /* studybuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = studybuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = studybuddyApp.swift; sourceTree = "<group>"; };
-		ACF2739A2A41FD9F00DB1BA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ACF2739C2A41FDA100DB1BA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACF2739F2A41FDA100DB1BA3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ACF273A62A41FDEB00DB1BA3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -148,6 +160,8 @@
 				83B64C502A46E5D000CACF2C /* ProfilePageView.swift */,
 				83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */,
 				83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */,
+				8D1C56D42A48536500FFF620 /* ChatRoomView.swift */,
+				8DB10F552A485AE5000A21F0 /* SetScheduleView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -157,6 +171,10 @@
 			children = (
 				AC2AB7422A455618001B45FD /* CustomTextField.swift */,
 				AC2AB7452A45578B001B45FD /* CustomButton.swift */,
+				8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */,
+				8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */,
+				8DB10F512A485A3B000A21F0 /* StudyScheduleComponent.swift */,
+				8DB10F532A485A71000A21F0 /* MessageInputComponent.swift */,
 				83B64C482A46E51100CACF2C /* HeaderComponent.swift */,
 				83B64C4A2A46E52800CACF2C /* CardComponent.swift */,
 				83B64C4C2A46E54500CACF2C /* CustomRoundedButton.swift */,
@@ -191,6 +209,7 @@
 				83B64C452A46E4E100CACF2C /* Main */,
 				AC2AB7412A455602001B45FD /* Components */,
 				8350244B2A447583004FB6B0 /* Onboarding */,
+				AC49DFE22A496D2A000D7756 /* ChatTemp.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -279,7 +298,6 @@
 				ACF808482A42D5A80050D549 /* Features */,
 				ACF808472A42D5A20050D549 /* Core */,
 				ACF808462A42D5930050D549 /* Config */,
-				ACF2739A2A41FD9F00DB1BA3 /* ContentView.swift */,
 				ACF273A62A41FDEB00DB1BA3 /* GoogleService-Info.plist */,
 				ACF2739E2A41FDA100DB1BA3 /* Preview Content */,
 			);
@@ -499,20 +517,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */,
+				AC49DFE32A496D2A000D7756 /* ChatTemp.swift in Sources */,
 				83B64C472A46E4F900CACF2C /* CommunityPageView.swift in Sources */,
+				8DB10F562A485AE5000A21F0 /* SetScheduleView.swift in Sources */,
 				83B64C4D2A46E54500CACF2C /* CustomRoundedButton.swift in Sources */,
 				83B64C572A46E61D00CACF2C /* TabBarNavigation.swift in Sources */,
 				8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */,
+				8D1C56D52A48536500FFF620 /* ChatRoomView.swift in Sources */,
+				8DB10F4E2A48587E000A21F0 /* ChatRoomInfoComponent.swift in Sources */,
 				83B64C512A46E5D000CACF2C /* ProfilePageView.swift in Sources */,
 				ACC72EC42A43EA450006AE64 /* Community.swift in Sources */,
-				ACF2739B2A41FD9F00DB1BA3 /* ContentView.swift in Sources */,
 				ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */,
+				8DB10F522A485A3B000A21F0 /* StudyScheduleComponent.swift in Sources */,
 				83B64C492A46E51100CACF2C /* HeaderComponent.swift in Sources */,
 				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C532A46E5F100CACF2C /* ProfileHeaderComponent.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
+				8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */,
 				8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */,
 				83B64C4B2A46E52800CACF2C /* CardComponent.swift in Sources */,
 				AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */,
@@ -520,6 +543,7 @@
 				83B64C592A46E81E00CACF2C /* CreateCommunityPageView.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
 				835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */,
+				8DB10F542A485A71000A21F0 /* MessageInputComponent.swift in Sources */,
 				83B64C552A46E5FE00CACF2C /* BadgeComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
