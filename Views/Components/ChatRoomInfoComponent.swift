@@ -63,15 +63,36 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                Button {
-                    print("tap")
+                Menu{
+                    Button(action: {
+                        // Handle "Set Study Schedule" button tap
+                    }) {
+                        Label("Set Study Schedule", systemImage: "calendar")
+                    }
+                    Button(action: {
+                        // Handle "Library" button tap
+                    }) {
+                        Label("Library", systemImage: "book")
+                    }
+                    Button(action: {
+                        // Handle "View Members" button tap
+                    }) {
+                        Label("View Members", systemImage: "person.2")
+                    }
+                    Divider()
+                    Button(action: {
+                        // Handle "Leave Community" button tap
+                    }) {
+                        Label("Leave Community", systemImage: "xmark.circle")
+                    }
+                    
                 } label: {
                     Image(systemName: "ellipsis.circle")
                         .resizable()
                         .foregroundColor(Color.white)
                         .frame(width: 30, height: 30)
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
-                    }
+                }
             }
             .background(Color(red: 0.439, green: 0.843, blue: 0.984))
             .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
