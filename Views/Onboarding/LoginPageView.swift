@@ -73,7 +73,8 @@ struct LoginPageView: View {
                     .padding(.bottom, 90)
                 }
             }else if changePage == 2{
-                RegisterPageView()
+//                RegisterPageView()
+                DiscoverPageView()
             }
         }
     }

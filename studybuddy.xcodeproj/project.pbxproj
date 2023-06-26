@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76DDDED12A492AEE00BA9F18 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED02A492AEE00BA9F18 /* TestView.swift */; };
+		76DDDED32A49690500BA9F18 /* DummyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED22A49690500BA9F18 /* DummyUI.swift */; };
+		76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */; };
 		835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024472A4474AB004FB6B0 /* LoginPageView.swift */; };
 		8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024492A44754C004FB6B0 /* RegisterPageView.swift */; };
 		8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350244C2A447598004FB6B0 /* OnboardingPageView.swift */; };
@@ -63,6 +66,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		76DDDED02A492AEE00BA9F18 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestView.swift; path = Views/Main/TestView.swift; sourceTree = SOURCE_ROOT; };
+		76DDDED22A49690500BA9F18 /* DummyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyUI.swift; path = ViewModels/DummyUI.swift; sourceTree = SOURCE_ROOT; };
+		76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommunityViewModel.swift; path = ViewModels/CommunityViewModel.swift; sourceTree = SOURCE_ROOT; };
 		835024472A4474AB004FB6B0 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginPageView.swift; path = Views/Onboarding/LoginPageView.swift; sourceTree = SOURCE_ROOT; };
 		835024492A44754C004FB6B0 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RegisterPageView.swift; path = Views/Onboarding/RegisterPageView.swift; sourceTree = SOURCE_ROOT; };
 		8350244C2A447598004FB6B0 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingPageView.swift; path = Views/Onboarding/OnboardingPageView.swift; sourceTree = SOURCE_ROOT; };
@@ -148,6 +154,7 @@
 				83B64C502A46E5D000CACF2C /* ProfilePageView.swift */,
 				83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */,
 				83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */,
+				76DDDED02A492AEE00BA9F18 /* TestView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -199,6 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */,
+				76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */,
+				76DDDED22A49690500BA9F18 /* DummyUI.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -498,7 +507,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76DDDED32A49690500BA9F18 /* DummyUI.swift in Sources */,
 				AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */,
+				76DDDED12A492AEE00BA9F18 /* TestView.swift in Sources */,
 				83B64C472A46E4F900CACF2C /* CommunityPageView.swift in Sources */,
 				83B64C4D2A46E54500CACF2C /* CustomRoundedButton.swift in Sources */,
 				83B64C572A46E61D00CACF2C /* TabBarNavigation.swift in Sources */,
@@ -510,6 +521,7 @@
 				83B64C492A46E51100CACF2C /* HeaderComponent.swift in Sources */,
 				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
+				76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C532A46E5F100CACF2C /* ProfileHeaderComponent.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
@@ -649,6 +661,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
+				DEVELOPMENT_TEAM = GHRFT69K59;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -677,6 +690,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
+				DEVELOPMENT_TEAM = GHRFT69K59;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

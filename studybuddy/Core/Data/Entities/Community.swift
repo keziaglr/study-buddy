@@ -13,7 +13,5 @@ struct Community: Identifiable, Codable{
     var title: String
     var description: String
     var image: String
-    var chats: [Chat]
-    var libraries: [Library]
-    var members: [UserModel]
+    var category: String
 }
