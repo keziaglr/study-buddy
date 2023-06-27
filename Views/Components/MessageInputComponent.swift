@@ -22,7 +22,6 @@ struct MessageInputComponent: View {
                     RoundedRectangle(cornerRadius: 40)
                         .stroke(Color(red: 0.906, green: 0.467, blue: 0.157), lineWidth: 2)
                 )
-                
                 .lineLimit(5)
             
             //Send Button
@@ -31,7 +30,6 @@ struct MessageInputComponent: View {
                 Button {
                     manager.sendChats(text: testText, communityID: communityID)
                     testText = ""
-                    print("tapped")
                 } label: {
                     ZStack(alignment: .center) {
                         Circle()
@@ -45,6 +43,8 @@ struct MessageInputComponent: View {
                     }
                     .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
                 }
+                .disabled(testText == "")
+                .opacity(testText == "" ? 0.5 : 1.0)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
             }
         }

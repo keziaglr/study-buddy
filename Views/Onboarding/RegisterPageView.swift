@@ -15,11 +15,10 @@ struct RegisterPageView: View {
     @State private var emailTxt: String = ""
     @State private var passwordTxt: String = ""
     @State private var avm = AuthenticationViewModel()
-    @State var changePage = 1
+    @Binding var changePage : Int
     
     var body: some View {
         ZStack{
-            if changePage == 1{
                 Image("background_gradient")
                     .resizable()
                     .scaledToFill()
@@ -77,15 +76,12 @@ struct RegisterPageView: View {
                     }
                     .padding(.bottom, 90)
                 }
-            } else if changePage == 2{
-                LoginPageView()
-            }
         }
     }
 }
 
 struct RegisterPageView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterPageView()
+        RegisterPageView(changePage: .constant(1))
     }
 }
