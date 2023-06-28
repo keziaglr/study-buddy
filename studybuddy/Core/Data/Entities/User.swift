@@ -14,5 +14,12 @@ struct UserModel: Identifiable, Codable {
     var email: String
     var password: String
     var image: String
+    var category : [String]
+    
+}
+
+struct communityMember: Identifiable, Codable {
+    var id: String
+    var name: String
     var badges: [String]
 }

@@ -75,6 +75,12 @@ struct LoginPageView: View {
                     .navigationDestination(isPresented: $avm.authenticated) {
                         ProfilePageView()
                     }
+                    .padding(.bottom, 90)
+                }
+            }else if changePage == 2{
+//                RegisterPageView()
+                DiscoverPageView(communityViewModel: CommunityViewModel())
+//                CommunityPageView(communityViewModel: CommunityViewModel())
             }
         }
     }

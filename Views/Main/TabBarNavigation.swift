@@ -11,14 +11,14 @@ struct TabBarNavigation: View {
     var body: some View {
         TabView {
             NavigationView {
-                CommunityPageView()
+                CommunityPageView(communityViewModel: CommunityViewModel())
             }
                 .tabItem {
                     Image(systemName: "person.2.circle.fill")
                     Text("Community")
                 }
             NavigationView {
-                DiscoverPageView()
+                DiscoverPageView(communityViewModel: CommunityViewModel())
             }
                 .tabItem {
                     Image(systemName: "magnifyingglass.circle.fill")
