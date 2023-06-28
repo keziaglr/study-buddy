@@ -163,6 +163,33 @@ class BadgeManager: ObservableObject {
         }
     }
     
+    func achieveBadge(badgeId: String){
+        um.getUser(id: Auth.auth().currentUser?.uid ?? "") { [self] user in
+            let collectionRef = db.collection("users")
+            let documentRef = collectionRef.document(user?.id ?? "")
+            documentRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let data = document.data(), let existingArray = data["badges"] as? [String] {
+                        var newArray = existingArray
+                        newArray.append(badgeId)
+                        
+                        documentRef.updateData(["badges": newArray]) { error in
+                            if let error = error {
+                                print("Error updating array: \(error.localizedDescription)")
+                            } else {
+                                print("Array updated successfully")
+                            }
+                        }
+                    } else {
+                        print("Existing array not found in the document")
+                    }
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
+    }
+    
     func getBadges(){
         db.collection("badges").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
