@@ -15,3 +15,5 @@ struct Community: Identifiable, Codable{
     var image: String
     var category: String
 }
+
+
