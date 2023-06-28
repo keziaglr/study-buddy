@@ -12,5 +12,5 @@ struct Chat: Identifiable, Codable{
     var id: String
     var content: String
     var dateCreated: Date
-    var user: UserModel
+    var user: String
 }

@@ -14,19 +14,20 @@ import FirebaseAuth
 final class AuthenticationViewModel : ObservableObject {
     
     let db = Firestore.firestore()
+    @Published var authenticated = false
     
-    func auth(email: String, password: String){
+    func auth(email: String, password: String) {
+//        var authenticated = false
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             if let error = error {
                 print("Authentication failed: \(error.localizedDescription)")
+                self!.authenticated = false
             } else {
                 print("Authentication successful")
                 if let user = authResult?.user {
                     //TODO: Redirect to HOME
-                    
-                  
-                    
+                    self!.authenticated = true
 //                    if Auth.auth().currentUser != nil {
 //                        //Buat dapat uid current user
 //                        print("Current User \(Auth.auth().currentUser?.uid)")
@@ -35,6 +36,7 @@ final class AuthenticationViewModel : ObservableObject {
 
             }
         }
+//        return authenticated
     }
     
     func createUser(name: String, email: String, password: String){
