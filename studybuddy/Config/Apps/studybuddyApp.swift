@@ -16,7 +16,7 @@ struct studybuddyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            OnboardingPageView()
+            LibraryView(communityID: .constant("A0grBMs808NJcvvnQjLE"))
         }
     }
 }
