@@ -18,8 +18,15 @@ struct DummyUI: View {
             List(CommunityViewModel.members, id: \.id){ member in
                 Text(member.id)
                 Text(member.name)
+
+            }
+            
+            List(CommunityViewModel.communities, id: \.id){ community in
+                Text(community.id)
+                Text(community.description)
                 
             }
+
             
             Text(communityID)
             
@@ -32,6 +39,7 @@ struct DummyUI: View {
             //                CommunityViewModel.getMembers(communityId: communityID)
             CommunityViewModel.getMembers(communityId: communityID)
             CommunityViewModel.getRecommendation()
+            
         }
     }
     
