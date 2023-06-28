@@ -59,6 +59,7 @@ struct LibraryView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
             .toolbarBackground(
                             Color("DarkBlue"),
                             for: .navigationBar)

@@ -41,7 +41,6 @@
 		8DB10F5C2A498F79000A21F0 /* ChatMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F5B2A498F79000A21F0 /* ChatMembersView.swift */; };
 		8DB10F5E2A49903E000A21F0 /* MembersBubbleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F5D2A49903E000A21F0 /* MembersBubbleComponent.swift */; };
 		8DB10F622A4A960D000A21F0 /* ChatRoomSettingsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F612A4A960D000A21F0 /* ChatRoomSettingsComponent.swift */; };
-		8DB10F662A4AD1CD000A21F0 /* LibraryNavBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F652A4AD1CD000A21F0 /* LibraryNavBarComponent.swift */; };
 		AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7422A455618001B45FD /* CustomTextField.swift */; };
 		AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2AB7452A45578B001B45FD /* CustomButton.swift */; };
 		AC49DFE32A496D2A000D7756 /* BadgeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC49DFE22A496D2A000D7756 /* BadgeViewModel.swift */; };
@@ -123,7 +122,6 @@
 		8DB10F5B2A498F79000A21F0 /* ChatMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatMembersView.swift; path = Views/Main/ChatMembersView.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F5D2A49903E000A21F0 /* MembersBubbleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MembersBubbleComponent.swift; path = Views/Components/MembersBubbleComponent.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F612A4A960D000A21F0 /* ChatRoomSettingsComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomSettingsComponent.swift; path = Views/Components/ChatRoomSettingsComponent.swift; sourceTree = SOURCE_ROOT; };
-		8DB10F652A4AD1CD000A21F0 /* LibraryNavBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LibraryNavBarComponent.swift; path = Views/Components/LibraryNavBarComponent.swift; sourceTree = SOURCE_ROOT; };
 		AC2AB7422A455618001B45FD /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomTextField.swift; path = Views/Components/CustomTextField.swift; sourceTree = SOURCE_ROOT; };
 		AC2AB7452A45578B001B45FD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomButton.swift; path = Views/Components/CustomButton.swift; sourceTree = SOURCE_ROOT; };
 		AC49DFE22A496D2A000D7756 /* BadgeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BadgeViewModel.swift; path = ViewModels/BadgeViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -787,7 +785,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -819,7 +816,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
