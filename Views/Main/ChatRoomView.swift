@@ -13,7 +13,7 @@ import Firebase
 
 
 struct ChatRoomView: View {
-    @ObservedObject var manager : MessageManager
+    @ObservedObject var manager : ChatViewModel
     @Binding var showTabView : Bool
     @State var community : Community
     
