@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972032A4987D6000D1E6B /* LibraryView.swift */; };
+		43C972072A498A32000D1E6B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972062A498A32000D1E6B /* ImagePicker.swift */; };
+		43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */; };
+		43C9720D2A4A9AEA000D1E6B /* DocumentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720C2A4A9AEA000D1E6B /* DocumentCellView.swift */; };
+		43C9720F2A4AF081000D1E6B /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720E2A4AF081000D1E6B /* LibraryViewModel.swift */; };
+		43C972122A4C344F000D1E6B /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972112A4C344F000D1E6B /* LoaderView.swift */; };
+		43C972142A4C362F000D1E6B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972132A4C362F000D1E6B /* WebView.swift */; };
+		43C972162A4C36D2000D1E6B /* FileViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972152A4C36D2000D1E6B /* FileViewerView.swift */; };
 		76DDDED12A492AEE00BA9F18 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED02A492AEE00BA9F18 /* TestView.swift */; };
 		76DDDED32A49690500BA9F18 /* DummyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED22A49690500BA9F18 /* DummyUI.swift */; };
 		76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */; };
@@ -81,6 +89,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43C972032A4987D6000D1E6B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		43C972062A498A32000D1E6B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		43C9720C2A4A9AEA000D1E6B /* DocumentCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCellView.swift; sourceTree = "<group>"; };
+		43C9720E2A4AF081000D1E6B /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		43C972102A4BE1F1000D1E6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		43C972112A4C344F000D1E6B /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
+		43C972132A4C362F000D1E6B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		43C972152A4C36D2000D1E6B /* FileViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewerView.swift; sourceTree = "<group>"; };
 		76DDDED02A492AEE00BA9F18 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestView.swift; path = Views/Main/TestView.swift; sourceTree = SOURCE_ROOT; };
 		76DDDED22A49690500BA9F18 /* DummyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyUI.swift; path = ViewModels/DummyUI.swift; sourceTree = SOURCE_ROOT; };
 		76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommunityViewModel.swift; path = ViewModels/CommunityViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -166,6 +183,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43C972002A498538000D1E6B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				43C972052A498A1B000D1E6B /* Utils */,
+				43C972022A49867F000D1E6B /* ViewModels */,
+				43C972012A49866C000D1E6B /* Views */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		43C972012A49866C000D1E6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				43C972032A4987D6000D1E6B /* LibraryView.swift */,
+				43C9720C2A4A9AEA000D1E6B /* DocumentCellView.swift */,
+				43C972112A4C344F000D1E6B /* LoaderView.swift */,
+				43C972152A4C36D2000D1E6B /* FileViewerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		43C972022A49867F000D1E6B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				43C9720E2A4AF081000D1E6B /* LibraryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		43C972052A498A1B000D1E6B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				43C972062A498A32000D1E6B /* ImagePicker.swift */,
+				43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */,
+				43C972132A4C362F000D1E6B /* WebView.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		8350244B2A447583004FB6B0 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +387,7 @@
 		ACF273972A41FD9F00DB1BA3 /* studybuddy */ = {
 			isa = PBXGroup;
 			children = (
+				43C972102A4BE1F1000D1E6B /* Info.plist */,
 				ACF808482A42D5A80050D549 /* Features */,
 				ACF808472A42D5A20050D549 /* Core */,
 				ACF808462A42D5930050D549 /* Config */,
@@ -369,6 +426,7 @@
 		ACF808482A42D5A80050D549 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				43C972002A498538000D1E6B /* Library */,
 				ACC72EC92A43EAF20006AE64 /* Scene(DicopySndiriYa) */,
 			);
 			path = Features;
@@ -554,6 +612,10 @@
 			files = (
 				76DDDED32A49690500BA9F18 /* DummyUI.swift in Sources */,
 				AC2AB7462A45578B001B45FD /* CustomButton.swift in Sources */,
+				43C972162A4C36D2000D1E6B /* FileViewerView.swift in Sources */,
+				83B64C472A46E4F900CACF2C /* CommunityPageView.swift in Sources */,
+				43C972072A498A32000D1E6B /* ImagePicker.swift in Sources */,
+				43C972142A4C362F000D1E6B /* WebView.swift in Sources */,
 				76DDDED12A492AEE00BA9F18 /* TestView.swift in Sources */,
 				AC49DFE32A496D2A000D7756 /* BadgeViewModel.swift in Sources */,
 				83B64C472A46E4F900CACF2C /* CommunityPageView.swift in Sources */,
@@ -562,7 +624,9 @@
 				83B64C4D2A46E54500CACF2C /* CustomRoundedButton.swift in Sources */,
 				8DB10F662A4AD1CD000A21F0 /* LibraryNavBarComponent.swift in Sources */,
 				83B64C572A46E61D00CACF2C /* TabBarNavigation.swift in Sources */,
+				43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */,
 				8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */,
+				43C9720D2A4A9AEA000D1E6B /* DocumentCellView.swift in Sources */,
 				8D1C56D52A48536500FFF620 /* ChatRoomView.swift in Sources */,
 				8DB10F4E2A48587E000A21F0 /* ChatRoomInfoComponent.swift in Sources */,
 				83B64C512A46E5D000CACF2C /* ProfilePageView.swift in Sources */,
@@ -571,8 +635,10 @@
 				8DB10F522A485A3B000A21F0 /* StudyScheduleComponent.swift in Sources */,
 				83B64C492A46E51100CACF2C /* HeaderComponent.swift in Sources */,
 				ACD062312A4C39DB0025B68E /* ChatViewModel.swift in Sources */,
+				43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */,
 				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
+				43C972122A4C344F000D1E6B /* LoaderView.swift in Sources */,
 				76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */,
@@ -589,6 +655,7 @@
 				ACF808532A42D95F0050D549 /* User.swift in Sources */,
 				83B64C592A46E81E00CACF2C /* CreateCommunityPageView.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
+				43C9720F2A4AF081000D1E6B /* LibraryViewModel.swift in Sources */,
 				8DB10F642A4AC2ED000A21F0 /* LibraryView.swift in Sources */,
 				835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */,
 				8DB10F542A485A71000A21F0 /* MessageInputComponent.swift in Sources */,
@@ -724,6 +791,9 @@
 				DEVELOPMENT_TEAM = GHRFT69K59;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = studybuddy/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -753,6 +823,9 @@
 				DEVELOPMENT_TEAM = GHRFT69K59;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = studybuddy/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
