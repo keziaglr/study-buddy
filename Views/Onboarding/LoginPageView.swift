@@ -74,7 +74,8 @@ struct LoginPageView: View {
                 }
             }else if changePage == 2{
 //                RegisterPageView()
-                DiscoverPageView()
+                DiscoverPageView(communityViewModel: CommunityViewModel())
+//                CommunityPageView(communityViewModel: CommunityViewModel())
             }
         }
     }

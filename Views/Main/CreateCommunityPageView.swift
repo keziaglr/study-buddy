@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCommunityPageView: View {
-    @EnvironmentObject var CommunityViewModel : CommunityViewmodel
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var category: String = ""
@@ -103,7 +103,8 @@ struct CreateCommunityPageView: View {
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
                 
                 Button{
-                    CommunityViewModel.addCommunity(Title: title, Description: description, Image: "", category: category)
+
+                    communityViewModel.addCommunity(title: title, description: description, image: "", category: "")
                 }label: {
                     
                     CustomButton(text: "Create Community")
@@ -248,9 +249,9 @@ struct CreateCommunityPageView: View {
     
 }
 
-struct CreateCommunityPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateCommunityPageView()
-            .environmentObject(CommunityViewmodel())
-    }
-}
+//struct CreateCommunityPageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CreateCommunityPageView()
+//            .environmentObject(CommunityViewModel())
+//    }
+//}

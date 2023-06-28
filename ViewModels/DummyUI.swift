@@ -9,11 +9,18 @@ import SwiftUI
 
 struct DummyUI: View {
     
-    @StateObject var CommunityViewModel : CommunityViewmodel
+    @StateObject var CommunityViewModel : CommunityViewModel
     @Binding var communityID : String
     
     var body: some View {
         VStack{
+            Text("Test")
+            List(CommunityViewModel.members, id: \.id){ member in
+                Text(member.id)
+                Text(member.name)
+                
+            }
+            
             Text(communityID)
             
             Button{
@@ -21,13 +28,17 @@ struct DummyUI: View {
             }label: {
                 Text("Exit")
             }
+        }.onAppear{
+            //                CommunityViewModel.getMembers(communityId: communityID)
+            CommunityViewModel.getMembers(communityId: communityID)
+            CommunityViewModel.getRecommendation()
         }
     }
+    
 }
 
-//struct DummyUI_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DummyUI(CommunityViewModel: CommunityViewmodel, communityID: .constant(String("1")))
-//            .environmentObject(CommunityViewmodel())
-//    }
-//}
+struct DummyUI_Previews: PreviewProvider {
+    static var previews: some View {
+        DummyUI(CommunityViewModel: CommunityViewModel(), communityID: .constant(String("DXZWbcD5WVhfsGNiB6JZ")))
+    }
+}

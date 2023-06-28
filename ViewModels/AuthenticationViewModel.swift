@@ -49,7 +49,7 @@ final class AuthenticationViewModel : ObservableObject {
                 let uid = user.uid
                 do{
                     //TODO: Change image placeholder
-                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg")
+                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg", category: [])
                     try self.db.collection("users").document(newUser.id).setData(from: newUser)
                 }catch{
                     print("Error create user: \(error)")
@@ -96,8 +96,8 @@ class UserManager: ObservableObject {
                 let email = data?["email"] as? String ?? ""
                 let password = data?["password"] as? String ?? ""
                 let image = data?["image"] as? String ?? ""
-                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image)
-
+                let interest = data?["category"] as? [String] ?? []
+                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, category: interest )
                 print("Retrieved user: \(user)")
                 completion(user)
             } else {
