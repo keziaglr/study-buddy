@@ -32,7 +32,7 @@ struct TabBarNavigation: View {
                     Image(systemName: "person.crop.circle.fill")
                     Text("Profile")
                 }
-        }
+        }.navigationBarBackButtonHidden()
         .background(Color.black)
     }
 }
