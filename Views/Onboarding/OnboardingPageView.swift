@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct OnboardingPageView: View {
-    @State var changePage = 1
+    @Binding var changePage : Int
     var body: some View {
         //TODO: Fix navigation
         ZStack {
-            if changePage == 1{
                 Image("background_gradient")
                     .resizable()
                     .scaledToFill()
@@ -55,17 +54,12 @@ struct OnboardingPageView: View {
                     .padding()
                     .padding(.bottom, 110)
                 }
-            }else if changePage == 2{
-                LoginPageView()
-            }else {
-                RegisterPageView()
-            }
         }
     }
 }
 
 struct OnboardingPageView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingPageView()
+        OnboardingPageView(changePage: .constant(1))
     }
 }
