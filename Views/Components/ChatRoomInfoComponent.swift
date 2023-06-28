@@ -70,7 +70,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent()
+                ChatRoomSettingsComponent(community: $community)
             }
             .background(Color(red: 0.439, green: 0.843, blue: 0.984))
             .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
