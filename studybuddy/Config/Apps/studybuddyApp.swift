@@ -16,7 +16,7 @@ struct studybuddyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            OnboardingPageView()
+            MasterView()
         }
     }
 }
