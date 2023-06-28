@@ -73,16 +73,10 @@ struct LoginPageView: View {
                         .padding(.bottom, 90)
                     }
                     .navigationDestination(isPresented: $avm.authenticated) {
-                        ProfilePageView()
+                        TabBarNavigation()
                     }
-                    .padding(.bottom, 90)
                 }
-            }else if changePage == 2{
-//                RegisterPageView()
-                DiscoverPageView(communityViewModel: CommunityViewModel())
-//                CommunityPageView(communityViewModel: CommunityViewModel())
-            }
-        }
+        }.navigationBarBackButtonHidden()
     }
 }
 

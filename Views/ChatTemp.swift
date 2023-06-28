@@ -92,7 +92,7 @@ class UserManager: ObservableObject {
                 let password = data?["password"] as? String ?? ""
                 let image = data?["image"] as? String ?? ""
                 let badges = data?["badges"] as? [String] ?? []
-                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, badges: badges)
+                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, category: badges)
                 
                 print("Retrieved user: \(user)")
                 completion(user)
@@ -125,7 +125,7 @@ class BadgeManager: ObservableObject {
         um.getUser(id: currentUserID) { user in
             var isValid = false
             if let currUser = user {
-                isValid = currUser.badges.contains(badgeId)
+//                isValid = currUser.badges.contains(badgeId)
             }
             
             completion(isValid)

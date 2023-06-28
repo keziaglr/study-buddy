@@ -25,18 +25,6 @@ struct ProfileHeaderComponent: View {
                         .ignoresSafeArea()
                     
                     VStack {
-                        HStack{
-                            Button(action: {
-                                //add action
-                            }) {
-                                Image(systemName: "chevron.backward.circle")
-                                    .font(.system(size: 24))
-                                    .padding(EdgeInsets(top: -20, leading: 17, bottom: 0, trailing: 0))
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                        }
-                        
                         //profile image
                         AsyncImage(url: URL(string: user?.image ?? "")) { image in
                             image
@@ -95,6 +83,7 @@ struct ProfileHeaderComponent: View {
         }.navigationDestination(isPresented: $logout) {
             MasterView()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
