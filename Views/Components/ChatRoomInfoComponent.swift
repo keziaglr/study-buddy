@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ChatRoomInfoComponent: View {
     
+    @State private var showStudySchedule = false
+    
     var body: some View {
         
         VStack(spacing: -1){
@@ -63,15 +65,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                Button {
-                    print("tap")
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .resizable()
-                        .foregroundColor(Color.white)
-                        .frame(width: 30, height: 30)
-                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
-                    }
+                ChatRoomSettingsComponent()
             }
             .background(Color(red: 0.439, green: 0.843, blue: 0.984))
             .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
@@ -81,7 +75,6 @@ struct ChatRoomInfoComponent: View {
         .background(Color(red: 0.906, green: 0.467, blue: 0.157))
     }
 }
-
 
 struct ChatRoomInfoComponent_Previews: PreviewProvider {
     static var previews: some View {

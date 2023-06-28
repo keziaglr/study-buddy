@@ -74,7 +74,7 @@ struct SetScheduleView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
+        .padding(EdgeInsets(top: 100, leading: 0, bottom: 116, trailing: 0))
         .background(Color(red: 0.965, green: 0.965, blue: 0.965))
         
     }
