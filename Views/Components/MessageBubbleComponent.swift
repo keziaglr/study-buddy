@@ -6,16 +6,29 @@
 //
 
 import SwiftUI
+import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Firebase
 
 struct MessageBubbleComponent: View {
     
-    var contentMessage: String
+//    var contentMessage: String
     var isCurrentUser: Bool
-    var userName: String
-    var messageTime: String
+//    var userName: String
+//    var messageTime: String
+    var message: Chat
+    @State private var um = UserViewModel()
+    @State private var showTime = false
+    @State private var user: UserModel? = nil
     
     @State private var vStackHeight: CGFloat = 0
     
+    init(message: Chat) {
+        
+        self.message = message
+        self.isCurrentUser = Auth.auth().currentUser?.uid != message.user
+    }
     //Gray 0
     //Color(red: 0.592, green: 0.592, blue: 0.592)
     
@@ -34,12 +47,15 @@ struct MessageBubbleComponent: View {
         
         HStack(alignment: .top) {
             
-            if isCurrentUser {
-                
-                Image("profile_picture")
-                    .resizable()
-                    .frame(width: 42, height: 42)
-                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+            if Auth.auth().currentUser?.uid != message.user  {
+                AsyncImage(url: URL(string: user?.image ?? "")) { image in
+                    image
+                        .resizable()
+                        .frame(width: 42, height: 42)
+                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                } placeholder: {
+                    ProgressView()
+                }
             } else {
                 
             }
@@ -47,7 +63,7 @@ struct MessageBubbleComponent: View {
             //User Name
             
             VStack(alignment: isCurrentUser ? .leading : .trailing, spacing: -1){
-                Text(userName)
+                Text(user?.name ?? "")
                     .font(.system(size: 14))
                     .fontWeight(.medium)
                     .padding(EdgeInsets(top: 10, leading: isCurrentUser ? 5 : 30, bottom: 10, trailing: isCurrentUser ? 30 : 5))
@@ -56,7 +72,7 @@ struct MessageBubbleComponent: View {
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight] : [.topLeft]))
                 
                 //Message Content
-                Text(contentMessage)
+                Text(message.content)
                     .font(.system(size: 14))
                     .fontWeight(.medium)
                     .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
@@ -66,11 +82,15 @@ struct MessageBubbleComponent: View {
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .bottomLeft, .bottomRight]))
                 
                 //Time Stamp
-                Text(messageTime)
+                Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
                     .font(.system(size: 14))
                     .fontWeight(.medium)
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 10))
                     .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
+            }
+        }.task {
+            um.getUser(id: message.user) { retrievedUser in
+                self.user = retrievedUser
             }
         }
     }
@@ -96,9 +116,9 @@ struct RoundedCorner: Shape {
     }
 }
 
-struct MessageBubbleComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageBubbleComponent(contentMessage: "To set To set To set To set To set To set To set To set To set To To set To set To set To set To set To set To set To set To set To set To set To set To set To To set To set To set To set To set To set To set To set To set To set To set To set To set To To set To set To set To set", isCurrentUser: true , userName: "Adriel", messageTime: "09.02 AM")
-            .previewLayout(PreviewLayout.sizeThatFits)
-    }
-}
+//struct MessageBubbleComponent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MessageBubbleComponent(message: "")
+//            .previewLayout(PreviewLayout.sizeThatFits)
+//    }
+//}

@@ -10,7 +10,8 @@ import SwiftUI
 struct ChatRoomInfoComponent: View {
     
     @State private var showStudySchedule = false
-    
+    @Binding var showTabView : Bool
+    @Binding var community : Community
     var body: some View {
         
         VStack(spacing: -1){
@@ -20,7 +21,7 @@ struct ChatRoomInfoComponent: View {
                 
                 //Back Button
                 Button {
-                    print("tap")
+                    showTabView = false
                 } label: {
                     Image(systemName: "chevron.backward.circle")
                         .resizable()
@@ -30,16 +31,20 @@ struct ChatRoomInfoComponent: View {
                     }
                 
                 //Profile Picture
-                Image("profile_picture")
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width*0.17811705, height: UIScreen.main.bounds.width*0.17811705)
-                    .padding(EdgeInsets(top: 10, leading: UIScreen.main.bounds.width*0.02290076, bottom: 30, trailing: UIScreen.main.bounds.width*0.03905852))
+                AsyncImage(url: URL(string: community.image)) { image in
+                    image
+                        .resizable()
+                        .frame(width: UIScreen.main.bounds.width*0.17811705, height: UIScreen.main.bounds.width*0.17811705)
+                        .padding(EdgeInsets(top: 10, leading: UIScreen.main.bounds.width*0.02290076, bottom: 30, trailing: UIScreen.main.bounds.width*0.03905852))
+                } placeholder: {
+                    ProgressView()
+                }
                 
                 //Title
                 VStack(alignment: .leading, spacing: 3){
                     
                     //Group Name
-                    Text("Mathematics ")
+                    Text(community.title)
                         .fontWeight(.bold)
                         .font(.system(size: 20))
                         .foregroundColor(.white)
@@ -51,7 +56,7 @@ struct ChatRoomInfoComponent: View {
                         .foregroundColor(.white)
                     
                     //Group Description
-                    Text("Description")
+                    Text(community.description)
                         .italic()
                         .fontWeight(.medium)
                         .font(.system(size: 14))
@@ -77,9 +82,9 @@ struct ChatRoomInfoComponent: View {
     }
 }
 
-struct ChatRoomInfoComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatRoomInfoComponent()
-            .previewLayout(PreviewLayout.sizeThatFits)
-    }
-}
+//struct ChatRoomInfoComponent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatRoomInfoComponent()
+//            .previewLayout(PreviewLayout.sizeThatFits)
+//    }
+//}
