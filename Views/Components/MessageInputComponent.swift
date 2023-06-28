@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageInputComponent: View {
     
     @State private var testText: String = ""
-    @EnvironmentObject var manager : MessageManager
+    @EnvironmentObject var manager : ChatViewModel
     @State var communityID = ""
     
     var body: some View {

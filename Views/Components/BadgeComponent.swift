@@ -11,7 +11,7 @@ import Combine
 
 struct BadgeView: View {
     let badge: Badge
-    @ObservedObject var bm: BadgeManager
+    @ObservedObject var bm: BadgeViewModel
     @State private var valid: Bool = false
 
     var body: some View {
@@ -43,7 +43,7 @@ struct BadgeView: View {
 
 
 struct BadgeComponent: View {
-    @ObservedObject var bm = BadgeManager()
+    @ObservedObject var bm = BadgeViewModel()
     
     
     var body: some View {
