@@ -12,12 +12,10 @@ import SwiftUI
 struct DiscoverPageView: View {
     
     @ObservedObject var communityViewModel: CommunityViewModel
-    @State private var showCommunityDetail = false
+    
     @State private var text = ""
     @State private var showModal = false
     @State private var communityID = ""
-    
-    
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
@@ -31,11 +29,9 @@ struct DiscoverPageView: View {
     }
     
     var body: some View {
-        NavigationStack {
         GeometryReader { geometry in
                 ZStack {
                     HeaderComponent(text: "Explore the Network!")
-                    
                     
                         ZStack {
                             RoundedRectangle(cornerRadius: 50)
@@ -63,7 +59,6 @@ struct DiscoverPageView: View {
                                 CommunityCell(community: community) {
 //                                    communityViewModel.joinCommunity(communityID: community.id)
                                     communityID = community.id
-                                    showCommunityDetail = true
                                 }
                             }
                             .listStyle(.plain)
@@ -87,10 +82,6 @@ struct DiscoverPageView: View {
                     CreateCommunityPageView()
                 }
             }
-            .navigationDestination(isPresented: $showCommunityDetail) {
-                ChatRoomView(manager: MessageManager())
-            }
-        }
     }
 }
 

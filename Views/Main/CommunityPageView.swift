@@ -11,6 +11,8 @@ struct CommunityPageView: View {
     
     @ObservedObject var communityViewModel: CommunityViewModel
     @State private var searchText = ""
+    @Binding var community : Community
+    @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
         if searchText.isEmpty {
@@ -25,9 +27,11 @@ struct CommunityPageView: View {
     var body: some View {
         ZStack {
             HeaderComponent(text: "Your Learning Squad!")
-            
             List(filteredCommunities) { community in
-                Text(community.id)
+                CommunityCell(community: community){
+                    self.community = community
+                    showCommunityDetail = true
+                }
             }
             
         }
