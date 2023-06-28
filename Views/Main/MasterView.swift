@@ -14,13 +14,19 @@ import Firebase
 struct MasterView: View {
     @State var changePage = 1
     var body: some View {
-        if changePage == 1 {
-            OnboardingPageView(changePage: $changePage)
-        }else if changePage == 2 {
-            LoginPageView(changePage: $changePage)
-        }else if changePage == 3 {
-            RegisterPageView(changePage: $changePage)
-        }
+        ZStack{
+            if Auth.auth().currentUser == nil {
+                if changePage == 1 {
+                    OnboardingPageView(changePage: $changePage)
+                }else if changePage == 2 {
+                    LoginPageView(changePage: $changePage)
+                }else if changePage == 3 {
+                    RegisterPageView(changePage: $changePage)
+                }
+            }else{
+                TabBarNavigation()
+            }
+        }.navigationBarBackButtonHidden()
         
     }
 }

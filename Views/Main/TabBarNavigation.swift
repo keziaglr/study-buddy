@@ -8,32 +8,40 @@
 import SwiftUI
 
 struct TabBarNavigation: View {
+    @State private var showTabView = false
+    @State private var community = Community(id: "", title: "", description: "", image: "", category: "")
     var body: some View {
-        TabView {
-            NavigationView {
-                CommunityPageView(communityViewModel: CommunityViewModel())
+        NavigationStack {
+            ZStack{
+                    TabView {
+                        NavigationView {
+                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
+                        }
+                        .tabItem {
+                            Image(systemName: "person.2.circle.fill")
+                            Text("Community")
+                        }
+                        NavigationView {
+                            DiscoverPageView(communityViewModel: CommunityViewModel())
+                        }
+                        .tabItem {
+                            Image(systemName: "magnifyingglass.circle.fill")
+                            Text("Discover")
+                        }
+                        
+                        NavigationView {
+                            ProfilePageView()
+                        }
+                        .tabItem {
+                            Image(systemName: "person.crop.circle.fill")
+                            Text("Profile")
+                        }
+                    }.navigationBarBackButtonHidden()
+                        .background(Color.black)
+            }.navigationDestination(isPresented: $showTabView) {
+                ChatRoomView(manager: MessageManager(), showTabView: $showTabView, community: community)
             }
-                .tabItem {
-                    Image(systemName: "person.2.circle.fill")
-                    Text("Community")
-                }
-            NavigationView {
-                DiscoverPageView(communityViewModel: CommunityViewModel())
-            }
-                .tabItem {
-                    Image(systemName: "magnifyingglass.circle.fill")
-                    Text("Discover")
-                }
-            
-            NavigationView {
-                ProfilePageView()
-            }
-                .tabItem {
-                    Image(systemName: "person.crop.circle.fill")
-                    Text("Profile")
-                }
         }
-        .background(Color.black)
     }
 }
 
