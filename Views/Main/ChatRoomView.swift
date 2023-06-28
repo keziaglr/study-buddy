@@ -13,11 +13,11 @@ import Firebase
 
 
 struct ChatRoomView: View {
-    @ObservedObject var manager : MessageManager
-    @State var communityID : String = "A0grBMs808NJcvvnQjLE"
+    @ObservedObject var manager : ChatViewModel
+    @Binding var showTabView : Bool
+    @State var community : Community
     
     var body: some View {
-        NavigationStack {
             VStack (spacing: 0){
                 
                 Rectangle()
@@ -25,7 +25,7 @@ struct ChatRoomView: View {
                     .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
-                ChatRoomInfoComponent()
+                ChatRoomInfoComponent(showTabView: $showTabView, community: $community)
                 
                 //Study Schedule
                 StudyScheduleComponent()
@@ -53,7 +53,7 @@ struct ChatRoomView: View {
 
                     }.padding()
                     .task {
-                        manager.getChats(communityID: communityID)
+                        manager.getChats(communityID: community.id)
                     }
                     .onChange(of: manager.lastmessageID) { id in
                         proxy.scrollTo(id, anchor: .bottom)
@@ -63,16 +63,15 @@ struct ChatRoomView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 
                 //Message Input Field
-                MessageInputComponent(communityID: communityID)
+                MessageInputComponent(communityID: community.id)
                     .environmentObject(manager)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 
             }
             .ignoresSafeArea(edges: .top)
+            .navigationBarBackButtonHidden()
         }
-        
-    }
 }
 
 //struct ContentView_Previews: PreviewProvider {

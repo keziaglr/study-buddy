@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct ProfileHeaderComponent: View {
-    @State private var um = UserManager()
+    @State private var um = UserViewModel()
     @State private var user: UserModel? = nil
     @State var logout = false
     var body: some View {

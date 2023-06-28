@@ -15,11 +15,11 @@ struct UserModel: Identifiable, Codable {
     var password: String
     var image: String
     var category : [String]
-    
+    var badges: [String]
 }
 
 struct communityMember: Identifiable, Codable {
     var id: String
     var name: String
-    //    var badges: [String]
+//    var badges: [String]
 }
