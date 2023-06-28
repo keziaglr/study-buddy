@@ -105,6 +105,8 @@ class UserManager: ObservableObject {
     
 }
 
+ 
+
 class BadgeManager: ObservableObject {
     
     @Published var badges = [Badge]()
@@ -121,13 +123,13 @@ class BadgeManager: ObservableObject {
             completion(false)
             return
         }
-        
+
         um.getUser(id: currentUserID) { user in
             var isValid = false
             if let currUser = user {
 //                isValid = currUser.badges.contains(badgeId)
             }
-            
+
             completion(isValid)
         }
     }
