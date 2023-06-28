@@ -72,8 +72,14 @@ class LibraryViewModel: ObservableObject {
     func updateLibrary(communityID: String) {
         
         db.collection("communities").document(communityID).collection("libraries").getDocuments { snapshot, error in
+            
             guard let documents = snapshot?.documents else {
                 print("Error fetching data \(String(describing: error))")
+                self.isEmpty = true
+                return
+            }
+            
+            if documents.isEmpty {
                 self.isEmpty = true
                 return
             }
