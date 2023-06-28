@@ -31,62 +31,64 @@ struct DiscoverPageView: View {
     }
     
     var body: some View {
+        NavigationStack {
         GeometryReader { geometry in
-            ZStack {
-                HeaderComponent(text: "Explore the Network!")
-                
-                
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 50)
-                            .frame(width: geometry.size.width * 0.92, height: 51)
-                            .foregroundColor(Color("Orange"))
-                        
-                        RoundedRectangle(cornerRadius: 50)
-                            .frame(width: geometry.size.width * 0.9 , height: 45)
-                            .foregroundColor(Color("Gray"))
-                        
-                        HStack {
-                            Spacer()
-                            TextField("Search Your Community Here", text: $text)
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
-                            Spacer()
+                ZStack {
+                    HeaderComponent(text: "Explore the Network!")
+                    
+                    
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 50)
+                                .frame(width: geometry.size.width * 0.92, height: 51)
+                                .foregroundColor(Color("Orange"))
+                            
+                            RoundedRectangle(cornerRadius: 50)
+                                .frame(width: geometry.size.width * 0.9 , height: 45)
+                                .foregroundColor(Color("Gray"))
+                            
+                            HStack {
+                                Spacer()
+                                TextField("Search Your Community Here", text: $text)
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                    }
-                    .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                    .position(x: geometry.size.width/2 , y: geometry.size.height * 0.174)
-                VStack {
-                    if !filteredCommunities.isEmpty {
-                        List(filteredCommunities) { community in
-                            CommunityCell(community: community) {
-                                communityViewModel.joinCommunity(communityID: community.id)
-                                communityID = community.id
-                                showCommunityDetail = true
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                        .position(x: geometry.size.width/2 , y: geometry.size.height * 0.174)
+                    VStack {
+                        if !filteredCommunities.isEmpty {
+                            List(filteredCommunities) { community in
+                                CommunityCell(community: community) {
+//                                    communityViewModel.joinCommunity(communityID: community.id)
+                                    communityID = community.id
+                                    showCommunityDetail = true
+                                }
+                            }
+                            .listStyle(.plain)
+                        } else {
+                            VStack {
+                                Button {
+                                    showModal = true
+                                } label: {
+                                    CustomButton(text: "Create Community", primary: false)
+                                }
                             }
                         }
-                        .listStyle(.plain)
-                    } else {
-                        VStack {
-                            Button {
-                                showModal = true
-                            } label: {
-                                CustomButton(text: "Create Community", primary: false)
-                            }
-                        }
                     }
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
                 }
-                .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
-                .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
+                .onAppear {
+                    communityViewModel.getCommunity()
+                }
+                .sheet(isPresented: $showModal) {
+                    CreateCommunityPageView()
+                }
             }
-            .onAppear {
-                communityViewModel.getCommunity()
-            }
-            .sheet(isPresented: $showModal) {
-                CreateCommunityPageView()
-            }
-            .sheet(isPresented: $showCommunityDetail) {
-                DummyUI(CommunityViewModel: communityViewModel, communityID: $communityID)
+            .navigationDestination(isPresented: $showCommunityDetail) {
+                ChatRoomView(manager: MessageManager())
             }
         }
     }
