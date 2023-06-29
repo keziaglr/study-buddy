@@ -12,10 +12,12 @@ import SwiftUI
 struct DiscoverPageView: View {
     
     @ObservedObject var communityViewModel: CommunityViewModel
+    @State var bvm = BadgeViewModel()
     
     @State private var text = ""
     @State private var showModal = false
     @State private var communityID = ""
+    @State private var badge = Badge(id: "", name: "", image: "", description: "")
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
@@ -81,6 +83,9 @@ struct DiscoverPageView: View {
                 }
                 .sheet(isPresented: $showModal) {
                     CreateCommunityPageView(communityViewModel: CommunityViewModel())
+                }
+                .sheet(isPresented: $communityViewModel.showBadge) {
+                    BadgeEarnedView(image: communityViewModel.badge)
                 }
             }
     }
