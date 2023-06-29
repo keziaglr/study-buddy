@@ -85,7 +85,6 @@ struct ChatRoomSettingsComponent: View {
                 .resizable()
                 .foregroundColor(Color.white)
                 .frame(width: 30, height: 30)
-//                .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
         }
         }
         .sheet(isPresented: $isSetStudySchedulePresented) {

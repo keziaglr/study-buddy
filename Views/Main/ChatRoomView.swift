@@ -35,7 +35,7 @@ struct ChatRoomView: View {
             
             //Message Input Field
             MessageInputComponent()
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                .padding(EdgeInsets(top: 0, leading: UIScreen.main.bounds.width*0.08396947, bottom: 0, trailing: UIScreen.main.bounds.width*0.08396947))
             
             
         }

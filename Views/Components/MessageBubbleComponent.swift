@@ -38,7 +38,7 @@ struct MessageBubbleComponent: View {
                 
                 Image("profile_picture")
                     .resizable()
-                    .frame(width: 42, height: 42)
+                    .frame(width: UIScreen.main.bounds.width*0.10687023, height: UIScreen.main.bounds.width*0.10687023)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
             } else {
                 
@@ -61,7 +61,7 @@ struct MessageBubbleComponent: View {
                     .fontWeight(.medium)
                     .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
                     .foregroundColor(.white)
-                    .frame(minWidth: 100, maxWidth: 238,alignment: .leading)
+                    .frame(minWidth: 100, maxWidth: 238, alignment: .leading)
                     .background(Color(red: 0.592, green: 0.592, blue: 0.592))
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .bottomLeft, .bottomRight]))
                 

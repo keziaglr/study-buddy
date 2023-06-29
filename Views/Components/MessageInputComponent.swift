@@ -32,7 +32,7 @@ struct MessageInputComponent: View {
                     ZStack(alignment: .center) {
                         Circle()
                             .fill(Color(red: 0.906, green: 0.467, blue: 0.157))
-                            .frame(width: 33, height: 33)
+                            .frame(width: .infinity, height: .infinity)
                         
                         Image("send_button")
                             .resizable()

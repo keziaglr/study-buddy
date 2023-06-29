@@ -75,12 +75,14 @@ struct SetScheduleView: View {
                 
                 //Set Schedule Button
                 Button {
-                    addEventToCalendar()
+
+                    //Push to firebase
+                    
                 } label: {
                     ZStack(alignment: .center) {
                         Rectangle()
                             .fill(Color(red: 0.906, green: 0.467, blue: 0.157))
-                            .frame(width: 297, height: 40)
+                            .frame(width: geometry.size.width*0.75380711, height: geometry.size.height*0.05134788)
                             .cornerRadius(10, corners: .allCorners)
                         
                         Text("Set Schedule")
@@ -88,17 +90,25 @@ struct SetScheduleView: View {
                             .fontWeight(.bold)
                             .font(.system(size: 19))
                     }
-                    .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
                 }
                 .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 0, trailing: 0))
+                
+                //Add To Calendar Button
+                Button {
+                    addEventToCalendar()
+                } label: {
+                        Text("Add to Calendar")
+                            .foregroundColor(Color.blue)
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                }
+                .padding(EdgeInsets(top: geometry.size.height*0.01283697, leading: 0, bottom: 0, trailing: 0))
                 
                 Spacer()
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
             .background(Color(red: 0.965, green: 0.965, blue: 0.965))
-        
         }
     }
     
@@ -126,9 +136,6 @@ struct SetScheduleView: View {
         }
     }
 }
-
-
-
 
 struct SetSchedule_Previews: PreviewProvider {
     static var previews: some View {
