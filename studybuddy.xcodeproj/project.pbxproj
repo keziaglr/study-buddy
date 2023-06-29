@@ -32,8 +32,6 @@
 		83B64C572A46E61D00CACF2C /* TabBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */; };
 		83B64C592A46E81E00CACF2C /* CreateCommunityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */; };
 		83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */; };
-		83B64C692A4D83B200CACF2C /* InterestPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C682A4D83B200CACF2C /* InterestPageView.swift */; };
-		83B64C6B2A4D83CF00CACF2C /* PillsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C6A2A4D83CF00CACF2C /* PillsButton.swift */; };
 		8D1C56D52A48536500FFF620 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C56D42A48536500FFF620 /* ChatRoomView.swift */; };
 		8DB10F4E2A48587E000A21F0 /* ChatRoomInfoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */; };
 		8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */; };
@@ -116,8 +114,6 @@
 		83B64C562A46E61D00CACF2C /* TabBarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarNavigation.swift; path = Views/Main/TabBarNavigation.swift; sourceTree = SOURCE_ROOT; };
 		83B64C582A46E81E00CACF2C /* CreateCommunityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreateCommunityPageView.swift; path = Views/Main/CreateCommunityPageView.swift; sourceTree = SOURCE_ROOT; };
 		83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BadgeEarnedView.swift; path = Views/Main/BadgeEarnedView.swift; sourceTree = SOURCE_ROOT; };
-		83B64C682A4D83B200CACF2C /* InterestPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InterestPageView.swift; path = Views/Main/InterestPageView.swift; sourceTree = SOURCE_ROOT; };
-		83B64C6A2A4D83CF00CACF2C /* PillsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillsButton.swift; path = Views/Components/PillsButton.swift; sourceTree = SOURCE_ROOT; };
 		8D1C56D42A48536500FFF620 /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomView.swift; path = Views/Main/ChatRoomView.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomInfoComponent.swift; path = Views/Components/ChatRoomInfoComponent.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageBubbleComponent.swift; path = Views/Components/MessageBubbleComponent.swift; sourceTree = SOURCE_ROOT; };
@@ -248,7 +244,6 @@
 				8DB10F5B2A498F79000A21F0 /* ChatMembersView.swift */,
 				83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */,
 				AC49DFE42A4A989E000D7756 /* MasterView.swift */,
-				83B64C682A4D83B200CACF2C /* InterestPageView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -269,7 +264,6 @@
 				83B64C522A46E5F100CACF2C /* ProfileHeaderComponent.swift */,
 				83B64C542A46E5FE00CACF2C /* BadgeComponent.swift */,
 				8DB10F5D2A49903E000A21F0 /* MembersBubbleComponent.swift */,
-				83B64C6A2A4D83CF00CACF2C /* PillsButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -639,10 +633,8 @@
 				ACD062312A4C39DB0025B68E /* ChatViewModel.swift in Sources */,
 				43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */,
 				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
-				83B64C6B2A4D83CF00CACF2C /* PillsButton.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderView.swift in Sources */,
-				83B64C692A4D83B200CACF2C /* InterestPageView.swift in Sources */,
 				76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */,
