@@ -19,7 +19,7 @@ class ProfileViewModel: ObservableObject {
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"
+        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
         let mydt = dateFormatter.string(from: date).capitalized
 
         return "\(mydt)"
@@ -38,8 +38,10 @@ class ProfileViewModel: ObservableObject {
                     if let error = error {
                         print("Error getting download URL: \(error.localizedDescription)")
                     } else if let downloadURL = url {
+                        // Handle the download URL here
                         print("Download URL: \(downloadURL.absoluteString)")
                         
+                        // Call a function to upload the download URL to Firestore or perform any other necessary operations
                         self.uploadProfilePictureToFirestore(filePath: downloadURL.absoluteString)
                         
                     }
