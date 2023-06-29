@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct CreateCommunityPageView: View {
-    @EnvironmentObject var communityViewModel: CommunityViewModel
+    @ObservedObject var communityViewModel: CommunityViewModel
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var category: String = ""
@@ -249,9 +249,9 @@ struct CreateCommunityPageView: View {
     
 }
 
-//struct CreateCommunityPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateCommunityPageView()
-//            .environmentObject(CommunityViewModel())
-//    }
-//}
+struct CreateCommunityPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        CreateCommunityPageView(communityViewModel: CommunityViewModel())
+           
+    }
+}
