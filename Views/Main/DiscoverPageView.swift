@@ -57,14 +57,15 @@ struct DiscoverPageView: View {
                         if !filteredCommunities.isEmpty {
                             List(filteredCommunities) { community in
                                 CommunityCell(community: community) {
-//                                    communityViewModel.joinCommunity(communityID: community.id)
+                                    communityViewModel.joinCommunity(communityID: community.id)
                                     communityID = community.id
                                 }
-                            }
+                            }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
                             .listStyle(.plain)
                         } else {
                             VStack {
                                 Button {
+                                    
                                     showModal = true
                                 } label: {
                                     CustomButton(text: "Create Community", primary: false)
@@ -79,11 +80,13 @@ struct DiscoverPageView: View {
                     communityViewModel.getCommunity()
                 }
                 .sheet(isPresented: $showModal) {
-                    CreateCommunityPageView()
+                    CreateCommunityPageView(communityViewModel: CommunityViewModel())
                 }
             }
     }
 }
+
+
 
 struct CommunityCell: View {
     let community: Community
@@ -92,7 +95,6 @@ struct CommunityCell: View {
     var body: some View {
         ZStack {
             // Community picture
-            
            
             Image(community.image)
                 .resizable()
@@ -142,8 +144,8 @@ struct CommunityCell: View {
     }
 }
 
-//struct DiscoverPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DiscoverPageView(communityViewModel: CommunityViewModel)
-//    }
-//}
+struct DiscoverPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        DiscoverPageView(communityViewModel: CommunityViewModel())
+    }
+}

@@ -25,7 +25,7 @@ struct ChatRoomView: View {
                     .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
-                ChatRoomInfoComponent(showTabView: $showTabView, community: $community)
+                ChatRoomInfoComponent(showTabView: $showTabView, community: $community, communityId: $community.id)
                 
                 //Study Schedule
                 StudyScheduleComponent()

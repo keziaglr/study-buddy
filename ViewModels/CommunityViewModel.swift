@@ -14,6 +14,7 @@ class CommunityViewModel: ObservableObject {
     
     @Published var userManager = UserViewModel()
     @Published var communities = [Community]()
+    @Published var rcommunities = [RCommunity]()
     @Published var members = [communityMember]()
     var db = Firestore.firestore()
     
@@ -43,9 +44,11 @@ class CommunityViewModel: ObservableObject {
     }
     
     func addCommunity(title: String, description: String, image: String, category: String) {
+        let uid = UUID().uuidString
+        
         do {
-            let newCommunity = Community(id: "\(UUID())", title: title, description: description, image: image, category: category)
-            try db.collection("communities").document().setData(from: newCommunity)
+            let newCommunity = Community(id: uid, title: title, description: description, image: image, category: category)
+            try db.collection("communities").document(uid).setData(from: newCommunity)
         } catch {
             print(error)
         }
@@ -56,17 +59,44 @@ class CommunityViewModel: ObservableObject {
             if let user = user {
                 let newMember = communityMember(id: user.id, name: user.name)
                 
-                do {
-                    try self?.db.collection("communities").document(communityID).collection("members").document().setData(from: newMember)
-                } catch {
-                    print("Error joining community")
+                let membersRef = self?.db.collection("communities").document(communityID).collection("members")
+                
+                membersRef?.whereField("id", isEqualTo: user.id).getDocuments { [weak self] (querySnapshot, error) in
+                    if let error = error {
+                        print("Error checking community members: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    if let documents = querySnapshot?.documents, !documents.isEmpty {
+                        print("You have already joined this community.")
+                        return
+                    }
+                    
+                    membersRef?.getDocuments(completion: { (snapshot, error) in
+                        if let error = error {
+                            print("Error checking community member count: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        if let memberCount = snapshot?.documents.count, memberCount >= 6 {
+                            print("The community already has 6 members. You cannot join at the moment.")
+                            return
+                        }
+                        
+                        do {
+                            try membersRef?.document().setData(from: newMember)
+                            print("Successfully joined the community")
+                        } catch {
+                            print("Error joining community: \(error.localizedDescription)")
+                        }
+                    })
                 }
             } else {
                 print("No user found")
             }
         }
     }
-    
+
     func removeMemberFromCommunity(communityID: String) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
@@ -114,6 +144,8 @@ class CommunityViewModel: ObservableObject {
                 return
             }
             
+            var joinedCommunities = [Community]() // Create an empty array to store joined communities
+            
             for document in documents {
                 let communityID = document.documentID
                 let membersRef = communitiesRef.document(communityID).collection("members")
@@ -135,17 +167,18 @@ class CommunityViewModel: ObservableObject {
                         
                         let community = Community(id: communityID, title: title, description: description, image: image, category: category)
                         
-                        DispatchQueue.main.async {
-                            self?.communities.append(community)
-                        }
+                        joinedCommunities.append(community) // Add the joined community to the array
                         
                         print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image)")
+                    }
+                        DispatchQueue.main.async {
+                            self?.communities = joinedCommunities
                     }
                 }
             }
         }
     }
-    
+
     func getMembers(communityId: String) {
         db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -154,7 +187,6 @@ class CommunityViewModel: ObservableObject {
             }
             
             let members = documents.compactMap { (queryDocumentSnapshot) -> communityMember? in
-                let documentID = queryDocumentSnapshot.documentID
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
                 let id = data["id"] as? String ?? ""
@@ -171,55 +203,48 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func getRecommendation(){
-        
-        
+    func getRecommendation() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
         
         userManager.getUser(id: currentUserID) { user in
-            let name = user?.name
-            let id = user?.id
-            let email = user?.email
+          
             
-            if let interest = user?.category{
-                
-                self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot,error) in
-                    guard let documents = querySnapshot?.documents else {
-                        print("no matching communtiies found")
+            if let interest = user?.category {
+                self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting community documents: \(error)")
                         return
                     }
                     
-                    let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
+                    guard let documents = querySnapshot?.documents else {
+                        print("No matching communities found")
+                        return
+                    }
+                    
+                    // Handle the retrieved communities here
+                    let communities = documents.compactMap { (queryDocumentSnapshot) -> RCommunity? in
                         let documentID = queryDocumentSnapshot.documentID
                         let data = queryDocumentSnapshot.data()
                         let title = data["title"] as? String ?? ""
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        return Community(id: documentID, title: title, description: description, image: image, category: category)
+                        
+                        return RCommunity(id: documentID, title: title, description: description, image: image, category: category)
                     }
                     
                     DispatchQueue.main.async {
-                        self.communities = communities
+                        self.rcommunities = communities
                     }
+                    // Use the retrieved communities as needed
                     print("Matching Communities: \(communities)")
-                    
-                    
                 }
-                
             }
-            
-            
-                
         }
-        
-        
-        
-        
-        
     }
+
     
 }
