@@ -240,7 +240,6 @@
 				8D1C56D42A48536500FFF620 /* ChatRoomView.swift */,
 				8DB10F552A485AE5000A21F0 /* SetScheduleView.swift */,
 				8DB10F5B2A498F79000A21F0 /* ChatMembersView.swift */,
-				8DB10F632A4AC2ED000A21F0 /* LibraryView.swift */,
 				83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */,
 				AC49DFE42A4A989E000D7756 /* MasterView.swift */,
 			);
@@ -650,7 +649,6 @@
 				83B64C592A46E81E00CACF2C /* CreateCommunityPageView.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
 				43C9720F2A4AF081000D1E6B /* LibraryViewModel.swift in Sources */,
-				8DB10F642A4AC2ED000A21F0 /* LibraryView.swift in Sources */,
 				835024482A4474AB004FB6B0 /* LoginPageView.swift in Sources */,
 				8DB10F542A485A71000A21F0 /* MessageInputComponent.swift in Sources */,
 				83B64C552A46E5FE00CACF2C /* BadgeComponent.swift in Sources */,
@@ -787,7 +785,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Allow access to Calendar in order to save events";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -819,7 +817,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Allow access to Calendar in order to save events";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
