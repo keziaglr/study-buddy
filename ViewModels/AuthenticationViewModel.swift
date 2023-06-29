@@ -36,7 +36,6 @@ final class AuthenticationViewModel : ObservableObject {
 
             }
         }
-//        return authenticated
     }
     
     func createUser(name: String, email: String, password: String){
