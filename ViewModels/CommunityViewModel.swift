@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 class CommunityViewModel: ObservableObject {
     
-    @Published var userManager = UserManager()
+    @Published var userManager = UserViewModel()
     @Published var communities = [Community]()
     @Published var members = [communityMember]()
     var db = Firestore.firestore()
