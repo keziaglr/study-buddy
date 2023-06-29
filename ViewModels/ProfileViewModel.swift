@@ -54,9 +54,7 @@ class ProfileViewModel: ObservableObject {
         
         um.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
             
-            var prevUrl = user?.image
-            
-            let type = URL(filePath: filePath).pathExtension
+            let prevUrl = user?.image
             self.db.collection("users").document(Auth.auth().currentUser!.uid).updateData(["image" : filePath])
             NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
             
