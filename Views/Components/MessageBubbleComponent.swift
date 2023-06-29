@@ -18,7 +18,7 @@ struct MessageBubbleComponent: View {
 //    var userName: String
 //    var messageTime: String
     var message: Chat
-    @State private var um = UserManager()
+    @State private var um = UserViewModel()
     @State private var showTime = false
     @State private var user: UserModel? = nil
     
