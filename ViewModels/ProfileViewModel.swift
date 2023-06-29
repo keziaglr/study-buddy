@@ -19,7 +19,7 @@ class ProfileViewModel: ObservableObject {
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
+        dateFormatter.dateFormat = "ddMMyyyy"
         let mydt = dateFormatter.string(from: date).capitalized
 
         return "\(mydt)"
