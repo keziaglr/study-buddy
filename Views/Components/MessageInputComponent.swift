@@ -10,6 +10,8 @@ import SwiftUI
 struct MessageInputComponent: View {
     
     @State private var testText: String = ""
+    @EnvironmentObject var manager : ChatViewModel
+    @State var communityID = ""
     
     var body: some View {
         ZStack {
@@ -20,26 +22,29 @@ struct MessageInputComponent: View {
                     RoundedRectangle(cornerRadius: 40)
                         .stroke(Color(red: 0.906, green: 0.467, blue: 0.157), lineWidth: 2)
                 )
-                
                 .lineLimit(5)
             
             //Send Button
             HStack {
                 Spacer()
                 Button {
-                    print("tapped")
+                    manager.sendChats(text: testText, communityID: communityID)
+                    testText = ""
                 } label: {
                     ZStack(alignment: .center) {
                         Circle()
                             .fill(Color(red: 0.906, green: 0.467, blue: 0.157))
                             .frame(width: .infinity, height: .infinity)
                         
-                        Image("send_button")
+                        Image(systemName: "paperplane.fill")
                             .resizable()
-                            .frame(width: 23, height: 23)
+                            .foregroundColor(Color.white)
+                            .frame(width: 20, height: 20)
                     }
                     .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
                 }
+                .disabled(testText == "")
+                .opacity(testText == "" ? 0.5 : 1.0)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
             }
         }

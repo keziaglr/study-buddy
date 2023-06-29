@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct CardComponent: View {
+    
+    @Binding var CommunityPicture : String
+    @Binding var CommunityName : String
+    @Binding var CommunityMemberCount : Int
+    
+    
     var body: some View {
         
         ZStack{
             //community picture
-            Image("community_picture")
+            Image(CommunityPicture)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 302, height: 145)
@@ -28,7 +34,7 @@ struct CardComponent: View {
             VStack {
                 //nama community
                 HStack {
-                    Text("Nama Community")
+                    Text(CommunityName)
                         .fontWeight(.bold)
                         .font(.system(size: 19))
                         .foregroundColor(.white)
@@ -41,7 +47,7 @@ struct CardComponent: View {
                 
                 //jumlah member
                 HStack {
-                    Text("Jumlah member")
+                    Text(String(CommunityMemberCount))
                         .fontWeight(.medium)
                         .font(.system(size: 14))
                         .foregroundColor(Color("Gray"))
@@ -70,6 +76,6 @@ struct CardComponent: View {
 
 struct CardComponent_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent()
+        CardComponent(CommunityPicture: .constant("community_picture"), CommunityName: .constant("Test"), CommunityMemberCount: .constant(3))
     }
 }

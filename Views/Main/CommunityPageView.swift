@@ -8,23 +8,42 @@
 import SwiftUI
 
 struct CommunityPageView: View {
+    
+    @ObservedObject var communityViewModel: CommunityViewModel
+    @State private var searchText = ""
+    @Binding var community : Community
+    @Binding var showCommunityDetail : Bool
+    
+    var filteredCommunities: [Community] {
+        if searchText.isEmpty {
+            return communityViewModel.communities
+        } else {
+            return communityViewModel.communities.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
     var body: some View {
         ZStack {
             HeaderComponent(text: "Your Learning Squad!")
-
-            VStack(spacing: -100) {
-                //for-each disini
-                CardComponent()
-
+            List(filteredCommunities) { community in
+                CommunityCell(community: community){
+                    self.community = community
+                    showCommunityDetail = true
+                }
             }
-            .padding(.top, 180)
             
+        }
+        .onAppear {
+            communityViewModel.getJoinedCommunity()
         }
     }
 }
 
-struct CommunityPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommunityPageView()
-    }
-}
+//struct CommunityPageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommunityPageView(COmmuni)
+////            .environmentObject(CommunityViewModel())
+//    }
+//}

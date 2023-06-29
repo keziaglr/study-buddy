@@ -6,46 +6,76 @@
 //
 
 import SwiftUI
+import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Firebase
+
 
 struct ChatRoomView: View {
-    var body: some View {
-        VStack (spacing: 0){
-            
-            Rectangle()
-                .fill(Color(red: 0.439, green: 0.843, blue: 0.984))
-                .frame(height: UIScreen.main.bounds.height * 0.07)
-            
-            //Info
-            ChatRoomInfoComponent()
-            
-            //Study Schedule
-            StudyScheduleComponent()
-            
-            //Chat Window
-            ScrollView(showsIndicators: false){
-                HStack{
-                    MessageBubbleComponent(contentMessage: "Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo Halo ", isCurrentUser: true, userName: "Adriel", messageTime: "09.02 PM")
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 0))
-                    Spacer()
-                }
-            }
+    @ObservedObject var manager : ChatViewModel
+    @Binding var showTabView : Bool
+    @State var community : Community
     
-            
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-            
-            //Message Input Field
-            MessageInputComponent()
-                .padding(EdgeInsets(top: 0, leading: UIScreen.main.bounds.width*0.08396947, bottom: 0, trailing: UIScreen.main.bounds.width*0.08396947))
-            
-            
+    var body: some View {
+            VStack (spacing: 0){
+                
+                Rectangle()
+                    .fill(Color(red: 0.439, green: 0.843, blue: 0.984))
+                    .frame(height: UIScreen.main.bounds.height * 0.07)
+                
+                //Info
+                ChatRoomInfoComponent(showTabView: $showTabView, community: $community)
+                
+                //Study Schedule
+                StudyScheduleComponent()
+                
+                //Chat Window
+                
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators: false){
+                        if manager.chats.count != 0 {
+                            ForEach(manager.chats, id: \.id) {
+                                message in
+                                HStack {
+                                    if Auth.auth().currentUser?.uid != message.user{
+                                        MessageBubbleComponent(message: message)
+                                        Spacer()
+                                    }else{
+                                        Spacer()
+                                        MessageBubbleComponent(message: message)
+                                    }
+                                }
+                            }
+                        }else{
+                            Text("Empty messages")
+                        }
+
+                    }.padding()
+                    .task {
+                        manager.getChats(communityID: community.id)
+                    }
+                    .onChange(of: manager.lastmessageID) { id in
+                        proxy.scrollTo(id, anchor: .bottom)
+                    }
+
+                }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                
+                //Message Input Field
+                MessageInputComponent(communityID: community.id)
+                    .environmentObject(manager)
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                
+                
+            }
+            .ignoresSafeArea(edges: .top)
+            .navigationBarBackButtonHidden()
         }
-        .ignoresSafeArea(edges: .top)
-        
-    }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatRoomView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatRoomView()
+//    }
+//}
