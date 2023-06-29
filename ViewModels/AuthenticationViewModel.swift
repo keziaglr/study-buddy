@@ -50,7 +50,6 @@ final class AuthenticationViewModel : ObservableObject {
             if let user = authResult?.user {
                 let uid = user.uid
                 do{
-                    //TODO: Change image placeholder
                     let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/users%2Fuser.png?alt=media&token=263b2e43-e206-45d6-a75f-7f7170063e41", category: [], badges: [])
                     try self.db.collection("users").document(newUser.id).setData(from: newUser)
                 }catch{
