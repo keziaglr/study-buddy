@@ -18,31 +18,25 @@ struct ChatMembersView: View {
             
           
             
-//            //Title
-//            Text("Community Members")
-//                .fontWeight(.bold)
-//                .font(.system(size: 21))
-//                .padding(.top)
-//
-//            //Clock Image
-//            Image(systemName: "person.3.fill")
-//                .resizable()
-//                .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
-//                .frame(width: 200,height: 108)
-//                .aspectRatio(contentMode: .fit)
-//                .padding(EdgeInsets(top: 46, leading: 0, bottom: 62, trailing: 0))
-//
-//
-//
-//            //Members List
-//            List(communityViewModel.members, id: \.id){ member in
-//                Text(member.id)
-//                Text(member.name)
-//
-//            }
-//
-//
-//            Spacer()
+            //Title
+            Text("Community Members")
+                .fontWeight(.bold)
+                .font(.system(size: 21))
+                .padding(.top)
+
+            //Clock Image
+            Image(systemName: "person.3.fill")
+                .resizable()
+                .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
+                .frame(width: 200,height: 108)
+                .aspectRatio(contentMode: .fit)
+                .padding(EdgeInsets(top: 46, leading: 0, bottom: 62, trailing: 0))
+            //Members List
+            List(communityViewModel.members, id: \.id){ member in
+                MembersBubbleComponent(member: member)
+
+            }
+
             
         }.onAppear{
             communityViewModel.getMembers(communityId: communityID)

@@ -9,8 +9,11 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 class CommunityViewModel: ObservableObject {
+    
+
     
     @Published var userManager = UserViewModel()
     @Published var bvm = BadgeViewModel()
@@ -18,9 +21,10 @@ class CommunityViewModel: ObservableObject {
     @Published var jCommunities = [Community]()
     @Published var rcommunities = [Community]()
     @Published var members = [communityMember]()
+    let storageRef = Storage.storage().reference()
     @Published var badge = ""
-    
     @Published var showBadge = false
+  
     var db = Firestore.firestore()
     
     init() {
@@ -30,6 +34,14 @@ class CommunityViewModel: ObservableObject {
     
     // MARK: - Community Operations
     
+    func dateFormatting() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
+        let mydt = dateFormatter.string(from: date).capitalized
+
+        return "\(mydt)"
+    }
     func getCommunity(id: String, completion: @escaping (Community?) -> Void){
         db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -61,7 +73,7 @@ class CommunityViewModel: ObservableObject {
             }
         }
     }
-    
+   
     func getCommunity() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -85,21 +97,41 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func addCommunity(title: String, description: String, image: String, category: String) {
+    func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
         
-        do {
-            let newCommunity = Community(id: uid, title: title, description: description, image: image, category: category)
-            try db.collection("communities").document(uid).setData(from: newCommunity)
-        } catch {
-            print(error)
+        let date = dateFormatting()
+        let filePath = "\(date)-\(url.lastPathComponent)"
+        storageRef.child("communities").child(filePath).putFile(from: url, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Error uploading file to Firebase Storage: \(error.localizedDescription)")
+            } else {
+                print("File uploaded successfully.")
+                
+                self.storageRef.child("communities/\(filePath)").downloadURL { (url, error) in
+                    if let error = error {
+                        print("Error getting download URL: \(error.localizedDescription)")
+                    } else if let downloadURL = url {
+                        print("Download URL: \(downloadURL.absoluteString)")
+                        do {
+                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category)
+                            try self.db.collection("communities").document(uid).setData(from: newCommunity)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
         }
+        
+        
+        
     }
     
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
-                let newMember = communityMember(id: user.id, name: user.name)
+                let newMember = communityMember(id: user.id, name: user.name, image: user.image)
                 
                 let membersRef = self?.db.collection("communities").document(communityID).collection("members")
                 
@@ -260,9 +292,10 @@ class CommunityViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
                 let id = data["id"] as? String ?? ""
+                let image = data["image"] as? String ?? ""
                 print(name)
                 print(id)
-                return communityMember(id: id, name: name)
+                return communityMember(id: id, name: name, image: image)
                 
                 
             }

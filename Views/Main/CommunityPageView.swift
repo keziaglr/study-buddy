@@ -11,7 +11,7 @@ struct CommunityPageView: View {
     
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
-        @Binding var community : Community
+    @Binding var community : Community
     @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
@@ -36,7 +36,7 @@ struct CommunityPageView: View {
                 } label: {
                     Text("next")
                 }.position(x: geometry.size.width/2 , y: geometry.size.height * 0.1)
-
+                
                 
                 
                 ZStack {
@@ -77,7 +77,7 @@ struct CommunityPageView: View {
                 
                 List(filteredCommunities) { community in
                     CommunityCell(community: community){
-                                                    self.community = community
+                        self.community = community
                         showCommunityDetail = true
                     }
                     
@@ -95,14 +95,14 @@ struct CommunityPageView: View {
             .onAppear {
                 communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
-//                communityViewModel.getCommunity()
+                //                communityViewModel.getCommunity()
             }
     }
 }
 
 //struct CommunityPageView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CommunityPageView(communityViewModel: CommunityViewModel(), community: <#Binding<Community>#>, showCommunityDetail: .constant(false))
+//        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
 //
 //    }
 //}

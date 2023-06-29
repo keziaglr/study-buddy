@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatRoomSettingsComponent: View {
     
+    @StateObject var communityViewModel : CommunityViewModel
     @Binding var communityId : String
     @Binding var community: Community
     @State private var isSetStudySchedulePresented = false
@@ -71,7 +72,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        isLeaveCommunityPresented = true
+                        communityViewModel.removeMemberFromCommunity(communityID: communityId)
                     }) {
                         Label(
                             title: {

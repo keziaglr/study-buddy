@@ -100,17 +100,20 @@ struct CommunityCell: View {
     var body: some View {
         ZStack {
             // Community picture
+            AsyncImage(url: URL(string: community.image)) { image in
+                image
+
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width*0.17811705, height: UIScreen.main.bounds.width*0.17811705)
+                   
+            } placeholder: {
+                ProgressView()
+            }
+            
+
+            
            
-            Image(community.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 150)
-                .clipped()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
-                )
             
             VStack(alignment: .leading) {
                 Spacer()
@@ -142,7 +145,7 @@ struct CommunityCell: View {
                 
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width * 0.76)
+            .frame(width: UIScreen.main.bounds.width * 0.76 , height: UIScreen.main.bounds.height * 0.1)
             .padding(.leading, UIScreen.main.bounds.width * 0.052)
             .foregroundColor(.white)
         }

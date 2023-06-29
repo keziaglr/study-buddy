@@ -16,7 +16,6 @@ struct TabBarNavigation: View {
                     TabView {
                         NavigationView {
                             CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
-//                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: .constant(false))
                         }
                         .tabItem {
                             Image(systemName: "person.2.circle.fill")
