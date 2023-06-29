@@ -41,7 +41,6 @@ class ProfileViewModel: ObservableObject {
                         // Handle the download URL here
                         print("Download URL: \(downloadURL.absoluteString)")
                         
-                        // Call a function to upload the download URL to Firestore or perform any other necessary operations
                         self.uploadProfilePictureToFirestore(filePath: downloadURL.absoluteString)
                         
                     }
