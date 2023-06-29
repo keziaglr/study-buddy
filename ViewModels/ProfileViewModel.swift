@@ -38,7 +38,6 @@ class ProfileViewModel: ObservableObject {
                     if let error = error {
                         print("Error getting download URL: \(error.localizedDescription)")
                     } else if let downloadURL = url {
-                        // Handle the download URL here
                         print("Download URL: \(downloadURL.absoluteString)")
                         
                         self.uploadProfilePictureToFirestore(filePath: downloadURL.absoluteString)
