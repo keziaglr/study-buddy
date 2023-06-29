@@ -13,4 +13,5 @@ struct Library: Identifiable, Codable{
     var url: String
     var dateCreated: Date
     var type: String
+    var user: String
 }

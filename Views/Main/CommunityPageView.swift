@@ -11,7 +11,7 @@ struct CommunityPageView: View {
     
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
-    //    @Binding var community : Community
+    @Binding var community : Community
     @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
@@ -77,7 +77,7 @@ struct CommunityPageView: View {
                 
                 List(filteredCommunities) { community in
                     CommunityCell(community: community){
-                        //                            self.community = community
+                        self.community = community
                         showCommunityDetail = true
                     }
                     
@@ -100,9 +100,9 @@ struct CommunityPageView: View {
     }
 }
 
-struct CommunityPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
-        
-    }
-}
+//struct CommunityPageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
+//
+//    }
+//}

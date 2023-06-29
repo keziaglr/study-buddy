@@ -16,6 +16,9 @@ final class ChatViewModel: ObservableObject {
     @Published private(set) var chats : [Chat] = []
     @Published private(set) var lastmessageID = ""
     @Published private var um = UserViewModel()
+    @Published private var bm = BadgeViewModel()
+    @Published var showAchievedScholarSupremeBadge = false
+    
     
     let db = Firestore.firestore()
     
@@ -50,8 +53,16 @@ final class ChatViewModel: ObservableObject {
             if let user = user {
                 let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id)
                 
+                
+                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
+                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
+                        self.checkScholarSupremeBadge()
+                    }
+                }
+                
                 do {
                     try self.db.collection("communities").document(communityID).collection("chats").document(newChat.id).setData(from: newChat)
+                    
                 } catch {
                     print("Error sending chat: \(error)")
                 }
@@ -59,7 +70,85 @@ final class ChatViewModel: ObservableObject {
                 print("Failed to retrieve user")
             }
         }
-
     }
     
+    func isFirstChatOfTheDay(newChat: Chat) -> Bool {
+        guard let lastChat = chats.last else {
+            return true // If there are no previous chats, consider it the first chat of the day
+        }
+        
+        let calendar = Calendar.current
+        let newChatDate = calendar.dateComponents([.year, .month, .day], from: newChat.dateCreated)
+        let lastChatDate = calendar.dateComponents([.year, .month, .day], from: lastChat.dateCreated)
+        
+        return newChatDate != lastChatDate
+    }
+
+    func getScholarSupremeBadgeID() -> String {
+        let scholarSupreme = bm.badges.first { badge in
+            badge.name == "Scholar Supreme"
+        }
+        return scholarSupreme!.id
+    }
+
+    
+    func checkScholarSupremeBadge() {
+        // Assuming you have an array of Chat objects
+        // Sort the chats array by dateCreated in descending order
+        
+        let currentUserChats = chats.filter { $0.user == Auth.auth().currentUser?.uid }
+        
+        let sortedChats = currentUserChats.sorted { $0.dateCreated > $1.dateCreated }
+        
+        var uniqueChats: [Chat] = []
+        var previousDate: Date?
+        
+        let calendar = Calendar.current
+        
+        for chat in sortedChats {
+            let currentDate = calendar.startOfDay(for: chat.dateCreated)
+            if currentDate != previousDate {
+                uniqueChats.append(chat)
+                previousDate = currentDate
+            }
+        }
+
+        // Get the latest date of the first chat
+        guard let startDate = uniqueChats.first?.dateCreated else {
+            // Handle the case where there are no chats
+            return
+        }
+
+        // Calculate the 7th consecutive day from the start date
+//        let endDate = calendar.date(byAdding: .day, value: -6, to: startDate)!
+
+        // Iterate over the sorted chats array and check if there is a chat for each consecutive day
+        // Check if there are at least 7 consecutive days
+        var currentDate = startDate
+        var consecutiveCount = 0
+
+        for chat in uniqueChats {
+            // Check if the current chat's date is the same as the current date
+            if calendar.isDate(chat.dateCreated, inSameDayAs: currentDate) {
+                consecutiveCount += 1
+                if consecutiveCount == 7 {
+                    // User has been chatting for 7 consecutive days
+                    print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
+                    bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
+                    showAchievedScholarSupremeBadge = true
+                    break
+                }
+                // Move to the next consecutive day
+                currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+            } else {
+                // The consecutive pattern is broken, reset the count
+                consecutiveCount = 0
+            }
+        }
+
+        // Check if the user has not reached 7 consecutive days
+        if consecutiveCount < 7 {
+            print("User has not been chatting for 7 consecutive days")
+        }
+    }
 }
