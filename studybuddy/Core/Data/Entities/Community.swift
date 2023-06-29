@@ -16,12 +16,4 @@ struct Community: Identifiable, Codable{
     var category: String
 }
 
-struct RCommunity: Identifiable, Codable{
-    var id: String
-    var title: String
-    var description: String
-    var image: String
-    var category: String
-}
-
 

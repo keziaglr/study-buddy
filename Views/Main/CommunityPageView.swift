@@ -11,14 +11,14 @@ struct CommunityPageView: View {
     
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
-    //    @Binding var community : Community
+        @Binding var community : Community
     @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
-            return communityViewModel.communities
+            return communityViewModel.jCommunities
         } else {
-            return communityViewModel.communities.filter {
+            return communityViewModel.jCommunities.filter {
                 $0.title.localizedCaseInsensitiveContains(text)
             }
         }
@@ -77,7 +77,7 @@ struct CommunityPageView: View {
                 
                 List(filteredCommunities) { community in
                     CommunityCell(community: community){
-                        //                            self.community = community
+                                                    self.community = community
                         showCommunityDetail = true
                     }
                     
@@ -100,9 +100,9 @@ struct CommunityPageView: View {
     }
 }
 
-struct CommunityPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
-        
-    }
-}
+//struct CommunityPageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommunityPageView(communityViewModel: CommunityViewModel(), community: <#Binding<Community>#>, showCommunityDetail: .constant(false))
+//
+//    }
+//}
