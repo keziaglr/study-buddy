@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CommunityPageView: View {
     
-    @ObservedObject var communityViewModel: CommunityViewModel
+    @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
-    @Binding var community : Community
+    //    @Binding var community : Community
     @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
@@ -26,11 +26,18 @@ struct CommunityPageView: View {
     
     var body: some View {
         
-        GeometryReader { geometry in
-            ZStack {
-                
+        
+        ZStack {
+            GeometryReader { geometry in
                 
                 HeaderComponent(text: "Your Learning Squad!")
+                NavigationLink {
+                    DummyUI(CommunityViewModel: CommunityViewModel(), communityID: .constant("1qVFL6zpyxdDpO5TpSPo"))
+                } label: {
+                    Text("next")
+                }.position(x: geometry.size.width/2 , y: geometry.size.height * 0.1)
+
+                
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 50)
@@ -51,32 +58,51 @@ struct CommunityPageView: View {
                     .padding(.horizontal)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                .position(x: geometry.size.width/2 , y: geometry.size.height * 0.174)
-             
-                VStack{
-                    List(filteredCommunities) { community in
-                        CommunityCell(community: community){
-                            self.community = community
-                            showCommunityDetail = true
-                        }
-
-                    }.listStyle(.plain)
-                }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
+                .position(x: geometry.size.width/2 , y: geometry.size.height * 0.22)
+                
+                Text("Recommended Community : ")
+                    .font(.system(size: 20))
+                    .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
+                
+                List(communityViewModel.rcommunities) { community in
+                    Text(community.id)
                     
+                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
+                    .listStyle(.plain)
+                
+                Text("Joined Community : ")
+                    .font(.system(size: 20))
+                    .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
+                
+                List(filteredCommunities) { community in
+                    CommunityCell(community: community){
+                        //                            self.community = community
+                        showCommunityDetail = true
+                    }
+                    
+                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.75)
+                    .listStyle(.plain)
+                
+                
+                
                 
                 
             }
+            
+        }.ignoresSafeArea()
             .onAppear {
+                communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
+//                communityViewModel.getCommunity()
             }
-        }
     }
 }
 
-//struct CommunityPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
-//
-//    }
-//}
+struct CommunityPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
+        
+    }
+}

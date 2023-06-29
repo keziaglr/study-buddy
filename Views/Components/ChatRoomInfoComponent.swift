@@ -12,6 +12,7 @@ struct ChatRoomInfoComponent: View {
     @State private var showStudySchedule = false
     @Binding var showTabView : Bool
     @Binding var community : Community
+    @Binding var communityId : String
     var body: some View {
         
         VStack(spacing: -1){
@@ -69,7 +70,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent()
+                ChatRoomSettingsComponent(communityId: $communityId)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
             }

@@ -15,8 +15,8 @@ struct TabBarNavigation: View {
             ZStack{
                     TabView {
                         NavigationView {
-                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
-//                            CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
+//                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
+                            CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
                         }
                         .tabItem {
                             Image(systemName: "person.2.circle.fill")

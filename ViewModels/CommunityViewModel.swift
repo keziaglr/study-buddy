@@ -14,6 +14,7 @@ class CommunityViewModel: ObservableObject {
     
     @Published var userManager = UserViewModel()
     @Published var communities = [Community]()
+    @Published var rcommunities = [RCommunity]()
     @Published var members = [communityMember]()
     var db = Firestore.firestore()
     
@@ -202,42 +203,48 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func getRecommendation(){
-        
+    func getRecommendation() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
         
         userManager.getUser(id: currentUserID) { user in
+          
             
-            if let interest = user?.category{
-                
-                self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot,error) in
-                    guard let documents = querySnapshot?.documents else {
-                        print("no matching communtiies found")
+            if let interest = user?.category {
+                self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting community documents: \(error)")
                         return
                     }
                     
-                    let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
+                    guard let documents = querySnapshot?.documents else {
+                        print("No matching communities found")
+                        return
+                    }
+                    
+                    // Handle the retrieved communities here
+                    let communities = documents.compactMap { (queryDocumentSnapshot) -> RCommunity? in
                         let documentID = queryDocumentSnapshot.documentID
                         let data = queryDocumentSnapshot.data()
                         let title = data["title"] as? String ?? ""
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        return Community(id: documentID, title: title, description: description, image: image, category: category)
+                        
+                        return RCommunity(id: documentID, title: title, description: description, image: image, category: category)
                     }
                     
                     DispatchQueue.main.async {
-                        self.communities = communities
+                        self.rcommunities = communities
                     }
+                    // Use the retrieved communities as needed
                     print("Matching Communities: \(communities)")
                 }
-                
             }
-      
         }
     }
+
     
 }

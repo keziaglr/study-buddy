@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatRoomSettingsComponent: View {
     
+    @Binding var communityId : String
     @State private var isSetStudySchedulePresented = false
     @State private var isLibraryButtonPresented = false
     @State private var isViewMembersPresented = false
@@ -92,7 +93,7 @@ struct ChatRoomSettingsComponent: View {
             SetScheduleView()
         }
         .sheet(isPresented: $isViewMembersPresented){
-            ChatMembersView()
+            ChatMembersView(communityID: $communityId, communityViewModel: CommunityViewModel())
         }
         
     }
@@ -100,7 +101,7 @@ struct ChatRoomSettingsComponent: View {
 
 struct ChatRoomSettingsComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ChatRoomSettingsComponent()
+        ChatRoomSettingsComponent(communityId: .constant(String("1qVFL6zpyxdDpO5TpSPo")))
             .previewLayout(PreviewLayout.sizeThatFits)
     }
 }

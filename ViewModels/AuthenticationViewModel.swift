@@ -51,7 +51,7 @@ final class AuthenticationViewModel : ObservableObject {
                 let uid = user.uid
                 do{
                     //TODO: Change image placeholder
-                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg", category: [])
+                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg", category: [], badges: [])
                     try self.db.collection("users").document(newUser.id).setData(from: newUser)
                 }catch{
                     print("Error create user: \(error)")

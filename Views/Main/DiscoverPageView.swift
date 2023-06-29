@@ -86,6 +86,8 @@ struct DiscoverPageView: View {
     }
 }
 
+
+
 struct CommunityCell: View {
     let community: Community
     let joinAction: () -> Void
@@ -93,7 +95,6 @@ struct CommunityCell: View {
     var body: some View {
         ZStack {
             // Community picture
-            
            
             Image(community.image)
                 .resizable()
