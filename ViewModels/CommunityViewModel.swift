@@ -133,7 +133,7 @@ class CommunityViewModel: ObservableObject {
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
                         
-                        let community = Community(id: id, title: title, description: description, image: image, category: category)
+                        let community = Community(id: communityID, title: title, description: description, image: image, category: category)
                         
                         DispatchQueue.main.async {
                             self?.communities.append(community)
