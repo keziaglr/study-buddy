@@ -33,8 +33,7 @@ struct ChatMembersView: View {
                 .padding(EdgeInsets(top: 46, leading: 0, bottom: 62, trailing: 0))
             //Members List
             List(communityViewModel.members, id: \.id){ member in
-                Text(member.id)
-                Text(member.name)
+                MembersBubbleComponent(member: member)
 
             }
 

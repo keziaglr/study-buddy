@@ -93,7 +93,7 @@ class CommunityViewModel: ObservableObject {
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
-                let newMember = communityMember(id: user.id, name: user.name)
+                let newMember = communityMember(id: user.id, name: user.name, image: user.image)
                 
                 let membersRef = self?.db.collection("communities").document(communityID).collection("members")
                 
@@ -226,9 +226,10 @@ class CommunityViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
                 let id = data["id"] as? String ?? ""
+                let image = data["image"] as? String ?? ""
                 print(name)
                 print(id)
-                return communityMember(id: id, name: name)
+                return communityMember(id: id, name: name, image: image)
                 
                 
             }
