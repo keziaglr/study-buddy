@@ -51,7 +51,7 @@ struct MessageBubbleComponent: View {
                 AsyncImage(url: URL(string: user?.image ?? "")) { image in
                     image
                         .resizable()
-                        .frame(width: 42, height: 42)
+                        .frame(width: UIScreen.main.bounds.width*0.10687023, height: UIScreen.main.bounds.width*0.10687023)
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                 } placeholder: {
                     ProgressView()
