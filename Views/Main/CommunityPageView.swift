@@ -16,9 +16,9 @@ struct CommunityPageView: View {
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
-            return communityViewModel.communities
+            return communityViewModel.jCommunities
         } else {
-            return communityViewModel.communities.filter {
+            return communityViewModel.jCommunities.filter {
                 $0.title.localizedCaseInsensitiveContains(text)
             }
         }

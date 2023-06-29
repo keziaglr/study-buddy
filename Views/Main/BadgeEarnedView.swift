@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct BadgeEarnedView: View {
+    @State var image : String = "badge1"
     var body: some View {
         VStack {
             ZStack{
                 Image("confetti")
                 //change badge disini
-                Image("badge1")
-                    .resizable()
-                    .frame(width: 236, height: 236)
+                
+                AsyncImage(url: URL(string: image)) { image in
+                    image
+                        .resizable()
+                        .frame(width: 236, height: 236)
+                } placeholder: {
+                    Image("badge1")
+                        .resizable()
+                        .frame(width: 236, height: 236)
+                }
+
             }
             
             Text("New Badge Earned!")
