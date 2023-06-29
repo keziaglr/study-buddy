@@ -70,7 +70,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent(communityId: $communityId)
+                ChatRoomSettingsComponent(communityId: $communityId, community: $community)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
             }
