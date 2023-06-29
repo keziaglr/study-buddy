@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ChatRoomSettingsComponent: View {
     
+<<<<<<< HEAD
     @Binding var communityId : String
+=======
     @Binding var community: Community
+>>>>>>> adriel
     @State private var isSetStudySchedulePresented = false
     @State private var isLibraryButtonPresented = false
     @State private var isViewMembersPresented = false
@@ -106,7 +109,11 @@ struct ChatRoomSettingsComponent: View {
 
 struct ChatRoomSettingsComponent_Previews: PreviewProvider {
     static var previews: some View {
+<<<<<<< HEAD
+        ChatRoomSettingsComponent(communityId: .constant(String("1qVFL6zpyxdDpO5TpSPo")))
+=======
         ChatRoomSettingsComponent(community: .constant(Community(id: "SQdVEsc9RiT1Us2cDlEs", title: "Adriel", description: "test", image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FKnowledge%20Navigator.png?alt=media&token=6a54846d-cc27-469a-9c7e-67a55b8c28ae", category: "Math")))
+>>>>>>> adriel
             .previewLayout(PreviewLayout.sizeThatFits)
     }
 }
