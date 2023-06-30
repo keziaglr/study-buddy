@@ -139,6 +139,9 @@ struct CommunityCell: View {
 
 
 
+
+
+
 //struct CommunityCell: View {
 //    let community: Community
 //    let joinAction: () -> Void
