@@ -15,9 +15,9 @@ final class AuthenticationViewModel : ObservableObject {
     
     let db = Firestore.firestore()
     @Published var authenticated = false
+    @Published var created = false
     
     func auth(email: String, password: String) {
-//        var authenticated = false
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             if let error = error {
@@ -26,12 +26,7 @@ final class AuthenticationViewModel : ObservableObject {
             } else {
                 print("Authentication successful")
                 if let user = authResult?.user {
-                    //TODO: Redirect to HOME
                     self!.authenticated = true
-//                    if Auth.auth().currentUser != nil {
-//                        //Buat dapat uid current user
-//                        print("Current User \(Auth.auth().currentUser?.uid)")
-//                    }
                 }
 
             }
@@ -51,6 +46,7 @@ final class AuthenticationViewModel : ObservableObject {
                 do{
                     let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/users%2Fuser.png?alt=media&token=263b2e43-e206-45d6-a75f-7f7170063e41", category: [], badges: [])
                     try self.db.collection("users").document(newUser.id).setData(from: newUser)
+                    self.created = true
                 }catch{
                     print("Error create user: \(error)")
                 }
@@ -67,44 +63,3 @@ final class AuthenticationViewModel : ObservableObject {
     }
     
 }
-
-//class UserManager2: ObservableObject {
-//
-//    @Published var users = [UserModel]()
-//
-//    var db = Firestore.firestore()
-//
-//    func getUser(id: String, completion: @escaping (UserModel?) -> Void){
-//        print(id)
-//        db.collection("users").document(id).getDocument { (documentSnapshot, error) in
-//            if let error = error {
-//                print("Error getting community: \(error)")
-//                completion(nil)
-//                return
-//            }
-//
-//            guard let document = documentSnapshot else {
-//                print("Users document does not exist")
-//                completion(nil)
-//                return
-//            }
-//
-//            if document.exists {
-//                let data = document.data()
-//                let documentID = document.documentID
-//                let name = data?["name"] as? String ?? ""
-//                let email = data?["email"] as? String ?? ""
-//                let password = data?["password"] as? String ?? ""
-//                let image = data?["image"] as? String ?? ""
-//                let interest = data?["category"] as? [String] ?? []
-//                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, category: interest )
-//                print("Retrieved user: \(user)")
-//                completion(user)
-//            } else {
-//                print("User document does not exist")
-//                completion(nil)
-//            }
-//        }
-//    }
-//
-//}

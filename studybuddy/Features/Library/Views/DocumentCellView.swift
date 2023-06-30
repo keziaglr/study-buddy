@@ -96,6 +96,6 @@ struct DocumentCellView: View {
 
 struct DocumentCellView_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentCellView(data: Library(id: UUID().uuidString, url: "TEST", dateCreated: Date(), type: "image"))
+        DocumentCellView(data: Library(id: UUID().uuidString, url: "TEST", dateCreated: Date(), type: "image", user: ""))
     }
 }
