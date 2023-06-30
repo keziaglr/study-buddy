@@ -144,6 +144,9 @@ struct LibraryView: View {
                 self.vm.refreshLibrary(communityID: communityID)
             }
         }
+        .sheet(isPresented: $vm.showAchievedResearchGuruBadge) {
+            BadgeEarnedView()
+        }
     }
     
     
