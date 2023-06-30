@@ -16,6 +16,7 @@ struct LibraryView: View {
     @State var showPicker = false
     @State var pickerType = ""
     
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationStack {
             ZStack {
@@ -58,11 +59,23 @@ struct LibraryView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
             .toolbarBackground(
-                            Color.blue,
+                            Color("DarkBlue"),
                             for: .navigationBar)
                         .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button{
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .bold()
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack{
                         if self.vm.libraries.count != 0 && !self.vm.isLoading{
@@ -130,6 +143,9 @@ struct LibraryView: View {
             NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
                 self.vm.refreshLibrary(communityID: communityID)
             }
+        }
+        .sheet(isPresented: $vm.showAchievedResearchGuruBadge) {
+            BadgeEarnedView()
         }
     }
     

@@ -77,13 +77,16 @@ class BadgeViewModel: ObservableObject {
                 if let document = document, document.exists {
                     if let data = document.data(), let existingArray = data["badges"] as? [String] {
                         var newArray = existingArray
-                        newArray.append(badgeId)
                         
-                        documentRef.updateData(["badges": newArray]) { error in
-                            if let error = error {
-                                print("Error updating array: \(error.localizedDescription)")
-                            } else {
-                                print("Array updated successfully")
+                        if !newArray.contains(badgeId){
+                            newArray.append(badgeId)
+                            
+                            documentRef.updateData(["badges": newArray]) { error in
+                                if let error = error {
+                                    print("Error updating array: \(error.localizedDescription)")
+                                } else {
+                                    print("Array updated successfully")
+                                }
                             }
                         }
                     } else {

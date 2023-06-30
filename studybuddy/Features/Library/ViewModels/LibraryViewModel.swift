@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseStorage
+import Firebase
 
 class LibraryViewModel: ObservableObject {
     @Published var libraries = [Library]()
@@ -16,6 +17,9 @@ class LibraryViewModel: ObservableObject {
     @Published var showFileViewer = false
     @Published var selectedFileURL: URL? = nil
     @Published var selectedFilePathForDownload: String? = nil
+    @Published var showAchievedResearchGuruBadge = false
+    @Published private var bm = BadgeViewModel()
+    @Published private var um = UserViewModel()
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
@@ -89,8 +93,9 @@ class LibraryViewModel: ObservableObject {
                 let url = doc["url"] as! String
                 let date = doc["dateCreated"] as! Timestamp
                 let type = doc["type"] as! String
+                let user = doc["user"] as! String
                 self.isEmpty = false
-                self.libraries.append(Library(id: id, url: url, dateCreated: date.dateValue(), type: type))
+                self.libraries.append(Library(id: id, url: url, dateCreated: date.dateValue(), type: type, user: user))
             }
         }
     }
@@ -144,9 +149,44 @@ class LibraryViewModel: ObservableObject {
             } else {
                 print("File uploaded successfully.")
                 self.uploadLibraryToFirestore(filePath: filePath, communityID: communityID)
+                self.bm.validateBadge(badgeId: self.getResearchGuruBadgeID()) { hasBadge in
+                    if !hasBadge {
+                        self.checkResearchGuruBadge()
+                    }
+                    NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+                }
                 // Handle success case here
             }
         }
+    }
+    
+    func isSameDayAsCurrentDate(date: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        let currentDateComponents = calendar.dateComponents([.day, .month, .year], from: Date())
+        let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
+        
+        return currentDateComponents == dateComponents
+    }
+    
+    var filteredLibraries: [Library] {
+        let user = Auth.auth().currentUser?.uid
+        return libraries.filter { $0.user == user }
+    }
+
+    
+    func checkResearchGuruBadge() {
+        let userLibraries = filteredLibraries
+        
+        let currentDayUserLibraries = userLibraries.filter { isSameDayAsCurrentDate(date: $0.dateCreated) }
+        
+        if currentDayUserLibraries.count == 5 {
+            showAchievedResearchGuruBadge = true
+            bm.achieveBadge(badgeId: getResearchGuruBadgeID())
+        } else {
+            showAchievedResearchGuruBadge = false
+        }
+        
     }
     
     
@@ -155,22 +195,32 @@ class LibraryViewModel: ObservableObject {
         let path = "libraries/\(filePath)"
         
         let type = URL(filePath: path).pathExtension
-        let newFile = Library(id: id, url: path, dateCreated: Date(), type: String(type))
+        let newFile = Library(id: id, url: path, dateCreated: Date(), type: String(type), user: Auth.auth().currentUser?.uid ?? "")
         db.collection("communities").document(communityID).collection("libraries").document(id).setData([
             "url" : newFile.url,
             "dateCreated" : Timestamp(date: newFile.dateCreated),
-            "type" : newFile.type
+            "type" : newFile.type,
+            "user" : newFile.user
         ])
-        NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+        libraries.append(newFile)
     }
     
     
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
+        dateFormatter.dateFormat = "ddMMyyyyHHmmss"//"EE" to get short style
         let mydt = dateFormatter.string(from: date).capitalized
 
         return "\(mydt)"
     }
+    
+    
+    func getResearchGuruBadgeID() -> String {
+        let scholarSupreme = bm.badges.first { badge in
+            badge.name == "Research Guru"
+        }
+        return scholarSupreme!.id
+    }
+
 }

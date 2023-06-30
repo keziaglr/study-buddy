@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct ChatMembersView: View {
+    
+    @Binding var communityID : String
+    
+    @StateObject var communityViewModel : CommunityViewModel
+    
     var body: some View {
-        
         GeometryReader { geometry in
             VStack{
                 //Title
@@ -28,13 +32,12 @@ struct ChatMembersView: View {
                 
                 
                 //Members List
-                List {
-                    MembersBubbleComponent()
+                List(communityViewModel.members, id: \.id){ member in
+                    MembersBubbleComponent(member: member)
                 }
-                .scrollContentBackground(.hidden)
                 
-                Spacer()
-                
+            }.onAppear{
+                communityViewModel.getMembers(communityId: communityID)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
@@ -45,7 +48,7 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView()
-            .previewLayout(PreviewLayout.sizeThatFits)
+        ChatMembersView(communityID: .constant(String("1qVFL6zpyxdDpO5TpSPo")), communityViewModel: CommunityViewModel())
+            
     }
 }

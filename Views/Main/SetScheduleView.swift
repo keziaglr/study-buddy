@@ -10,8 +10,12 @@ import EventKit
 
 struct SetScheduleView: View {
     
+    @Binding var isPresent: Bool
+    @Binding var isBadge: Bool
+    @Binding var badge: String
     @State private var StartStudySchedule = Date()
     @State private var EndStudySchedule = Date()
+    @State var vm = BadgeViewModel()
     
     var body: some View {
         
@@ -25,7 +29,7 @@ struct SetScheduleView: View {
                     .padding(EdgeInsets(top: geometry.size.height*0.07702182, leading: 0, bottom: 0, trailing: 0))
                 
                 //Clock Image
-                Image(systemName: "clock")
+                Image(systemName: "alarm")
                     .resizable()
                     .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
                     .frame(width: 108,height: 108)
@@ -79,7 +83,7 @@ struct SetScheduleView: View {
                     //Push to firebase
                     
                 } label: {
-                    ZStack(alignment: .center) {
+                    ZStack {
                         Rectangle()
                             .fill(Color(red: 0.906, green: 0.467, blue: 0.157))
                             .frame(width: geometry.size.width*0.75380711, height: geometry.size.height*0.05134788)
@@ -127,6 +131,14 @@ struct SetScheduleView: View {
                 do {
                     try eventStore.save(event, span: .thisEvent)
                     print("Event added to calendar")
+                    isPresent = false
+                    vm.validateBadge(badgeId: "KqBsiL9I3SetbASzg2sx") { b in
+                        if !b {
+                            badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FCollaborative%20Dynamo.png?alt=media&token=b6e0898b-0e2e-46e2-8c7d-ab89b552f4d5"
+                            isBadge = true
+                            vm.achieveBadge(badgeId: "KqBsiL9I3SetbASzg2sx")
+                        }
+                    }
                 } catch {
                     print("Error saving event: \(error.localizedDescription)")
                 }
@@ -139,6 +151,6 @@ struct SetScheduleView: View {
 
 struct SetSchedule_Previews: PreviewProvider {
     static var previews: some View {
-        SetScheduleView()
+        SetScheduleView(isPresent: .constant(false), isBadge: .constant(false), badge: .constant("badge1"))
     }
 }
