@@ -13,7 +13,6 @@ struct DiscoverPageView: View {
     
     @ObservedObject var communityViewModel: CommunityViewModel
     @State var bvm = BadgeViewModel()
-    
     @State private var text = ""
     @State private var showModal = false
     @State private var communityID = ""
@@ -31,65 +30,68 @@ struct DiscoverPageView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
+        
+        ZStack{
+            GeometryReader { geometry in
+                HeaderComponent(text: "Explore the network")
+                
                 ZStack {
-                    HeaderComponent(text: "Explore the Network!")
+                    RoundedRectangle(cornerRadius: 50)
+                        .frame(width: geometry.size.width * 0.92, height: 51)
+                        .foregroundColor(Color("Orange"))
                     
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 50)
-                                .frame(width: geometry.size.width * 0.92, height: 51)
-                                .foregroundColor(Color("Orange"))
-                            
-                            RoundedRectangle(cornerRadius: 50)
-                                .frame(width: geometry.size.width * 0.9 , height: 45)
-                                .foregroundColor(Color("Gray"))
-                            
-                            HStack {
-                                Spacer()
-                                TextField("Search Your Community Here", text: $text)
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                Spacer()
-                            }
-                            .padding(.horizontal)
-                        }
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                        .position(x: geometry.size.width/2 , y: geometry.size.height * 0.174)
-                    VStack {
-                        if !filteredCommunities.isEmpty {
-                            List(filteredCommunities) { community in
-                                CommunityCell(community: community) {
-                                    communityViewModel.joinCommunity(communityID: community.id)
-                                    communityID = community.id
-                                }
-                            }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
-                            .listStyle(.plain)
-                        } else {
-                            VStack {
-                                Button {
-                                    
-                                    showModal = true
-                                } label: {
-                                    CustomButton(text: "Create Community", primary: false)
-                                }
-                            }
-                        }
+                    RoundedRectangle(cornerRadius: 50)
+                        .frame(width: geometry.size.width * 0.9 , height: 45)
+                        .foregroundColor(Color("Gray"))
+                    
+                    HStack {
+                        Spacer()
+                        TextField("Search Your Community Here", text: $text)
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
+                        Spacer()
                     }
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
+                    .padding(.horizontal)
                 }
-                .onAppear {
-                    communityViewModel.getCommunity()
+                .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                .position(x: geometry.size.width/2 , y: geometry.size.height * 0.22)
+                
+                if !filteredCommunities.isEmpty {
+                    List(filteredCommunities) { community in
+                        CommunityCell(community: community) {
+                            communityViewModel.joinCommunity(communityID: community.id)
+                            communityID = community.id
+                        }.listRowSeparator(.hidden)
+                    }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
+                        .listStyle(.plain)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.6)
+                        .scrollIndicators(.hidden)
+                        
+                }else {
+                    VStack {
+                        Button {
+                            
+                            showModal = true
+                        } label: {
+                            CustomButton(text: "Create Community", primary: false)
+                        }
+                    }.position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
                 }
-                .sheet(isPresented: $showModal) {
-                    CreateCommunityPageView(communityViewModel: CommunityViewModel())
-                }
-                .sheet(isPresented: $communityViewModel.showBadge) {
-                    BadgeEarnedView(image: communityViewModel.badge)
-                }
+                
+                
+            }.onAppear {
+                communityViewModel.getCommunity()
             }
+            .sheet(isPresented: $showModal) {
+                CreateCommunityPageView(communityViewModel: CommunityViewModel())
+            }
+            .sheet(isPresented: $communityViewModel.showBadge) {
+                BadgeEarnedView(image: communityViewModel.badge)
+            }
+        }.ignoresSafeArea()
     }
 }
+
 
 
 
@@ -100,17 +102,26 @@ struct CommunityCell: View {
     var body: some View {
         ZStack {
             // Community picture
-           
-            Image(community.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 150)
-                .clipped()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
-                )
+            AsyncImage(url: URL(string: community.image)) { image in
+                image
+                
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: UIScreen.main.bounds.width * 0.76 , height: UIScreen.main.bounds.height * 0.15)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .overlay{
+                        RoundedRectangle(cornerRadius: 15)
+                            .frame(width: UIScreen.main.bounds.width * 0.76 , height: UIScreen.main.bounds.height * 0.15)
+                            .foregroundColor(Color("DarkBlue"))
+                            .opacity(0.42)
+                        
+                    }
+                
+//                    .frame(width: UIScreen.main.bounds.width*0.17811705, height: UIScreen.main.bounds.width*0.17811705)
+                
+            } placeholder: {
+                ProgressView()
+            }
             
             VStack(alignment: .leading) {
                 Spacer()
@@ -142,7 +153,7 @@ struct CommunityCell: View {
                 
                 Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width * 0.76)
+            .frame(width: UIScreen.main.bounds.width * 0.76 , height: UIScreen.main.bounds.height * 0.1)
             .padding(.leading, UIScreen.main.bounds.width * 0.052)
             .foregroundColor(.white)
         }

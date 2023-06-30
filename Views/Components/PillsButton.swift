@@ -21,8 +21,11 @@ struct PillsButton: View {
                             Button(action: {
                                 if selectedPills.contains(pill) {
                                     selectedPills.remove(pill)
+                                    UserViewModel().deleteCategory(categoryToDelete: pill)
                                 } else {
                                     selectedPills.insert(pill)
+                                    UserViewModel().updateCategory(category: pill)
+                                    
                                 }
                             }) {
                                 Text(pill)
@@ -46,7 +49,7 @@ struct PillsButton: View {
 
 //struct PillsButton_Previews: PreviewProvider {
 //    static var previews: some View {
-//        PillsButton(selectedPills: <#Binding<Set<String>>#>)
+//        PillsButton(selectedPills: .constant(String("Physics")))
 //    }
 //}
 

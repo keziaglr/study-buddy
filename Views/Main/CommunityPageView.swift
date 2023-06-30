@@ -11,7 +11,7 @@ struct CommunityPageView: View {
     
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
-        @Binding var community : Community
+    @Binding var community : Community
     @Binding var showCommunityDetail : Bool
     
     var filteredCommunities: [Community] {
@@ -31,13 +31,6 @@ struct CommunityPageView: View {
             GeometryReader { geometry in
                 
                 HeaderComponent(text: "Your Learning Squad!")
-                NavigationLink {
-                    DummyUI(CommunityViewModel: CommunityViewModel(), communityID: .constant("1qVFL6zpyxdDpO5TpSPo"))
-                } label: {
-                    Text("next")
-                }.position(x: geometry.size.width/2 , y: geometry.size.height * 0.1)
-
-                
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 50)
@@ -65,7 +58,9 @@ struct CommunityPageView: View {
                     .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
                 
                 List(communityViewModel.rcommunities) { community in
-                    Text(community.id)
+                    CommunityCell(community: community) {
+                        communityViewModel.joinCommunity(communityID: community.id)
+                    }
                     
                 }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
@@ -77,7 +72,7 @@ struct CommunityPageView: View {
                 
                 List(filteredCommunities) { community in
                     CommunityCell(community: community){
-                                                    self.community = community
+                        self.community = community
                         showCommunityDetail = true
                     }
                     
@@ -95,14 +90,7 @@ struct CommunityPageView: View {
             .onAppear {
                 communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
-//                communityViewModel.getCommunity()
             }
     }
 }
 
-//struct CommunityPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CommunityPageView(communityViewModel: CommunityViewModel(), community: <#Binding<Community>#>, showCommunityDetail: .constant(false))
-//
-//    }
-//}

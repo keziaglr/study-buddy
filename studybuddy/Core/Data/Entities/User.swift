@@ -14,12 +14,17 @@ struct UserModel: Identifiable, Codable {
     var email: String
     var password: String
     var image: String
-    var category : [String]
+    var category: [String]
     var badges: [String]
+    
+    enum Preferences: String {
+        case category
+    }
 }
 
 struct communityMember: Identifiable, Codable {
     var id: String
     var name: String
+    var image: String
 //    var badges: [String]
 }
