@@ -98,6 +98,7 @@
 		43C972112A4C344F000D1E6B /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		43C972132A4C362F000D1E6B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		43C972152A4C36D2000D1E6B /* FileViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewerView.swift; sourceTree = "<group>"; };
+		43C972192A4E8383000D1E6B /* studybuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = studybuddy.entitlements; sourceTree = "<group>"; };
 		769D72AA2A4D200C004E9E74 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76DDDED02A492AEE00BA9F18 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestView.swift; path = Views/Main/TestView.swift; sourceTree = SOURCE_ROOT; };
 		76DDDED22A49690500BA9F18 /* DummyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyUI.swift; path = ViewModels/DummyUI.swift; sourceTree = SOURCE_ROOT; };
@@ -390,6 +391,7 @@
 		ACF273972A41FD9F00DB1BA3 /* studybuddy */ = {
 			isa = PBXGroup;
 			children = (
+				43C972192A4E8383000D1E6B /* studybuddy.entitlements */,
 				769D72AA2A4D200C004E9E74 /* Info.plist */,
 				ACF808482A42D5A80050D549 /* Features */,
 				ACF808472A42D5A20050D549 /* Core */,
@@ -789,10 +791,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = studybuddy/studybuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
-				DEVELOPMENT_TEAM = GHRFT69K59;
+				DEVELOPMENT_TEAM = 3SC4Z3N76K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
@@ -821,10 +824,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = studybuddy/studybuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
-				DEVELOPMENT_TEAM = GHRFT69K59;
+				DEVELOPMENT_TEAM = 3SC4Z3N76K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;

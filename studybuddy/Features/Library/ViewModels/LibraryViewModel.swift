@@ -198,7 +198,7 @@ class LibraryViewModel: ObservableObject {
             }
         }
         bm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
-            self.badgeImageURL = badge?.image ?? ""
+            self.badgeImageURL = badge?.name ?? ""
             self.showAchievedBadge = true
         }
     }
@@ -226,7 +226,7 @@ class LibraryViewModel: ObservableObject {
         if currentDayUserLibraries.count == 5 {
             let researchGuruBadgeID = bm.getBadgeID(badgeName: "Research Guru")
             bm.getBadge(id: researchGuruBadgeID) { badge in
-                self.badgeImageURL = badge!.image
+                self.badgeImageURL = badge!.name
                 self.showAchievedBadge = true
             }
             bm.achieveBadge(badgeId: researchGuruBadgeID)

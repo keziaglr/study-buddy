@@ -130,7 +130,7 @@ final class ChatViewModel: ObservableObject {
                     print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
                     bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
                     bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
-                        badgeImageURL  = badge!.image
+                        badgeImageURL  = badge!.name
                         showAchievedScholarSupremeBadge = true
                     }
                     break
