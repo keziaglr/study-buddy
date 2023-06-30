@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftUI
 
 struct StudyScheduleComponent: View {
+    @Binding var community : Community
     var body: some View {
         HStack{
             
@@ -28,7 +29,7 @@ struct StudyScheduleComponent: View {
                     .foregroundColor(.white)
                     .frame(width: 83, height: 25)
                 
-                Text("07.00 PM")
+                Text(community.startDate != nil ? community.startDate!.formatted(.dateTime.hour().minute()) : "N/A")
                     .fontWeight(.bold)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
@@ -38,10 +39,10 @@ struct StudyScheduleComponent: View {
     }
 }
 
-struct StudyScheduleView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudyScheduleComponent()
-            .previewLayout(PreviewLayout.sizeThatFits)
-    }
-}
+//struct StudyScheduleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StudyScheduleComponent()
+//            .previewLayout(PreviewLayout.sizeThatFits)
+//    }
+//}
 

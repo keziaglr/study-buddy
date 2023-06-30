@@ -40,7 +40,7 @@ struct TabBarNavigation: View {
                     }.navigationBarBackButtonHidden()
                         .background(Color.black)
             }.navigationDestination(isPresented: $showTabView) {
-                ChatRoomView(manager: ChatViewModel(), showTabView: $showTabView, community: community)
+                ChatRoomView(manager: ChatViewModel(), showTabView: $showTabView, community: $community)
             }
         }
     }

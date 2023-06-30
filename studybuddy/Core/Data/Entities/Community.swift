@@ -14,6 +14,6 @@ struct Community: Identifiable, Codable{
     var description: String
     var image: String
     var category: String
+    var startDate: Date?
+    var endDate: Date?
 }
-
-
