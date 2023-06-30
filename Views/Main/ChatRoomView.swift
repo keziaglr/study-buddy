@@ -15,7 +15,7 @@ import Firebase
 struct ChatRoomView: View {
     @ObservedObject var manager : ChatViewModel = ChatViewModel()
     @Binding var showTabView : Bool
-    @State var community : Community
+    @Binding var community : Community
     
     var body: some View {
             VStack (spacing: 0){
@@ -28,7 +28,7 @@ struct ChatRoomView: View {
                 ChatRoomInfoComponent(showTabView: $showTabView, community: $community, communityId: $community.id)
                 
                 //Study Schedule
-                StudyScheduleComponent()
+                StudyScheduleComponent(community: $community)
                 
                 //Chat Window
                 
