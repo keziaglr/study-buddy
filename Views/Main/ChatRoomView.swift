@@ -13,7 +13,7 @@ import Firebase
 
 
 struct ChatRoomView: View {
-    @ObservedObject var manager : ChatViewModel
+    @ObservedObject var manager : ChatViewModel = ChatViewModel()
     @Binding var showTabView : Bool
     @State var community : Community
     
@@ -71,7 +71,12 @@ struct ChatRoomView: View {
             }
             .ignoresSafeArea(edges: .top)
             .navigationBarBackButtonHidden()
+            .sheet(isPresented: $manager.showAchievedScholarSupremeBadge) {
+                // TODO: ganti ya pake yang sesuai badgenya
+                BadgeEarnedView()
+            }
         }
+        
 }
 
 //struct ContentView_Previews: PreviewProvider {
