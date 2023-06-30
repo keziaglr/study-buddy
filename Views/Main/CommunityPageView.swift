@@ -16,9 +16,9 @@ struct CommunityPageView: View {
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
-            return communityViewModel.communities
+            return communityViewModel.jCommunities
         } else {
-            return communityViewModel.communities.filter {
+            return communityViewModel.jCommunities.filter {
                 $0.title.localizedCaseInsensitiveContains(text)
             }
         }
@@ -36,7 +36,7 @@ struct CommunityPageView: View {
                 } label: {
                     Text("next")
                 }.position(x: geometry.size.width/2 , y: geometry.size.height * 0.1)
-
+                
                 
                 
                 ZStack {
@@ -95,7 +95,7 @@ struct CommunityPageView: View {
             .onAppear {
                 communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
-//                communityViewModel.getCommunity()
+                //                communityViewModel.getCommunity()
             }
     }
 }

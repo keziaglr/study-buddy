@@ -81,6 +81,7 @@
 		ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */; };
 		ACD062312A4C39DB0025B68E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD062302A4C39DB0025B68E /* ChatViewModel.swift */; };
 		ACD062332A4C46540025B68E /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD062322A4C46540025B68E /* UserViewModel.swift */; };
+		ACDAA8F02A4DC009002A2B2B /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDAA8EF2A4DC009002A2B2B /* ProfileViewModel.swift */; };
 		ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */; };
 		ACF2739D2A41FDA100DB1BA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2739C2A41FDA100DB1BA3 /* Assets.xcassets */; };
 		ACF273A02A41FDA100DB1BA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2739F2A41FDA100DB1BA3 /* Preview Assets.xcassets */; };
@@ -137,6 +138,7 @@
 		ACC72ED52A44C73F0006AE64 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthenticationViewModel.swift; path = ViewModels/AuthenticationViewModel.swift; sourceTree = SOURCE_ROOT; };
 		ACD062302A4C39DB0025B68E /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = ViewModels/ChatViewModel.swift; sourceTree = SOURCE_ROOT; };
 		ACD062322A4C46540025B68E /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserViewModel.swift; path = ViewModels/UserViewModel.swift; sourceTree = SOURCE_ROOT; };
+		ACDAA8EF2A4DC009002A2B2B /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewModel.swift; path = ViewModels/ProfileViewModel.swift; sourceTree = SOURCE_ROOT; };
 		ACF273952A41FD9F00DB1BA3 /* studybuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = studybuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF273982A41FD9F00DB1BA3 /* studybuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = studybuddyApp.swift; sourceTree = "<group>"; };
 		ACF2739C2A41FDA100DB1BA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				ACD062302A4C39DB0025B68E /* ChatViewModel.swift */,
 				ACD062322A4C46540025B68E /* UserViewModel.swift */,
 				AC49DFE22A496D2A000D7756 /* BadgeViewModel.swift */,
+				ACDAA8EF2A4DC009002A2B2B /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderView.swift in Sources */,
 				83B64C692A4D83B200CACF2C /* InterestPageView.swift in Sources */,
+				ACDAA8F02A4DC009002A2B2B /* ProfileViewModel.swift in Sources */,
 				76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */,

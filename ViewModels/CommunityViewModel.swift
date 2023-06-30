@@ -9,17 +9,71 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 class CommunityViewModel: ObservableObject {
     
+
+    
     @Published var userManager = UserViewModel()
+    @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
-    @Published var rcommunities = [RCommunity]()
+    @Published var jCommunities = [Community]()
+    @Published var rcommunities = [Community]()
     @Published var members = [communityMember]()
+    let storageRef = Storage.storage().reference()
+    @Published var badge = ""
+    @Published var showBadge = false
+  
     var db = Firestore.firestore()
+    
+    init() {
+        getJoinedCommunity()
+        getCommunity()
+    }
     
     // MARK: - Community Operations
     
+    func dateFormatting() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
+        let mydt = dateFormatter.string(from: date).capitalized
+
+        return "\(mydt)"
+    }
+    func getCommunity(id: String, completion: @escaping (Community?) -> Void){
+        db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("Error getting community: \(error)")
+                completion(nil)
+                return
+            }
+            
+            guard let document = documentSnapshot else {
+                print("Communities document does not exist")
+                completion(nil)
+                return
+            }
+            
+            if document.exists {
+                let data = document.data()
+                let documentID = document.documentID
+                let title = data?["title"] as? String ?? ""
+                let image = data?["image"] as? String ?? ""
+                let description = data?["description"] as? String ?? ""
+                let category = data?["category"] as? String ?? ""
+                let community = Community(id: documentID, title: title, description: description, image: image, category: category)
+                
+                print("Retrieved user: \(community)")
+                completion(community)
+            } else {
+                print("Communities document does not exist")
+                completion(nil)
+            }
+        }
+    }
+   
     func getCommunity() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -43,21 +97,41 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func addCommunity(title: String, description: String, image: String, category: String) {
+    func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
         
-        do {
-            let newCommunity = Community(id: uid, title: title, description: description, image: image, category: category)
-            try db.collection("communities").document(uid).setData(from: newCommunity)
-        } catch {
-            print(error)
+        let date = dateFormatting()
+        let filePath = "\(date)-\(url.lastPathComponent)"
+        storageRef.child("communities").child(filePath).putFile(from: url, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Error uploading file to Firebase Storage: \(error.localizedDescription)")
+            } else {
+                print("File uploaded successfully.")
+                
+                self.storageRef.child("communities/\(filePath)").downloadURL { (url, error) in
+                    if let error = error {
+                        print("Error getting download URL: \(error.localizedDescription)")
+                    } else if let downloadURL = url {
+                        print("Download URL: \(downloadURL.absoluteString)")
+                        do {
+                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category)
+                            try self.db.collection("communities").document(uid).setData(from: newCommunity)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
         }
+        
+        
+        
     }
     
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
-                let newMember = communityMember(id: user.id, name: user.name)
+                let newMember = communityMember(id: user.id, name: user.name, image: user.image)
                 
                 let membersRef = self?.db.collection("communities").document(communityID).collection("members")
                 
@@ -86,6 +160,8 @@ class CommunityViewModel: ObservableObject {
                         do {
                             try membersRef?.document().setData(from: newMember)
                             print("Successfully joined the community")
+                            
+                            self!.validateBadge(communityID: communityID)
                         } catch {
                             print("Error joining community: \(error.localizedDescription)")
                         }
@@ -93,6 +169,32 @@ class CommunityViewModel: ObservableObject {
                 }
             } else {
                 print("No user found")
+            }
+        }
+    }
+    
+    func validateBadge(communityID: String){
+        if jCommunities.count == 2 {
+            bvm.validateBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD") { b in
+                if !b{
+                    self.showBadge = true
+                    self.badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FLearning%20Luminary.png?alt=media&token=2a8f8697-913b-4daa-a68f-6e2e2d49386d"
+                    self.bvm.achieveBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD")
+                }
+            }
+        }else {
+            getCommunity(id: communityID) { c in
+                for jc in self.jCommunities {
+                    if jc.category != c?.category{
+                        self.bvm.validateBadge(badgeId: "k8MdhLedia7wj4nbZ0D9") { b in
+                            if !b{
+                                self.showBadge = true
+                                self.badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FEngaged%20Explorer.png?alt=media&token=5e4d4f27-74ec-4b43-b61d-6f57ad897cde"
+                                self.bvm.achieveBadge(badgeId: "k8MdhLedia7wj4nbZ0D9")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -172,7 +274,7 @@ class CommunityViewModel: ObservableObject {
                         print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image)")
                     }
                         DispatchQueue.main.async {
-                            self?.communities = joinedCommunities
+                            self?.jCommunities = joinedCommunities
                     }
                 }
             }
@@ -190,9 +292,10 @@ class CommunityViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
                 let id = data["id"] as? String ?? ""
+                let image = data["image"] as? String ?? ""
                 print(name)
                 print(id)
-                return communityMember(id: id, name: name)
+                return communityMember(id: id, name: name, image: image)
                 
                 
             }
@@ -225,7 +328,7 @@ class CommunityViewModel: ObservableObject {
                     }
                     
                     // Handle the retrieved communities here
-                    let communities = documents.compactMap { (queryDocumentSnapshot) -> RCommunity? in
+                    let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
                         let documentID = queryDocumentSnapshot.documentID
                         let data = queryDocumentSnapshot.data()
                         let title = data["title"] as? String ?? ""
@@ -233,7 +336,7 @@ class CommunityViewModel: ObservableObject {
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
                         
-                        return RCommunity(id: documentID, title: title, description: description, image: image, category: category)
+                        return Community(id: documentID, title: title, description: description, image: image, category: category)
                     }
                     
                     DispatchQueue.main.async {
