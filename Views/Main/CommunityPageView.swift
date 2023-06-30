@@ -90,6 +90,8 @@ struct CommunityPageView: View {
             .onAppear {
                 communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
+//                UserViewModel().updateCategory(category: "tEST")
+                UserViewModel().deleteCategory(categoryToDelete: "tST")
             }
     }
 }
