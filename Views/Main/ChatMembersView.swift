@@ -15,29 +15,33 @@ struct ChatMembersView: View {
     
     var body: some View {
         ZStack{
-            
-          
-            
-            //Title
-            Text("Community Members")
-                .fontWeight(.bold)
-                .font(.system(size: 21))
-                .padding(.top)
-
-            //Clock Image
-            Image(systemName: "person.3.fill")
-                .resizable()
-                .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
-                .frame(width: 200,height: 108)
-                .aspectRatio(contentMode: .fit)
-                .padding(EdgeInsets(top: 46, leading: 0, bottom: 62, trailing: 0))
-            //Members List
-            List(communityViewModel.members, id: \.id){ member in
-                MembersBubbleComponent(member: member)
-
+            GeometryReader{ geometry in
+                
+                
+                //Title
+                Text("Community Members")
+                    .fontWeight(.bold)
+                    .font(.system(size: 21))
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
+                
+                //Clock Image
+                Image(systemName: "person.3.fill")
+                    .resizable()
+                    .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
+                    .frame(width: 200,height: 108)
+                    .aspectRatio(contentMode: .fit)
+                    .position(x: geometry.size.width / 2 , y : geometry.size.height * 0.25)
+                //Members List
+                
+                List(communityViewModel.members, id: \.id){ member in
+                    MembersBubbleComponent(member: member)
+                    
+                }.frame(width: geometry.size.width * 0.9 , height: geometry.size.height * 0.6)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
+                .listStyle(.plain)
+                
             }
-
-            
         }.onAppear{
             communityViewModel.getMembers(communityId: communityID)
         }
