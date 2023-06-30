@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatMembersView: View {
     @Binding var communityID: String
     @StateObject var communityViewModel: CommunityViewModel
+//    @State private var memberCount: Int = 0
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,6 +26,9 @@ struct ChatMembersView: View {
                     .frame(width: 200, height: 108)
                     .aspectRatio(contentMode: .fit)
                     .position(x: geometry.size.width / 2 , y : geometry.size.height * 0.25)
+                
+                Text("Total Member : \(communityViewModel.memberCount)")
+              
                 
                 membersList
                     .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
@@ -45,6 +49,7 @@ struct ChatMembersView: View {
     private var membersList: some View {
         List(communityViewModel.members, id: \.id) { member in
             MembersBubbleComponent(member: member)
+            
         }
     }
 }
