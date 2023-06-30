@@ -65,6 +65,7 @@ struct CommunityPageView: View {
                 }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
                     .listStyle(.plain)
+                    .scrollIndicators(.hidden)
                 
                 Text("Joined Community : ")
                     .font(.system(size: 20))
@@ -76,9 +77,13 @@ struct CommunityPageView: View {
                         showCommunityDetail = true
                     }
                     
-                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
+                }
+                .frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.75)
                     .listStyle(.plain)
+                    .scrollIndicators(.hidden)
+                
+        
                 
                 
                 

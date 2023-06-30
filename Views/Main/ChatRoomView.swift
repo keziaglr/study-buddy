@@ -21,7 +21,7 @@ struct ChatRoomView: View {
             VStack (spacing: 0){
                 
                 Rectangle()
-                    .fill(Color(red: 0.439, green: 0.843, blue: 0.984))
+                    .fill(Color("DarkBlue"))
                     .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info

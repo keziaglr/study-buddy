@@ -103,15 +103,15 @@ struct SetScheduleView: View {
                     }
 //                    .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
                 }
-                .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 10, trailing: 0))
                 
                 
                 Button {
                     addEventToCalendar()
                 } label: {
                     Text("Add to Calendar")
-                        .fontWeight(.bold)
-                        .font(.system(size: 19))
+                        .fontWeight(.medium)
+                        .font(.system(size: 18))
                 }
                 Spacer()
                 
