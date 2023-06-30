@@ -153,6 +153,7 @@ class LibraryViewModel: ObservableObject {
                     if !hasBadge {
                         self.checkResearchGuruBadge()
                     }
+                    NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
                 }
                 // Handle success case here
             }
@@ -167,15 +168,21 @@ class LibraryViewModel: ObservableObject {
         
         return currentDateComponents == dateComponents
     }
+    
+    var filteredLibraries: [Library] {
+        let user = Auth.auth().currentUser?.uid
+        return libraries.filter { $0.user == user }
+    }
 
     
     func checkResearchGuruBadge() {
-        let userLibraries = libraries.filter { $0.user == Auth.auth().currentUser?.uid }
+        let userLibraries = filteredLibraries
         
         let currentDayUserLibraries = userLibraries.filter { isSameDayAsCurrentDate(date: $0.dateCreated) }
         
         if currentDayUserLibraries.count == 5 {
             showAchievedResearchGuruBadge = true
+            bm.achieveBadge(badgeId: getResearchGuruBadgeID())
         } else {
             showAchievedResearchGuruBadge = false
         }
@@ -195,14 +202,14 @@ class LibraryViewModel: ObservableObject {
             "type" : newFile.type,
             "user" : newFile.user
         ])
-        NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+        libraries.append(newFile)
     }
     
     
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
+        dateFormatter.dateFormat = "ddMMyyyyHHmmss"//"EE" to get short style
         let mydt = dateFormatter.string(from: date).capitalized
 
         return "\(mydt)"
