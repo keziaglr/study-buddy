@@ -25,12 +25,9 @@ struct StudyScheduleComponent: View {
             
             //Schedule
             ZStack {
-                Capsule()
-                    .foregroundColor(.white)
-                    .frame(width: 83, height: 25)
-                
                 Text(community.startDate != nil ? community.startDate!.formatted(.dateTime.hour().minute()) : "N/A")
                     .fontWeight(.bold)
+                    .foregroundColor(Color.white)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
         }
