@@ -74,7 +74,9 @@ struct LoginPageView: View {
                     }
                     .navigationDestination(isPresented: $avm.authenticated) {
                         TabBarNavigation()
+//                        InterestPageView()
                     }
+                
                 }
         }.navigationBarBackButtonHidden()
     }

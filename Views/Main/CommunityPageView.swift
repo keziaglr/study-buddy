@@ -31,13 +31,6 @@ struct CommunityPageView: View {
             GeometryReader { geometry in
                 
                 HeaderComponent(text: "Your Learning Squad!")
-                NavigationLink {
-                    DummyUI(CommunityViewModel: CommunityViewModel(), communityID: .constant("1qVFL6zpyxdDpO5TpSPo"))
-                } label: {
-                    Text("next")
-                }.position(x: geometry.size.width/2 , y: geometry.size.height * 0.1)
-                
-                
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 50)
@@ -65,7 +58,9 @@ struct CommunityPageView: View {
                     .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
                 
                 List(communityViewModel.rcommunities) { community in
-                    Text(community.id)
+                    CommunityCell(community: community) {
+                        communityViewModel.joinCommunity(communityID: community.id)
+                    }
                     
                 }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
@@ -95,14 +90,7 @@ struct CommunityPageView: View {
             .onAppear {
                 communityViewModel.getRecommendation()
                 communityViewModel.getJoinedCommunity()
-                //                communityViewModel.getCommunity()
             }
     }
 }
 
-//struct CommunityPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CommunityPageView(communityViewModel: CommunityViewModel(), showCommunityDetail: .constant(false))
-//
-//    }
-//}

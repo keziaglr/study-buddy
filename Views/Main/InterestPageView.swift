@@ -14,17 +14,17 @@ struct InterestPageView: View {
     @State private var selectedPills: Set<String> = []
     @State private var uvm = UserViewModel()
     @State private var showHome = false
-    @State private var user = UserModel(id: "", name: "", email: "", password: "", image: "", category: [], badges:[])
+//    @State private var user = UserModel(id: "", name: "", email: "", password: "", image: "", category: [], badges:[])
     var body: some View {
 
         NavigationStack {
             VStack {
                 GeometryReader { geometry in
-                    HeaderComponent(text: "Hello \(user.name)!")
+                    HeaderComponent(text: "Hello ")
                         .onAppear{
-                            uvm.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
-                                self.user = user!
-                            }
+//                            uvm.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
+//                                self.user = user!
+//                            }
                         }
                     
                     HStack {
