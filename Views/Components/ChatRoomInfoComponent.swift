@@ -28,7 +28,7 @@ struct ChatRoomInfoComponent: View {
                         .resizable()
                         .foregroundColor(Color.white)
                         .frame(width: 30, height: 30)
-                        .padding(EdgeInsets(top: 10, leading: UIScreen.main.bounds.width*0.043257, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 20, leading: UIScreen.main.bounds.width*0.043257, bottom: 0, trailing: 0))
                     }
                 
                 //Profile Picture
@@ -75,7 +75,7 @@ struct ChatRoomInfoComponent: View {
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
             }
-            .background(Color(red: 0.439, green: 0.843, blue: 0.984))
+            .background(Color("DarkBlue"))
             .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }

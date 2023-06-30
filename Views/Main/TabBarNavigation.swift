@@ -18,14 +18,14 @@ struct TabBarNavigation: View {
                             CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
                         }
                         .tabItem {
-                            Image(systemName: "person.2.circle.fill")
+                            Image(systemName: "person.2.fill")
                             Text("Community")
                         }
                         NavigationView {
                             DiscoverPageView(communityViewModel: CommunityViewModel())
                         }
                         .tabItem {
-                            Image(systemName: "magnifyingglass.circle.fill")
+                            Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
                         
@@ -33,13 +33,13 @@ struct TabBarNavigation: View {
                             ProfilePageView()
                         }
                         .tabItem {
-                            Image(systemName: "person.crop.circle.fill")
+                            Image(systemName: "person.fill")
                             Text("Profile")
                         }
                     }.navigationBarBackButtonHidden()
                         .background(Color.black)
             }.navigationDestination(isPresented: $showTabView) {
-                ChatRoomView(showTabView: $showTabView, community: community)
+                ChatRoomView(manager: ChatViewModel(), showTabView: $showTabView, community: $community)
             }
         }
     }

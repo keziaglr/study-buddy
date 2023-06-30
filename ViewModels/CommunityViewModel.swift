@@ -59,7 +59,9 @@ class CommunityViewModel: ObservableObject {
                 let image = data?["image"] as? String ?? ""
                 let description = data?["description"] as? String ?? ""
                 let category = data?["category"] as? String ?? ""
-                let community = Community(id: documentID, title: title, description: description, image: image, category: category)
+                let startDate = data?["startDate"] as? Date ?? nil
+                let endDate = data?["endDate"] as? Date ?? nil
+                let community = Community(id: documentID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
                 
                 print("Retrieved user: \(community)")
                 completion(community)
@@ -110,7 +112,7 @@ class CommunityViewModel: ObservableObject {
                     } else if let downloadURL = url {
                         print("Download URL: \(downloadURL.absoluteString)")
                         do {
-                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category)
+                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category, startDate: nil, endDate: nil)
                             try self.db.collection("communities").document(uid).setData(from: newCommunity)
                         } catch {
                             print(error)
@@ -252,12 +254,15 @@ class CommunityViewModel: ObservableObject {
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        
-                        let community = Community(id: communityID, title: title, description: description, image: image, category: category)
+                        let startDateTimestamp = data["startDate"] as? Timestamp ?? nil
+                        let startDate = (startDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(startDateTimestamp!.seconds)) : nil
+                        let endDateTimestamp = data["endDate"] as? Timestamp ?? nil
+                        let endDate = (endDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(endDateTimestamp!.seconds)) : nil
+                        let community = Community(id: communityID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
                         
                         joinedCommunities.append(community) // Add the joined community to the array
                         
-                        print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image)")
+                        print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image) \(endDateTimestamp) \(startDateTimestamp)")
                     }
                     DispatchQueue.main.async {
                         self?.jCommunities = joinedCommunities
@@ -316,7 +321,6 @@ class CommunityViewModel: ObservableObject {
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        
                         return Community(id: documentID, title: title, description: description, image: image, category: category)
                     }
                     
@@ -329,6 +333,19 @@ class CommunityViewModel: ObservableObject {
             }
         }
     }
-    
-    
+  
+    func setSchedule(startDate: Date, endDate: Date, communityID: String) {
+        let data: [String: Any] = [
+            "startDate": startDate,
+            "endDate": endDate
+        ]
+        
+        self.db.collection("communities").document(communityID).updateData(data) { error in
+            if let error = error {
+                print("Error updating schedule: \(error)")
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+            }
+        }
+    }
 }

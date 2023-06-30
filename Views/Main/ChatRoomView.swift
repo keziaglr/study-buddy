@@ -15,20 +15,20 @@ import Firebase
 struct ChatRoomView: View {
     @ObservedObject var manager : ChatViewModel = ChatViewModel()
     @Binding var showTabView : Bool
-    @State var community : Community
+    @Binding var community : Community
     
     var body: some View {
             VStack (spacing: 0){
                 
                 Rectangle()
-                    .fill(Color(red: 0.439, green: 0.843, blue: 0.984))
+                    .fill(Color("DarkBlue"))
                     .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
                 ChatRoomInfoComponent(showTabView: $showTabView, community: $community, communityId: $community.id)
                 
                 //Study Schedule
-                StudyScheduleComponent()
+                StudyScheduleComponent(community: $community)
                 
                 //Chat Window
                 
