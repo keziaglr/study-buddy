@@ -25,33 +25,13 @@ struct CommunityPageView: View {
     }
     
     var body: some View {
-        
-        
         ZStack {
             GeometryReader { geometry in
                 
                 HeaderComponent(text: "Your Learning Squad!")
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 50)
-                        .frame(width: geometry.size.width * 0.92, height: 51)
-                        .foregroundColor(Color("Orange"))
-                    
-                    RoundedRectangle(cornerRadius: 50)
-                        .frame(width: geometry.size.width * 0.9 , height: 45)
-                        .foregroundColor(Color("Gray"))
-                    
-                    HStack {
-                        Spacer()
-                        TextField("Search Your Community Here", text: $text)
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                    .padding(.horizontal)
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                .position(x: geometry.size.width/2 , y: geometry.size.height * 0.22)
+                SearchBar(text: $text)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                 
                 Text("Recommended Community : ")
                     .font(.system(size: 20))
@@ -79,11 +59,6 @@ struct CommunityPageView: View {
                 }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.75)
                     .listStyle(.plain)
-                
-                
-                
-                
-                
             }
             
         }.ignoresSafeArea()

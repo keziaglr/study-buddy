@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 
 class CommunityViewModel: ObservableObject {
-    
+    @Published var memberCount: Int = 0
     
     @Published var userManager = UserViewModel()
     @Published var bvm = BadgeViewModel()
@@ -76,6 +76,8 @@ class CommunityViewModel: ObservableObject {
                 print("No Documents")
                 return
             }
+            
+            
             let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
                 let documentID = queryDocumentSnapshot.documentID
                 let data = queryDocumentSnapshot.data()
@@ -282,6 +284,7 @@ class CommunityViewModel: ObservableObject {
             }
             DispatchQueue.main.async {
                 self?.members = members
+                self?.memberCount = members.count
             }
         }
     }
