@@ -51,99 +51,38 @@ struct CommunityPageView: View {
                     .font(.system(size: 20))
                     .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
                 
-                List(filteredCommunities) { community in
-                    CommunityCell2(community: community){
-                        self.community = community
-                        showCommunityDetail = true
-                    
-                    }.listRowSeparator(.hidden)
-                }
-                .frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.75)
+                if filteredCommunities.isEmpty {
+                    Image("placeholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: geometry.size.width * 0.5)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                    Text("You haven't joined any communities yet.")
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
+                } else {
+                    List(filteredCommunities) { community in
+                        JoinedCommunityCell(community: community) {
+                            self.community = community
+                            showCommunityDetail = true
+                        }
+                        .listRowSeparator(.hidden)
+                    }
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
                     .listStyle(.plain)
                     .scrollIndicators(.hidden)
-                
-        
-                
-                
-                
-                
-                
+                }
             }
-            
         }.ignoresSafeArea()
             .onAppear {
-                communityViewModel.getRecommendation()
+                communityViewModel.userRecommendation()
                 communityViewModel.getJoinedCommunity()
             }
     }
 }
 
-struct CommunityCell2: View {
-    let community: Community
-    let joinAction: () -> Void
-    
-    var body: some View {
-        ZStack {
-            communityImage2
-            VStack(alignment: .leading) {
-                Spacer()
-                communityTitle2
-                Spacer()
-                memberCount2
-                Spacer()
-                openButton
-                Spacer()
-             
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.1)
-            .padding(.leading, UIScreen.main.bounds.width * 0.052)
-            .foregroundColor(.white)
-        }
-    }
-    
-    private var communityImage2: some View {
-        AsyncImage(url: URL(string: community.image)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
-                }
-        } placeholder: {
-            ProgressView()
-        }
-    }
-    
-    private var communityTitle2: some View {
-        HStack {
-            Text(community.title)
-                .fontWeight(.bold)
-                .font(.system(size: 19))
-                .shadow(radius: 6, x: 2, y: 2)
-            Spacer()
-        }
-    }
-    
-    private var memberCount2: some View {
-        HStack {
-            Text("0") // Replace with the actual member count value
-                .fontWeight(.medium)
-                .font(.system(size: 14))
-        }
-    }
-    
-    private var openButton: some View {
-        HStack {
-            Button(action: joinAction) {
-                CustomRoundedButton(text: "Open")
-            }
-        }
+struct CommunityPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")), showCommunityDetail: .constant(false))
     }
 }
-

@@ -51,8 +51,14 @@ struct DiscoverPageView: View {
                         .scrollIndicators(.hidden)
 
                 }else {
+                    Image("placeholder")
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
+                    Text("No Result Found")
+                        .bold()
+                        .font(.system(size: 26))
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
                     CreateCommunityButton(showModal: $showModal)
-                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
+                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
 
 
@@ -68,138 +74,6 @@ struct DiscoverPageView: View {
         }.ignoresSafeArea()
     }
 }
-
-struct CommunityCell: View {
-    let community: Community
-    let joinAction: () -> Void
-    
-    var body: some View {
-        ZStack {
-            communityImage
-            VStack(alignment: .leading) {
-                Spacer()
-                communityTitle
-                Spacer()
-                memberCount
-                Spacer()
-                joinButton
-                Spacer()
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.1)
-            .padding(.leading, UIScreen.main.bounds.width * 0.052)
-            .foregroundColor(.white)
-        }
-    }
-    
-    private var communityImage: some View {
-        AsyncImage(url: URL(string: community.image)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
-                }
-        } placeholder: {
-            ProgressView()
-        }
-    }
-    
-    private var communityTitle: some View {
-        HStack {
-            Text(community.title)
-                .fontWeight(.bold)
-                .font(.system(size: 19))
-                .shadow(radius: 6, x: 2, y: 2)
-            Spacer()
-        }
-    }
-    
-    private var memberCount: some View {
-        HStack {
-            Text("0") // Replace with the actual member count value
-                .fontWeight(.medium)
-                .font(.system(size: 14))
-        }
-    }
-    
-    private var joinButton: some View {
-        HStack {
-            Button(action: joinAction) {
-                CustomRoundedButton(text: "JOIN")
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-//struct CommunityCell: View {
-//    let community: Community
-//    let joinAction: () -> Void
-//
-//    var body: some View {
-//        ZStack {
-//            AsyncImage(url: URL(string: community.image)) { image in
-//                image
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-//                    .clipShape(RoundedRectangle(cornerRadius: 15))
-//                    .overlay {
-//                        RoundedRectangle(cornerRadius: 15)
-//                            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-//                            .foregroundColor(Color("DarkBlue"))
-//                            .opacity(0.42)
-//                    }
-//            } placeholder: {
-//                ProgressView()
-//            }
-//
-//            VStack(alignment: .leading) {
-//                Spacer()
-//
-//                HStack {
-//                    Text(community.title)
-//                        .fontWeight(.bold)
-//                        .font(.system(size: 19))
-//                        .shadow(radius: 6, x: 2, y: 2)
-//
-//                    Spacer()
-//                }
-//
-//                Spacer()
-//
-//                HStack {
-//                    Text("0")
-//                        .fontWeight(.medium)
-//                        .font(.system(size: 14))
-//                }
-//
-//                Spacer()
-//
-//                HStack {
-//                    Button(action: joinAction) {
-//                        CustomRoundedButton(text: "JOIN")
-//                    }
-//                }
-//
-//                Spacer()
-//            }
-//            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.1)
-//            .padding(.leading, UIScreen.main.bounds.width * 0.052)
-//            .foregroundColor(.white)
-//        }
-//    }
-//}
 
 struct DiscoverPageView_Previews: PreviewProvider {
     static var previews: some View {
