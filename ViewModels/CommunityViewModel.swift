@@ -13,35 +13,33 @@ import FirebaseStorage
 
 class CommunityViewModel: ObservableObject {
     
-
-    
+    @Published var memberCount: Int = 0
     @Published var userManager = UserViewModel()
     @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var jCommunities = [Community]()
     @Published var rcommunities = [Community]()
     @Published var members = [communityMember]()
-    let storageRef = Storage.storage().reference()
     @Published var badge = ""
     @Published var showBadge = false
-  
     var db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     
     init() {
         getJoinedCommunity()
         getCommunity()
     }
     
-    // MARK: - Community Operations
-    
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
         let mydt = dateFormatter.string(from: date).capitalized
-
+        
         return "\(mydt)"
     }
+    
+    //MARK GET SPECIFIC COMMUNITY
     func getCommunity(id: String, completion: @escaping (Community?) -> Void){
         db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -49,7 +47,6 @@ class CommunityViewModel: ObservableObject {
                 completion(nil)
                 return
             }
-            
             guard let document = documentSnapshot else {
                 print("Communities document does not exist")
                 completion(nil)
@@ -63,7 +60,9 @@ class CommunityViewModel: ObservableObject {
                 let image = data?["image"] as? String ?? ""
                 let description = data?["description"] as? String ?? ""
                 let category = data?["category"] as? String ?? ""
-                let community = Community(id: documentID, title: title, description: description, image: image, category: category)
+                let startDate = data?["startDate"] as? Date ?? nil
+                let endDate = data?["endDate"] as? Date ?? nil
+                let community = Community(id: documentID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
                 
                 print("Retrieved user: \(community)")
                 completion(community)
@@ -73,13 +72,16 @@ class CommunityViewModel: ObservableObject {
             }
         }
     }
-   
+    
+    
+    //MARK GET ALL COMMUNITY
     func getCommunity() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Documents")
                 return
             }
+            
             
             let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
                 let documentID = queryDocumentSnapshot.documentID
@@ -97,9 +99,9 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK ADD NEW COMMUNITY
     func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
-        
         let date = dateFormatting()
         let filePath = "\(date)-\(url.lastPathComponent)"
         storageRef.child("communities").child(filePath).putFile(from: url, metadata: nil) { metadata, error in
@@ -114,7 +116,7 @@ class CommunityViewModel: ObservableObject {
                     } else if let downloadURL = url {
                         print("Download URL: \(downloadURL.absoluteString)")
                         do {
-                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category)
+                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category, startDate: nil, endDate: nil)
                             try self.db.collection("communities").document(uid).setData(from: newCommunity)
                         } catch {
                             print(error)
@@ -123,11 +125,10 @@ class CommunityViewModel: ObservableObject {
                 }
             }
         }
-        
-        
-        
     }
     
+    
+    //MARK JOIN COMMUNITY
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
@@ -145,7 +146,6 @@ class CommunityViewModel: ObservableObject {
                         print("You have already joined this community.")
                         return
                     }
-                    
                     membersRef?.getDocuments(completion: { (snapshot, error) in
                         if let error = error {
                             print("Error checking community member count: \(error.localizedDescription)")
@@ -173,6 +173,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK VALIDATE BADGE
     func validateBadge(communityID: String){
         if jCommunities.count == 2 {
             bvm.validateBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD") { b in
@@ -198,16 +199,16 @@ class CommunityViewModel: ObservableObject {
             }
         }
     }
-
-    func removeMemberFromCommunity(communityID: String) {
+    
+    
+    //MARK LEAVE COMMUNITY
+    func leaveCommunity(communityID: String) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
-        
         let membersRef = db.collection("communities").document(communityID).collection("members")
         let query = membersRef.whereField("id", isEqualTo: currentUserID)
-        
         query.getDocuments { [weak self] (querySnapshot, error) in
             if let error = error {
                 print("Error removing member from community: \(error.localizedDescription)")
@@ -227,14 +228,13 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK GET USER JOINED COMMUNITY
     func getJoinedCommunity() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
-        
         let communitiesRef = db.collection("communities")
-        
         communitiesRef.getDocuments { [weak self] (querySnapshot, error) in
             if let error = error {
                 print("Error getting community documents: \(error)")
@@ -245,9 +245,7 @@ class CommunityViewModel: ObservableObject {
                 print("No matching communities found")
                 return
             }
-            
             var joinedCommunities = [Community]() // Create an empty array to store joined communities
-            
             for document in documents {
                 let communityID = document.documentID
                 let membersRef = communitiesRef.document(communityID).collection("members")
@@ -266,28 +264,31 @@ class CommunityViewModel: ObservableObject {
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        
-                        let community = Community(id: communityID, title: title, description: description, image: image, category: category)
+                        let startDateTimestamp = data["startDate"] as? Timestamp ?? nil
+                        let startDate = (startDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(startDateTimestamp!.seconds)) : nil
+                        let endDateTimestamp = data["endDate"] as? Timestamp ?? nil
+                        let endDate = (endDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(endDateTimestamp!.seconds)) : nil
+                        let community = Community(id: communityID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
                         
                         joinedCommunities.append(community) // Add the joined community to the array
                         
-                        print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image)")
+                        print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image) \(endDateTimestamp) \(startDateTimestamp)")
                     }
-                        DispatchQueue.main.async {
-                            self?.jCommunities = joinedCommunities
+                    DispatchQueue.main.async {
+                        self?.jCommunities = joinedCommunities
                     }
                 }
             }
         }
     }
-
+    
+    //MARK GET COMMUNITY MEMBER
     func getMembers(communityId: String) {
         db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Documents")
                 return
             }
-            
             let members = documents.compactMap { (queryDocumentSnapshot) -> communityMember? in
                 let data = queryDocumentSnapshot.data()
                 let name = data["name"] as? String ?? ""
@@ -296,24 +297,22 @@ class CommunityViewModel: ObservableObject {
                 print(name)
                 print(id)
                 return communityMember(id: id, name: name, image: image)
-                
-                
             }
-            
             DispatchQueue.main.async {
                 self?.members = members
+                self?.memberCount = members.count
             }
         }
     }
     
-    func getRecommendation() {
+    //MARK USER RECOMMENDATION
+    func userRecommendation() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
         
         userManager.getUser(id: currentUserID) { user in
-          
             
             if let interest = user?.category {
                 self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot, error) in
@@ -327,7 +326,6 @@ class CommunityViewModel: ObservableObject {
                         return
                     }
                     
-                    // Handle the retrieved communities here
                     let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
                         let documentID = queryDocumentSnapshot.documentID
                         let data = queryDocumentSnapshot.data()
@@ -335,19 +333,32 @@ class CommunityViewModel: ObservableObject {
                         let description = data["description"] as? String ?? ""
                         let image = data["image"] as? String ?? ""
                         let category = data["category"] as? String ?? ""
-                        
                         return Community(id: documentID, title: title, description: description, image: image, category: category)
                     }
                     
                     DispatchQueue.main.async {
                         self.rcommunities = communities
                     }
-                    // Use the retrieved communities as needed
+                    
                     print("Matching Communities: \(communities)")
                 }
             }
         }
     }
-
     
+    //MARK SET SCHEDULE
+    func setSchedule(startDate: Date, endDate: Date, communityID: String) {
+        let data: [String: Any] = [
+            "startDate": startDate,
+            "endDate": endDate
+        ]
+        
+        self.db.collection("communities").document(communityID).updateData(data) { error in
+            if let error = error {
+                print("Error updating schedule: \(error)")
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+            }
+        }
+    }
 }

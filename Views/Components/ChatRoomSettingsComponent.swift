@@ -72,7 +72,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        communityViewModel.removeMemberFromCommunity(communityID: communityId)
+                        communityViewModel.leaveCommunity(communityID: communityId)
                     }) {
                         Label(
                             title: {
@@ -97,7 +97,7 @@ struct ChatRoomSettingsComponent: View {
             }
         }
         .sheet(isPresented: $isSetStudySchedulePresented) {
-            SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge)
+            SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
         }
         .sheet(isPresented: $isViewMembersPresented){
             ChatMembersView(communityID: $communityId, communityViewModel: CommunityViewModel())

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PillsButton: View {
-    @State private var selectedPills: Set<String> = []
+    @Binding var selectedPills: Set<String>
     
     let pills = ["Mathematics", "Physics", "Biology", "Chemistry", "Economics", "Geography", "Sociology", "Law", "History - Social Science", "Computer Science", "Information Technology", "Art", "Graphic Design", "Foreign Languages", "Literature"]
     
@@ -21,8 +21,11 @@ struct PillsButton: View {
                             Button(action: {
                                 if selectedPills.contains(pill) {
                                     selectedPills.remove(pill)
+                                    UserViewModel().deleteCategory(categoryToDelete: pill)
                                 } else {
                                     selectedPills.insert(pill)
+                                    UserViewModel().updateCategory(category: pill)
+                                    
                                 }
                             }) {
                                 Text(pill)
@@ -44,9 +47,9 @@ struct PillsButton: View {
     }
 }
 
-struct PillsButton_Previews: PreviewProvider {
-    static var previews: some View {
-        PillsButton()
-    }
-}
+//struct PillsButton_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PillsButton(selectedPills: .constant(String("Physics")))
+//    }
+//}
 

@@ -13,9 +13,12 @@ struct SetScheduleView: View {
     @Binding var isPresent: Bool
     @Binding var isBadge: Bool
     @Binding var badge: String
-    @State private var StartStudySchedule = Date()
-    @State private var EndStudySchedule = Date()
+    @Binding var community : Community
+    @State var startStudySchedule = Date()
+    @State var endStudySchedule = Date()
     @State var vm = BadgeViewModel()
+    @State var cvm = CommunityViewModel()
+    
     
     var body: some View {
         
@@ -46,11 +49,14 @@ struct SetScheduleView: View {
                     Spacer()
                     
                     //Start Time Picker
-                    DatePicker("", selection: $StartStudySchedule, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("", selection: $startStudySchedule, displayedComponents: [.date, .hourAndMinute])
                         .datePickerStyle(.compact)
                         .labelsHidden()
                         .colorInvert()
                         .colorMultiply(Color.blue)
+                        .onAppear{
+                            startStudySchedule = community.startDate ?? Date()
+                        }
                 }
                 .frame(width: geometry.size.width*0.7557)
                 
@@ -69,17 +75,20 @@ struct SetScheduleView: View {
                     Spacer()
                     
                     //End Time Picker
-                    DatePicker("", selection: $EndStudySchedule, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("", selection: $endStudySchedule, displayedComponents: [.date, .hourAndMinute])
                         .datePickerStyle(.compact)
                         .labelsHidden()
                         .colorInvert()
                         .colorMultiply(Color.blue)
+                        .onAppear{
+                            endStudySchedule = community.endDate ?? Date()
+                        }
                 }
                 .frame(width: geometry.size.width*0.7557)
                 
                 //Set Schedule Button
                 Button {
-                    addEventToCalendar()
+                    cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id)
                 } label: {
                     ZStack {
                         Rectangle()
@@ -94,8 +103,16 @@ struct SetScheduleView: View {
                     }
 //                    .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
                 }
-                .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 10, trailing: 0))
                 
+                
+                Button {
+                    addEventToCalendar()
+                } label: {
+                    Text("Add to Calendar")
+                        .fontWeight(.medium)
+                        .font(.system(size: 18))
+                }
                 Spacer()
                 
             }
@@ -112,9 +129,11 @@ struct SetScheduleView: View {
         eventStore.requestAccess(to: .event) { granted, error in
             if granted && error == nil {
                 let event = EKEvent(eventStore: eventStore)
-                event.title = "Study Schedule"
-                event.startDate = StartStudySchedule
-                event.endDate = EndStudySchedule
+                event.title = "\(community.title)'s Study Schedule"
+                event.startDate = startStudySchedule
+                event.endDate = endStudySchedule
+                
+                
                 
                 event.calendar = eventStore.defaultCalendarForNewEvents
                 
@@ -142,8 +161,8 @@ struct SetScheduleView: View {
 
 
 
-struct SetSchedule_Previews: PreviewProvider {
-    static var previews: some View {
-        SetScheduleView(isPresent: .constant(false), isBadge: .constant(false), badge: .constant("badge1"))
-    }
-}
+//struct SetSchedule_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SetScheduleView(isPresent: .constant(false), isBadge: .constant(false), badge: .constant("badge1"))
+//    }
+//}

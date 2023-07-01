@@ -13,10 +13,7 @@ import Firebase
 
 struct MessageBubbleComponent: View {
     
-//    var contentMessage: String
     var isCurrentUser: Bool
-//    var userName: String
-//    var messageTime: String
     var message: Chat
     @State private var um = UserViewModel()
     @State private var showTime = false
@@ -29,17 +26,6 @@ struct MessageBubbleComponent: View {
         self.message = message
         self.isCurrentUser = Auth.auth().currentUser?.uid != message.user
     }
-    //Gray 0
-    //Color(red: 0.592, green: 0.592, blue: 0.592)
-    
-    //Gray 1
-    //Color(red: 0.941, green: 0.941, blue: 0.941)
-    
-    //Font Color
-    //Color(red: 0.306, green: 0.306, blue: 0.306)
-    
-    //Border Color
-    //Color(red: 0.592, green: 0.592, blue: 0.592)
     
     
     var body: some View {
@@ -52,7 +38,9 @@ struct MessageBubbleComponent: View {
                     image
                         .resizable()
                         .frame(width: 42, height: 42)
+                        .clipShape(Circle())
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                        
                 } placeholder: {
                     ProgressView()
                 }
@@ -66,9 +54,9 @@ struct MessageBubbleComponent: View {
                 Text(user?.name ?? "")
                     .font(.system(size: 14))
                     .fontWeight(.medium)
-                    .padding(EdgeInsets(top: 10, leading: isCurrentUser ? 5 : 30, bottom: 10, trailing: isCurrentUser ? 30 : 5))
+                    .padding(EdgeInsets(top: 5, leading: isCurrentUser ? 5 : 30, bottom: 5, trailing: isCurrentUser ? 30 : 5))
                     .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
-                    .background(Color(red: 0.941, green: 0.941, blue: 0.941))
+                    .background(Color(red: 158/255, green: 215/255, blue: 250/255))
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight] : [.topLeft]))
                 
                 //Message Content
@@ -76,9 +64,9 @@ struct MessageBubbleComponent: View {
                     .font(.system(size: 14))
                     .fontWeight(.medium)
                     .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
                     .frame(minWidth: 100, maxWidth: 238,alignment: .leading)
-                    .background(Color(red: 0.592, green: 0.592, blue: 0.592))
+                    .background(Color(red: 240/255, green: 240/255, blue: 240/255))
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .bottomLeft, .bottomRight]))
                 
                 //Time Stamp
