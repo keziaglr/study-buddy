@@ -73,7 +73,7 @@ struct ChatRoomView: View {
             .navigationBarBackButtonHidden()
             .sheet(isPresented: $manager.showAchievedScholarSupremeBadge) {
                 // TODO: ganti ya pake yang sesuai badgenya
-                BadgeEarnedView()
+                BadgeEarnedView(image: manager.badgeImageURL)
             }
         }
         

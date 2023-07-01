@@ -59,7 +59,7 @@ struct CommunityCell: View {
     
     private var memberCount: some View {
         HStack {
-            Text("0") // Replace with the actual member count value
+            Text(String(community.category)) // Replace with the actual member count value
                 .fontWeight(.medium)
                 .font(.system(size: 14))
         }

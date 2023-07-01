@@ -60,7 +60,7 @@ struct JoinedCommunityCell: View {
     
     private var memberCount2: some View {
         HStack {
-            Text("0") 
+            Text(String(community.category)) // Replace with the actual member count value
                 .fontWeight(.medium)
                 .font(.system(size: 14))
         }
@@ -69,7 +69,7 @@ struct JoinedCommunityCell: View {
     private var openButton: some View {
         HStack {
             Button(action: joinAction) {
-                CustomRoundedButton(text: "Open")
+                CustomRoundedButton(text: "OPEN")
             }
         }
     }

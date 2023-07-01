@@ -18,6 +18,7 @@ final class ChatViewModel: ObservableObject {
     @Published private var um = UserViewModel()
     @Published private var bm = BadgeViewModel()
     @Published var showAchievedScholarSupremeBadge = false
+    @Published var badgeImageURL = ""
     
     
     let db = Firestore.firestore()
@@ -85,15 +86,11 @@ final class ChatViewModel: ObservableObject {
     }
 
     func getScholarSupremeBadgeID() -> String {
-        let scholarSupreme = bm.badges.first { badge in
-            badge.name == "Scholar Supreme"
-        }
-        return scholarSupreme!.id
+        return bm.getBadgeID(badgeName: "Scholar Supreme")
     }
 
     
     func checkScholarSupremeBadge() {
-        // Assuming you have an array of Chat objects
         // Sort the chats array by dateCreated in descending order
         
         let currentUserChats = chats.filter { $0.user == Auth.auth().currentUser?.uid }
@@ -119,9 +116,6 @@ final class ChatViewModel: ObservableObject {
             return
         }
 
-        // Calculate the 7th consecutive day from the start date
-//        let endDate = calendar.date(byAdding: .day, value: -6, to: startDate)!
-
         // Iterate over the sorted chats array and check if there is a chat for each consecutive day
         // Check if there are at least 7 consecutive days
         var currentDate = startDate
@@ -135,7 +129,10 @@ final class ChatViewModel: ObservableObject {
                     // User has been chatting for 7 consecutive days
                     print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
                     bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
-                    showAchievedScholarSupremeBadge = true
+                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
+                        badgeImageURL  = badge!.name
+                        showAchievedScholarSupremeBadge = true
+                    }
                     break
                 }
                 // Move to the next consecutive day

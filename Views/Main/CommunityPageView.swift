@@ -33,8 +33,9 @@ struct CommunityPageView: View {
                 SearchBar(text: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                 
-                Text("Recommended Community : ")
+                Text("Recommended Community")
                     .font(.system(size: 20))
+                    .fontWeight(.medium)
                     .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
                 
                 List(communityViewModel.rcommunities) { community in
@@ -47,8 +48,9 @@ struct CommunityPageView: View {
                     .listStyle(.plain)
                     .scrollIndicators(.hidden)
                 
-                Text("Joined Community : ")
+                Text("Joined Community")
                     .font(.system(size: 20))
+                    .fontWeight(.medium)
                     .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
                 
                 if filteredCommunities.isEmpty {

@@ -25,6 +25,7 @@ struct ProfileHeaderComponent: View {
                         .resizable()
                         .scaledToFit()
                         .ignoresSafeArea()
+                        
                     
                     VStack {
                         //profile image
@@ -94,7 +95,7 @@ struct ProfileHeaderComponent: View {
                                     .cornerRadius(10)
                             }
                         }
-                    }
+                    }.padding(.top, 30)
                 }
                 .edgesIgnoringSafeArea(.all)
                 Spacer()

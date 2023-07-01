@@ -17,9 +17,10 @@ class LibraryViewModel: ObservableObject {
     @Published var showFileViewer = false
     @Published var selectedFileURL: URL? = nil
     @Published var selectedFilePathForDownload: String? = nil
-    @Published var showAchievedResearchGuruBadge = false
+    @Published var showAchievedBadge = false
     @Published private var bm = BadgeViewModel()
     @Published private var um = UserViewModel()
+    @Published var badgeImageURL = ""
     
     let db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
@@ -64,11 +65,13 @@ class LibraryViewModel: ObservableObject {
         // Download the image from Firebase Storage
         starsRef.write(toFile: localURL) { url, error in
             self.isLoading = false
+            self.showFileViewer = false
             if let error = error {
                 print("Error downloading image: \(error.localizedDescription)")
             } else {
                 // Save the image to the Files app
                 print("Success download file")
+                self.checkKnowledgeNavigatorBadge()
             }
         }
     }
@@ -149,7 +152,7 @@ class LibraryViewModel: ObservableObject {
             } else {
                 print("File uploaded successfully.")
                 self.uploadLibraryToFirestore(filePath: filePath, communityID: communityID)
-                self.bm.validateBadge(badgeId: self.getResearchGuruBadgeID()) { hasBadge in
+                self.bm.validateBadge(badgeId: self.bm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
                     if !hasBadge {
                         self.checkResearchGuruBadge()
                     }
@@ -158,35 +161,6 @@ class LibraryViewModel: ObservableObject {
                 // Handle success case here
             }
         }
-    }
-    
-    func isSameDayAsCurrentDate(date: Date) -> Bool {
-        let calendar = Calendar.current
-        
-        let currentDateComponents = calendar.dateComponents([.day, .month, .year], from: Date())
-        let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
-        
-        return currentDateComponents == dateComponents
-    }
-    
-    var filteredLibraries: [Library] {
-        let user = Auth.auth().currentUser?.uid
-        return libraries.filter { $0.user == user }
-    }
-
-    
-    func checkResearchGuruBadge() {
-        let userLibraries = filteredLibraries
-        
-        let currentDayUserLibraries = userLibraries.filter { isSameDayAsCurrentDate(date: $0.dateCreated) }
-        
-        if currentDayUserLibraries.count == 5 {
-            showAchievedResearchGuruBadge = true
-            bm.achieveBadge(badgeId: getResearchGuruBadgeID())
-        } else {
-            showAchievedResearchGuruBadge = false
-        }
-        
     }
     
     
@@ -215,12 +189,51 @@ class LibraryViewModel: ObservableObject {
         return "\(mydt)"
     }
     
-    
-    func getResearchGuruBadgeID() -> String {
-        let scholarSupreme = bm.badges.first { badge in
-            badge.name == "Research Guru"
+    // achieved when download file for the first time
+    func checkKnowledgeNavigatorBadge() {
+        let knowledgeNavigatorBadgeID = self.bm.getBadgeID(badgeName: "Knowledge Navigator")
+        self.bm.validateBadge(badgeId: knowledgeNavigatorBadgeID) { hasBadge in
+            if !hasBadge {
+                self.bm.achieveBadge(badgeId: knowledgeNavigatorBadgeID)
+            }
         }
-        return scholarSupreme!.id
+        bm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
+            self.badgeImageURL = badge?.name ?? ""
+            self.showAchievedBadge = true
+        }
+    }
+    
+    func isSameDayAsCurrentDate(date: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        let currentDateComponents = calendar.dateComponents([.day, .month, .year], from: Date())
+        let dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
+        
+        return currentDateComponents == dateComponents
+    }
+    
+    var filteredLibraries: [Library] {
+        let user = Auth.auth().currentUser?.uid
+        return libraries.filter { $0.user == user }
+    }
+
+    // achieved when upload 5 file in same day
+    func checkResearchGuruBadge() {
+        let userLibraries = filteredLibraries
+        
+        let currentDayUserLibraries = userLibraries.filter { isSameDayAsCurrentDate(date: $0.dateCreated) }
+        
+        if currentDayUserLibraries.count == 5 {
+            let researchGuruBadgeID = bm.getBadgeID(badgeName: "Research Guru")
+            bm.getBadge(id: researchGuruBadgeID) { badge in
+                self.badgeImageURL = badge!.name
+                self.showAchievedBadge = true
+            }
+            bm.achieveBadge(badgeId: researchGuruBadgeID)
+        } else {
+            showAchievedBadge = false
+        }
+        
     }
 
 }
