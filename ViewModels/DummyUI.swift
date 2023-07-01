@@ -26,7 +26,8 @@ struct DummyUI: View {
                 Text(community.description)
                 
             }
-
+            
+            Image("placeholder")
             
             Text(communityID)
             

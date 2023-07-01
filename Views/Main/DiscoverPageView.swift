@@ -51,8 +51,14 @@ struct DiscoverPageView: View {
                         .scrollIndicators(.hidden)
 
                 }else {
+                    Image("placeholder")
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
+                    Text("No Result Found")
+                        .bold()
+                        .font(.system(size: 26))
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
                     CreateCommunityButton(showModal: $showModal)
-                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
+                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
 
 

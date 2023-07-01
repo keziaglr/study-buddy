@@ -51,17 +51,28 @@ struct CommunityPageView: View {
                     .font(.system(size: 20))
                     .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
                 
-                List(filteredCommunities) { community in
-                    CommunityCell2(community: community){
-                        self.community = community
-                        showCommunityDetail = true
-                    
-                    }.listRowSeparator(.hidden)
-                }
-                .frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.35)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.75)
+                if filteredCommunities.isEmpty {
+                    Image("placeholder") // Replace "placeholderImage" with the name of your placeholder image asset
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: geometry.size.width * 0.5)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                    Text("65You haven't joined any communities yet.")
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
+                } else {
+                    List(filteredCommunities) { community in
+                        CommunityCell2(community: community) {
+                            self.community = community
+                            showCommunityDetail = true
+                        }
+                        .listRowSeparator(.hidden)
+                    }
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
                     .listStyle(.plain)
                     .scrollIndicators(.hidden)
+                }
+
                 
         
                 
@@ -147,3 +158,8 @@ struct CommunityCell2: View {
     }
 }
 
+struct CommunityPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")), showCommunityDetail: .constant(false))
+    }
+}
