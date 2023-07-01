@@ -17,13 +17,16 @@ struct BadgeView: View {
     var body: some View {
         ZStack {
             HStack {
-                AsyncImage(url: URL(string: badge.image)) { image in
-                    image
-                        .resizable()
-                        .frame(width: 70, height: 70)
-                } placeholder: {
-                    ProgressView()
-                }
+//                AsyncImage(url: URL(string: badge.image)) { image in
+//                    image
+//                        .resizable()
+//                        .frame(width: 70, height: 70)
+//                } placeholder: {
+//                    ProgressView()
+//                }
+                Image(badge.name)
+                    .resizable()
+                    .frame(width: 70, height: 70)
                 Text("\(badge.name)")
                     .padding(.leading, 20)
                     .fontWeight(.bold)

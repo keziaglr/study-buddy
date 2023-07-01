@@ -22,6 +22,13 @@ class BadgeViewModel: ObservableObject {
         getBadges()
     }
     
+    func getBadgeID(badgeName: String) -> String {
+        let badgeID = self.badges.first { badge in
+            badge.name == badgeName
+        }
+        return badgeID!.id
+    }
+    
     func validateBadge(badgeId: String, completion: @escaping (Bool) -> Void) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             completion(false)
