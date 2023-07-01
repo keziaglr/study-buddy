@@ -44,6 +44,8 @@
 		767B37322A4D2570004B38FE /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 767B37312A4D2570004B38FE /* FirebaseRemoteConfigSwift */; };
 		767B37342A4D2570004B38FE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 767B37332A4D2570004B38FE /* FirebaseStorage */; };
 		767B37362A4D2570004B38FE /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 767B37352A4D2570004B38FE /* FirebaseStorageCombine-Community */; };
+		769DAA112A500551003B5FDC /* CommunityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769DAA102A500551003B5FDC /* CommunityCell.swift */; };
+		769DAA132A5005F4003B5FDC /* JoinedCommunityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769DAA122A5005F4003B5FDC /* JoinedCommunityCell.swift */; };
 		76DDDED12A492AEE00BA9F18 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED02A492AEE00BA9F18 /* TestView.swift */; };
 		76DDDED32A49690500BA9F18 /* DummyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DDDED22A49690500BA9F18 /* DummyUI.swift */; };
 		76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */; };
@@ -103,6 +105,8 @@
 		765CB99F2A4EC60B0032EF3A /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Searchbar.swift; path = Views/Main/Searchbar.swift; sourceTree = SOURCE_ROOT; };
 		765CB9A32A4EC6A40032EF3A /* CreateCommunityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreateCommunityButton.swift; path = Views/Main/CreateCommunityButton.swift; sourceTree = SOURCE_ROOT; };
 		769D72AA2A4D200C004E9E74 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		769DAA102A500551003B5FDC /* CommunityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommunityCell.swift; path = Views/Main/CommunityCell.swift; sourceTree = SOURCE_ROOT; };
+		769DAA122A5005F4003B5FDC /* JoinedCommunityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JoinedCommunityCell.swift; path = Views/Main/JoinedCommunityCell.swift; sourceTree = SOURCE_ROOT; };
 		76DDDED02A492AEE00BA9F18 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestView.swift; path = Views/Main/TestView.swift; sourceTree = SOURCE_ROOT; };
 		76DDDED22A49690500BA9F18 /* DummyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyUI.swift; path = ViewModels/DummyUI.swift; sourceTree = SOURCE_ROOT; };
 		76F50FC22A47CD4500D62826 /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommunityViewModel.swift; path = ViewModels/CommunityViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -242,7 +246,9 @@
 			isa = PBXGroup;
 			children = (
 				83B64C462A46E4F900CACF2C /* CommunityPageView.swift */,
+				769DAA122A5005F4003B5FDC /* JoinedCommunityCell.swift */,
 				83B64C4E2A46E5BE00CACF2C /* DiscoverPageView.swift */,
+				769DAA102A500551003B5FDC /* CommunityCell.swift */,
 				765CB99F2A4EC60B0032EF3A /* Searchbar.swift */,
 				765CB9A32A4EC6A40032EF3A /* CreateCommunityButton.swift */,
 				83B64C502A46E5D000CACF2C /* ProfilePageView.swift */,
@@ -648,6 +654,7 @@
 				ACC72ED62A44C73F0006AE64 /* AuthenticationViewModel.swift in Sources */,
 				83B64C6B2A4D83CF00CACF2C /* PillsButton.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
+				769DAA112A500551003B5FDC /* CommunityCell.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderView.swift in Sources */,
 				83B64C692A4D83B200CACF2C /* InterestPageView.swift in Sources */,
 				ACDAA8F02A4DC009002A2B2B /* ProfileViewModel.swift in Sources */,
@@ -662,6 +669,7 @@
 				8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */,
 				8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */,
 				765CB9A02A4EC60B0032EF3A /* Searchbar.swift in Sources */,
+				769DAA132A5005F4003B5FDC /* JoinedCommunityCell.swift in Sources */,
 				83B64C4B2A46E52800CACF2C /* CardComponent.swift in Sources */,
 				8DB10F622A4A960D000A21F0 /* ChatRoomSettingsComponent.swift in Sources */,
 				AC2AB7432A455618001B45FD /* CustomTextField.swift in Sources */,

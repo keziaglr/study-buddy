@@ -12,18 +12,18 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 
 class CommunityViewModel: ObservableObject {
-    @Published var memberCount: Int = 0
     
+    @Published var memberCount: Int = 0
     @Published var userManager = UserViewModel()
     @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var jCommunities = [Community]()
     @Published var rcommunities = [Community]()
     @Published var members = [communityMember]()
-    let storageRef = Storage.storage().reference()
     @Published var badge = ""
     @Published var showBadge = false
     var db = Firestore.firestore()
+    let storageRef = Storage.storage().reference()
     
     init() {
         getJoinedCommunity()
@@ -39,6 +39,7 @@ class CommunityViewModel: ObservableObject {
         return "\(mydt)"
     }
     
+    //MARK GET SPECIFIC COMMUNITY
     func getCommunity(id: String, completion: @escaping (Community?) -> Void){
         db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -72,6 +73,8 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    
+    //MARK GET ALL COMMUNITY
     func getCommunity() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -96,6 +99,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK ADD NEW COMMUNITY
     func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
         let date = dateFormatting()
@@ -123,6 +127,8 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    
+    //MARK JOIN COMMUNITY
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
@@ -167,6 +173,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK VALIDATE BADGE
     func validateBadge(communityID: String){
         if jCommunities.count == 2 {
             bvm.validateBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD") { b in
@@ -193,7 +200,9 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func removeMemberFromCommunity(communityID: String) {
+    
+    //MARK LEAVE COMMUNITY
+    func leaveCommunity(communityID: String) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
@@ -219,6 +228,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK GET USER JOINED COMMUNITY
     func getJoinedCommunity() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
@@ -272,6 +282,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    //MARK GET COMMUNITY MEMBER
     func getMembers(communityId: String) {
         db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -294,7 +305,8 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    func getRecommendation() {
+    //MARK USER RECOMMENDATION
+    func userRecommendation() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
@@ -333,7 +345,8 @@ class CommunityViewModel: ObservableObject {
             }
         }
     }
-  
+    
+    //MARK SET SCHEDULE
     func setSchedule(startDate: Date, endDate: Date, communityID: String) {
         let data: [String: Any] = [
             "startDate": startDate,

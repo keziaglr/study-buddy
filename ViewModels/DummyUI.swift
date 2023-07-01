@@ -32,14 +32,14 @@ struct DummyUI: View {
             Text(communityID)
             
             Button{
-                CommunityViewModel.removeMemberFromCommunity(communityID: communityID)
+                CommunityViewModel.leaveCommunity(communityID: communityID)
             }label: {
                 Text("Exit")
             }
         }.onAppear{
             //                CommunityViewModel.getMembers(communityId: communityID)
             CommunityViewModel.getMembers(communityId: communityID)
-            CommunityViewModel.getRecommendation()
+            CommunityViewModel.userRecommendation()
             
         }
     }
