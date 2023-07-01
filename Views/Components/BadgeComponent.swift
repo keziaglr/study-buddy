@@ -68,7 +68,7 @@ struct BadgeComponent: View {
         .task {
             self.bm.getBadges()
         }
-        .padding(.top, 330)
+        .padding(.top, 300)
 
     }
 }

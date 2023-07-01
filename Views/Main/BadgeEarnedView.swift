@@ -13,17 +13,6 @@ struct BadgeEarnedView: View {
         VStack {
             ZStack{
                 Image("confetti")
-                //change badge disini
-                
-//                AsyncImage(url: URL(string: image)) { image in
-//                    image
-//                        .resizable()
-//                        .frame(width: 236, height: 236)
-//                } placeholder: {
-//                    Image("badge1")
-//                        .resizable()
-//                        .frame(width: 236, height: 236)
-//                }
                 Image(image)
                     .resizable()
                     .frame(width: 236, height: 236)

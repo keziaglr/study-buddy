@@ -39,7 +39,7 @@ class CommunityViewModel: ObservableObject {
         return "\(mydt)"
     }
     
-    //MARK GET SPECIFIC COMMUNITY
+    //MARK: GET SPECIFIC COMMUNITY
     func getCommunity(id: String, completion: @escaping (Community?) -> Void){
         db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -74,7 +74,7 @@ class CommunityViewModel: ObservableObject {
     }
     
     
-    //MARK GET ALL COMMUNITY
+    //MARK: GET ALL COMMUNITY
     func getCommunity() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -99,7 +99,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK ADD NEW COMMUNITY
+    //MARK: ADD NEW COMMUNITY
     func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
         let date = dateFormatting()
@@ -128,7 +128,7 @@ class CommunityViewModel: ObservableObject {
     }
     
     
-    //MARK JOIN COMMUNITY
+    //MARK: JOIN COMMUNITY
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
@@ -173,25 +173,27 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK VALIDATE BADGE
+    //MARK: VALIDATE BADGE
     func validateBadge(communityID: String){
         if jCommunities.count == 2 {
-            bvm.validateBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD") { b in
+            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary")
+            bvm.validateBadge(badgeId: badgeId) { b in
                 if !b{
                     self.showBadge = true
-                    self.badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FLearning%20Luminary.png?alt=media&token=2a8f8697-913b-4daa-a68f-6e2e2d49386d"
-                    self.bvm.achieveBadge(badgeId: "ucwbWJ8b86D1yS3a3gWD")
+                    self.badge = "Learning Luminary"
+                    self.bvm.achieveBadge(badgeId: badgeId)
                 }
             }
         }else {
+            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
             getCommunity(id: communityID) { c in
                 for jc in self.jCommunities {
                     if jc.category != c?.category{
-                        self.bvm.validateBadge(badgeId: "k8MdhLedia7wj4nbZ0D9") { b in
+                        self.bvm.validateBadge(badgeId: badgeId) { b in
                             if !b{
                                 self.showBadge = true
-                                self.badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FEngaged%20Explorer.png?alt=media&token=5e4d4f27-74ec-4b43-b61d-6f57ad897cde"
-                                self.bvm.achieveBadge(badgeId: "k8MdhLedia7wj4nbZ0D9")
+                                self.badge = "Engaged Explorer"
+                                self.bvm.achieveBadge(badgeId: badgeId)
                             }
                         }
                     }
@@ -201,7 +203,7 @@ class CommunityViewModel: ObservableObject {
     }
     
     
-    //MARK LEAVE COMMUNITY
+    //MARK: LEAVE COMMUNITY
     func leaveCommunity(communityID: String) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
@@ -228,7 +230,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK GET USER JOINED COMMUNITY
+    //MARK: GET USER JOINED COMMUNITY
     func getJoinedCommunity() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
@@ -282,7 +284,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK GET COMMUNITY MEMBER
+    //MARK: GET COMMUNITY MEMBER
     func getMembers(communityId: String) {
         db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -305,7 +307,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK USER RECOMMENDATION
+    //MARK: USER RECOMMENDATION
     func userRecommendation() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
@@ -346,7 +348,7 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
-    //MARK SET SCHEDULE
+    //MARK: SET SCHEDULE
     func setSchedule(startDate: Date, endDate: Date, communityID: String) {
         let data: [String: Any] = [
             "startDate": startDate,

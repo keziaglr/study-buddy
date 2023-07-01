@@ -13,6 +13,7 @@ struct ChatRoomInfoComponent: View {
     @Binding var showTabView : Bool
     @Binding var community : Community
     @Binding var communityId : String
+    @State private var cvm = CommunityViewModel()
     var body: some View {
         
         VStack(spacing: -1){
@@ -51,10 +52,13 @@ struct ChatRoomInfoComponent: View {
                         .foregroundColor(.white)
                     
                     //Number of Members
-                    Text("2 members")
+                    Text("\(cvm.memberCount) members")
                         .fontWeight(.medium)
                         .font(.system(size: 14))
                         .foregroundColor(.white)
+                        .onAppear{
+                            cvm.getMembers(communityId: community.id)
+                        }
                     
                     //Group Description
                     Text(community.description)
