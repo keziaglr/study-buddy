@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ProfilePageView: View {
     var body: some View {
-        ZStack{
-            ProfileHeaderComponent()
-            BadgeComponent()
+        NavigationStack {
+            ZStack{
+                ProfileHeaderComponent()
+                BadgeComponent()
+            }            
         }
     }
 }

@@ -12,7 +12,7 @@ struct CommunityPageView: View {
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
     @Binding var community : Community
-    @Binding var showCommunityDetail : Bool
+    @State var showCommunityDetail : Bool = false
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
@@ -25,66 +25,72 @@ struct CommunityPageView: View {
     }
     
     var body: some View {
-        ZStack {
-            GeometryReader { geometry in
-                
-                HeaderComponent(text: "Your Learning Squad!")
-                
-                SearchBar(text: $text)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
-                
-                Text("Recommended Community")
-                    .font(.system(size: 20))
-                    .fontWeight(.medium)
-                    .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
-                
-                List(communityViewModel.rcommunities) { community in
-                    CommunityCell(community: community) {
-                        communityViewModel.joinCommunity(communityID: community.id)
-                    }.listRowSeparator(.hidden)
+        NavigationStack {
+            ZStack {
+                GeometryReader { geometry in
                     
-                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
-                    .listStyle(.plain)
-                    .scrollIndicators(.hidden)
-                
-                Text("Joined Community")
-                    .font(.system(size: 20))
-                    .fontWeight(.medium)
-                    .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
-                
-                if filteredCommunities.isEmpty {
-                    Image("placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: geometry.size.width * 0.5)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
-                    Text("You haven't joined any communities yet.")
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
-                } else {
-                    List(filteredCommunities) { community in
-                        JoinedCommunityCell(community: community) {
-                            self.community = community
-                            showCommunityDetail = true
+                    HeaderComponent(text: "Your Learning Squad!")
+                    
+                    SearchBar(text: $text)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
+                    
+                    Text("Recommended Community")
+                        .font(.system(size: 20))
+                        .fontWeight(.medium)
+                        .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
+                    
+                    List(communityViewModel.rcommunities) { community in
+                        CommunityCell(community: community) {
+                            communityViewModel.joinCommunity(communityID: community.id)
+                        }.listRowSeparator(.hidden)
+                        
+                    }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
+                        .listStyle(.plain)
+                        .scrollIndicators(.hidden)
+                    
+                    Text("Joined Community")
+                        .font(.system(size: 20))
+                        .fontWeight(.medium)
+                        .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
+                    
+                    if filteredCommunities.isEmpty {
+                        Image("placeholder")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: geometry.size.width * 0.5)
+                            .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                        Text("You haven't joined any communities yet.")
+                            .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
+                    } else {
+                        List(filteredCommunities) { community in
+                            JoinedCommunityCell(community: community) {
+                                self.community = community
+                                showCommunityDetail = true
+                            }
+                            .listRowSeparator(.hidden)
                         }
-                        .listRowSeparator(.hidden)
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                        .listStyle(.plain)
+                        .scrollIndicators(.hidden)
                     }
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
-                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
-                    .listStyle(.plain)
-                    .scrollIndicators(.hidden)
                 }
             }
-        }.ignoresSafeArea()
+            .ignoresSafeArea()
             .onAppear {
                 communityViewModel.userRecommendation()
                 communityViewModel.getJoinedCommunity()
             }
+            .navigationDestination(isPresented: $showCommunityDetail) {
+                ChatRoomView(manager: ChatViewModel(), community: $community)
+            }
+        }
     }
 }
 
 struct CommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")), showCommunityDetail: .constant(false))
+        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")))
     }
 }

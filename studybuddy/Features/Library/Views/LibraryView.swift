@@ -67,6 +67,7 @@ struct LibraryView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button{
+                        print("Library back button clicked")
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "chevron.backward")

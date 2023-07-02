@@ -8,38 +8,36 @@
 import SwiftUI
 
 struct TabBarNavigation: View {
-    @State private var showTabView = false
+//    @State private var showTabView = false
     @State private var community = Community(id: "", title: "", description: "", image: "", category: "")
     var body: some View {
         NavigationStack {
             ZStack{
                     TabView {
-                        NavigationView {
-                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community, showCommunityDetail: $showTabView)
-                        }
+//                        NavigationView {
+                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community)
+//                        }
                         .tabItem {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
-                        NavigationView {
+//                        NavigationView {
                             DiscoverPageView(communityViewModel: CommunityViewModel())
-                        }
+//                        }
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
                         
-                        NavigationView {
+//                        NavigationView {
                             ProfilePageView()
-                        }
+//                        }
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
                         }
                     }.navigationBarBackButtonHidden()
                         .background(Color.black)
-            }.navigationDestination(isPresented: $showTabView) {
-                ChatRoomView(manager: ChatViewModel(), showTabView: $showTabView, community: $community)
             }
         }
     }

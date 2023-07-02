@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatRoomSettingsComponent: View {
     
     @StateObject var communityViewModel : CommunityViewModel
-    @Binding var communityId : String
+//    @Binding var communityId : String
     @Binding var community: Community
     @State private var isSetStudySchedulePresented = false
     @State private var badge = ""
@@ -21,7 +21,7 @@ struct ChatRoomSettingsComponent: View {
     @State var bvm = BadgeViewModel()
     
     var body: some View {
-        NavigationStack{
+//        NavigationStack{
             VStack {
                 Menu {
                     //Set Study Schedule Button
@@ -39,9 +39,10 @@ struct ChatRoomSettingsComponent: View {
                     }
                     
                     //Library Button
-                    Button(action: {
-                        isLibraryButtonPresented = true
-                    }) {
+                    NavigationLink {
+                        LibraryView(communityID: $community.id)
+                        
+                    } label: {
                         Label(
                             title: {
                                 Text("Library")
@@ -50,6 +51,7 @@ struct ChatRoomSettingsComponent: View {
                                 Image(systemName: "book")
                             }
                         )
+                        
                     }
                     
                     //View Members Button
@@ -72,7 +74,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        communityViewModel.leaveCommunity(communityID: communityId)
+                        communityViewModel.leaveCommunity(communityID: community.id)
                     }) {
                         Label(
                             title: {
@@ -92,23 +94,20 @@ struct ChatRoomSettingsComponent: View {
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
                 }
             }
-            .navigationDestination(isPresented: $isLibraryButtonPresented) {
-                LibraryView(communityID: $community.id)
+//            .navigationDestination(isPresented: $isLibraryButtonPresented) {
+//                LibraryView(communityID: $community.id)
+//            }
+            .sheet(isPresented: $isSetStudySchedulePresented) {
+                SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
+            }
+            .sheet(isPresented: $isViewMembersPresented){
+                ChatMembersView(communityID: $community.id, communityViewModel: CommunityViewModel())
+            }
+            .sheet(isPresented: $isBadgeEarned) {
+                BadgeEarnedView(image: badge)
             }
         }
-        .sheet(isPresented: $isSetStudySchedulePresented) {
-            SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
-        }
-        .sheet(isPresented: $isViewMembersPresented){
-            ChatMembersView(communityID: $communityId, communityViewModel: CommunityViewModel())
-        }
-        .sheet(isPresented: $isBadgeEarned) {
-            BadgeEarnedView(image: badge)
-        }
-        
-        
-        
-    }
+//    }
 }
 
 //struct ChatRoomSettingsComponent_Previews: PreviewProvider {

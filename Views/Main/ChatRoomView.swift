@@ -14,10 +14,11 @@ import Firebase
 
 struct ChatRoomView: View {
     @ObservedObject var manager : ChatViewModel = ChatViewModel()
-    @Binding var showTabView : Bool
+//    @Binding var showTabView : Bool
     @Binding var community : Community
     
     var body: some View {
+        NavigationStack {
             VStack (spacing: 0){
                 
                 Rectangle()
@@ -25,7 +26,7 @@ struct ChatRoomView: View {
                     .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
-                ChatRoomInfoComponent(showTabView: $showTabView, community: $community, communityId: $community.id)
+                ChatRoomInfoComponent(community: $community)
                 
                 //Study Schedule
                 StudyScheduleComponent(community: $community)
@@ -50,15 +51,15 @@ struct ChatRoomView: View {
                         }else{
                             Text("Empty messages")
                         }
-
+                        
                     }.padding()
-                    .task {
-                        manager.getChats(communityID: community.id)
-                    }
-                    .onChange(of: manager.lastmessageID) { id in
-                        proxy.scrollTo(id, anchor: .bottom)
-                    }
-
+                        .task {
+                            manager.getChats(communityID: community.id)
+                        }
+                        .onChange(of: manager.lastmessageID) { id in
+                            proxy.scrollTo(id, anchor: .bottom)
+                        }
+                    
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 
@@ -76,7 +77,8 @@ struct ChatRoomView: View {
                 BadgeEarnedView(image: manager.badgeImageURL)
             }
         }
-        
+    }
+    
 }
 
 //struct ContentView_Previews: PreviewProvider {

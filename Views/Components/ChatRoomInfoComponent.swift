@@ -10,10 +10,11 @@ import SwiftUI
 struct ChatRoomInfoComponent: View {
     
     @State private var showStudySchedule = false
-    @Binding var showTabView : Bool
+//    @Binding var showTabView : Bool
     @Binding var community : Community
-    @Binding var communityId : String
+//    @Binding var communityId : String
     @State private var cvm = CommunityViewModel()
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
         VStack(spacing: -1){
@@ -23,7 +24,8 @@ struct ChatRoomInfoComponent: View {
                 
                 //Back Button
                 Button {
-                    showTabView = false
+//                    showTabView = false
+                    presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "chevron.backward.circle")
                         .resizable()
@@ -74,7 +76,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), communityId: $communityId, community: $community)
+                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), community: $community)
 //                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), communityId: $communityId, community: $community)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
