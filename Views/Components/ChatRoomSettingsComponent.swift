@@ -72,7 +72,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        communityViewModel.removeMemberFromCommunity(communityID: communityId)
+                        communityViewModel.leaveCommunity(communityID: communityId)
                     }) {
                         Label(
                             title: {

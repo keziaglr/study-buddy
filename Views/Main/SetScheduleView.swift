@@ -136,16 +136,16 @@ struct SetScheduleView: View {
                 
                 
                 event.calendar = eventStore.defaultCalendarForNewEvents
-                
+                let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
                 do {
                     try eventStore.save(event, span: .thisEvent)
                     print("Event added to calendar")
                     isPresent = false
-                    vm.validateBadge(badgeId: "KqBsiL9I3SetbASzg2sx") { b in
+                    vm.validateBadge(badgeId: badgeId) { b in
                         if !b {
-                            badge = "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/badges%2FCollaborative%20Dynamo.png?alt=media&token=b6e0898b-0e2e-46e2-8c7d-ab89b552f4d5"
+                            badge = "Collaborative Dynamo"
                             isBadge = true
-                            vm.achieveBadge(badgeId: "KqBsiL9I3SetbASzg2sx")
+                            vm.achieveBadge(badgeId: badgeId)
                         }
                     }
                 } catch {
