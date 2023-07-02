@@ -22,6 +22,8 @@ class CommunityViewModel: ObservableObject {
     @Published var members = [communityMember]()
     @Published var badge = ""
     @Published var showBadge = false
+    @Published var showRespon = false
+    @Published var respons = ""
     var db = Firestore.firestore()
     let storageRef = Storage.storage().reference()
     
@@ -143,7 +145,9 @@ class CommunityViewModel: ObservableObject {
                     }
                     
                     if let documents = querySnapshot?.documents, !documents.isEmpty {
-                        print("You have already joined this community.")
+                        self?.respons = "You have already joined this community."
+                        self?.showRespon.toggle()
+                        print(self?.respons)
                         return
                     }
                     membersRef?.getDocuments(completion: { (snapshot, error) in
@@ -153,13 +157,17 @@ class CommunityViewModel: ObservableObject {
                         }
                         
                         if let memberCount = snapshot?.documents.count, memberCount >= 6 {
-                            print("The community already has 6 members. You cannot join at the moment.")
+                            self?.respons = "The community already has 6 members. You cannot join at the moment."
+                            self?.showRespon.toggle()
+                            print(self?.respons)
                             return
                         }
                         
                         do {
                             try membersRef?.document().setData(from: newMember)
-                            print("Successfully joined the community")
+                            self?.respons = "Successfully joined the community"
+                            self?.showRespon.toggle()
+                            print(self?.respons)
                             
                             self!.validateBadge(communityID: communityID)
                         } catch {

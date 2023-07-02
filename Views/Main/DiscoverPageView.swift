@@ -71,6 +71,12 @@ struct DiscoverPageView: View {
                 .sheet(isPresented: $communityViewModel.showBadge) {
                     BadgeEarnedView(image: communityViewModel.badge)
                 }
+                .sheet(isPresented: $communityViewModel.showRespon) {
+                    Text(communityViewModel.respons)
+                        .foregroundColor(.red)
+                        .bold()
+                        .presentationDetents([.medium, .large])
+                }
             }.ignoresSafeArea()
         }
     }
