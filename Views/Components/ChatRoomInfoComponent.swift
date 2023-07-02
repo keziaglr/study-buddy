@@ -27,10 +27,13 @@ struct ChatRoomInfoComponent: View {
 //                    showTabView = false
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Image(systemName: "chevron.backward.circle")
+                    Image(systemName: "chevron.backward")
                         .resizable()
                         .foregroundColor(Color.white)
-                        .frame(width: 30, height: 30)
+                        .scaledToFit()
+                        .frame(height: 20)
+                        .bold()
+//                        .frame(width: 30, height: 30)
                         .padding(EdgeInsets(top: 20, leading: UIScreen.main.bounds.width*0.043257, bottom: 0, trailing: 0))
                     }
                 

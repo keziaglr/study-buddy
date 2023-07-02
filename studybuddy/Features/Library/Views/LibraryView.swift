@@ -13,8 +13,8 @@ import FirebaseFirestore
 struct LibraryView: View {
     @StateObject var vm = LibraryViewModel()
     @Binding var communityID: String
-    @State var showPicker = false
-    @State var pickerType = ""
+    @State var showImagePicker = false
+    @State var showDocPicker = false
     
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
@@ -74,9 +74,12 @@ struct LibraryView: View {
                             .resizable()
                             .scaledToFit()
                             .foregroundColor(.white)
+                            .frame(height: 20)
                             .bold()
                     }
+                    
                 }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack{
                         if self.vm.libraries.count != 0 && !self.vm.isLoading{
@@ -93,14 +96,14 @@ struct LibraryView: View {
                         }
                         Menu{
                             Button {
-                                self.pickerType = "doc"
-                                self.showPicker.toggle()
+//                                self.pickerType = "doc"
+                                self.showDocPicker.toggle()
                             } label: {
                                 Label("Add Document", systemImage: "doc")
                             }
                             Button{
-                                self.pickerType = "image"
-                                self.showPicker.toggle()
+//                                self.pickerType = "image"
+                                self.showImagePicker.toggle()
                             } label: {
                                 Label("Add Photo or Video", systemImage: "photo.on.rectangle")
                             }
@@ -124,16 +127,19 @@ struct LibraryView: View {
             }
             
         }
-        .sheet(isPresented: $showPicker) {
-            if self.pickerType == "doc" {
-                DocumentPickerView(onFilePicked: { url in
-                    self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
-                })
-            } else {
-                ImagePicker(show: $showPicker) { url in
-                    self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
-                }
+        .sheet(isPresented: $showDocPicker, content: {
+            DocumentPickerView(onFilePicked: { url in
+                self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
+            })
+            
+        })
+        .sheet(isPresented: $showImagePicker) {
+//            if self.pickerType == "doc" {
+//            } else {
+            ImagePicker(show: $showImagePicker) { url in
+                self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
             }
+//            }
         }
         .sheet(isPresented: $vm.showFileViewer, content: {
             FileViewerView()
