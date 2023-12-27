@@ -6,57 +6,61 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct OnboardingPageView: View {
     @Binding var changePage : Int
     var body: some View {
-        //TODO: Fix navigation
         ZStack {
-                Image("background_gradient")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                VStack{
-                    Image("onboard1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 260)
-                        .padding(.bottom, 420)
+            Image("background_gradient")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            
+            VStack{
+                Text("Find Perfect Buddy!")
+                    .fontWeight(.bold)
+                    .font(.system(size: 30))
+                    .kerning(0.9)
+                    .foregroundColor(Color("Orange"))
+                    .padding(.top, -320)
+            }
+            
+            ZStack{
+                LottieView("community")
+                    .loopMode(.loop)
+                    .frame(width: 295)
+                    .padding(.bottom, 230)
+            }
+            
+            VStack{
+                Text("Discover, Connect, and Thrive\nwith your Perfect\nStudy Buddy")
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.medium)
+                    .font(.system(size: 24))
+                    .kerning(0.72)
+                    .foregroundColor(Color("Orange"))
+                    .padding(.top, 485)
+                Spacer()
+                Button(action: {
+                    changePage = 2
+                }) {
+                    CustomButton(text: "Login")
                 }
                 
-                VStack{
-                    Text("Find Perfect Buddy!")
-                        .fontWeight(.black)
-                        .font(.system(size: 28))
-                        .foregroundColor(.white)
-                    Text("Discover, Connect, and Thrive\nwith your Perfect\nStudy Buddy")
-                        .multilineTextAlignment(.center)
-                        .fontWeight(.medium)
-                        .font(.system(size: 23))
-                        .foregroundColor(Color("LightBlue"))
-                        .padding(.top, -10)
+                Button(action: {
+                    changePage = 3
+                }) {
+                    CustomButton(text: "Register", primary: false)
                 }
-                
-                VStack{
-                    Spacer()
-                    Button(action: {
-                        changePage = 2
-                    }) {
-                        CustomButton(text: "LOGIN")
-                    }
-                    
-                    Button(action: {
-                        changePage = 3
-                    }) {
-                        CustomButton(text: "REGISTER", primary: false)
-                    }
-                    .padding()
-                    .padding(.bottom, 110)
-                }
+                .padding()
+                .padding(.bottom, 97)
+            }
         }
     }
 }
+
+
 
 struct OnboardingPageView_Previews: PreviewProvider {
     static var previews: some View {
