@@ -30,7 +30,7 @@ struct OnboardingPageView: View {
                 LottieView("community")
                     .loopMode(.loop)
                     .frame(width: 295)
-                    .padding(.bottom, 230)
+                    .padding(.bottom, 232)
             }
             
             VStack{

@@ -33,10 +33,11 @@ struct CommunityPageView: View {
                 SearchBar(text: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                 
-                Text("Recommended Community")
+                Text("Here’s some recommendation for you")
                     .font(.system(size: 20))
-                    .fontWeight(.medium)
-                    .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
+                    .kerning(0.6)
+                    .frame(width: 317, alignment: .leading)
+                    .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.3)
                 
                 List(communityViewModel.rcommunities) { community in
                     CommunityCell(community: community) {
@@ -50,17 +51,22 @@ struct CommunityPageView: View {
                 
                 Text("Joined Community")
                     .font(.system(size: 20))
-                    .fontWeight(.medium)
-                    .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
+                    .kerning(0.6)
+                    .frame(width: 317, alignment: .leading)
+                    .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.55)
                 
                 if filteredCommunities.isEmpty {
+
                     Image("placeholder")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: geometry.size.width * 0.5)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.72)
                     Text("You haven't joined any communities yet.")
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
+                        .frame(maxWidth: 300)
+                        .multilineTextAlignment(.center)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.88)
+
                 } else {
                     List(filteredCommunities) { community in
                         JoinedCommunityCell(community: community) {
