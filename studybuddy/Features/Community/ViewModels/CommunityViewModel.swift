@@ -134,7 +134,7 @@ class CommunityViewModel: ObservableObject {
     func joinCommunity(communityID: String) {
         userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
             if let user = user {
-                let newMember = communityMember(id: user.id, name: user.name, image: user.image)
+                let newMember = communityMember(id: user.id!, name: user.name, image: user.image)
                 
                 let membersRef = self?.db.collection("communities").document(communityID).collection("members")
                 

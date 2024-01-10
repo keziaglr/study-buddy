@@ -8,15 +8,12 @@
 import SwiftUI
 
 struct LoginPageView: View {
-    
-    @State private var email: String = ""
-    @State private var password: String = ""
     // TODO: change to stateObject, create state user variable
-    @ObservedObject private var avm = AuthenticationViewModel()
-    @State private var emailTxt = ""
-    @State private var passwordTxt = ""
+    @EnvironmentObject private var viewModel: AuthenticationViewModel
     @Binding var changePage : Int
     @State var moveToHome = false
+    @State private var showingAlert = false
+    @State private var isLoading = false
     var body: some View {
         NavigationStack {
             ZStack{
@@ -39,20 +36,29 @@ struct LoginPageView: View {
                         .padding(.top, 180)
                         .padding(.bottom, 95)
                     
-                    CustomTextField(label: "Email", placeholder: "Enter your email address", text: $emailTxt)
+                    CustomTextField(label: "Email", placeholder: "Enter your email address", text: $viewModel.email)
                         .padding(.bottom, 10)
-                    CustomTextField(label: "Password", placeholder: "Enter your password", text: $passwordTxt, showText: false)
+                    CustomTextField(label: "Password", placeholder: "Enter your password", text: $viewModel.password, showText: false)
                 }
                 
                 VStack{
                     Spacer()
                     Button(action: {
-                        avm.auth(email: emailTxt, password: passwordTxt)
+                        Task {
+                            do {
+                                isLoading = true
+                                try await viewModel.auth()
+                            } catch {
+                                print(error)
+                                showingAlert = true
+                            }
+                            isLoading = false
+                        }
                     }) {
                         CustomButton(text: "LOGIN")
                     }
-                    .disabled(avm.checkLogin(email: emailTxt, password: passwordTxt))
-                    .opacity(avm.checkLogin(email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
+                    .disabled(viewModel.checkLogin())
+                    .opacity(viewModel.checkLogin() ? 0.5 : 1.0)
                     
                     HStack {
                         Text("Don't have an account yet?")
@@ -71,18 +77,28 @@ struct LoginPageView: View {
                     }
                     .padding(.bottom, 90)
                 }
-                .navigationDestination(isPresented: $avm.authenticated) {
+                .navigationDestination(isPresented: $viewModel.authenticated) {
                     TabBarNavigation()
-                    //                        InterestPageView()
                 }
                 
             }
-        }.navigationBarBackButtonHidden()
+            if isLoading {
+                LoaderComponent()
+            }
+        }
+        .navigationBarBackButtonHidden()
+        .onAppear{
+            viewModel.password = ""
+        }
+        .alert(isPresented: $showingAlert) {
+            Alerts.invalidCredentials
+        }
     }
 }
 
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
         LoginPageView(changePage: .constant(1))
+            .environmentObject(AuthenticationViewModel())
     }
 }

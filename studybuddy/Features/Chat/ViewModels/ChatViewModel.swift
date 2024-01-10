@@ -52,7 +52,7 @@ final class ChatViewModel: ObservableObject {
     func sendChats(text: String, communityID: String){
         um.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
             if let user = user {
-                let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id)
+                let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id!)
                 
                 
                 self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in

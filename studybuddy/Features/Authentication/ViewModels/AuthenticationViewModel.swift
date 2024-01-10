@@ -16,55 +16,31 @@ final class AuthenticationViewModel : ObservableObject {
     let db = Firestore.firestore()
     @Published var authenticated = false
     @Published var created = false
+    @Published var name = ""
+    @Published var email = ""
+    @Published var password = ""
     
-    func auth(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            if let error = error {
-                print("Authentication failed: \(error.localizedDescription)")
-                self!.authenticated = false
-            } else {
-                print("Authentication successful")
-                if let user = authResult?.user {
-                    self!.authenticated = true
-                }
-
-            }
-        }
+    func auth() async throws {
+        try await AuthenticationManager.shared.signInUser(email: email, password: password)
+        authenticated = true
     }
     
-    func createUser(name: String, email: String, password: String) async throws {
+    func createUser() async throws {
         try await AuthenticationManager.shared.createUser(email: email, password: password)
-//        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-//            if let error = error {
-//                print("\(password)")
-//                print("Error creating user: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            if let user = authResult?.user {
-//                let uid = user.uid
-//                do{
-//                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/users%2Fuser.png?alt=media&token=263b2e43-e206-45d6-a75f-7f7170063e41", category: ["placerholder"], badges: [])
-//                    try self.db.collection("users").document(newUser.id).setData(from: newUser)
-//                    self.created = true
-//                }catch{
-//                    print("Error create user: \(error)")
-//                }
-//            }
-//        }
+        created = true
+        addUserToFirestore()
     }
     
-    func addUserToFirestore(name: String, email: String, password: String) {
+    func addUserToFirestore() {
         let user = UserModel(name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
         UserManager.shared.addUser(user: user)
     }
     
-    func checkLogin(email: String, password: String) -> Bool{
+    func checkLogin() -> Bool{
         return email.isEmpty || password.count < 6
     }
     
-    func checkRegister(name: String, email: String, password: String) -> Bool{
+    func checkRegister() -> Bool{
         return name.isEmpty || email.isEmpty || password.count < 6
     }
     

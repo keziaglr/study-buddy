@@ -13,6 +13,7 @@ import Firebase
 
 struct MasterView: View {
     @State var changePage = 1
+    @StateObject var authViewModel = AuthenticationViewModel()
     var body: some View {
         //TODO: Fix navigation
         ZStack{
@@ -21,14 +22,16 @@ struct MasterView: View {
                     OnboardingPageView(changePage: $changePage)
                 }else if changePage == 2 {
                     LoginPageView(changePage: $changePage)
+                        .environmentObject(authViewModel)
                 }else if changePage == 3 {
                     RegisterPageView(changePage: $changePage)
+                        .environmentObject(authViewModel)
                 }
-            }else{
+            } else {
                 TabBarNavigation()
             }
-        }.navigationBarBackButtonHidden()
-        
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
