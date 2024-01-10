@@ -33,25 +33,31 @@ final class AuthenticationViewModel : ObservableObject {
         }
     }
     
-    func createUser(name: String, email: String, password: String){
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            if let error = error {
-                print("\(password)")
-                print("Error creating user: \(error.localizedDescription)")
-                return
-            }
-
-            if let user = authResult?.user {
-                let uid = user.uid
-                do{
-                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/users%2Fuser.png?alt=media&token=263b2e43-e206-45d6-a75f-7f7170063e41", category: ["placerholder"], badges: [])
-                    try self.db.collection("users").document(newUser.id).setData(from: newUser)
-                    self.created = true
-                }catch{
-                    print("Error create user: \(error)")
-                }
-            }
-        }
+    func createUser(name: String, email: String, password: String) async throws {
+        try await AuthenticationManager.shared.createUser(email: email, password: password)
+//        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+//            if let error = error {
+//                print("\(password)")
+//                print("Error creating user: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            if let user = authResult?.user {
+//                let uid = user.uid
+//                do{
+//                    let newUser = UserModel(id: "\(uid)", name: name, email: email, password: password, image: "https://firebasestorage.googleapis.com/v0/b/mc2-studybuddy.appspot.com/o/users%2Fuser.png?alt=media&token=263b2e43-e206-45d6-a75f-7f7170063e41", category: ["placerholder"], badges: [])
+//                    try self.db.collection("users").document(newUser.id).setData(from: newUser)
+//                    self.created = true
+//                }catch{
+//                    print("Error create user: \(error)")
+//                }
+//            }
+//        }
+    }
+    
+    func addUserToFirestore(name: String, email: String, password: String) {
+        let user = UserModel(name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
+        UserManager.shared.addUser(user: user)
     }
     
     func checkLogin(email: String, password: String) -> Bool{

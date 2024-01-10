@@ -53,7 +53,13 @@ struct RegisterPageView: View {
                     VStack{
                         Spacer()
                         Button(action: {
-                            avm.createUser(name: name, email: emailTxt, password: passwordTxt)
+                            Task {
+                                do {
+                                    try await avm.createUser(name: name, email: emailTxt, password: passwordTxt)
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         }) {
                             CustomButton(text: "REGISTER")
                         }
