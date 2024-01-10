@@ -50,15 +50,9 @@ struct FileViewerView: View {
             .edgesIgnoringSafeArea(.all)
             
             if self.vm.showLoader() {
-                LoaderView()
+                LoaderComponent()
             }
         }
     }
 }
 
-struct FileViewerView_Previews: PreviewProvider {
-    static var previews: some View {
-        FileViewerView()
-            .environmentObject(LibraryViewModel())
-    }
-}

@@ -65,7 +65,7 @@ struct LoginPageView: View {
                             Text("Register Now")
                                 .italic()
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("Orange"))
+                                .foregroundColor(Colors.orange)
                                 .font(.system(size: 15))
                         }
                     }

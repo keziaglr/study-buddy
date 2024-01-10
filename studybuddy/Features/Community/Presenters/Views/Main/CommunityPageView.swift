@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommunityPageView: View {
-    
+    //TODO: fix stateobject
     @StateObject var communityViewModel: CommunityViewModel
     @State private var text = ""
     @Binding var community : Community
@@ -31,7 +31,7 @@ struct CommunityPageView: View {
                     
                     HeaderComponent(text: "Your Learning Squad!")
                     
-                    SearchBar(text: $text)
+                    SearchBarComponent(text: $text)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
                     Text("Recommended Community")
@@ -40,7 +40,7 @@ struct CommunityPageView: View {
                         .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
                     
                     List(communityViewModel.rcommunities) { community in
-                        CommunityCell(community: community) {
+                        CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                             communityViewModel.joinCommunity(communityID: community.id)
                         }.listRowSeparator(.hidden)
                         
@@ -64,7 +64,7 @@ struct CommunityPageView: View {
                             .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
                     } else {
                         List(filteredCommunities) { community in
-                            JoinedCommunityCell(community: community) {
+                            CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                 self.community = community
                                 showCommunityDetail = true
                             }

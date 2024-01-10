@@ -35,13 +35,13 @@ struct DiscoverPageView: View {
                 GeometryReader { geometry in
                     HeaderComponent(text: "Explore the network")
                     
-                    SearchBar(text: $text)
+                    SearchBarComponent(text: $text)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
                     
                     if !filteredCommunities.isEmpty {
                         List(filteredCommunities) { community in
-                            CommunityCell(community: community) {
+                            CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                 communityViewModel.joinCommunity(communityID: community.id)
                                 communityID = community.id
                             }.listRowSeparator(.hidden)
@@ -57,7 +57,7 @@ struct DiscoverPageView: View {
                             .bold()
                             .font(.system(size: 26))
                             .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
-                        CreateCommunityButton(showModal: $showModal)
+                        CreateCommunityButtonComponent(showModal: $showModal)
                             .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                     }
                     

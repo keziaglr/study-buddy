@@ -28,7 +28,7 @@ struct LibraryView: View {
                                 Button {
                                     self.vm.showFileViewer(library: library)
                                 } label: {
-                                    DocumentCellView(data: library)
+                                    DocumentCellComponent(data: library)
                                 }
                                 .padding(.vertical, 10)
                                 .listRowSeparator(.hidden)
@@ -55,7 +55,7 @@ struct LibraryView: View {
                 }
                 
                 if self.vm.showLoader() {
-                    LoaderView()
+                    LoaderComponent()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
