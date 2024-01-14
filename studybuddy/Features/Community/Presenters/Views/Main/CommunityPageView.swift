@@ -34,14 +34,15 @@ struct CommunityPageView: View {
                     SearchBarComponent(text: $text)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
-                    Text("Recommended Community")
+                    Text("Here’s some recommendation for you")
                         .font(.system(size: 20))
-                        .fontWeight(.medium)
-                        .position(x: geometry.size.width * 0.425 , y: geometry.size.height * 0.28)
+                        .kerning(0.6)
+                        .frame(width: 317, alignment: .leading)
+                        .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.29)
                     
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack(alignment: .center, spacing: 25) {
-                            ForEach(communityViewModel.rcommunities) { community in CommunityCardComponent(community: community) {
+                            ForEach(communityViewModel.rcommunities) { community in CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                 communityViewModel.joinCommunity(communityID: community.id)
                             }
                             .modifier(ScrollingHStackModifier(items: communityViewModel.rcommunities.count, itemWidth: 302, itemSpacing: 25))
