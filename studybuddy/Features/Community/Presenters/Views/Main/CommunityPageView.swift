@@ -50,11 +50,11 @@ struct CommunityPageView: View {
                         }
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
                     }
-                    
                     Text("Joined Community")
                         .font(.system(size: 20))
-                        .fontWeight(.medium)
-                        .position(x: geometry.size.width * 0.35 , y: geometry.size.height * 0.55)
+                        .kerning(0.6)
+                        .frame(width: 317, alignment: .leading)
+                        .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.55)
                     
                     if filteredCommunities.isEmpty {
                         Image("placeholder")
