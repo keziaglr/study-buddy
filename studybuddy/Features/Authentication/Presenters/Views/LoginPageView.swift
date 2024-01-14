@@ -21,35 +21,33 @@ struct LoginPageView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                Image("background_gradient")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                VStack{
-                    Text("Welcome Back 👋🏼")
-                        .fontWeight(.bold)
-                        .font(.system(size: 30))
-                        .kerning(0.9)
-                        .foregroundColor(Color("Orange"))
-                        .padding(.top, 105)
+                    Image("background_gradient")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     
-                    ZStack{
-                        LottieView("community")
-                            .loopMode(.loop)
-                            .frame(width: 329)
-                            .padding(.bottom, 391)
+                    VStack{
+                        Text("Welcome Back 👋🏼")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .kerning(0.9)
+                            .foregroundColor(Color("Orange"))
+                            .padding(.top, 105)
+                        
+                        ZStack{
+                            LottieView("community")
+                                .loopMode(.loop)
+                                .frame(width: 329)
+                                .padding(.bottom, 391)
 
-                        VStack(spacing: 20) {
-                            CustomTextField(label: "Email", placeholder: "Email", text: $emailTxt)
-                                .padding(.top, 105)
-                            
-                            CustomTextField(label: "Password", placeholder: "Password", text: $passwordTxt, showText: false)
+                            VStack(spacing: 20) {
+                                CustomTextField(label: "Email", placeholder: "Email", text: $emailTxt)
+                                    .padding(.top, 105)
+                                
+                                CustomTextField(label: "Password", placeholder: "Password", text: $passwordTxt, showText: false)
+                            }
                         }
                     }
-                }
-                .disabled(avm.checkLogin(email: emailTxt, password: passwordTxt))
-                .opacity(avm.checkLogin(email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
                     
                     VStack{
                         Spacer()
@@ -64,9 +62,17 @@ struct LoginPageView: View {
                         HStack {
                             Text("Don't have an account yet?")
                                 .italic()
-                                .fontWeight(.bold)
-                                .foregroundColor(Colors.orange)
+                                .fontWeight(.light)
                                 .font(.system(size: 15))
+                            Button{
+                                changePage = 3
+                            } label: {
+                                Text("Register Now")
+                                    .italic()
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("Orange"))
+                                    .font(.system(size: 15))
+                            }
                         }
                         .kerning(0.45)
                         .padding(.bottom, 90)
@@ -75,11 +81,7 @@ struct LoginPageView: View {
                         TabBarNavigation()
 //                        InterestPageView()
                     }
-                    .padding(.bottom, 90)
-                }
-                .navigationDestination(isPresented: $avm.authenticated) {
-                    TabBarNavigation()
-                    //                        InterestPageView()
+                
                 }
         }.navigationBarBackButtonHidden()
     }
