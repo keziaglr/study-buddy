@@ -21,7 +21,7 @@ struct LoginPageView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                    Image("background_gradient")
+                Images.backgroundGradient
                         .resizable()
                         .scaledToFill()
                         .ignoresSafeArea()

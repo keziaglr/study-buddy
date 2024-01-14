@@ -13,21 +13,26 @@ struct CustomButton: View {
     var body: some View {
         if primary {
             Text(text)
-                .frame(width: 302, height: 40)
-                .font(.system(size: 18))
-                .bold()
+                .frame(width: 351, height: 47)
+                .font(.system(size: 20))
+                .fontWeight(.bold)
+                .kerning(0.6)
                 .foregroundColor(.white)
                 .background(Colors.orange)
-            .cornerRadius(10)
+                .cornerRadius(100)
         }else{
             Text(text)
-                .frame(width: 302, height: 40)
-                .font(.system(size: 18))
-                .bold()
-                .foregroundColor(Colors.orange)
+                .frame(width: 351, height: 47)
+                .font(.system(size: 20))
+                .fontWeight(.bold)
+                .kerning(0.6)
+                .foregroundColor(.black)
+                .background(.white)
+                .cornerRadius(100)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: 100)
                         .stroke(Colors.orange, lineWidth: 2)
+                        
                 )
         }
     }
