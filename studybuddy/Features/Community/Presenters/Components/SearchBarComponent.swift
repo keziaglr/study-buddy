@@ -12,23 +12,25 @@ struct SearchBarComponent: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)
-                .frame(width: UIScreen.main.bounds.width * 0.9 , height: UIScreen.main.bounds.height * 0.07)
-                .foregroundColor(Color("Orange"))
+                .frame(width: UIScreen.main.bounds.width * 0.85 , height: UIScreen.main.bounds.height * 0.05)
+                .foregroundColor(Colors.orange)
             
             RoundedRectangle(cornerRadius: 50)
-                .frame(width: UIScreen.main.bounds.width * 0.88 , height: UIScreen.main.bounds.height * 0.06)
+                .frame(width: UIScreen.main.bounds.width * 0.83 , height: UIScreen.main.bounds.height * 0.04)
                 .frame(height: 45)
                 .foregroundColor(Color("Gray"))
             
             HStack {
                 Spacer()
-                TextField("Search Your Community Here", text: $text)
+                TextField("Search your community here...", text: $text)
+                    .italic()
                     .padding(.leading , 20)
                 Button{
                     text = ""
                 }label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.gray)
+                        .padding(.trailing, 10)
                 }
             
                 Spacer()

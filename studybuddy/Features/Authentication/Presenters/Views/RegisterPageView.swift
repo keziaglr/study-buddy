@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct RegisterPageView: View {
     
@@ -19,53 +20,54 @@ struct RegisterPageView: View {
             ZStack{
                 Images.backgroundGradient
                     .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
+                        .scaledToFill()
+                        .ignoresSafeArea()
+
                 VStack{
-                    Images.onboarding1
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 260)
-                        .padding(.bottom, 420)
-                }
-                
-                VStack{
-                    Text("Let’s Get Started!")
-                        .fontWeight(.heavy)
-                        .font(.system(size: 36))
-                        .foregroundColor(.white)
-                        .padding(.top, 180)
-                        .padding(.bottom, 10)
+                    Text("Let's get Started!")
+                        .fontWeight(.bold)
+                        .font(.system(size: 30))
+                        .kerning(0.9)
+                        .foregroundColor(Colors.orange)
+                        .padding(.top, 105)
                     
-                    CustomTextField(label: "Full Name", placeholder: "Enter your full name", text: $viewModel.name)
-                        .padding(.bottom, 10)
-                    
-                    CustomTextField(label: "Email", placeholder: "Enter your email address", text: $viewModel.email)
-                        .padding(.bottom, 10)
-                    
-                    CustomTextField(label: "Password", placeholder: "Enter your password", text: $viewModel.password, showText: false)
-                }
-                
-                VStack{
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            do {
-                                isLoading = true
-                                try await viewModel.createUser()
-                                showingAlert = false
-                            } catch {
-                                print(error)
-                                showingAlert = true
-                            }
-                            isLoading = false
+                    ZStack{
+                        LottieView("community")
+                            .loopMode(.loop)
+                            .frame(width: 329)
+                            .padding(.bottom, 391)
+
+                        VStack(spacing: 20) {
+                            CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
+                                .padding(.top, 105)
+                            
+                            CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
+                            
+                            CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
                         }
-                    }) {
-                        CustomButton(text: "REGISTER")
                     }
-                    .disabled(viewModel.checkRegister())
-                    .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
+                }
+                    
+                    VStack{
+                        Spacer()
+                        Button(action: {
+                            Task {
+                                do {
+                                    isLoading = true
+                                    try await viewModel.createUser()
+                                    showingAlert = false
+                                } catch {
+                                    print(error)
+                                    showingAlert = true
+                                }
+                                isLoading = false
+                            }) {
+                                CustomButton(text: "Register")
+                                    .disabled(viewModel.checkRegister())
+                                    .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
+                            
+                        
+                }
                     
                     HStack {
                         Text("Already have an account yet?")
@@ -80,6 +82,7 @@ struct RegisterPageView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(Colors.orange)
                                 .font(.system(size: 15))
+                            }
                         }
                     }
                     .padding(.bottom, 90)

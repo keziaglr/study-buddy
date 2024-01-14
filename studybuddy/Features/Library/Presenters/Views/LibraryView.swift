@@ -45,7 +45,7 @@ struct LibraryView: View {
                                 Spacer()
                                 HStack{
                                     Spacer()
-                                    Text("No Documents in Cloud !!")
+                                    Text("Library is empty")
                                     Spacer()
                                 }
                                 Spacer()
@@ -61,7 +61,7 @@ struct LibraryView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbarBackground(
-                            Color("DarkBlue"),
+                            Color("LightBlue"),
                             for: .navigationBar)
                         .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
@@ -70,12 +70,10 @@ struct LibraryView: View {
                         print("Library back button clicked")
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Image(systemName: "chevron.backward")
+                        Image(systemName: "arrow.backward")
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(.white)
-                            .frame(height: 20)
-                            .bold()
+                            .foregroundColor(.black)
                     }
                     
                 }
@@ -90,8 +88,7 @@ struct LibraryView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 20)
-                                    .foregroundColor(.white)
-                                    .bold()
+                                    .foregroundColor(.black)
                             }
                         }
                         Menu{
@@ -112,16 +109,15 @@ struct LibraryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
-                                .foregroundColor(.white)
-                                .bold()
+                                .foregroundColor(.black)
                         }
                         
                     }
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Library")
-                        .foregroundColor(.white)
-                        .font(.title3)
+                        .foregroundColor(.black)
+                        .kerning(0.45)
                         .bold()
                 }
             }
@@ -131,6 +127,7 @@ struct LibraryView: View {
             DocumentPickerView(onFilePicked: { url in
                 self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
             })
+            .edgesIgnoringSafeArea(.all) 
             
         })
         .sheet(isPresented: $showImagePicker) {
@@ -139,11 +136,13 @@ struct LibraryView: View {
             ImagePicker(show: $showImagePicker) { url in
                 self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
             }
+            .edgesIgnoringSafeArea(.all)
 //            }
         }
         .sheet(isPresented: $vm.showFileViewer, content: {
             FileViewerView()
                 .environmentObject(vm)
+                .edgesIgnoringSafeArea(.all)
         })
         .onAppear {
             self.vm.updateLibrary(communityID: self.communityID)
@@ -153,6 +152,7 @@ struct LibraryView: View {
         }
         .sheet(isPresented: $vm.showAchievedBadge) {
             BadgeEarnedView(image: vm.badgeImageURL)
+                .edgesIgnoringSafeArea(.all)
         }
     }
     

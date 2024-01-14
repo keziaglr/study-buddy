@@ -34,16 +34,17 @@ struct ProfileHeaderComponent: View {
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 85, height: 85)
+                                    .frame(width: 80, height: 80)
                                     .cornerRadius(15)
-                                    .padding(.bottom, 14)
+                                    .padding(.bottom, 8)
                             } placeholder: {
                             Image("user")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 85, height: 85)
+                                    .frame(width: 80, height: 80)
                                     .cornerRadius(15)
-                                    .padding(.bottom, 14)
+                                    .padding(.top, 21)
+                                    .padding(.bottom, 8)
                             }
                             
                             Button {
@@ -52,8 +53,9 @@ struct ProfileHeaderComponent: View {
                                 ZStack {
                                     Circle()
                                         .fill()
-                                        .foregroundColor(Color("Orange"))
+                                        .foregroundColor(Colors.orange)
                                         .frame(width: 25)
+                                        .fontWeight(.bold)
                                     Image(systemName: "pencil")
                                         .foregroundColor(.white)
                                 }
@@ -65,15 +67,16 @@ struct ProfileHeaderComponent: View {
                         Text(user?.name ?? "")
                             .fontWeight(.bold)
                             .font(.system(size: 20))
-                            .foregroundColor(.white)
-                            .padding(.bottom, 2)
+                            .foregroundColor(Colors.orange)
+                            .kerning(0.6)
+//                            .padding(.bottom, 2)
                         
-                        //year joined
+                        //email
                         Text(user?.email ?? "")
                             .fontWeight(.light)
-                            .font(.system(size: 14))
-                            .foregroundColor(.white)
-                            .padding(.bottom, 14)
+                            .font(.system(size: 18))
+                            .foregroundColor(Colors.orange)
+                            .padding(.bottom, 8)
                         VStack{
                             Button(action: {
                                 //add action
@@ -86,13 +89,13 @@ struct ProfileHeaderComponent: View {
                                 }
                             }) {
                                 Text("Logout")
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 15)
+                                    .padding(.vertical, 7)
                                     .font(.system(size: 19))
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
-                                    .background(Color("Orange"))
-                                    .cornerRadius(10)
+                                    .background(Colors.orange)
+                                    .cornerRadius(100)
                             }
                         }
                     }.padding(.top, 30)

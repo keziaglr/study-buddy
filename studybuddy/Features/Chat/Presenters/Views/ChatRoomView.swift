@@ -21,9 +21,8 @@ struct ChatRoomView: View {
         NavigationStack {
             VStack (spacing: 0){
                 
-                Rectangle()
-                    .fill(Color("DarkBlue"))
-                    .frame(height: UIScreen.main.bounds.height * 0.07)
+//                Image("header_gradient")
+//                    .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
                 ChatRoomInfoComponent(community: $community)
@@ -49,17 +48,18 @@ struct ChatRoomView: View {
                                 }
                             }
                         }else{
-                            Text("Empty messages")
+                            Text("Start chatting now!")
+                                .padding()
                         }
-                        
-                    }.padding()
-                        .task {
-                            manager.getChats(communityID: community.id)
-                        }
-                        .onChange(of: manager.lastmessageID) { id in
-                            proxy.scrollTo(id, anchor: .bottom)
-                        }
-                    
+                    }
+                    .padding(.horizontal, 20)
+                    .task {
+                        manager.getChats(communityID: community.id)
+                    }
+                    .onChange(of: manager.lastmessageID) { id in
+                        proxy.scrollTo(id, anchor: .bottom)
+                    }
+
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 

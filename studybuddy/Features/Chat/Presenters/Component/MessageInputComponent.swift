@@ -41,7 +41,7 @@ struct MessageInputComponent: View {
                             .foregroundColor(Color.white)
                             .frame(width: 20, height: 20)
                     }
-                    .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
+                    .frame(width: 33, height: 33)
                 }
                 .disabled(testText == "")
                 .opacity(testText == "" ? 0.5 : 1.0)

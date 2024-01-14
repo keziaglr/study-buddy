@@ -87,11 +87,11 @@ struct ChatRoomSettingsComponent: View {
                     }
                     
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "ellipsis")
                         .resizable()
-                        .foregroundColor(Color.white)
-                        .frame(width: 30, height: 30)
-                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
+                        .foregroundColor(Color.black)
+                        .frame(width: 20, height: 4)
+                        .padding(EdgeInsets(top: 17, leading: 0, bottom: 0, trailing: 10))
                 }
             }
 //            .navigationDestination(isPresented: $isLibraryButtonPresented) {

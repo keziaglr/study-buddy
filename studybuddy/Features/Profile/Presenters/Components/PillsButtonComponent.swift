@@ -36,8 +36,6 @@ struct PillsButtonComponent: View {
                                     .cornerRadius(20)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
-//                            .padding(.leading, 20)
-                            // Maximize button width
                         }
                     }
                     .padding()

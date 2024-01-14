@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct LoginPageView: View {
     // TODO: change to stateObject, create state user variable
@@ -18,27 +19,29 @@ struct LoginPageView: View {
         NavigationStack {
             ZStack{
                 Images.backgroundGradient
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                Images.onboarding1
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 260)
-                    .padding(.bottom, 420)
-                
-                VStack{
-                    Text("Let’s Connect!")
-                        .fontWeight(.heavy)
-                        .font(.system(size: 36))
-                        .foregroundColor(.white)
-                        .padding(.top, 180)
-                        .padding(.bottom, 95)
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     
-                    CustomTextField(label: "Email", placeholder: "Enter your email address", text: $viewModel.email)
-                        .padding(.bottom, 10)
-                    CustomTextField(label: "Password", placeholder: "Enter your password", text: $viewModel.password, showText: false)
+                    VStack{
+                        Text("Welcome Back 👋🏼")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .kerning(0.9)
+                            .foregroundColor(Colors.orange)
+                            .padding(.top, 105)
+                        
+                        ZStack{
+                            LottieView("community")
+                                .loopMode(.loop)
+                                .frame(width: 329)
+                                .padding(.bottom, 391)
+
+                            VStack(spacing: 20) {
+                                CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
+                                    .padding(.top, 105)
+                                
+                                CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
                 }
                 
                 VStack{
@@ -70,15 +73,26 @@ struct LoginPageView: View {
                         } label: {
                             Text("Register Now")
                                 .italic()
-                                .fontWeight(.bold)
-                                .foregroundColor(Colors.orange)
+                                .fontWeight(.light)
                                 .font(.system(size: 15))
+                            Button{
+                                changePage = 3
+                            } label: {
+                                Text("Register Now")
+                                    .italic()
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Colors.orange)
+                                    .font(.system(size: 15))
+                            }
                         }
+                        .kerning(0.45)
+                        .padding(.bottom, 90)
                     }
-                    .padding(.bottom, 90)
-                }
-                .navigationDestination(isPresented: $viewModel.authenticated) {
-                    TabBarNavigation()
+                    .navigationDestination(isPresented: $viewModel.authenticated) {
+                        TabBarNavigation()
+//                        InterestPageView()
+                    }
+                
                 }
                 
             }
