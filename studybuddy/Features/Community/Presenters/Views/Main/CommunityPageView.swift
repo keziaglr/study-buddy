@@ -45,6 +45,7 @@ struct CommunityPageView: View {
                             ForEach(communityViewModel.rcommunities) { community in CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                 communityViewModel.joinCommunity(communityID: community.id)
                             }
+                            }
                             .modifier(ScrollingHStackModifier(items: communityViewModel.rcommunities.count, itemWidth: 302, itemSpacing: 25))
                         }
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)

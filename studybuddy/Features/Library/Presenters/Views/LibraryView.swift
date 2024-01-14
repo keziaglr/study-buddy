@@ -127,6 +127,7 @@ struct LibraryView: View {
             DocumentPickerView(onFilePicked: { url in
                 self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
             })
+            .edgesIgnoringSafeArea(.all) 
             
         })
         .sheet(isPresented: $showImagePicker) {
@@ -135,11 +136,13 @@ struct LibraryView: View {
             ImagePicker(show: $showImagePicker) { url in
                 self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
             }
+            .edgesIgnoringSafeArea(.all)
 //            }
         }
         .sheet(isPresented: $vm.showFileViewer, content: {
             FileViewerView()
                 .environmentObject(vm)
+                .edgesIgnoringSafeArea(.all)
         })
         .onAppear {
             self.vm.updateLibrary(communityID: self.communityID)
@@ -149,6 +152,7 @@ struct LibraryView: View {
         }
         .sheet(isPresented: $vm.showAchievedBadge) {
             BadgeEarnedView(image: vm.badgeImageURL)
+                .edgesIgnoringSafeArea(.all)
         }
     }
     
