@@ -37,7 +37,7 @@ struct CreateCommunityPageView: View {
                         .foregroundStyle(Colors.orange)
                         .kerning(0.75)
                     
-                    Image("community")
+                    Image("community_ilustration")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 220, height: 220)
