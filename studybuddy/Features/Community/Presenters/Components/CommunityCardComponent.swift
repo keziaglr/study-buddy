@@ -40,8 +40,12 @@ struct CommunityCardComponent: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 15)
                         .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
+                        .foregroundStyle(LinearGradient(
+                            gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .opacity(0.6)
                 }
         } placeholder: {
             ProgressView()
@@ -54,6 +58,7 @@ struct CommunityCardComponent: View {
                 .fontWeight(.bold)
                 .font(.system(size: 19))
                 .shadow(radius: 6, x: 2, y: 2)
+                .padding(.leading, 15)
             Spacer()
         }
     }
@@ -63,6 +68,7 @@ struct CommunityCardComponent: View {
             Text(String(community.category)) // Replace with the actual member count value
                 .fontWeight(.medium)
                 .font(.system(size: 14))
+                .padding(.leading, 15)
         }
     }
 

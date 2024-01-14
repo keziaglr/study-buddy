@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct OnboardingPageView: View {
     @Binding var changePage : Int
@@ -16,44 +17,50 @@ struct OnboardingPageView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             
-            Images.onboarding1
-                .resizable()
-                .scaledToFit()
-                .frame(width: 260)
-                .padding(.bottom, 420)
-            
             VStack{
                 Text("Find Perfect Buddy!")
-                    .fontWeight(.black)
-                    .font(.system(size: 28))
-                    .foregroundColor(.white)
-                Text("Discover, Connect, and Thrive\nwith your Perfect\nStudy Buddy")
-                    .multilineTextAlignment(.center)
-                    .fontWeight(.medium)
-                    .font(.system(size: 23))
-                    .foregroundColor(Colors.lightBlue)
-                    .padding(.top, -10)
+                    .fontWeight(.bold)
+                    .font(.system(size: 30))
+                    .kerning(0.9)
+                    .foregroundColor(Colors.orange)
+                    .padding(.top, -320)
+            }
+            
+            ZStack{
+                LottieView("community")
+                    .loopMode(.loop)
+                    .frame(width: 295)
+                    .padding(.bottom, 232)
             }
             
             VStack{
+                Text("Discover, Connect, and Thrive\nwith your Perfect\nStudy Buddy")
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.medium)
+                    .font(.system(size: 24))
+                    .kerning(0.72)
+                    .foregroundColor(Colors.orange)
+                    .padding(.top, 485)
                 Spacer()
                 Button(action: {
                     changePage = 2
                 }) {
-                    CustomButton(text: "LOGIN")
+                    CustomButton(text: "Login")
                 }
                 
                 Button(action: {
                     changePage = 3
                 }) {
-                    CustomButton(text: "REGISTER", primary: false)
+                    CustomButton(text: "Register", primary: false)
                 }
                 .padding()
-                .padding(.bottom, 110)
+                .padding(.bottom, 97)
             }
         }
     }
 }
+
+
 
 struct OnboardingPageView_Previews: PreviewProvider {
     static var previews: some View {

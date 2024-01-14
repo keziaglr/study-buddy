@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct RegisterPageView: View {
     
@@ -20,42 +21,42 @@ struct RegisterPageView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                    Image("background_gradient")
+                Images.backgroundGradient
                         .resizable()
                         .scaledToFill()
                         .ignoresSafeArea()
+
+                VStack{
+                    Text("Let's get Started!")
+                        .fontWeight(.bold)
+                        .font(.system(size: 30))
+                        .kerning(0.9)
+                        .foregroundColor(Colors.orange)
+                        .padding(.top, 105)
                     
-                    VStack{
-                        Image("onboard1")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 260)
-                            .padding(.bottom, 420)
+                    ZStack{
+                        LottieView("community")
+                            .loopMode(.loop)
+                            .frame(width: 329)
+                            .padding(.bottom, 391)
+
+                        VStack(spacing: 20) {
+                            CustomTextField(label: "Name", placeholder: "Name", text: $name)
+                                .padding(.top, 105)
+                            
+                            CustomTextField(label: "Email", placeholder: "Email", text: $emailTxt)
+                            
+                            CustomTextField(label: "Password", placeholder: "Password", text: $passwordTxt, showText: false)
+                        }
                     }
-                    
-                    VStack{
-                        Text("Let’s Get Started!")
-                            .fontWeight(.heavy)
-                            .font(.system(size: 36))
-                            .foregroundColor(.white)
-                            .padding(.top, 180)
-                            .padding(.bottom, 10)
-                        
-                        CustomTextField(label: "Full Name", placeholder: "Enter your full name", text: $name)
-                            .padding(.bottom, 10)
-                        
-                        CustomTextField(label: "Email", placeholder: "Enter your email address", text: $emailTxt)
-                            .padding(.bottom, 10)
-                        
-                        CustomTextField(label: "Password", placeholder: "Enter your password", text: $passwordTxt, showText: false)
-                    }
+                }
                     
                     VStack{
                         Spacer()
                         Button(action: {
                             avm.createUser(name: name, email: emailTxt, password: passwordTxt)
                         }) {
-                            CustomButton(text: "REGISTER")
+                            CustomButton(text: "Register")
                         }
                         .disabled(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt))
                         .opacity(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
@@ -71,7 +72,7 @@ struct RegisterPageView: View {
                                 Text("Login Now")
                                     .italic()
                                     .fontWeight(.bold)
-                                    .foregroundColor(Color("Orange"))
+                                    .foregroundColor(Colors.orange)
                                     .font(.system(size: 15))
                             }
                         }

@@ -1,14 +1,14 @@
-////
-////  DiscoverPageView.swift
-////  mini2
-////
-////  Created by Randy Julian on 24/06/23.
-////
 //
-//import SwiftUI
+//  DiscoverPageView.swift
+//  mini2
 //
+//  Created by Randy Julian on 24/06/23.
+//
+//
+
 import SwiftUI
-//
+import LottieUI
+
 struct DiscoverPageView: View {
 
     @ObservedObject var communityViewModel: CommunityViewModel
@@ -30,56 +30,52 @@ struct DiscoverPageView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ZStack{
-                GeometryReader { geometry in
-                    HeaderComponent(text: "Explore the network")
-                    
-                    SearchBarComponent(text: $text)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
-                    
-                    
-                    if !filteredCommunities.isEmpty {
-                        List(filteredCommunities) { community in
-                            CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                communityViewModel.joinCommunity(communityID: community.id)
-                                communityID = community.id
-                            }.listRowSeparator(.hidden)
-                        }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
-                            .listStyle(.plain)
-                            .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.6)
-                            .scrollIndicators(.hidden)
-                        
-                    }else {
-                        Image("placeholder")
-                            .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
-                        Text("No Result Found")
-                            .bold()
-                            .font(.system(size: 26))
-                            .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
-                        CreateCommunityButtonComponent(showModal: $showModal)
-                            .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
-                    }
-                    
-                    
-                }.onAppear {
-                    communityViewModel.getCommunity()
+        ZStack{
+            GeometryReader { geometry in
+                HeaderComponent(text: "Explore the Network 🌐")
+                
+                SearchBarComponent(text: $text)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
+              
+
+                if !filteredCommunities.isEmpty {
+                    List(filteredCommunities) { community in
+                        CommunityCardComponent(community: community, buttonLabel: "Test") {
+                            communityViewModel.joinCommunity(communityID: community.id)
+                            communityID = community.id
+                        }.listRowSeparator(.hidden)
+                    }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
+                        .listStyle(.plain)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
+                        .scrollIndicators(.hidden)
+
+                }else {
+                    LottieView("notfound")
+                        .loopMode(.repeat(10))
+                        .frame(width: 200)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
+                    Text("No result found!\nYou can create your community")
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
+                    CreateCommunityButtonComponent  (showModal: $showModal)
+                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
-                .sheet(isPresented: $showModal) {
-                    CreateCommunityPageView(communityViewModel: CommunityViewModel())
-                }
-                .sheet(isPresented: $communityViewModel.showBadge) {
-                    BadgeEarnedView(image: communityViewModel.badge)
-                }
-                .sheet(isPresented: $communityViewModel.showRespon) {
-                    Text(communityViewModel.respons)
-                        .foregroundColor(.red)
-                        .bold()
-                        .presentationDetents([.medium, .large])
-                }
-            }.ignoresSafeArea()
-        }
+
+
+            }.onAppear {
+                communityViewModel.getCommunities()
+            }
+            .sheet(isPresented: $showModal) {
+                CreateCommunityPageView(communityViewModel: CommunityViewModel())
+            }
+            .sheet(isPresented: $communityViewModel.showBadge) {
+                BadgeEarnedView(image: communityViewModel.badge)
+            }
+        }.ignoresSafeArea()
     }
+
 }
 
 struct DiscoverPageView_Previews: PreviewProvider {

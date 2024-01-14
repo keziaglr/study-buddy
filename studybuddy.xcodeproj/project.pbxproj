@@ -13,6 +13,10 @@
 		43AD2B6B2B4E7BF40010B718 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */; };
 		43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */; };
 		43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B742B4E84A00010B718 /* CardComponent.swift */; };
+		43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */; };
+		43AD2B802B5433680010B718 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B7F2B5433680010B718 /* Lottie */; };
+		43AD2B832B5438850010B718 /* LottieUI in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B822B5438850010B718 /* LottieUI */; };
+		43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */; };
 		43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972032A4987D6000D1E6B /* LibraryView.swift */; };
 		43C972072A498A32000D1E6B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972062A498A32000D1E6B /* ImagePicker.swift */; };
 		43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */; };
@@ -79,6 +83,8 @@
 		43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCardComponent.swift; sourceTree = "<group>"; };
 		43AD2B742B4E84A00010B718 /* CardComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardComponent.swift; sourceTree = "<group>"; };
+		43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithSymbol.swift; sourceTree = "<group>"; };
+		43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingHStackModifier.swift; sourceTree = "<group>"; };
 		43C972032A4987D6000D1E6B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		43C972062A498A32000D1E6B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
@@ -146,6 +152,8 @@
 				767B370E2A4D2570004B38FE /* FirebaseAuth in Frameworks */,
 				767B37342A4D2570004B38FE /* FirebaseStorage in Frameworks */,
 				767B372C2A4D2570004B38FE /* FirebaseMessaging in Frameworks */,
+				43AD2B802B5433680010B718 /* Lottie in Frameworks */,
+				43AD2B832B5438850010B718 /* LottieUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,10 +370,12 @@
 		43FA00A42B2316620035E6FC /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */,
 				43FA00C52B2316620035E6FC /* CreateCommunityButtonComponent.swift */,
 				43FA00BF2B2316620035E6FC /* SearchBarComponent.swift */,
 				43FA00B52B2316620035E6FC /* HeaderComponent.swift */,
 				43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */,
+				43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -593,6 +603,8 @@
 				767B371D2A4D2570004B38FE /* FirebaseFirestoreSwift */,
 				767B372B2A4D2570004B38FE /* FirebaseMessaging */,
 				767B37332A4D2570004B38FE /* FirebaseStorage */,
+				43AD2B7F2B5433680010B718 /* Lottie */,
+				43AD2B822B5438850010B718 /* LottieUI */,
 			);
 			productName = studybuddy;
 			productReference = ACF273952A41FD9F00DB1BA3 /* studybuddy.app */;
@@ -624,6 +636,8 @@
 			mainGroup = ACF2738C2A41FD9F00DB1BA3;
 			packageReferences = (
 				767B37002A4D2570004B38FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				43AD2B7E2B5433680010B718 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				43AD2B812B5438850010B718 /* XCRemoteSwiftPackageReference "LottieUI" */,
 			);
 			productRefGroup = ACF273962A41FD9F00DB1BA3 /* Products */;
 			projectDirPath = "";
@@ -676,6 +690,7 @@
 				43FA00F52B2316620035E6FC /* CreateCommunityButtonComponent.swift in Sources */,
 				43FA00E92B2316620035E6FC /* SetScheduleView.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
+				43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */,
 				43FA00EF2B2316620035E6FC /* SearchBarComponent.swift in Sources */,
 				43FA00F72B2316620035E6FC /* BadgeEarnedView.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderComponent.swift in Sources */,
@@ -692,6 +707,7 @@
 				43FA00D52B2316620035E6FC /* ProfileViewModel.swift in Sources */,
 				43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */,
 				43FA00ED2B2316620035E6FC /* DiscoverPageView.swift in Sources */,
+				43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
 				43FA00D02B2316620035E6FC /* CommunityViewModel.swift in Sources */,
 				ACF808532A42D95F0050D549 /* User.swift in Sources */,
@@ -921,6 +937,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		43AD2B7E2B5433680010B718 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.4;
+			};
+		};
+		43AD2B812B5438850010B718 /* XCRemoteSwiftPackageReference "LottieUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tfmart/LottieUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
 		767B37002A4D2570004B38FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -932,6 +964,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		43AD2B7F2B5433680010B718 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43AD2B7E2B5433680010B718 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+		43AD2B822B5438850010B718 /* LottieUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43AD2B812B5438850010B718 /* XCRemoteSwiftPackageReference "LottieUI" */;
+			productName = LottieUI;
+		};
 		767B370D2A4D2570004B38FE /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 767B37002A4D2570004B38FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

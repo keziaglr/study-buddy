@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LottieUI
 
 struct LoginPageView: View {
     
@@ -21,62 +22,67 @@ struct LoginPageView: View {
         NavigationStack {
             ZStack{
                 Images.backgroundGradient
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                Images.onboarding1
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 260)
-                    .padding(.bottom, 420)
-                
-                VStack{
-                    Text("Let’s Connect!")
-                        .fontWeight(.heavy)
-                        .font(.system(size: 36))
-                        .foregroundColor(.white)
-                        .padding(.top, 180)
-                        .padding(.bottom, 95)
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     
-                    CustomTextField(label: "Email", placeholder: "Enter your email address", text: $emailTxt)
-                        .padding(.bottom, 10)
-                    CustomTextField(label: "Password", placeholder: "Enter your password", text: $passwordTxt, showText: false)
-                }
-                
-                VStack{
-                    Spacer()
-                    Button(action: {
-                        avm.auth(email: emailTxt, password: passwordTxt)
-                    }) {
-                        CustomButton(text: "LOGIN")
-                    }
-                    .disabled(avm.checkLogin(email: emailTxt, password: passwordTxt))
-                    .opacity(avm.checkLogin(email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
-                    
-                    HStack {
-                        Text("Don't have an account yet?")
-                            .italic()
-                            .fontWeight(.light)
-                            .font(.system(size: 15))
-                        Button{
-                            changePage = 3
-                        } label: {
-                            Text("Register Now")
-                                .italic()
-                                .fontWeight(.bold)
-                                .foregroundColor(Colors.orange)
-                                .font(.system(size: 15))
+                    VStack{
+                        Text("Welcome Back 👋🏼")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .kerning(0.9)
+                            .foregroundColor(Colors.orange)
+                            .padding(.top, 105)
+                        
+                        ZStack{
+                            LottieView("community")
+                                .loopMode(.loop)
+                                .frame(width: 329)
+                                .padding(.bottom, 391)
+
+                            VStack(spacing: 20) {
+                                CustomTextField(label: "Email", placeholder: "Email", text: $emailTxt)
+                                    .padding(.top, 105)
+                                
+                                CustomTextField(label: "Password", placeholder: "Password", text: $passwordTxt, showText: false)
+                            }
                         }
                     }
-                    .padding(.bottom, 90)
-                }
-                .navigationDestination(isPresented: $avm.authenticated) {
-                    TabBarNavigation()
-                    //                        InterestPageView()
-                }
+                    
+                    VStack{
+                        Spacer()
+                        Button(action: {
+                            avm.auth(email: emailTxt, password: passwordTxt)
+                        }) {
+                            CustomButton(text: "Login")
+                        }
+                        .disabled(avm.checkLogin(email: emailTxt, password: passwordTxt))
+                        .opacity(avm.checkLogin(email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
+                        
+                        HStack {
+                            Text("Don't have an account yet?")
+                                .italic()
+                                .fontWeight(.light)
+                                .font(.system(size: 15))
+                            Button{
+                                changePage = 3
+                            } label: {
+                                Text("Register Now")
+                                    .italic()
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Colors.orange)
+                                    .font(.system(size: 15))
+                            }
+                        }
+                        .kerning(0.45)
+                        .padding(.bottom, 90)
+                    }
+                    .navigationDestination(isPresented: $avm.authenticated) {
+                        TabBarNavigation()
+//                        InterestPageView()
+                    }
                 
-            }
+                }
         }.navigationBarBackButtonHidden()
     }
 }
