@@ -37,9 +37,10 @@ struct MessageBubbleComponent: View {
                 AsyncImage(url: URL(string: user?.image ?? "")) { image in
                     image
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 42, height: 42)
-                        .clipShape(Circle())
-                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                 } placeholder: {
                     ProgressView()
@@ -49,32 +50,36 @@ struct MessageBubbleComponent: View {
             }
             
             //User Name
-            
             VStack(alignment: isCurrentUser ? .leading : .trailing, spacing: -1){
-                Text(user?.name ?? "")
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
-                    .padding(EdgeInsets(top: 5, leading: isCurrentUser ? 5 : 30, bottom: 5, trailing: isCurrentUser ? 30 : 5))
-                    .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
-                    .background(Color(red: 158/255, green: 215/255, blue: 250/255))
-                    .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight] : [.topLeft]))
-                
+                if isCurrentUser {
+                    Text(user?.name ?? "")
+                        .font(.system(size: 15))
+                        .fontWeight(.semibold)
+                        .kerning(0.45)
+                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 5))
+                        .foregroundColor(Color.black)
+                }
+                    
                 //Message Content
                 Text(message.content)
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
-                    .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
-                    .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
-                    .frame(minWidth: 100, maxWidth: 238,alignment: .leading)
+                    .font(.system(size: 15))
+                    .fontWeight(.regular)
+                    .kerning(0.45)
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    .foregroundColor(Color.black)
+                    .frame(alignment: .leading)
+//                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
                     .background(Color(red: 240/255, green: 240/255, blue: 240/255))
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .bottomLeft, .bottomRight]))
+                    .padding(.leading, 10)
+                    .padding(.trailing, 10)
                 
                 //Time Stamp
                 Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
+                    .font(.system(size: 15))
+                    .fontWeight(.regular)
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 10))
-                    .foregroundColor(Color(red: 0.306, green: 0.306, blue: 0.306))
+                    .foregroundColor(Color.black)
             }
         }.task {
             um.getUser(id: message.user) { retrievedUser in

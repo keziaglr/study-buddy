@@ -39,8 +39,12 @@ struct CommunityCell: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 15)
                         .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                        .foregroundColor(Color("DarkBlue"))
-                        .opacity(0.42)
+                        .foregroundStyle(LinearGradient(
+                            gradient: Gradient(colors: [Color("DarkBlue"), Color("Orange")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .opacity(0.6)
                 }
         } placeholder: {
             ProgressView()
@@ -53,6 +57,7 @@ struct CommunityCell: View {
                 .fontWeight(.bold)
                 .font(.system(size: 19))
                 .shadow(radius: 6, x: 2, y: 2)
+                .padding(.leading, 15)
             Spacer()
         }
     }
@@ -62,6 +67,7 @@ struct CommunityCell: View {
             Text(String(community.category)) // Replace with the actual member count value
                 .fontWeight(.medium)
                 .font(.system(size: 14))
+                .padding(.leading, 15)
         }
     }
     
@@ -69,6 +75,7 @@ struct CommunityCell: View {
         HStack {
             Button(action: joinAction) {
                 CustomRoundedButton(text: "JOIN")
+                    .padding(.leading, 15)
             }
         }
     }

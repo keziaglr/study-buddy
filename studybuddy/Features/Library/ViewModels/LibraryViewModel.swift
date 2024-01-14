@@ -18,8 +18,7 @@ class LibraryViewModel: ObservableObject {
     @Published var selectedFileURL: URL? = nil
     @Published var selectedFilePathForDownload: String? = nil
     @Published var showAchievedBadge = false
-    @Published private var bm = BadgeViewModel()
-    @Published private var um = UserViewModel()
+    @Published private var bvm = BadgeViewModel()
     @Published var badgeImageURL = ""
     
     let db = Firestore.firestore()
@@ -152,7 +151,7 @@ class LibraryViewModel: ObservableObject {
             } else {
                 print("File uploaded successfully.")
                 self.uploadLibraryToFirestore(filePath: filePath, communityID: communityID)
-                self.bm.validateBadge(badgeId: self.bm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
+                self.bvm.validateBadge(badgeId: self.bvm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
                     if !hasBadge {
                         self.checkResearchGuruBadge()
                     }
@@ -191,13 +190,13 @@ class LibraryViewModel: ObservableObject {
     
     // achieved when download file for the first time
     func checkKnowledgeNavigatorBadge() {
-        let knowledgeNavigatorBadgeID = self.bm.getBadgeID(badgeName: "Knowledge Navigator")
-        self.bm.validateBadge(badgeId: knowledgeNavigatorBadgeID) { hasBadge in
+        let knowledgeNavigatorBadgeID = self.bvm.getBadgeID(badgeName: "Knowledge Navigator")
+        self.bvm.validateBadge(badgeId: knowledgeNavigatorBadgeID) { hasBadge in
             if !hasBadge {
-                self.bm.achieveBadge(badgeId: knowledgeNavigatorBadgeID)
+                self.bvm.achieveBadge(badgeId: knowledgeNavigatorBadgeID)
             }
         }
-        bm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
+        bvm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
             self.badgeImageURL = badge?.name ?? ""
             self.showAchievedBadge = true
         }
@@ -224,12 +223,12 @@ class LibraryViewModel: ObservableObject {
         let currentDayUserLibraries = userLibraries.filter { isSameDayAsCurrentDate(date: $0.dateCreated) }
         
         if currentDayUserLibraries.count == 5 {
-            let researchGuruBadgeID = bm.getBadgeID(badgeName: "Research Guru")
-            bm.getBadge(id: researchGuruBadgeID) { badge in
+            let researchGuruBadgeID = bvm.getBadgeID(badgeName: "Research Guru")
+            bvm.getBadge(id: researchGuruBadgeID) { badge in
                 self.badgeImageURL = badge!.name
                 self.showAchievedBadge = true
             }
-            bm.achieveBadge(badgeId: researchGuruBadgeID)
+            bvm.achieveBadge(badgeId: researchGuruBadgeID)
         } else {
             showAchievedBadge = false
         }

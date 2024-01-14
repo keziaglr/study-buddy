@@ -45,7 +45,7 @@ struct LibraryView: View {
                                 Spacer()
                                 HStack{
                                     Spacer()
-                                    Text("No Documents in Cloud !!")
+                                    Text("Library is empty")
                                     Spacer()
                                 }
                                 Spacer()
@@ -61,7 +61,7 @@ struct LibraryView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbarBackground(
-                            Color("DarkBlue"),
+                            Color("LightBlue"),
                             for: .navigationBar)
                         .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
@@ -69,11 +69,10 @@ struct LibraryView: View {
                     Button{
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Image(systemName: "chevron.backward")
+                        Image(systemName: "arrow.backward")
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(.white)
-                            .bold()
+                            .foregroundColor(.black)
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -86,8 +85,7 @@ struct LibraryView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 20)
-                                    .foregroundColor(.white)
-                                    .bold()
+                                    .foregroundColor(.black)
                             }
                         }
                         Menu{
@@ -108,16 +106,15 @@ struct LibraryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
-                                .foregroundColor(.white)
-                                .bold()
+                                .foregroundColor(.black)
                         }
                         
                     }
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Library")
-                        .foregroundColor(.white)
-                        .font(.title3)
+                        .foregroundColor(.black)
+                        .kerning(0.45)
                         .bold()
                 }
             }

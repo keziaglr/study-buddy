@@ -1,14 +1,14 @@
-////
-////  DiscoverPageView.swift
-////  mini2
-////
-////  Created by Randy Julian on 24/06/23.
-////
 //
-//import SwiftUI
+//  DiscoverPageView.swift
+//  mini2
 //
+//  Created by Randy Julian on 24/06/23.
+//
+//
+
 import SwiftUI
-//
+import LottieUI
+
 struct DiscoverPageView: View {
 
     @ObservedObject var communityViewModel: CommunityViewModel
@@ -33,7 +33,7 @@ struct DiscoverPageView: View {
 
         ZStack{
             GeometryReader { geometry in
-                HeaderComponent(text: "Explore the network")
+                HeaderComponent(text: "Explore the Network 🌐")
                 
                 SearchBar(text: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
@@ -47,15 +47,18 @@ struct DiscoverPageView: View {
                         }.listRowSeparator(.hidden)
                     }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
                         .listStyle(.plain)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.6)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
                         .scrollIndicators(.hidden)
 
                 }else {
-                    Image("placeholder")
+                    LottieView("notfound")
+                        .loopMode(.repeat(10))
+                        .frame(width: 200)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
-                    Text("No Result Found")
-                        .bold()
-                        .font(.system(size: 26))
+                    Text("No result found!\nYou can create your community")
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
                     CreateCommunityButton(showModal: $showModal)
                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
@@ -63,7 +66,7 @@ struct DiscoverPageView: View {
 
 
             }.onAppear {
-                communityViewModel.getCommunity()
+                communityViewModel.getCommunities()
             }
             .sheet(isPresented: $showModal) {
                 CreateCommunityPageView(communityViewModel: CommunityViewModel())
@@ -73,6 +76,7 @@ struct DiscoverPageView: View {
             }
         }.ignoresSafeArea()
     }
+
 }
 
 struct DiscoverPageView_Previews: PreviewProvider {

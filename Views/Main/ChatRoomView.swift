@@ -20,9 +20,8 @@ struct ChatRoomView: View {
     var body: some View {
             VStack (spacing: 0){
                 
-                Rectangle()
-                    .fill(Color("DarkBlue"))
-                    .frame(height: UIScreen.main.bounds.height * 0.07)
+//                Image("header_gradient")
+//                    .frame(height: UIScreen.main.bounds.height * 0.07)
                 
                 //Info
                 ChatRoomInfoComponent(showTabView: $showTabView, community: $community, communityId: $community.id)
@@ -48,10 +47,11 @@ struct ChatRoomView: View {
                                 }
                             }
                         }else{
-                            Text("Empty messages")
+                            Text("Start chatting now!")
+                                .padding()
                         }
 
-                    }.padding()
+                    }.padding(.horizontal, 20)
                     .task {
                         manager.getChats(communityID: community.id)
                     }

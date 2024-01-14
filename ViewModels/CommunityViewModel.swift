@@ -27,7 +27,7 @@ class CommunityViewModel: ObservableObject {
     
     init() {
         getJoinedCommunity()
-        getCommunity()
+        getCommunities()
     }
     
     func dateFormatting() -> String {
@@ -75,7 +75,7 @@ class CommunityViewModel: ObservableObject {
     
     
     //MARK: GET ALL COMMUNITY
-    func getCommunity() {
+    func getCommunities() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Documents")

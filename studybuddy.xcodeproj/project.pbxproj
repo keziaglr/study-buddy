@@ -53,6 +53,7 @@
 		8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835024492A44754C004FB6B0 /* RegisterPageView.swift */; };
 		8350244D2A447598004FB6B0 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8350244C2A447598004FB6B0 /* OnboardingPageView.swift */; };
 		837682182B3962EC00BAC8AA /* LottieUI in Frameworks */ = {isa = PBXBuildFile; productRef = 837682172B3962EC00BAC8AA /* LottieUI */; };
+		839AD1B82B5171B900BBDC4C /* CustomTextFieldWithSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839AD1B72B5171B900BBDC4C /* CustomTextFieldWithSymbol.swift */; };
 		83B64C472A46E4F900CACF2C /* CommunityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C462A46E4F900CACF2C /* CommunityPageView.swift */; };
 		83B64C492A46E51100CACF2C /* HeaderComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C482A46E51100CACF2C /* HeaderComponent.swift */; };
 		83B64C4B2A46E52800CACF2C /* CardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C4A2A46E52800CACF2C /* CardComponent.swift */; };
@@ -66,6 +67,7 @@
 		83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */; };
 		83B64C692A4D83B200CACF2C /* InterestPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C682A4D83B200CACF2C /* InterestPageView.swift */; };
 		83B64C6B2A4D83CF00CACF2C /* PillsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B64C6A2A4D83CF00CACF2C /* PillsButton.swift */; };
+		83BD60E72B5261D70044ED89 /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BD60E62B5261D70044ED89 /* ScrollingHStackModifier.swift */; };
 		8D1C56D52A48536500FFF620 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1C56D42A48536500FFF620 /* ChatRoomView.swift */; };
 		8DB10F4E2A48587E000A21F0 /* ChatRoomInfoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */; };
 		8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */; };
@@ -115,6 +117,7 @@
 		835024472A4474AB004FB6B0 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginPageView.swift; path = Views/Onboarding/LoginPageView.swift; sourceTree = SOURCE_ROOT; };
 		835024492A44754C004FB6B0 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RegisterPageView.swift; path = Views/Onboarding/RegisterPageView.swift; sourceTree = SOURCE_ROOT; };
 		8350244C2A447598004FB6B0 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingPageView.swift; path = Views/Onboarding/OnboardingPageView.swift; sourceTree = SOURCE_ROOT; };
+		839AD1B72B5171B900BBDC4C /* CustomTextFieldWithSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomTextFieldWithSymbol.swift; path = Views/Components/CustomTextFieldWithSymbol.swift; sourceTree = SOURCE_ROOT; };
 		83B64C462A46E4F900CACF2C /* CommunityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommunityPageView.swift; path = Views/Main/CommunityPageView.swift; sourceTree = SOURCE_ROOT; };
 		83B64C482A46E51100CACF2C /* HeaderComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderComponent.swift; path = Views/Components/HeaderComponent.swift; sourceTree = SOURCE_ROOT; };
 		83B64C4A2A46E52800CACF2C /* CardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardComponent.swift; path = Views/Components/CardComponent.swift; sourceTree = SOURCE_ROOT; };
@@ -128,6 +131,7 @@
 		83B64C5E2A4BD49E00CACF2C /* BadgeEarnedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BadgeEarnedView.swift; path = Views/Main/BadgeEarnedView.swift; sourceTree = SOURCE_ROOT; };
 		83B64C682A4D83B200CACF2C /* InterestPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InterestPageView.swift; path = Views/Main/InterestPageView.swift; sourceTree = SOURCE_ROOT; };
 		83B64C6A2A4D83CF00CACF2C /* PillsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillsButton.swift; path = Views/Components/PillsButton.swift; sourceTree = SOURCE_ROOT; };
+		83BD60E62B5261D70044ED89 /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScrollingHStackModifier.swift; path = Views/Components/ScrollingHStackModifier.swift; sourceTree = SOURCE_ROOT; };
 		8D1C56D42A48536500FFF620 /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomView.swift; path = Views/Main/ChatRoomView.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomInfoComponent.swift; path = Views/Components/ChatRoomInfoComponent.swift; sourceTree = SOURCE_ROOT; };
 		8DB10F4F2A4859C1000A21F0 /* MessageBubbleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageBubbleComponent.swift; path = Views/Components/MessageBubbleComponent.swift; sourceTree = SOURCE_ROOT; };
@@ -250,8 +254,8 @@
 			children = (
 				83B64C462A46E4F900CACF2C /* CommunityPageView.swift */,
 				769DAA122A5005F4003B5FDC /* JoinedCommunityCell.swift */,
-				83B64C4E2A46E5BE00CACF2C /* DiscoverPageView.swift */,
 				769DAA102A500551003B5FDC /* CommunityCell.swift */,
+				83B64C4E2A46E5BE00CACF2C /* DiscoverPageView.swift */,
 				765CB99F2A4EC60B0032EF3A /* Searchbar.swift */,
 				765CB9A32A4EC6A40032EF3A /* CreateCommunityButton.swift */,
 				83B64C502A46E5D000CACF2C /* ProfilePageView.swift */,
@@ -271,7 +275,9 @@
 		AC2AB7412A455602001B45FD /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				83BD60E62B5261D70044ED89 /* ScrollingHStackModifier.swift */,
 				AC2AB7422A455618001B45FD /* CustomTextField.swift */,
+				839AD1B72B5171B900BBDC4C /* CustomTextFieldWithSymbol.swift */,
 				AC2AB7452A45578B001B45FD /* CustomButton.swift */,
 				8DB10F4D2A48587E000A21F0 /* ChatRoomInfoComponent.swift */,
 				8DB10F612A4A960D000A21F0 /* ChatRoomSettingsComponent.swift */,
@@ -667,10 +673,12 @@
 				76F50FC32A47CD4500D62826 /* CommunityViewModel.swift in Sources */,
 				83B64C4F2A46E5BE00CACF2C /* DiscoverPageView.swift in Sources */,
 				83B64C5F2A4BD49E00CACF2C /* BadgeEarnedView.swift in Sources */,
+				83BD60E72B5261D70044ED89 /* ScrollingHStackModifier.swift in Sources */,
 				83B64C532A46E5F100CACF2C /* ProfileHeaderComponent.swift in Sources */,
 				AC49DFE52A4A989E000D7756 /* MasterView.swift in Sources */,
 				ACD062332A4C46540025B68E /* UserViewModel.swift in Sources */,
 				ACF273992A41FD9F00DB1BA3 /* studybuddyApp.swift in Sources */,
+				839AD1B82B5171B900BBDC4C /* CustomTextFieldWithSymbol.swift in Sources */,
 				8DB10F5E2A49903E000A21F0 /* MembersBubbleComponent.swift in Sources */,
 				8DB10F502A4859C1000A21F0 /* MessageBubbleComponent.swift in Sources */,
 				8350244A2A44754C004FB6B0 /* RegisterPageView.swift in Sources */,

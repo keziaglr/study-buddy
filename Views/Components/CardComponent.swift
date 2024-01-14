@@ -39,8 +39,9 @@ struct CardComponent: View {
                         .font(.system(size: 19))
                         .foregroundColor(.white)
                         .shadow(radius: 6, x: 2, y: 2)
+                        .padding(.top, 10)
                         .padding(.bottom, 1)
-                        .padding(.leading, 15)
+                        .padding(.leading, 23)
                     Spacer()
                 }
                 .frame(width: 302)
@@ -51,11 +52,11 @@ struct CardComponent: View {
                         .fontWeight(.medium)
                         .font(.system(size: 14))
                         .foregroundColor(Color("Gray"))
-                        .padding(.leading, 15)
+                        .padding(.leading, 23)
                     Spacer()
                 }
                 .frame(width: 302)
-                .padding(.bottom, 35)
+                .padding(.bottom, 10)
                 
                 //button join
                 HStack {
@@ -63,7 +64,7 @@ struct CardComponent: View {
                         //add action
                     }) {
                         CustomRoundedButton(text: "JOIN")
-                            .padding(.leading, 15)
+                            .padding(.leading, 23)
                     }
                     Spacer()
                 }

@@ -16,8 +16,10 @@ struct CreateCommunityPageView: View {
     @ObservedObject var communityViewModel: CommunityViewModel
     @State private var title: String = ""
     @State private var description: String = ""
+    @State private var image: String = ""
     @State private var category: String = ""
     @State private var url: URL = URL(string: "https://www.example.com")!
+    @State private var showError: Bool = false
     @State var selectedPhoto: [PhotosPickerItem] = []
     @State var data: Data?
     @State var showpicker = false
@@ -28,84 +30,65 @@ struct CreateCommunityPageView: View {
             GeometryReader { geometry in
                 Color("Gray")
                 
-                Text("Set up Community Profile")
-                    .fontWeight(.bold)
-                    .font(.system(size: 21))
-                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1 )
-                
-                ZStack(alignment: .leading){
+                VStack{
+                    Text("Set Up New Community")
+                        .fontWeight(.bold)
+                        .font(.system(size: 25))
+                        .foregroundStyle(Color("Orange"))
+                        .kerning(0.75)
                     
-                    //Title Field
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 15)
+                    Image("community")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 220, height: 220)
+                        .clipped()
+                        .padding(.vertical, 7)
                     
-                    Text("Title")
-                        .fontWeight(.medium)
-                        .padding(.leading , geometry.size.width * 0.03)
-                        .position(x: geometry.size.width * 0.07, y: geometry.size.height * 0.035)
-                    
-                    TextField("input community title", text: $title)
-                        .position(x: geometry.size.width * 0.45, y: geometry.size.height * 0.08)
-                    
-                }.frame(width: geometry.size.width * 0.8 , height: geometry.size.width * 0.25)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.3)
-                
-                ZStack(alignment: .leading){
-                    //Title Field
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 15)
-                    
-                    Text("Description")
-                        .fontWeight(.medium)
-                        .padding(.leading , geometry.size.width * 0.03)
-                        .position(x: geometry.size.width * 0.15, y: geometry.size.height * 0.035)
-                    
-                    TextField("input community title", text: $description)
-                        .position(x: geometry.size.width * 0.45, y: geometry.size.height * 0.08)
-                    
-                }.frame(width: geometry.size.width * 0.8 , height: geometry.size.width * 0.25)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
-                
-                ZStack(alignment: .leading){
-                    //Title Field
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 15)
-                    HStack{
-                        Text("Choose Image")
-                            .fontWeight(.medium)
-                        Spacer()
-                        Button{
-                            showpicker = true
-                        }label: {
-                            Image(systemName: "photo")
+                    VStack(spacing: 20){
+                        CustomTextFieldWithSymbol(placeholder: "Name", symbol: Image(systemName: "character.textbox"), text: $title)
+                        
+                        CustomTextFieldWithSymbol(placeholder: "Short Description", symbol: Image(systemName: "text.quote"), text: $description)
+                        
+                        ZStack(alignment: .trailing){
+                            CustomTextFieldWithSymbol(placeholder: "Image", symbol: Image(systemName: "photo"), text: $image)
+                                .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                            Button{
+                                showpicker = true
+                            }label: {
+                                Image(systemName: "photo.badge.plus")
+                                    .font(.system(size: 18))
+                            }
+                            .padding(.trailing, 19)
                         }
-                    }.padding(.horizontal , geometry.size.width * 0.05)
-                }.frame(width: geometry.size.width * 0.8 , height: geometry.size.width * 0.15)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.58)
-                ZStack(alignment: .leading){
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .shadow(radius: 15)
-                    
-                    Picker("Select option", selection: $selectedValue){
-                        ForEach(pills, id: \.self){ value in
-                            Text(value).tag(value)}
-                    }.padding(.leading , geometry.size.width * 0.03)
-                }.frame(width: geometry.size.width * 0.8 , height: geometry.size.height * 0.065)
-                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.68)
+                        
+                        ZStack(alignment: .leading){
+                            CustomTextFieldWithSymbol(placeholder: "", symbol: Image(systemName: "square.stack.3d.up"), text: $category)
+                            Picker("Select option", selection: $selectedValue){
+                                ForEach(pills, id: \.self){ value in
+                                    Text(value).tag(value)
+                                    .font(.system(size: 18))}
+                            }
+                            .padding(.leading, 40)
+                        }
+                    }
+                }
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2.3)
                 
                 Button{
                     communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+                    if title.isEmpty || description.isEmpty{
+                        showError = true
+                    }
                 }label: {
-                    
-                    CustomButton(text: "Create Community")
-                }.position(x: geometry.size.width / 2, y: geometry.size.height * 0.8)
+                    CustomButton(text: "Create Community", primary: false)
+                }.position(x: geometry.size.width / 2, y: geometry.size.height * 0.85)
             }
-            
-            
+            .alert(isPresented: $showError){
+                Alert(title: Text("Error"),
+                      message: Text("Please fill in all the fields."),
+                      dismissButton: .default(Text("OK"))
+                      )
+            }
         }.ignoresSafeArea()
             .sheet(isPresented: $showpicker) {
                 ImagePicker(show: $showpicker) { url in

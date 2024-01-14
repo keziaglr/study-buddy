@@ -18,6 +18,7 @@ struct SetScheduleView: View {
     @State var endStudySchedule = Date()
     @State var vm = BadgeViewModel()
     @State var cvm = CommunityViewModel()
+    @State private var showAlert = false
     
     
     var body: some View {
@@ -26,17 +27,18 @@ struct SetScheduleView: View {
         GeometryReader { geometry in
             VStack{
                 //Title
-                Text("Schedule Your Meeting!")
+                Text("Study Schedule")
                     .fontWeight(.bold)
-                    .font(.system(size: 21))
-                    .padding(EdgeInsets(top: geometry.size.height*0.07702182, leading: 0, bottom: 0, trailing: 0))
+                    .font(.system(size: 25))
+                    .foregroundStyle(Color("Orange"))
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
                 //Clock Image
-                Image(systemName: "alarm")
+                Image("studytime")
                     .resizable()
-                    .foregroundColor(Color(red: 0.259, green: 0.447, blue: 0.635))
-                    .frame(width: 108,height: 108)
-                    .padding(EdgeInsets(top: geometry.size.height*0.07702182, leading: 0, bottom: 62, trailing: 0))
+                    .frame(width: 220, height: 220)
+//                    .aspectRatio(contentMode: .fill)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
                 
                 //Start Study Schedule Buttons
@@ -59,6 +61,7 @@ struct SetScheduleView: View {
                         }
                 }
                 .frame(width: geometry.size.width*0.7557)
+                .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.12)
                 
                 Divider()
                     .foregroundColor(Color("Gray"))
@@ -89,21 +92,17 @@ struct SetScheduleView: View {
                 //Set Schedule Button
                 Button {
                     cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id)
+                    showAlert = true
                 } label: {
-                    ZStack {
-                        Rectangle()
-                            .fill(Color(red: 0.906, green: 0.467, blue: 0.157))
-                            .frame(width: 297, height: 40)
-                            .cornerRadius(10, corners: .allCorners)
-                        
-                        Text("Set Schedule")
-                            .foregroundColor(Color.white)
-                            .fontWeight(.bold)
-                            .font(.system(size: 19))
-                    }
-//                    .frame(width: 33, height: 33) // Add this line to set the fixed size of the ZStack
+                    CustomButton(text: "Set Study Schedule", primary: false)
+                } .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Success!"),
+                        message: Text("Your action was successful."),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
-                .padding(EdgeInsets(top: geometry.size.height*0.24261874, leading: 0, bottom: 10, trailing: 0))
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 3.3)
                 
                 
                 Button {

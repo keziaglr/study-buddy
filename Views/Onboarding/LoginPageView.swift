@@ -88,10 +88,6 @@ struct LoginPageView: View {
 
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            LoginPageView(changePage: .constant(1))
-            RegisterPageView(changePage: .constant(1))
-        }
-        
+        LoginPageView(changePage: .constant(1))
     }
 }

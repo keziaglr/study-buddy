@@ -17,13 +17,6 @@ struct BadgeView: View {
     var body: some View {
         ZStack {
             HStack {
-//                AsyncImage(url: URL(string: badge.image)) { image in
-//                    image
-//                        .resizable()
-//                        .frame(width: 70, height: 70)
-//                } placeholder: {
-//                    ProgressView()
-//                }
                 Image(badge.name)
                     .resizable()
                     .frame(width: 70, height: 70)
@@ -53,13 +46,15 @@ struct BadgeComponent: View {
         VStack {
             Text("Your Badges Collection")
                 .fontWeight(.bold)
-                .font(.system(size: 20))
+                .font(.system(size: 25))
+                .kerning(0.75)
                 .padding(.bottom, 19)
             if !bm.badges.isEmpty {
                 List(bm.badges, id: \.id) { (badge: Badge) in
                     BadgeView(badge: badge, bm: bm)
                 }
-                .listStyle(.plain)
+                .listRowSeparator(.hidden)
+                .listStyle(.inset)
                 .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 32))
                 }else{
                     Text("Empty")
@@ -68,7 +63,7 @@ struct BadgeComponent: View {
         .task {
             self.bm.getBadges()
         }
-        .padding(.top, 300)
+        .padding(.top, 250)
 
     }
 }

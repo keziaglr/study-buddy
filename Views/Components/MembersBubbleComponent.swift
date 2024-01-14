@@ -21,30 +21,38 @@ struct MembersBubbleComponent: View {
             HStack{
                 
                 //Profile Picture
-                
-                AsyncImage(url: URL(string: member.image)) { image in
-                    image
-
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
-                       
-                } placeholder: {
-                    ProgressView()
+                VStack(alignment: .leading){
+                    AsyncImage(url: URL(string: member.image)) { image in
+                        image
+                        
+                            .resizable()
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .frame(width: 50, height: 50)
+                            .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+                            .padding(.horizontal, 30)
+                        
+                    } placeholder: {
+                        ProgressView()
+                    }
                 }
+                .frame(width: 50)
                 
+//                Spacer()
+                
+                VStack(alignment: .leading){
+                    //Name
+                    Text(member.name)
+                        .fontWeight(.regular)
+                        .font(.system(size: 18))
+                        .foregroundColor(Color.black)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .padding(.leading, 30)
+                }
                 Spacer()
-                
-                //Name
-                Text(member.name)
-                    .fontWeight(.light)
-                    .font(.system(size: 18))
-                    .foregroundColor(Color.black)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 29))
-                
+//                .frame(width: 200)
             }
         }
-        .frame(width: 302, height: 53)
+        .frame(width: 280, height: 53)
     }
 }
 

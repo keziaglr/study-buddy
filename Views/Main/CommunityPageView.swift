@@ -28,7 +28,7 @@ struct CommunityPageView: View {
         ZStack {
             GeometryReader { geometry in
                 
-                HeaderComponent(text: "Your Learning Squad!")
+                HeaderComponent(text: "Your Learning Squad! 👥")
                 
                 SearchBar(text: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
@@ -37,17 +37,31 @@ struct CommunityPageView: View {
                     .font(.system(size: 20))
                     .kerning(0.6)
                     .frame(width: 317, alignment: .leading)
-                    .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.3)
+                    .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.29)
                 
-                List(communityViewModel.rcommunities) { community in
-                    CommunityCell(community: community) {
-                        communityViewModel.joinCommunity(communityID: community.id)
-                    }.listRowSeparator(.hidden)
-                    
-                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(alignment: .center, spacing: 25) {
+                        ForEach(communityViewModel.rcommunities) { community in CommunityCell(community: community) {
+                            communityViewModel.joinCommunity(communityID: community.id)
+                        }
+//                        .listRowSeparator(.hidden)
+//                        .frame(width: geometry.size.width , height: geometry.size.height * 0.2)
+//                        .background(Color.white) // Adjust background color as needed
+//                        .cornerRadius(10)
+                        }
+                        .modifier(ScrollingHStackModifier(items: communityViewModel.rcommunities.count, itemWidth: 302, itemSpacing: 25))
+                    }
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
-                    .listStyle(.plain)
-                    .scrollIndicators(.hidden)
+                }
+//                List(communityViewModel.rcommunities) { community in
+//                    CommunityCell(community: community) {
+//                        communityViewModel.joinCommunity(communityID: community.id)
+//                    }.listRowSeparator(.hidden)
+//                    
+//                }.frame(width: geometry.size.width * 0.9 , height:  geometry.size.height * 0.2)
+//                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
+//                    .listStyle(.plain)
+//                    .scrollIndicators(.hidden)
                 
                 Text("Joined Community")
                     .font(.system(size: 20))

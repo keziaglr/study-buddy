@@ -16,22 +16,26 @@ struct StudyScheduleComponent: View {
             
             //Study Schedule Text
             Text("Study Schedule")
-                .foregroundColor(Color.white)
-                .fontWeight(.medium)
-                .font(.system(size: 16))
-                .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 0))
+                .foregroundColor(Color.black)
+                .fontWeight(.regular)
+                .font(.system(size: 15))
+                .kerning(0.45)
+                .padding(EdgeInsets(top: 8, leading: 30, bottom: 8, trailing: 0))
             
             Spacer()
             
             //Schedule
             ZStack {
-                Text(community.startDate != nil ? community.startDate!.formatted(.dateTime.hour().minute()) : "N/A")
+                Text(community.startDate != nil ? community.startDate!.formatted(.dateTime.hour().minute()) : "Not yet set")
                     .fontWeight(.bold)
-                    .foregroundColor(Color.white)
+                    .font(.system(size: 15))
+                    .kerning(0.45)
+                    .foregroundColor(Color.black)
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
         }
-        .background(Color(red: 0.906, green: 0.467, blue: 0.157))
+        .background(Color("LightOrange"))
+        .frame(width: 374)
         .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
     }
 }
