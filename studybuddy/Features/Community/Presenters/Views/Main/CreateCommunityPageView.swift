@@ -34,7 +34,7 @@ struct CreateCommunityPageView: View {
                     Text("Set Up New Community")
                         .fontWeight(.bold)
                         .font(.system(size: 25))
-                        .foregroundStyle(Color("Orange"))
+                        .foregroundStyle(Colors.orange)
                         .kerning(0.75)
                     
                     Image("community")

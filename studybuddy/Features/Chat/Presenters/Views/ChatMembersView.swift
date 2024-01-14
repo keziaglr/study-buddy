@@ -18,7 +18,7 @@ struct ChatMembersView: View {
                 Text("Members")
                     .fontWeight(.bold)
                     .font(.system(size: 25))
-                    .foregroundStyle(Color("Orange"))
+                    .foregroundStyle(Colors.orange)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
                 Image("members")

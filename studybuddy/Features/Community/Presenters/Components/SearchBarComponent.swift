@@ -13,7 +13,7 @@ struct SearchBarComponent: View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)
                 .frame(width: UIScreen.main.bounds.width * 0.85 , height: UIScreen.main.bounds.height * 0.05)
-                .foregroundColor(Color("Orange"))
+                .foregroundColor(Colors.orange)
             
             RoundedRectangle(cornerRadius: 50)
                 .frame(width: UIScreen.main.bounds.width * 0.83 , height: UIScreen.main.bounds.height * 0.04)

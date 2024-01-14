@@ -31,7 +31,7 @@ struct LoginPageView: View {
                             .fontWeight(.bold)
                             .font(.system(size: 30))
                             .kerning(0.9)
-                            .foregroundColor(Color("Orange"))
+                            .foregroundColor(Colors.orange)
                             .padding(.top, 105)
                         
                         ZStack{
@@ -70,7 +70,7 @@ struct LoginPageView: View {
                                 Text("Register Now")
                                     .italic()
                                     .fontWeight(.bold)
-                                    .foregroundColor(Color("Orange"))
+                                    .foregroundColor(Colors.orange)
                                     .font(.system(size: 15))
                             }
                         }

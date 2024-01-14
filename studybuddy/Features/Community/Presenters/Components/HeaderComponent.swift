@@ -21,7 +21,7 @@ struct HeaderComponent: View {
                 HStack {
                     Text(text)
                         .fontWeight(.bold)
-                        .foregroundColor(Color("Orange"))
+                        .foregroundColor(Colors.orange)
                         .kerning(0.75)
                         .font(.system(size: 25))
                         .padding(.leading, 50)

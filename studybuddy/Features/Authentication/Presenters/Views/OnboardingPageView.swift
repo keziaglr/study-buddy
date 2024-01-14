@@ -22,7 +22,7 @@ struct OnboardingPageView: View {
                     .fontWeight(.bold)
                     .font(.system(size: 30))
                     .kerning(0.9)
-                    .foregroundColor(Color("Orange"))
+                    .foregroundColor(Colors.orange)
                     .padding(.top, -320)
             }
             
@@ -39,7 +39,7 @@ struct OnboardingPageView: View {
                     .fontWeight(.medium)
                     .font(.system(size: 24))
                     .kerning(0.72)
-                    .foregroundColor(Color("Orange"))
+                    .foregroundColor(Colors.orange)
                     .padding(.top, 485)
                 Spacer()
                 Button(action: {

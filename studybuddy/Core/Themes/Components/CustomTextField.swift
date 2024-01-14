@@ -35,7 +35,7 @@ struct CustomTextField: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .inset(by: 1)
-                    .stroke(Color("Orange"), lineWidth: 2)
+                    .stroke(Colors.orange, lineWidth: 2)
                     .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 4)
                 
             )

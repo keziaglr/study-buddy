@@ -16,7 +16,7 @@ struct CustomRoundedButton: View {
             .font(.system(size: 14))
             .fontWeight(.semibold)
             .foregroundColor(.white)
-            .background(Color("Orange"))
+            .background(Colors.orange)
             .cornerRadius(50)
     }
 }

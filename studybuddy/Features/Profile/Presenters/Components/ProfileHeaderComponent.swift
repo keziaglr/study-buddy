@@ -53,7 +53,7 @@ struct ProfileHeaderComponent: View {
                                 ZStack {
                                     Circle()
                                         .fill()
-                                        .foregroundColor(Color("Orange"))
+                                        .foregroundColor(Colors.orange)
                                         .frame(width: 25)
                                         .fontWeight(.bold)
                                     Image(systemName: "pencil")
@@ -67,7 +67,7 @@ struct ProfileHeaderComponent: View {
                         Text(user?.name ?? "")
                             .fontWeight(.bold)
                             .font(.system(size: 20))
-                            .foregroundColor(Color("Orange"))
+                            .foregroundColor(Colors.orange)
                             .kerning(0.6)
 //                            .padding(.bottom, 2)
                         
@@ -75,7 +75,7 @@ struct ProfileHeaderComponent: View {
                         Text(user?.email ?? "")
                             .fontWeight(.light)
                             .font(.system(size: 18))
-                            .foregroundColor(Color("Orange"))
+                            .foregroundColor(Colors.orange)
                             .padding(.bottom, 8)
                         VStack{
                             Button(action: {
@@ -94,7 +94,7 @@ struct ProfileHeaderComponent: View {
                                     .font(.system(size: 19))
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
-                                    .background(Color("Orange"))
+                                    .background(Colors.orange)
                                     .cornerRadius(100)
                             }
                         }
