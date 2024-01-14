@@ -16,9 +16,20 @@ final class UserManager {
     
     func addUser(user: UserModel) {
         do {
-            try dbRef.document().setData(from: user)
+            try dbRef.document(user.id!).setData(from: user)
         } catch {
             print(error)
         }
+    }
+     
+    func updateUserInterest(userID: String, category: [String]) async throws{
+        try await dbRef.document(userID).updateData([
+            "category" : category
+        ])
+    }
+    
+    func getCurrentUser(userID: String) async throws -> UserModel? {
+        let docRef = dbRef.document(userID)
+        return try await docRef.getDocument(as: UserModel.self)
     }
 }

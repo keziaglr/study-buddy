@@ -26,13 +26,13 @@ final class AuthenticationViewModel : ObservableObject {
     }
     
     func createUser() async throws {
-        try await AuthenticationManager.shared.createUser(email: email, password: password)
+        let user = try await AuthenticationManager.shared.createUser(email: email, password: password)
         created = true
-        addUserToFirestore()
+        addUserToFirestore(userUID: user.uid)
     }
     
-    func addUserToFirestore() {
-        let user = UserModel(name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
+    func addUserToFirestore(userUID: String) {
+        let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
         UserManager.shared.addUser(user: user)
     }
     

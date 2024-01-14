@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct InterestPageView: View {
     @State private var selectedPills: Set<String> = []
-    @State private var uvm = UserViewModel()
+    @EnvironmentObject private var viewModel: UserViewModel
     @State private var showHome = false
 
     var body: some View {
@@ -35,7 +35,14 @@ struct InterestPageView: View {
                         .position(x: geometry.size.width / 1.75, y: geometry.size.height * 0.61)
                     
                     Button(action: {
-                        showHome = true
+                        Task {
+                            do {
+                                try await viewModel.updateUserInterest(categories: selectedPills)
+                                showHome = true
+                            } catch {
+                                print(error)
+                            }
+                        }
                     }) {
                         CustomButton(text: "Continue")
                     }
@@ -54,5 +61,6 @@ struct InterestPageView: View {
 struct InterestPageView_Previews: PreviewProvider {
     static var previews: some View {
         InterestPageView()
+            .environmentObject(UserViewModel())
     }
 }

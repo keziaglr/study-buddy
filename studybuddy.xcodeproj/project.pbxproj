@@ -20,6 +20,7 @@
 		43AD2B802B5433680010B718 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B7F2B5433680010B718 /* Lottie */; };
 		43AD2B832B5438850010B718 /* LottieUI in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B822B5438850010B718 /* LottieUI */; };
 		43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */; };
+		43AD2B882B5461D50010B718 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B872B5461D50010B718 /* Categories.swift */; };
 		43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972032A4987D6000D1E6B /* LibraryView.swift */; };
 		43C972072A498A32000D1E6B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972062A498A32000D1E6B /* ImagePicker.swift */; };
 		43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */; };
@@ -91,6 +92,7 @@
 		43AD2B7A2B4EADC70010B718 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithSymbol.swift; sourceTree = "<group>"; };
 		43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingHStackModifier.swift; sourceTree = "<group>"; };
+		43AD2B872B5461D50010B718 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		43C972032A4987D6000D1E6B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		43C972062A498A32000D1E6B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 		43AD2B662B4E7B590010B718 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				43AD2B862B5461C70010B718 /* Model */,
 				43AD2B6C2B4E7C760010B718 /* ViewModels */,
 				43AD2B672B4E7B600010B718 /* Presenters */,
 			);
@@ -308,6 +311,14 @@
 				43FA00AD2B2316620035E6FC /* MessageBubbleComponent.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		43AD2B862B5461C70010B718 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				43AD2B872B5461D50010B718 /* Categories.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		43C972002A498538000D1E6B /* Library */ = {
@@ -707,6 +718,7 @@
 				43FA00F72B2316620035E6FC /* BadgeEarnedView.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderComponent.swift in Sources */,
 				43FA00F32B2316620035E6FC /* TabBarNavigation.swift in Sources */,
+				43AD2B882B5461D50010B718 /* Categories.swift in Sources */,
 				43FA00CE2B2316620035E6FC /* ChatViewModel.swift in Sources */,
 				43FA00F62B2316620035E6FC /* CreateCommunityPageView.swift in Sources */,
 				43FA00EC2B2316620035E6FC /* ChatMembersView.swift in Sources */,

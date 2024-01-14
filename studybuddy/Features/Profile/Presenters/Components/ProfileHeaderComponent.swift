@@ -25,7 +25,7 @@ struct ProfileHeaderComponent: View {
                         .resizable()
                         .scaledToFit()
                         .ignoresSafeArea()
-                        
+                    
                     
                     VStack {
                         //profile image
@@ -38,7 +38,7 @@ struct ProfileHeaderComponent: View {
                                     .cornerRadius(15)
                                     .padding(.bottom, 8)
                             } placeholder: {
-                            Image("user")
+                                Image("profile_placeholder")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 80, height: 80)
@@ -60,7 +60,7 @@ struct ProfileHeaderComponent: View {
                                         .foregroundColor(.white)
                                 }
                             }.offset(x: 35, y: 30)
-
+                            
                         }
                         
                         //name
@@ -69,7 +69,7 @@ struct ProfileHeaderComponent: View {
                             .font(.system(size: 20))
                             .foregroundColor(Colors.orange)
                             .kerning(0.6)
-//                            .padding(.bottom, 2)
+                        //                            .padding(.bottom, 2)
                         
                         //email
                         Text(user?.email ?? "")
@@ -83,9 +83,9 @@ struct ProfileHeaderComponent: View {
                                 logout = true
                                 let firebaseAuth = Auth.auth()
                                 do {
-                                  try firebaseAuth.signOut()
+                                    try firebaseAuth.signOut()
                                 } catch let signOutError as NSError {
-                                  print("Error signing out: %@", signOutError)
+                                    print("Error signing out: %@", signOutError)
                                 }
                             }) {
                                 Text("Logout")
@@ -104,16 +104,17 @@ struct ProfileHeaderComponent: View {
                 Spacer()
             }
             .onChange(of: showPicker, perform: { newValue in
-                um.getUser(id: Auth.auth().currentUser?.uid ?? "mxVB7MT39gahu7hQ2ddsSDhOqNl1") { retrievedUser in
-                    self.user = retrievedUser
-                }
+//                um.getUser(id: Auth.auth().currentUser?.uid ?? "mxVB7MT39gahu7hQ2ddsSDhOqNl1") { retrievedUser in
+//                    self.user = retrievedUser
+//                }
             })
             .task {
-                um.getUser(id: Auth.auth().currentUser?.uid ?? "mxVB7MT39gahu7hQ2ddsSDhOqNl1") { retrievedUser in
-                    self.user = retrievedUser
+                do {
+                    self.user = try await um.getUserProfile()
+                } catch {
+                    print(error)
                 }
-                
-        }
+            }
         }.navigationDestination(isPresented: $logout) {
             MasterView()
         }

@@ -93,6 +93,7 @@ struct RegisterPageView: View {
             }
             .navigationDestination(isPresented: $viewModel.created) {
                 InterestPageView()
+                    .environmentObject(viewModel)
             }
             .alert(isPresented: $showingAlert) {
                 Alerts.errorRegister
