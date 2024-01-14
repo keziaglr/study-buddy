@@ -20,9 +20,9 @@ struct RegisterPageView: View {
             ZStack{
                 Images.backgroundGradient
                     .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
                 VStack{
                     Text("Let's get Started!")
                         .fontWeight(.bold)
@@ -36,7 +36,7 @@ struct RegisterPageView: View {
                             .loopMode(.loop)
                             .frame(width: 329)
                             .padding(.bottom, 391)
-
+                        
                         VStack(spacing: 20) {
                             CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
                                 .padding(.top, 105)
@@ -47,27 +47,27 @@ struct RegisterPageView: View {
                         }
                     }
                 }
+                
+                VStack{
+                    Spacer()
                     
-                    VStack{
-                        Spacer()
-                        Button(action: {
-                            Task {
-                                do {
-                                    isLoading = true
-                                    try await viewModel.createUser()
-                                    showingAlert = false
-                                } catch {
-                                    print(error)
-                                    showingAlert = true
-                                }
-                                isLoading = false
-                            }) {
-                                CustomButton(text: "Register")
-                                    .disabled(viewModel.checkRegister())
-                                    .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
-                            
-                        
-                }
+                    Button{
+                        Task {
+                            do {
+                                isLoading = true
+                                try await viewModel.createUser()
+                                showingAlert = false
+                            } catch {
+                                print(error)
+                                showingAlert = true
+                            }
+                            isLoading = false
+                        }
+                    } label: {
+                        CustomButton(text: "Register")
+                            .disabled(viewModel.checkRegister())
+                            .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
+                    }
                     
                     HStack {
                         Text("Already have an account yet?")
@@ -82,11 +82,11 @@ struct RegisterPageView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(Colors.orange)
                                 .font(.system(size: 15))
-                            }
                         }
                     }
-                    .padding(.bottom, 90)
                 }
+                .padding(.bottom, 90)
+                
                 if isLoading {
                     LoaderComponent()
                 }

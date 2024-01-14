@@ -19,29 +19,31 @@ struct LoginPageView: View {
         NavigationStack {
             ZStack{
                 Images.backgroundGradient
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                VStack{
+                    Text("Welcome Back 👋🏼")
+                        .fontWeight(.bold)
+                        .font(.system(size: 30))
+                        .kerning(0.9)
+                        .foregroundColor(Colors.orange)
+                        .padding(.top, 105)
                     
-                    VStack{
-                        Text("Welcome Back 👋🏼")
-                            .fontWeight(.bold)
-                            .font(.system(size: 30))
-                            .kerning(0.9)
-                            .foregroundColor(Colors.orange)
-                            .padding(.top, 105)
+                    ZStack{
+                        LottieView("community")
+                            .loopMode(.loop)
+                            .frame(width: 329)
+                            .padding(.bottom, 391)
                         
-                        ZStack{
-                            LottieView("community")
-                                .loopMode(.loop)
-                                .frame(width: 329)
-                                .padding(.bottom, 391)
-
-                            VStack(spacing: 20) {
-                                CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
-                                    .padding(.top, 105)
-                                
-                                CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
+                        VStack(spacing: 20) {
+                            CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
+                                .padding(.top, 105)
+                            
+                            CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
+                        }
+                    }
                 }
                 
                 VStack{
@@ -73,32 +75,24 @@ struct LoginPageView: View {
                         } label: {
                             Text("Register Now")
                                 .italic()
-                                .fontWeight(.light)
+                                .fontWeight(.bold)
+                                .foregroundColor(Colors.orange)
                                 .font(.system(size: 15))
-                            Button{
-                                changePage = 3
-                            } label: {
-                                Text("Register Now")
-                                    .italic()
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Colors.orange)
-                                    .font(.system(size: 15))
-                            }
                         }
-                        .kerning(0.45)
-                        .padding(.bottom, 90)
                     }
-                    .navigationDestination(isPresented: $viewModel.authenticated) {
-                        TabBarNavigation()
-//                        InterestPageView()
-                    }
-                
+                    .kerning(0.45)
+                    .padding(.bottom, 90)
+                }
+                .navigationDestination(isPresented: $viewModel.authenticated) {
+                    TabBarNavigation()
+                    //                        InterestPageView()
                 }
                 
+                if isLoading {
+                    LoaderComponent()
+                }
             }
-            if isLoading {
-                LoaderComponent()
-            }
+            
         }
         .navigationBarBackButtonHidden()
         .onAppear{
