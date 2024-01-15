@@ -17,6 +17,15 @@ class UserViewModel: ObservableObject {
     
     var db = Firestore.firestore()
     
+    func getUserProfile() async throws -> UserModel? {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            print("User is not authenticated or user ID could not be retrieved.")
+            return nil
+        }
+        
+        return try await UserManager.shared.getCurrentUser(userID: currentUserID)
+    }
+    
     func getUser(id: String, completion: @escaping (UserModel?) -> Void){
         db.collection("users").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -59,11 +68,15 @@ class UserViewModel: ObservableObject {
         }
         
         db.collection("users").document(currentUserID).updateData(["category" : FieldValue.arrayUnion([category])])
+    }
+    
+    func updateUserInterest(categories: Set<String>) async throws {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            print("User is not authenticated or user ID could not be retrieved.")
+            return
+        }
         
-        
-        
-        
-        
+        try await UserManager.shared.updateUserInterest(userID: currentUserID, category: Array(categories))
     }
     
     func deleteCategory(categoryToDelete: String) {

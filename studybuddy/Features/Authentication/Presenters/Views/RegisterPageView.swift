@@ -10,22 +10,19 @@ import LottieUI
 
 struct RegisterPageView: View {
     
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var name: String = ""
-    @State private var emailTxt: String = ""
-    @State private var passwordTxt: String = ""
-    @ObservedObject private var avm = AuthenticationViewModel()
-    @Binding var changePage : Int
+    @EnvironmentObject private var viewModel: AuthenticationViewModel
+    @State private var showingAlert = false
+    @State private var isLoading = false
+    @State private var goToLogin = false
     
     var body: some View {
         NavigationStack {
             ZStack{
                 Images.backgroundGradient
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
                 VStack{
                     Text("Let's get Started!")
                         .fontWeight(.bold)
@@ -39,54 +36,80 @@ struct RegisterPageView: View {
                             .loopMode(.loop)
                             .frame(width: 329)
                             .padding(.bottom, 391)
-
+                        
                         VStack(spacing: 20) {
-                            CustomTextField(label: "Name", placeholder: "Name", text: $name)
+                            CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
                                 .padding(.top, 105)
                             
-                            CustomTextField(label: "Email", placeholder: "Email", text: $emailTxt)
+                            CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
                             
-                            CustomTextField(label: "Password", placeholder: "Password", text: $passwordTxt, showText: false)
+                            CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
                         }
                     }
                 }
+                
+                VStack{
+                    Spacer()
                     
-                    VStack{
-                        Spacer()
-                        Button(action: {
-                            avm.createUser(name: name, email: emailTxt, password: passwordTxt)
-                        }) {
-                            CustomButton(text: "Register")
-                        }
-                        .disabled(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt))
-                        .opacity(avm.checkRegister(name: name, email: emailTxt, password: passwordTxt) ? 0.5 : 1.0)
-                        
-                        HStack {
-                            Text("Already have an account yet?")
-                                .italic()
-                                .fontWeight(.light)
-                                .font(.system(size: 15))
-                            Button{
-                                changePage = 2
-                            } label: {
-                                Text("Login Now")
-                                    .italic()
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Colors.orange)
-                                    .font(.system(size: 15))
+                    Button{
+                        Task {
+                            do {
+                                isLoading = true
+                                try await viewModel.createUser()
+                                showingAlert = false
+                            } catch {
+                                print(error)
+                                showingAlert = true
                             }
+                            isLoading = false
                         }
-                        .padding(.bottom, 90)
+                    } label: {
+                        CustomButton(text: "Register")
+                            .disabled(viewModel.checkRegister())
+                            .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
                     }
-            }.navigationDestination(isPresented: $avm.created) {
+                    
+                    HStack {
+                        Text("Already have an account yet?")
+                            .italic()
+                            .fontWeight(.light)
+                            .font(.system(size: 15))
+                        Button{
+//                            changePage = 2
+                            goToLogin = true
+                        } label: {
+                            Text("Login Now")
+                                .italic()
+                                .fontWeight(.bold)
+                                .foregroundColor(Colors.orange)
+                                .font(.system(size: 15))
+                        }
+                    }
+                }
+                .padding(.bottom, 90)
+                
+                if isLoading {
+                    LoaderComponent()
+                }
+            }
+            .navigationDestination(isPresented: $viewModel.created) {
                 InterestPageView()
             }
+            .navigationDestination(isPresented: $goToLogin) {
+                LoginPageView()
+                    .environmentObject(viewModel)
+            }
+            .alert(isPresented: $showingAlert) {
+                Alerts.errorRegister
+            }
+            .navigationBarBackButtonHidden()
         }
     }
 }
 
 struct RegisterPageView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterPageView(changePage: .constant(1))
+        RegisterPageView()
+            .environmentObject(AuthenticationViewModel())
     }
 }
