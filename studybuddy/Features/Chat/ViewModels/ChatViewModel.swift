@@ -54,12 +54,12 @@ final class ChatViewModel: ObservableObject {
             if let user = user {
                 let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id!)
                 
-                
-                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
-                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
-                        self.checkScholarSupremeBadge()
-                    }
-                }
+                // TODO: fix achieve badge
+//                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
+//                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
+//                        self.checkScholarSupremeBadge()
+//                    }
+//                }
                 
                 do {
                     try self.db.collection("communities").document(communityID).collection("chats").document(newChat.id).setData(from: newChat)
@@ -129,10 +129,11 @@ final class ChatViewModel: ObservableObject {
                     // User has been chatting for 7 consecutive days
                     print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
                     bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
-                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
-                        badgeImageURL  = badge!.name
-                        showAchievedScholarSupremeBadge = true
-                    }
+                    // TODO: fix achieve badge
+//                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
+//                        badgeImageURL  = badge!.name
+//                        showAchievedScholarSupremeBadge = true
+//                    }
                     break
                 }
                 // Move to the next consecutive day

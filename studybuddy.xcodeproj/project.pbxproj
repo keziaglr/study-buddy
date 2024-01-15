@@ -37,7 +37,6 @@
 		43FA00D02B2316620035E6FC /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009D2B2316620035E6FC /* CommunityViewModel.swift */; };
 		43FA00D12B2316620035E6FC /* DummyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009E2B2316620035E6FC /* DummyUI.swift */; };
 		43FA00D42B2316620035E6FC /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A12B2316620035E6FC /* AuthenticationViewModel.swift */; };
-		43FA00D52B2316620035E6FC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A22B2316620035E6FC /* ProfileViewModel.swift */; };
 		43FA00D62B2316620035E6FC /* CustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A52B2316620035E6FC /* CustomRoundedButton.swift */; };
 		43FA00D72B2316620035E6FC /* ChatRoomSettingsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A62B2316620035E6FC /* ChatRoomSettingsComponent.swift */; };
 		43FA00D82B2316620035E6FC /* ChatRoomInfoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A72B2316620035E6FC /* ChatRoomInfoComponent.swift */; };
@@ -112,7 +111,6 @@
 		43FA009D2B2316620035E6FC /* CommunityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		43FA009E2B2316620035E6FC /* DummyUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyUI.swift; sourceTree = "<group>"; };
 		43FA00A12B2316620035E6FC /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
-		43FA00A22B2316620035E6FC /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		43FA00A52B2316620035E6FC /* CustomRoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomRoundedButton.swift; sourceTree = "<group>"; };
 		43FA00A62B2316620035E6FC /* ChatRoomSettingsComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomSettingsComponent.swift; sourceTree = "<group>"; };
 		43FA00A72B2316620035E6FC /* ChatRoomInfoComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoComponent.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 			children = (
 				43FA009C2B2316620035E6FC /* BadgeViewModel.swift */,
 				43FA009A2B2316620035E6FC /* UserViewModel.swift */,
-				43FA00A22B2316620035E6FC /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -735,7 +732,6 @@
 				43FA00D92B2316620035E6FC /* MessageInputComponent.swift in Sources */,
 				43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */,
 				43FA00DC2B2316620035E6FC /* StudyScheduleComponent.swift in Sources */,
-				43FA00D52B2316620035E6FC /* ProfileViewModel.swift in Sources */,
 				43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */,
 				43FA00ED2B2316620035E6FC /* DiscoverPageView.swift in Sources */,
 				43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */,

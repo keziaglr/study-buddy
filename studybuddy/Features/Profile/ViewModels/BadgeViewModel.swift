@@ -18,62 +18,53 @@ class BadgeViewModel: ObservableObject {
     
     var db = Firestore.firestore()
     
-    init() {
-        getBadges()
-    }
-    
     func getBadgeID(badgeName: String) -> String {
         let badgeID = self.badges.first { badge in
             badge.name == badgeName
         }
-        return badgeID!.id
+        return badgeID!.id!
     }
     
-    func validateBadge(badgeId: String, completion: @escaping (Bool) -> Void) {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            completion(false)
-            return
+    func validateBadge(badgeId: String, currentUser: UserModel?) -> Bool {
+        guard let currentUser = currentUser else {
+            return false
         }
-
-        um.getUser(id: currentUserID) { user in
-            var isValid = false
-            if let currUser = user {
-                isValid = user!.badges.contains(badgeId)
-            }
-
-            completion(isValid)
-        }
+        return currentUser.badges.contains(badgeId)
     }
     
-    func getBadge(id: String, completion: @escaping (Badge?) -> Void){
-        db.collection("badges").document(id).getDocument { (documentSnapshot, error) in
-            if let error = error {
-                print("Error getting community: \(error)")
-                completion(nil)
-                return
-            }
-            
-            guard let document = documentSnapshot else {
-                print("Badges document does not exist")
-                completion(nil)
-                return
-            }
-            
-            if document.exists {
-                let data = document.data()
-                let documentID = document.documentID
-                let name = data?["name"] as? String ?? ""
-                let image = data?["image"] as? String ?? ""
-                let description = data?["description"] as? String ?? ""
-                let badge = Badge(id: documentID, name: name, image: image, description: description)
-                
-                print("Retrieved user: \(badge)")
-                completion(badge)
-            } else {
-                print("User document does not exist")
-                completion(nil)
-            }
-        }
+//    func getBadge(id: String, completion: @escaping (Badge?) -> Void){
+//        db.collection("badges").document(id).getDocument { (documentSnapshot, error) in
+//            if let error = error {
+//                print("Error getting community: \(error)")
+//                completion(nil)
+//                return
+//            }
+//            
+//            guard let document = documentSnapshot else {
+//                print("Badges document does not exist")
+//                completion(nil)
+//                return
+//            }
+//            
+//            if document.exists {
+//                let data = document.data()
+//                let documentID = document.documentID
+//                let name = data?["name"] as? String ?? ""
+//                let image = data?["image"] as? String ?? ""
+//                let description = data?["description"] as? String ?? ""
+//                let badge = Badge(id: documentID, name: name, image: image, description: description)
+//                
+//                print("Retrieved user: \(badge)")
+//                completion(badge)
+//            } else {
+//                print("User document does not exist")
+//                completion(nil)
+//            }
+//        }
+//    }
+    
+    func getBadges() async throws {
+        badges = try await BadgeManager.shared.getBadges()
     }
     
     func achieveBadge(badgeId: String){
@@ -106,21 +97,21 @@ class BadgeViewModel: ObservableObject {
         }
     }
     
-    func getBadges(){
-        db.collection("badges").addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("Error fetching data \(String(describing: error))")
-                return
-            }
-            
-            self.badges = documents.compactMap{ (queryDocumentSnapshot) -> Badge in
-                let documentID = queryDocumentSnapshot.documentID
-                let data = queryDocumentSnapshot.data()
-                let name = data["name"] as? String ?? ""
-                let image = data["image"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                return Badge(id: documentID, name: name, image: image, description: description)
-            }
-        }
-    }
+//    func getBadges(){
+//        db.collection("badges").addSnapshotListener { querySnapshot, error in
+//            guard let documents = querySnapshot?.documents else {
+//                print("Error fetching data \(String(describing: error))")
+//                return
+//            }
+//            
+//            self.badges = documents.compactMap{ (queryDocumentSnapshot) -> Badge in
+//                let documentID = queryDocumentSnapshot.documentID
+//                let data = queryDocumentSnapshot.data()
+//                let name = data["name"] as? String ?? ""
+//                let image = data["image"] as? String ?? ""
+//                let description = data["description"] as? String ?? ""
+//                return Badge(id: documentID, name: name, image: image, description: description)
+//            }
+//        }
+//    }
 }

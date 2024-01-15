@@ -151,12 +151,13 @@ class LibraryViewModel: ObservableObject {
             } else {
                 print("File uploaded successfully.")
                 self.uploadLibraryToFirestore(filePath: filePath, communityID: communityID)
-                self.bvm.validateBadge(badgeId: self.bvm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
-                    if !hasBadge {
-                        self.checkResearchGuruBadge()
-                    }
-                    NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
-                }
+                // TODO: Fix achieve badge
+//                self.bvm.validateBadge(badgeId: self.bvm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
+//                    if !hasBadge {
+//                        self.checkResearchGuruBadge()
+//                    }
+//                    NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
+//                }
                 // Handle success case here
             }
         }
@@ -191,15 +192,16 @@ class LibraryViewModel: ObservableObject {
     // achieved when download file for the first time
     func checkKnowledgeNavigatorBadge() {
         let knowledgeNavigatorBadgeID = self.bvm.getBadgeID(badgeName: "Knowledge Navigator")
-        self.bvm.validateBadge(badgeId: knowledgeNavigatorBadgeID) { hasBadge in
-            if !hasBadge {
-                self.bvm.achieveBadge(badgeId: knowledgeNavigatorBadgeID)
-            }
-        }
-        bvm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
-            self.badgeImageURL = badge?.name ?? ""
-            self.showAchievedBadge = true
-        }
+        // TODO: fix achieve badge
+//        self.bvm.validateBadge(badgeId: knowledgeNavigatorBadgeID) { hasBadge in
+//            if !hasBadge {
+//                self.bvm.achieveBadge(badgeId: knowledgeNavigatorBadgeID)
+//            }
+//        }
+//        bvm.getBadge(id: knowledgeNavigatorBadgeID) { badge in
+//            self.badgeImageURL = badge?.name ?? ""
+//            self.showAchievedBadge = true
+//        }
     }
     
     func isSameDayAsCurrentDate(date: Date) -> Bool {
@@ -224,10 +226,11 @@ class LibraryViewModel: ObservableObject {
         
         if currentDayUserLibraries.count == 5 {
             let researchGuruBadgeID = bvm.getBadgeID(badgeName: "Research Guru")
-            bvm.getBadge(id: researchGuruBadgeID) { badge in
-                self.badgeImageURL = badge!.name
-                self.showAchievedBadge = true
-            }
+            //TODO: Fix achieve badge
+//            bvm.getBadge(id: researchGuruBadgeID) { badge in
+//                self.badgeImageURL = badge!.name
+//                self.showAchievedBadge = true
+//            }
             bvm.achieveBadge(badgeId: researchGuruBadgeID)
         } else {
             showAchievedBadge = false

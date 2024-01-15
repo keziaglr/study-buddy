@@ -12,8 +12,7 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct ProfileHeaderComponent: View {
-    @ObservedObject private var userViewModel = UserViewModel()
-//    @State private var user: UserModel? = nil
+    @EnvironmentObject private var userViewModel: UserViewModel
     @State var logout = false
     @State var showPicker = false
     var body: some View {
@@ -99,13 +98,6 @@ struct ProfileHeaderComponent: View {
                 .edgesIgnoringSafeArea(.all)
                 Spacer()
             }
-            .task {
-                do {
-                    _ = try await userViewModel.getUserProfile()
-                } catch {
-                    print(error)
-                }
-            }
         }.navigationDestination(isPresented: $logout) {
             MasterView()
         }
@@ -128,5 +120,6 @@ struct ProfileHeaderComponent: View {
 struct ProfileHeaderComponent_Previews: PreviewProvider {
     static var previews: some View {
         ProfileHeaderComponent()
+            .environmentObject(UserViewModel())
     }
 }

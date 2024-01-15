@@ -140,13 +140,14 @@ struct SetScheduleView: View {
                     try eventStore.save(event, span: .thisEvent)
                     print("Event added to calendar")
                     isPresent = false
-                    vm.validateBadge(badgeId: badgeId) { b in
-                        if !b {
-                            badge = "Collaborative Dynamo"
-                            isBadge = true
-                            vm.achieveBadge(badgeId: badgeId)
-                        }
-                    }
+                    //TODO: fix achieve badge
+//                    vm.validateBadge(badgeId: badgeId) { b in
+//                        if !b {
+//                            badge = "Collaborative Dynamo"
+//                            isBadge = true
+//                            vm.achieveBadge(badgeId: badgeId)
+//                        }
+//                    }
                 } catch {
                     print("Error saving event: \(error.localizedDescription)")
                 }

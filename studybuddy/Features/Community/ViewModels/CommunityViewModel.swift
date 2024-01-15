@@ -183,31 +183,32 @@ class CommunityViewModel: ObservableObject {
     
     //MARK: VALIDATE BADGE
     func validateBadge(communityID: String){
-        if jCommunities.count == 2 {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary")
-            bvm.validateBadge(badgeId: badgeId) { b in
-                if !b{
-                    self.showBadge = true
-                    self.badge = "Learning Luminary"
-                    self.bvm.achieveBadge(badgeId: badgeId)
-                }
-            }
-        }else {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
-            getCommunity(id: communityID) { c in
-                for jc in self.jCommunities {
-                    if jc.category != c?.category{
-                        self.bvm.validateBadge(badgeId: badgeId) { b in
-                            if !b{
-                                self.showBadge = true
-                                self.badge = "Engaged Explorer"
-                                self.bvm.achieveBadge(badgeId: badgeId)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //TODO: fix achieve badge
+//        if jCommunities.count == 2 {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary")
+//            bvm.validateBadge(badgeId: badgeId) { b in
+//                if !b{
+//                    self.showBadge = true
+//                    self.badge = "Learning Luminary"
+//                    self.bvm.achieveBadge(badgeId: badgeId)
+//                }
+//            }
+//        }else {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
+//            getCommunity(id: communityID) { c in
+//                for jc in self.jCommunities {
+//                    if jc.category != c?.category{
+//                        self.bvm.validateBadge(badgeId: badgeId) { b in
+//                            if !b{
+//                                self.showBadge = true
+//                                self.badge = "Engaged Explorer"
+//                                self.bvm.achieveBadge(badgeId: badgeId)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     

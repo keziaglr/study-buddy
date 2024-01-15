@@ -13,7 +13,7 @@ import Firebase
 
 class UserViewModel: ObservableObject {
     
-    @Published var users = [UserModel]()
+//    @Published var users = [UserModel]()
     @Published var currentUser: UserModel?
     var db = Firestore.firestore()
     

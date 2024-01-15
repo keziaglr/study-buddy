@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct Badge: Identifiable, Codable {
-    var id: String
+    @DocumentID var id: String?
     var name: String
     var image: String
     var description: String

@@ -11,30 +11,15 @@ import FirebaseFirestoreSwift
 
 final class BadgeManager {
     static let shared = BadgeManager()
-    private let dbRef = Firestore.firestore().collection("users")
-    
-    func addUser(user: UserModel) {
-        do {
-            try dbRef.document(user.id!).setData(from: user)
-        } catch {
-            print(error)
-        }
-    }
+    private let dbRef = Firestore.firestore().collection("badges")
      
-    func updateUserInterest(userID: String, category: [String]) async throws{
-        try await dbRef.document(userID).updateData([
-            "category" : category
-        ])
-    }
-    
-    func updateProfileImage(userID: String, image: String) async throws{
-        try await dbRef.document(userID).updateData([
-            "image" : image
-        ])
-    }
-    
-    func getCurrentUser(userID: String) async throws -> UserModel? {
-        let docRef = dbRef.document(userID)
-        return try await docRef.getDocument(as: UserModel.self)
+    func getBadges() async throws -> [Badge] {
+        var badges: [Badge] = []
+        let snapshot = try await dbRef.getDocuments()
+        for document in snapshot.documents {
+            var badge = try document.data(as: Badge.self)
+            badges.append(badge)
+        }
+        return badges
     }
 }
