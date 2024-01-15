@@ -12,11 +12,10 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct ProfileHeaderComponent: View {
-    @State private var um = UserViewModel()
-    @State private var user: UserModel? = nil
+    @ObservedObject private var userViewModel = UserViewModel()
+//    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
-    @State var vm = ProfileViewModel()
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,7 +29,7 @@ struct ProfileHeaderComponent: View {
                     VStack {
                         //profile image
                         ZStack {
-                            AsyncImage(url: URL(string: user?.image ?? "")) { image in
+                            AsyncImage(url: URL(string: userViewModel.currentUser?.image ?? "")) { image in
                                 image
                                     .resizable()
                                     .scaledToFill()
@@ -64,7 +63,7 @@ struct ProfileHeaderComponent: View {
                         }
                         
                         //name
-                        Text(user?.name ?? "")
+                        Text(userViewModel.currentUser?.name ?? "")
                             .fontWeight(.bold)
                             .font(.system(size: 20))
                             .foregroundColor(Colors.orange)
@@ -72,20 +71,17 @@ struct ProfileHeaderComponent: View {
                         //                            .padding(.bottom, 2)
                         
                         //email
-                        Text(user?.email ?? "")
+                        Text(userViewModel.currentUser?.email ?? "")
                             .fontWeight(.light)
                             .font(.system(size: 18))
                             .foregroundColor(Colors.orange)
                             .padding(.bottom, 8)
                         VStack{
                             Button(action: {
-                                //add action
-                                logout = true
-                                let firebaseAuth = Auth.auth()
                                 do {
-                                    try firebaseAuth.signOut()
-                                } catch let signOutError as NSError {
-                                    print("Error signing out: %@", signOutError)
+                                    try userViewModel.logout()
+                                } catch {
+                                    print(error)
                                 }
                             }) {
                                 Text("Logout")
@@ -103,14 +99,9 @@ struct ProfileHeaderComponent: View {
                 .edgesIgnoringSafeArea(.all)
                 Spacer()
             }
-            .onChange(of: showPicker, perform: { newValue in
-//                um.getUser(id: Auth.auth().currentUser?.uid ?? "mxVB7MT39gahu7hQ2ddsSDhOqNl1") { retrievedUser in
-//                    self.user = retrievedUser
-//                }
-            })
             .task {
                 do {
-                    self.user = try await um.getUserProfile()
+                    _ = try await userViewModel.getUserProfile()
                 } catch {
                     print(error)
                 }
@@ -121,7 +112,13 @@ struct ProfileHeaderComponent: View {
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {
             ImagePicker(show: $showPicker) { url in
-                self.vm.uploadProfilePictureToFirebase(url: url)
+                Task {
+                    do {
+                        try await self.userViewModel.uploadUserProfile(localURL: url)
+                    } catch {
+                        print(error)
+                    }
+                }
             }
         }
     }
