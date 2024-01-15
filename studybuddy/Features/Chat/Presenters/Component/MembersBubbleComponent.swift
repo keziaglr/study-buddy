@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MembersBubbleComponent: View {
     let member : communityMember
@@ -22,18 +23,27 @@ struct MembersBubbleComponent: View {
                 
                 //Profile Picture
                 VStack(alignment: .leading){
-                    AsyncImage(url: URL(string: member.image)) { image in
-                        image
-                        
-                            .resizable()
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .frame(width: 50, height: 50)
-                            .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
-                            .padding(.horizontal, 30)
-                        
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    KFImage(URL(string: member.image))
+                        .placeholder ({ progress in
+                            ProgressView()
+                        })
+                        .resizable()
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .frame(width: 50, height: 50)
+                        .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+                        .padding(.horizontal, 30)
+//                    AsyncImage(url: URL(string: member.image)) { image in
+//                        image
+//                        
+//                            .resizable()
+//                            .clipShape(RoundedRectangle(cornerRadius: 10))
+//                            .frame(width: 50, height: 50)
+//                            .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+//                            .padding(.horizontal, 30)
+//                        
+//                    } placeholder: {
+//                        ProgressView()
+//                    }
                 }
                 .frame(width: 50)
                 

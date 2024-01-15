@@ -1,17 +1,16 @@
 //
-//  UserManager.swift
+//  BadgeManager.swift
 //  studybuddy
 //
-//  Created by Eric Prasetya Sentosa on 10/01/24.
+//  Created by Eric Prasetya Sentosa on 15/01/24.
 //
-
 
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-final class UserManager {
-    static let shared = UserManager()
+final class BadgeManager {
+    static let shared = BadgeManager()
     private let dbRef = Firestore.firestore().collection("users")
     
     func addUser(user: UserModel) {
