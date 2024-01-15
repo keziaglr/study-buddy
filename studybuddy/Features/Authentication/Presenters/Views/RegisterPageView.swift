@@ -11,9 +11,9 @@ import LottieUI
 struct RegisterPageView: View {
     
     @EnvironmentObject private var viewModel: AuthenticationViewModel
-    @Binding var changePage : Int
     @State private var showingAlert = false
     @State private var isLoading = false
+    @State private var goToLogin = false
     
     var body: some View {
         NavigationStack {
@@ -75,7 +75,8 @@ struct RegisterPageView: View {
                             .fontWeight(.light)
                             .font(.system(size: 15))
                         Button{
-                            changePage = 2
+//                            changePage = 2
+                            goToLogin = true
                         } label: {
                             Text("Login Now")
                                 .italic()
@@ -93,18 +94,22 @@ struct RegisterPageView: View {
             }
             .navigationDestination(isPresented: $viewModel.created) {
                 InterestPageView()
+            }
+            .navigationDestination(isPresented: $goToLogin) {
+                LoginPageView()
                     .environmentObject(viewModel)
             }
             .alert(isPresented: $showingAlert) {
                 Alerts.errorRegister
             }
+            .navigationBarBackButtonHidden()
         }
     }
 }
 
 struct RegisterPageView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterPageView(changePage: .constant(1))
+        RegisterPageView()
             .environmentObject(AuthenticationViewModel())
     }
 }

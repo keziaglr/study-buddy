@@ -183,6 +183,7 @@
 		43AD2B622B4E79250010B718 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				4342DBC02B31C41600D79AF6 /* Components */,
 				43AD2B632B4E79540010B718 /* Views */,
 			);
 			path = Presenters;
@@ -573,7 +574,6 @@
 			isa = PBXGroup;
 			children = (
 				43AD2B622B4E79250010B718 /* Presenters */,
-				4342DBC02B31C41600D79AF6 /* Components */,
 				4342DBB92B31C2AE00D79AF6 /* Images.swift */,
 				4342DBBB2B31C32700D79AF6 /* Colors.swift */,
 				43AD2B7A2B4EADC70010B718 /* Alerts.swift */,

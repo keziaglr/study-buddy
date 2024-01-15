@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct InterestPageView: View {
     @State private var selectedPills: Set<String> = []
-    @EnvironmentObject private var viewModel: UserViewModel
+    @ObservedObject private var viewModel = UserViewModel()
     @State private var showHome = false
 
     var body: some View {

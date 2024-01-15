@@ -11,10 +11,10 @@ import LottieUI
 struct LoginPageView: View {
     // TODO: change to stateObject, create state user variable
     @EnvironmentObject private var viewModel: AuthenticationViewModel
-    @Binding var changePage : Int
     @State var moveToHome = false
     @State private var showingAlert = false
     @State private var isLoading = false
+    @State private var goToRegister = false
     var body: some View {
         NavigationStack {
             ZStack{
@@ -48,7 +48,7 @@ struct LoginPageView: View {
                 
                 VStack{
                     Spacer()
-                    Button(action: {
+                    Button {
                         Task {
                             do {
                                 isLoading = true
@@ -59,7 +59,7 @@ struct LoginPageView: View {
                             }
                             isLoading = false
                         }
-                    }) {
+                    } label: {
                         CustomButton(text: "LOGIN")
                     }
                     .disabled(viewModel.checkLogin())
@@ -71,7 +71,7 @@ struct LoginPageView: View {
                             .fontWeight(.light)
                             .font(.system(size: 15))
                         Button{
-                            changePage = 3
+                            goToRegister = true
                         } label: {
                             Text("Register Now")
                                 .italic()
@@ -85,9 +85,11 @@ struct LoginPageView: View {
                 }
                 .navigationDestination(isPresented: $viewModel.authenticated) {
                     TabBarNavigation()
-                    //                        InterestPageView()
                 }
-                
+                .navigationDestination(isPresented: $goToRegister) {
+                    RegisterPageView()
+                        .environmentObject(viewModel)
+                }
                 if isLoading {
                     LoaderComponent()
                 }
@@ -106,7 +108,7 @@ struct LoginPageView: View {
 
 struct LoginPageView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginPageView(changePage: .constant(1))
+        LoginPageView()
             .environmentObject(AuthenticationViewModel())
     }
 }
