@@ -40,14 +40,16 @@ struct DiscoverPageView: View {
 
                 if !filteredCommunities.isEmpty {
                     List(filteredCommunities) { community in
-                        CommunityCardComponent(community: community, buttonLabel: "Test") {
+                        CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                             communityViewModel.joinCommunity(communityID: community.id)
                             communityID = community.id
                         }.listRowSeparator(.hidden)
-                    }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
+                            
+                    }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
                         .listStyle(.plain)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height / 1.75)
                         .scrollIndicators(.hidden)
+                        
 
                 }else {
                     LottieView("notfound")

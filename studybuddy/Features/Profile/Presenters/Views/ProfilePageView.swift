@@ -10,10 +10,10 @@ import SwiftUI
 struct ProfilePageView: View {
     var body: some View {
         NavigationStack {
-            ZStack{
+            VStack{
                 ProfileHeaderComponent()
                 BadgeView()
-            }            
+            }
         }
     }
 }

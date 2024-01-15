@@ -16,7 +16,6 @@
 		43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */; };
 		43AD2B802B5433680010B718 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B7F2B5433680010B718 /* Lottie */; };
 		43AD2B832B5438850010B718 /* LottieUI in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B822B5438850010B718 /* LottieUI */; };
-		43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */; };
 		43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972032A4987D6000D1E6B /* LibraryView.swift */; };
 		43C972072A498A32000D1E6B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972062A498A32000D1E6B /* ImagePicker.swift */; };
 		43C9720B2A498A7C000D1E6B /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */; };
@@ -84,7 +83,6 @@
 		43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCardComponent.swift; sourceTree = "<group>"; };
 		43AD2B742B4E84A00010B718 /* CardComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardComponent.swift; sourceTree = "<group>"; };
 		43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithSymbol.swift; sourceTree = "<group>"; };
-		43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingHStackModifier.swift; sourceTree = "<group>"; };
 		43C972032A4987D6000D1E6B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		43C972062A498A32000D1E6B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		43C9720A2A498A7C000D1E6B /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
@@ -370,7 +368,6 @@
 		43FA00A42B2316620035E6FC /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */,
 				43FA00C52B2316620035E6FC /* CreateCommunityButtonComponent.swift */,
 				43FA00BF2B2316620035E6FC /* SearchBarComponent.swift */,
 				43FA00B52B2316620035E6FC /* HeaderComponent.swift */,
@@ -690,7 +687,6 @@
 				43FA00F52B2316620035E6FC /* CreateCommunityButtonComponent.swift in Sources */,
 				43FA00E92B2316620035E6FC /* SetScheduleView.swift in Sources */,
 				ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */,
-				43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */,
 				43FA00EF2B2316620035E6FC /* SearchBarComponent.swift in Sources */,
 				43FA00F72B2316620035E6FC /* BadgeEarnedView.swift in Sources */,
 				43C972122A4C344F000D1E6B /* LoaderComponent.swift in Sources */,
@@ -852,7 +848,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
-				DEVELOPMENT_TEAM = 3SC4Z3N76K;
+				DEVELOPMENT_TEAM = 68FYPQ879D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;
@@ -887,7 +883,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
-				DEVELOPMENT_TEAM = 3SC4Z3N76K;
+				DEVELOPMENT_TEAM = 68FYPQ879D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;

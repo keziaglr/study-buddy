@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct StudyScheduleComponent: View {
     @Binding var community : Community
     var body: some View {

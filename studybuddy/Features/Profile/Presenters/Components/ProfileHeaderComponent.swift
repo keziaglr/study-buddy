@@ -100,8 +100,7 @@ struct ProfileHeaderComponent: View {
                         }
                     }.padding(.top, 30)
                 }
-                .edgesIgnoringSafeArea(.all)
-                Spacer()
+                .ignoresSafeArea()
             }
             .onChange(of: showPicker, perform: { newValue in
                 um.getUser(id: Auth.auth().currentUser?.uid ?? "mxVB7MT39gahu7hQ2ddsSDhOqNl1") { retrievedUser in
