@@ -38,4 +38,10 @@ final class UserManager {
         let docRef = dbRef.document(userID)
         return try await docRef.getDocument(as: UserModel.self)
     }
+    
+    func updateBadges(userID: String, badges: [String]) async throws{
+        try await dbRef.document(userID).updateData([
+            "badges" : badges
+        ])
+    }
 }

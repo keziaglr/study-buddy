@@ -11,8 +11,7 @@ import Combine
 
 struct BadgeComponent: View {
     let badge: Badge
-    let currentUser: UserModel?
-    @EnvironmentObject var bm: BadgeViewModel
+    @EnvironmentObject var viewModel: UserViewModel
     @State private var valid: Bool = false
 
     var body: some View {
@@ -27,7 +26,7 @@ struct BadgeComponent: View {
                     .font(.system(size: 15))
                 
             }
-            .opacity(bm.validateBadge(badgeId: badge.id!, currentUser: currentUser) ? 1.0 : 0.2)
+            .opacity(viewModel.validateBadge(badgeId: badge.id!) ? 1.0 : 0.2)
         }
         
     }

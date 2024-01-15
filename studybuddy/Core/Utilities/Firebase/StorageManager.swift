@@ -25,8 +25,9 @@ final class StorageManager {
         let imagePath = trashBinReference.child(imageName)
         
         do {
+            let imageData = try Data(contentsOf: url)
             // Upload image data to Firebase Storage
-            _ = try await imagePath.putFileAsync(from: url, metadata: meta)
+            _ = try await imagePath.putDataAsync(imageData, metadata: meta)
             
             // Fetch the download URL for the uploaded image
             let downloadURL = try await imagePath.downloadURL()

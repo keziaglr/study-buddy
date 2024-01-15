@@ -16,6 +16,7 @@ final class AuthenticationViewModel : ObservableObject {
     let db = Firestore.firestore()
     @Published var authenticated = false
     @Published var created = false
+    @Published var currentUser: UserModel?
     @Published var name = ""
     @Published var email = ""
     @Published var password = ""
@@ -34,6 +35,7 @@ final class AuthenticationViewModel : ObservableObject {
     func addUserToFirestore(userUID: String) {
         let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
         UserManager.shared.addUser(user: user)
+        currentUser = user
     }
     
     func checkLogin() -> Bool{

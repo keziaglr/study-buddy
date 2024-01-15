@@ -25,12 +25,6 @@ class BadgeViewModel: ObservableObject {
         return badgeID!.id!
     }
     
-    func validateBadge(badgeId: String, currentUser: UserModel?) -> Bool {
-        guard let currentUser = currentUser else {
-            return false
-        }
-        return currentUser.badges.contains(badgeId)
-    }
     
 //    func getBadge(id: String, completion: @escaping (Badge?) -> Void){
 //        db.collection("badges").document(id).getDocument { (documentSnapshot, error) in
@@ -63,8 +57,8 @@ class BadgeViewModel: ObservableObject {
 //        }
 //    }
     
-    func getBadges() async throws {
-        badges = try await BadgeManager.shared.getBadges()
+    func getBadges() async throws -> [Badge] {
+        return try await BadgeManager.shared.getBadges()
     }
     
     func achieveBadge(badgeId: String){

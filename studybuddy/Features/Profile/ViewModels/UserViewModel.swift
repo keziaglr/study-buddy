@@ -13,17 +13,26 @@ import Firebase
 
 class UserViewModel: ObservableObject {
     
-//    @Published var users = [UserModel]()
     @Published var currentUser: UserModel?
     var db = Firestore.firestore()
     
-    func getUserProfile() async throws -> UserModel? {
+    init() {
+        fetchCurrentUser()
+    }
+    
+    func fetchCurrentUser() {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             print("User is not authenticated or user ID could not be retrieved.")
-            return nil
+            return
         }
-        currentUser = try await UserManager.shared.getCurrentUser(userID: currentUserID)
-        return currentUser
+        
+        Task {
+            do {
+                currentUser = try await UserManager.shared.getCurrentUser(userID: currentUserID)
+            } catch {
+                print(error)
+            }
+        }
     }
     
     func getUser(id: String, completion: @escaping (UserModel?) -> Void){
@@ -70,27 +79,50 @@ class UserViewModel: ObservableObject {
     }
     
     func uploadUserProfile(localURL: URL) async throws{
-        guard let currentUser = currentUser else {
+        guard let currentUser = currentUser, let currentUserID = currentUser.id else {
             print("No user model")
-            return
-        }
-        
-        guard let currentUserID = currentUser.id else {
-            print("No user ID")
             return
         }
         
         if currentUser.image != "" {
             StorageManager.shared.deleteUserProfileImage(downloadURL: currentUser.image)
         }
-        
         let downloadURL = try await StorageManager.shared.saveUserProfileImage(url: localURL)
-        try await UserManager.shared.updateProfileImage(userID: currentUserID, image: downloadURL.absoluteString)
+        try? await UserManager.shared.updateProfileImage(userID: currentUserID, image: downloadURL.absoluteString)
+        self.currentUser?.image = downloadURL.absoluteString
     }
+    
 
     func logout() throws {
         try AuthenticationManager.shared.signOut()
         currentUser = nil
     }
     
+}
+
+extension UserViewModel {
+    
+    func achieveBadge(badgeID: String) async throws {
+        guard let currentUser = currentUser, let currentUserID = currentUser.id else {
+            print("No user model")
+            return
+        }
+        
+        if currentUser.badges.contains(badgeID) {
+            return
+        } else {
+            var badges = currentUser.badges
+            badges.append(badgeID)
+            
+            try await UserManager.shared.updateBadges(userID: currentUserID, badges: badges)
+        }
+        
+    }
+    
+    func validateBadge(badgeId: String) -> Bool {
+        guard let currentUser = currentUser else {
+            return false
+        }
+        return currentUser.badges.contains(badgeId)
+    }
 }
