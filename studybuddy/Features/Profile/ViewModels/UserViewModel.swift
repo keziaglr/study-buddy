@@ -86,6 +86,7 @@ class UserViewModel: ObservableObject {
         
         let downloadURL = try await StorageManager.shared.saveUserProfileImage(url: localURL)
         try await UserManager.shared.updateProfileImage(userID: currentUserID, image: downloadURL.absoluteString)
+        self.currentUser?.image = downloadURL.absoluteString
     }
 
     func logout() throws {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatRoomInfoComponent: View {
     
@@ -35,17 +36,26 @@ struct ChatRoomInfoComponent: View {
                     }
                 
                 //Profile Picture
-                AsyncImage(url: URL(string: community.image)) { image in
-                    image
-                        .resizable()
-                        .frame(width: 70, height: 70)
-                        .scaledToFill()
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
-                        
-                } placeholder: {
-                    ProgressView()
-                }
+                KFImage(URL(string: community.image))
+                    .placeholder({ progress in
+                        ProgressView()
+                    })
+                    .resizable()
+                    .frame(width: 70, height: 70)
+                    .scaledToFill()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
+//                AsyncImage(url: URL(string: community.image)) { image in
+//                    image
+//                        .resizable()
+//                        .frame(width: 70, height: 70)
+//                        .scaledToFill()
+//                        .clipShape(RoundedRectangle(cornerRadius: 10))
+//                        .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
+//                        
+//                } placeholder: {
+//                    ProgressView()
+//                }
                 
                 //Title
                 VStack(alignment: .leading, spacing: 5){

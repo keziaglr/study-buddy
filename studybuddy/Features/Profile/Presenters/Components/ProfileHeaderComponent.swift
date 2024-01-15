@@ -10,6 +10,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
+import Kingfisher
 
 struct ProfileHeaderComponent: View {
     @ObservedObject private var userViewModel = UserViewModel()
@@ -29,14 +30,18 @@ struct ProfileHeaderComponent: View {
                     VStack {
                         //profile image
                         ZStack {
-                            AsyncImage(url: URL(string: userViewModel.currentUser?.image ?? "")) { image in
-                                image
+                            if let userImage = userViewModel.currentUser?.image {
+                                KFImage(URL(string: userImage))
+                                    .placeholder({ progress in
+                                        ProgressView()
+                                    })
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 80, height: 80)
                                     .cornerRadius(15)
+                                    .padding(.top, 21)
                                     .padding(.bottom, 8)
-                            } placeholder: {
+                            } else {
                                 Image("profile_placeholder")
                                     .resizable()
                                     .scaledToFit()
