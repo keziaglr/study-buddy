@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommunityPageView: View {
+    @EnvironmentObject var userViewModel: UserViewModel
     @StateObject var communityViewModel = CommunityViewModel()
     @State private var searchText = ""
     @Binding var community : Community

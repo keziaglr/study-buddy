@@ -23,9 +23,3 @@ struct UserModel: Codable {
     }
 }
 
-struct communityMember: Identifiable, Codable {
-    var id: String
-    var name: String
-    var image: String
-//    var badges: [String]
-}

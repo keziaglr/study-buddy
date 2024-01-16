@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		431C88AD2B567B8C00245E83 /* CommunityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88AC2B567B8C00245E83 /* CommunityManager.swift */; };
+		431C88B02B5684F500245E83 /* CommunityMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88AF2B5684F500245E83 /* CommunityMember.swift */; };
 		4342DBBA2B31C2AE00D79AF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBB92B31C2AE00D79AF6 /* Images.swift */; };
 		4342DBBC2B31C32700D79AF6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBBB2B31C32700D79AF6 /* Colors.swift */; };
 		4342DBC22B31C41600D79AF6 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBC12B31C41600D79AF6 /* CustomButton.swift */; };
@@ -85,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		431C88AC2B567B8C00245E83 /* CommunityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityManager.swift; sourceTree = "<group>"; };
+		431C88AF2B5684F500245E83 /* CommunityMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMember.swift; sourceTree = "<group>"; };
 		4342DBB92B31C2AE00D79AF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		4342DBBB2B31C32700D79AF6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4342DBC12B31C41600D79AF6 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -174,6 +176,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		431C88AE2B5684E800245E83 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				431C88AF2B5684F500245E83 /* CommunityMember.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		4342DBC02B31C41600D79AF6 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +369,7 @@
 		43FA00972B2316370035E6FC /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				431C88AE2B5684E800245E83 /* Models */,
 				43FA00992B2316620035E6FC /* ViewModels */,
 				43FA00982B2316620035E6FC /* Presenters */,
 			);
@@ -709,6 +720,7 @@
 				43C972142A4C362F000D1E6B /* WebView.swift in Sources */,
 				43FA00E02B2316620035E6FC /* CustomTextField.swift in Sources */,
 				43AD2B7B2B4EADC70010B718 /* Alerts.swift in Sources */,
+				431C88B02B5684F500245E83 /* CommunityMember.swift in Sources */,
 				43FA00F42B2316620035E6FC /* MasterView.swift in Sources */,
 				43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */,
 				43C9720D2A4A9AEA000D1E6B /* DocumentCellComponent.swift in Sources */,
