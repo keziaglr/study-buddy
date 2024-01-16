@@ -12,24 +12,15 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct MasterView: View {
-//    @State var changePage = 1
+    @StateObject var vm = AuthenticationViewModel()
     var body: some View {
         //TODO: Fix navigation
-        ZStack{
-            if Auth.auth().currentUser == nil {
-//                if changePage == 1 {
-//                    OnboardingPageView(changePage: $changePage)
-//                }else if changePage == 2 {
-//                    LoginPageView(changePage: $changePage)
-//                        .environmentObject(authViewModel)
-//                }else if changePage == 3 {
-//                    RegisterPageView(changePage: $changePage)
-//                        .environmentObject(authViewModel)
-//                }
-                OnboardingPageView()
-            } else {
-                TabBarNavigation()
-            }
+        if Auth.auth().currentUser == nil {
+            OnboardingPageView()
+                .environmentObject(vm)
+        } else {
+            TabBarNavigation()
+                .environmentObject(vm)
         }
         .navigationBarBackButtonHidden()
     }

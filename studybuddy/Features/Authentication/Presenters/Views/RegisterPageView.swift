@@ -76,7 +76,6 @@ struct RegisterPageView: View {
                             .fontWeight(.light)
                             .font(.system(size: 15))
                         Button{
-//                            changePage = 2
                             goToLogin = true
                         } label: {
                             Text("Login Now")

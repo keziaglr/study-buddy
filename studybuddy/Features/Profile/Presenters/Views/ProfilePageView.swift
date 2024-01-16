@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ProfilePageView: View {
+    @EnvironmentObject var authVM: AuthenticationViewModel
     var body: some View {
-        NavigationStack {
-            VStack{
-                ProfileHeaderComponent()
-                BadgeView()
-            }
+        VStack{
+            ProfileHeaderComponent()
+                .environmentObject(authVM)
+            BadgeView()
         }
     }
 }

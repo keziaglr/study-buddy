@@ -10,7 +10,7 @@ import LottieUI
 
 struct OnboardingPageView: View {
 //    @Binding var changePage : Int
-    @StateObject var authViewModel = AuthenticationViewModel()
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State var goToRegister = false
     @State var goToLogin = false
     var body: some View {
