@@ -44,4 +44,8 @@ final class AuthenticationViewModel : ObservableObject {
         return name.isEmpty || email.isEmpty || password.count < 6
     }
     
+    func logout() throws {
+        try AuthenticationManager.shared.signOut()
+        authenticated = false
+    }
 }

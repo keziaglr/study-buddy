@@ -9,7 +9,8 @@ import SwiftUI
 import LottieUI
 
 struct OnboardingPageView: View {
-    @StateObject var authViewModel = AuthenticationViewModel()
+//    @Binding var changePage : Int
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State var goToRegister = false
     @State var goToLogin = false
     var body: some View {

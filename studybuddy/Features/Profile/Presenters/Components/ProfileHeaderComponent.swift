@@ -14,106 +14,101 @@ import Kingfisher
 
 struct ProfileHeaderComponent: View {
     @ObservedObject private var userViewModel = UserViewModel()
-//    @State private var user: UserModel? = nil
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    //    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
     var body: some View {
-        NavigationStack {
-            VStack {
-                ZStack {
-                    Image("profile_gradient")
-                        .resizable()
-                        .scaledToFit()
-                        .ignoresSafeArea()
-                    
-                    
-                    VStack {
-                        //profile image
-                        ZStack {
-                            if let userImage = userViewModel.currentUser?.image {
-                                KFImage(URL(string: userImage))
-                                    .placeholder({ progress in
-                                        ProgressView()
-                                    })
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 80, height: 80)
-                                    .cornerRadius(15)
-                                    .padding(.top, 21)
-                                    .padding(.bottom, 8)
-                            } else {
-                                Image("profile_placeholder")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .cornerRadius(15)
-                                    .padding(.top, 21)
-                                    .padding(.bottom, 8)
-                            }
-                            
-                            Button {
-                                showPicker = true
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill()
-                                        .foregroundColor(Colors.orange)
-                                        .frame(width: 25)
-                                        .fontWeight(.bold)
-                                    Image(systemName: "pencil")
-                                        .foregroundColor(.white)
-                                }
-                            }.offset(x: 35, y: 30)
-                            
+        VStack {
+            ZStack {
+                Image("profile_gradient")
+                    .resizable()
+                    .scaledToFit()
+                    .ignoresSafeArea()
+                
+                
+                VStack {
+                    //profile image
+                    ZStack {
+                        if let userImage = userViewModel.currentUser?.image {
+                            KFImage(URL(string: userImage))
+                                .placeholder({ progress in
+                                    ProgressView()
+                                })
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .cornerRadius(15)
+                                .padding(.top, 21)
+                                .padding(.bottom, 8)
+                        } else {
+                            Image("profile_placeholder")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                                .cornerRadius(15)
+                                .padding(.top, 21)
+                                .padding(.bottom, 8)
                         }
                         
-                        //name
-                        Text(userViewModel.currentUser?.name ?? "")
-                            .fontWeight(.bold)
-                            .font(.system(size: 20))
-                            .foregroundColor(Colors.orange)
-                            .kerning(0.6)
-                        //                            .padding(.bottom, 2)
-                        
-                        //email
-                        Text(userViewModel.currentUser?.email ?? "")
-                            .fontWeight(.light)
-                            .font(.system(size: 18))
-                            .foregroundColor(Colors.orange)
-                            .padding(.bottom, 8)
-                        VStack{
-                            Button(action: {
-                                do {
-                                    try userViewModel.logout()
-                                } catch {
-                                    print(error)
-                                }
-                            }) {
-                                Text("Logout")
-                                    .padding(.horizontal, 15)
-                                    .padding(.vertical, 7)
-                                    .font(.system(size: 19))
+                        Button {
+                            showPicker = true
+                        } label: {
+                            ZStack {
+                                Circle()
+                                    .fill()
+                                    .foregroundColor(Colors.orange)
+                                    .frame(width: 25)
                                     .fontWeight(.bold)
+                                Image(systemName: "pencil")
                                     .foregroundColor(.white)
-                                    .background(Colors.orange)
-                                    .cornerRadius(100)
                             }
+                        }.offset(x: 35, y: 30)
+                        
+                    }
+                    
+                    //name
+                    Text(userViewModel.currentUser?.name ?? "")
+                        .fontWeight(.bold)
+                        .font(.system(size: 20))
+                        .foregroundColor(Colors.orange)
+                        .kerning(0.6)
+                    
+                    //email
+                    Text(userViewModel.currentUser?.email ?? "")
+                        .fontWeight(.light)
+                        .font(.system(size: 18))
+                        .foregroundColor(Colors.orange)
+                        .padding(.bottom, 8)
+                    VStack{
+                        Button(action: {
+                            do {
+                                try authVM.logout()
+                            } catch {
+                                print(error)
+                            }
+                        }) {
+                            Text("Logout")
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 7)
+                                .font(.system(size: 19))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .background(Colors.orange)
+                                .cornerRadius(100)
                         }
-                    }.padding(.top, 30)
-                }
-                .ignoresSafeArea()
+                    }
+                }.padding(.top, 30)
             }
-            .task {
-                do {
-                    _ = try await userViewModel.getUserProfile()
-                } catch {
-                    print(error)
-                }
-            }
-        }.navigationDestination(isPresented: $logout) {
-            MasterView()
+            .ignoresSafeArea()
         }
-        .navigationBarBackButtonHidden()
+        .task {
+            do {
+                _ = try await userViewModel.getUserProfile()
+            } catch {
+                print(error)
+            }
+        }
         .sheet(isPresented: $showPicker) {
             ImagePicker(show: $showPicker) { url in
                 Task {

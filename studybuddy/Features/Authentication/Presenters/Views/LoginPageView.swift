@@ -32,11 +32,6 @@ struct LoginPageView: View {
                         .padding(.top, 105)
                     
                     ZStack{
-                        //                            LottieView("community")
-                        //                                .loopMode(.loop)
-                        //                                .frame(width: 329)
-                        //                                .padding(.bottom, 391)
-                        
                         Image("login-register")
                             .resizable()
                             .frame(width: 250, height: 250)
@@ -88,20 +83,16 @@ struct LoginPageView: View {
                     .kerning(0.45)
                     .padding(.bottom, 90)
                 }
-                .navigationDestination(isPresented: $viewModel.authenticated) {
-                    TabBarNavigation()
-                }
-                .navigationDestination(isPresented: $goToRegister) {
-                    RegisterPageView()
-                        .environmentObject(viewModel)
-                }
                 if isLoading {
                     LoaderComponent()
                 }
             }
-            
+            .navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $goToRegister) {
+                RegisterPageView()
+                    .environmentObject(viewModel)
+            }
         }
-        .navigationBarBackButtonHidden()
         .onAppear{
             viewModel.password = ""
         }

@@ -12,13 +12,15 @@ import FirebaseFirestoreSwift
 import Firebase
 
 struct MasterView: View {
+    @StateObject var vm = AuthenticationViewModel()
     var body: some View {
-        ZStack{
-            if Auth.auth().currentUser == nil {
-                OnboardingPageView()
-            } else {
-                TabBarNavigation()
-            }
+        //TODO: Fix navigation
+        if Auth.auth().currentUser == nil {
+            OnboardingPageView()
+                .environmentObject(vm)
+        } else {
+            TabBarNavigation()
+                .environmentObject(vm)
         }
         .navigationBarBackButtonHidden()
     }
