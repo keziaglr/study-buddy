@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 struct CommunityCardComponent: View {
     let community: Community
     let buttonLabel: String // New parameter for the button label
@@ -31,25 +31,44 @@ struct CommunityCardComponent: View {
     }
 
     private var communityImage: some View {
-        AsyncImage(url: URL(string: community.image)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-                        .foregroundStyle(LinearGradient(
-                            gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ))
-                        .opacity(0.6)
-                }
-        } placeholder: {
-            ProgressView()
-        }
+        KFImage(URL(string: community.image))
+            .placeholder({ progress in
+                ProgressView()
+            })
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+                    .foregroundStyle(LinearGradient(
+                        gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
+                    .opacity(0.6)
+            }
+        
+//        AsyncImage(url: URL(string: community.image)) { image in
+//            image
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//                .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+//                .clipShape(RoundedRectangle(cornerRadius: 15))
+//                .overlay {
+//                    RoundedRectangle(cornerRadius: 15)
+//                        .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+//                        .foregroundStyle(LinearGradient(
+//                            gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
+//                            startPoint: .leading,
+//                            endPoint: .trailing
+//                        ))
+//                        .opacity(0.6)
+//                }
+//        } placeholder: {
+//            ProgressView()
+//        }
     }
 
     private var communityTitle: some View {
