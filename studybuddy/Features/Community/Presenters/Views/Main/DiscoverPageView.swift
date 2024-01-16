@@ -34,7 +34,7 @@ struct DiscoverPageView: View {
             GeometryReader { geometry in
                 HeaderComponent(text: "Explore the Network 🌐")
                 
-                SearchBarComponent(text: $text)
+                SearchBarComponent(searchText: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
               
 

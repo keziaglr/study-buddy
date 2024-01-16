@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct CommunityPageView: View {
-    //TODO: fix stateobject
-    @StateObject var communityViewModel: CommunityViewModel
-    @State private var text = ""
+    @StateObject var communityViewModel = CommunityViewModel()
+    @State private var searchText = ""
     @Binding var community : Community
     @State var showCommunityDetail : Bool = false
     
     var filteredCommunities: [Community] {
-        if text.isEmpty {
+        if searchText.isEmpty {
             return communityViewModel.jCommunities
         } else {
             return communityViewModel.jCommunities.filter {
-                $0.title.localizedCaseInsensitiveContains(text)
+                $0.title.localizedCaseInsensitiveContains(searchText)
             }
         }
     }
@@ -31,7 +30,7 @@ struct CommunityPageView: View {
                     
                     HeaderComponent(text: "Your Learning Squad! 👥")
                     
-                    SearchBarComponent(text: $text)
+                    SearchBarComponent(searchText: $searchText)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
                     Text("Here’s some recommendation for you")
