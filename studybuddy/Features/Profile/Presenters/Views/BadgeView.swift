@@ -22,16 +22,16 @@ struct BadgeView: View {
                     BadgeComponent(badge: badge, bm: bm)
                 }
                 .listStyle(.plain)
+                .scrollIndicators(.hidden)
                 .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 32))
-                }else{
-                    Text("Empty")
-                }
+            }else{
+                Text("Empty")
+            }
         }
+        .padding(.top, -40)
         .task {
             self.bm.getBadges()
         }
-        .padding(.top, 300)
-
     }
 }
 

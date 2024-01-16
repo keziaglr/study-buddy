@@ -29,7 +29,7 @@ struct CommunityPageView: View {
             ZStack {
                 GeometryReader { geometry in
                     
-                    HeaderComponent(text: "Your Learning Squad!")
+                    HeaderComponent(text: "Your Learning Squad! 👥")
                     
                     SearchBarComponent(text: $text)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
@@ -40,16 +40,19 @@ struct CommunityPageView: View {
                         .frame(width: 317, alignment: .leading)
                         .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.29)
                     
-                    ScrollView(.horizontal, showsIndicators: false){
-                        HStack(alignment: .center, spacing: 25) {
-                            ForEach(communityViewModel.rcommunities) { community in CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                communityViewModel.joinCommunity(communityID: community.id)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 25) {
+                            ForEach(communityViewModel.rcommunities) { community in
+                                CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                    communityViewModel.joinCommunity(communityID: community.id)
+                                }
                             }
-                            }
-                            .modifier(ScrollingHStackModifier(items: communityViewModel.rcommunities.count, itemWidth: 302, itemSpacing: 25))
                         }
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
+                        .padding()
                     }
+                    .frame(height:145)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
+                    
                     Text("Joined Community")
                         .font(.system(size: 20))
                         .kerning(0.6)
@@ -57,12 +60,7 @@ struct CommunityPageView: View {
                         .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.55)
                     
                     if filteredCommunities.isEmpty {
-                        Image("placeholder")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: geometry.size.width * 0.5)
-                            .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
-                        Text("You haven't joined any communities yet.")
+                        Text("Start joining community!")
                             .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
                     } else {
                         List(filteredCommunities) { community in

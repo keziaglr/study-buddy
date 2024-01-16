@@ -32,14 +32,15 @@ struct RegisterPageView: View {
                         .padding(.top, 105)
                     
                     ZStack{
-                        LottieView("community")
-                            .loopMode(.loop)
-                            .frame(width: 329)
-                            .padding(.bottom, 391)
-                        
+                        Image("login-register")
+                            .resizable()
+                            .frame(width: 250, height: 250)
+                            .padding(.bottom, 400)
+                            .padding(.top, 60)
+
                         VStack(spacing: 20) {
                             CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
-                                .padding(.top, 105)
+                                .padding(.top, 160)
                             
                             CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
                             

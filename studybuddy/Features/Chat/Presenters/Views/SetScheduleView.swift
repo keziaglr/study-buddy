@@ -42,52 +42,55 @@ struct SetScheduleView: View {
                 
                 
                 //Start Study Schedule Buttons
-                HStack{
-                    //Start Text
-                    Text("Start")
-                        .fontWeight(.medium)
-                        .font(.system(size: 18))
+                VStack{
+                    HStack{
+                        //Start Text
+                        Text("Start")
+                            .fontWeight(.medium)
+                            .font(.system(size: 18))
+                        
+                        Spacer()
+                        
+                        //Start Time Picker
+                        DatePicker("", selection: $startStudySchedule, displayedComponents: [.date, .hourAndMinute])
+                            .datePickerStyle(.compact)
+                            .labelsHidden()
+                            .colorInvert()
+                            .colorMultiply(Color.blue)
+                            .onAppear{
+                                startStudySchedule = community.startDate ?? Date()
+                            }
+                    }
+//                    .frame(width: geometry.size.width*0.7557)
+//                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.12)
                     
-                    Spacer()
-                    
-                    //Start Time Picker
-                    DatePicker("", selection: $startStudySchedule, displayedComponents: [.date, .hourAndMinute])
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                        .colorInvert()
-                        .colorMultiply(Color.blue)
-                        .onAppear{
-                            startStudySchedule = community.startDate ?? Date()
-                        }
-                }
-                .frame(width: geometry.size.width*0.7557)
-                .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.12)
-                
-                Divider()
-                    .foregroundColor(Color("Gray"))
-                    .frame(width: geometry.size.width*0.6743)
-                    .padding(EdgeInsets(top: geometry.size.height*0.02567394, leading: 0, bottom: geometry.size.height*0.02567394, trailing: 0))
-                
-                //End Time Picker
-                HStack {
-                    //End Text
-                    Text("End")
-                        .fontWeight(.medium)
-                        .font(.system(size: 18))
-                    
-                    Spacer()
+                    Divider()
+                        .foregroundColor(Color("Gray"))
+                        .frame(width: geometry.size.width*0.6)
+                        .padding(EdgeInsets(top: geometry.size.height*0.02567394, leading: 0, bottom: geometry.size.height*0.02567394, trailing: 0))
                     
                     //End Time Picker
-                    DatePicker("", selection: $endStudySchedule, displayedComponents: [.date, .hourAndMinute])
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                        .colorInvert()
-                        .colorMultiply(Color.blue)
-                        .onAppear{
-                            endStudySchedule = community.endDate ?? Date()
-                        }
+                    HStack {
+                        //End Text
+                        Text("End")
+                            .fontWeight(.medium)
+                            .font(.system(size: 18))
+                        
+                        Spacer()
+                        
+                        //End Time Picker
+                        DatePicker("", selection: $endStudySchedule, displayedComponents: [.date, .hourAndMinute])
+                            .datePickerStyle(.compact)
+                            .labelsHidden()
+                            .colorInvert()
+                            .colorMultiply(Color.blue)
+                            .onAppear{
+                                endStudySchedule = community.endDate ?? Date()
+                            }
+                    }
                 }
                 .frame(width: geometry.size.width*0.7557)
+                .position(x: geometry.size.width / 2 , y: geometry.size.height / 5)
                 
                 //Set Schedule Button
                 Button {

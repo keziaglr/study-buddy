@@ -101,8 +101,7 @@ struct ProfileHeaderComponent: View {
                         }
                     }.padding(.top, 30)
                 }
-                .edgesIgnoringSafeArea(.all)
-                Spacer()
+                .ignoresSafeArea()
             }
             .task {
                 do {
