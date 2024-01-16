@@ -41,8 +41,8 @@ struct DiscoverPageView: View {
                 if !filteredCommunities.isEmpty {
                     List(filteredCommunities) { community in
                         CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                            communityViewModel.joinCommunity(communityID: community.id)
-                            communityID = community.id
+                            communityViewModel.joinCommunity(communityID: community.id!)
+                            communityID = community.id!
                         }.listRowSeparator(.hidden)
                             
                     }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)

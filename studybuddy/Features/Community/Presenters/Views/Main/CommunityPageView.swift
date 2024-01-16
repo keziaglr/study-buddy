@@ -43,7 +43,7 @@ struct CommunityPageView: View {
                         LazyHStack(spacing: 25) {
                             ForEach(communityViewModel.rcommunities) { community in
                                 CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                    communityViewModel.joinCommunity(communityID: community.id)
+                                    communityViewModel.joinCommunity(communityID: community.id!)
                                 }
                             }
                         }

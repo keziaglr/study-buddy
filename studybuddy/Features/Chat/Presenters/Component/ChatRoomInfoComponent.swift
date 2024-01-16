@@ -72,7 +72,7 @@ struct ChatRoomInfoComponent: View {
                         .font(.system(size: 15))
                         .foregroundColor(.black)
                         .onAppear{
-                            cvm.getMembers(communityId: community.id)
+                            cvm.getMembers(communityId: community.id!)
                         }
                     
                     //Group Description

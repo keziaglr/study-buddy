@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChatMembersView: View {
-    @Binding var communityID: String
+    var communityID: String
     @StateObject var communityViewModel: CommunityViewModel
 //    @State private var memberCount: Int = 0
     
@@ -56,7 +56,7 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView(communityID: .constant("1qVFL6zpyxdDpO5TpSPo"), communityViewModel: CommunityViewModel())
+        ChatMembersView(communityID: "1qVFL6zpyxdDpO5TpSPo", communityViewModel: CommunityViewModel())
     }
 }
 

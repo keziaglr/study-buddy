@@ -94,7 +94,7 @@ struct SetScheduleView: View {
                 
                 //Set Schedule Button
                 Button {
-                    cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id)
+                    cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
                     showAlert = true
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)

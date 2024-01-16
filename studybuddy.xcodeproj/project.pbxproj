@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		431C88AD2B567B8C00245E83 /* CommunityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88AC2B567B8C00245E83 /* CommunityManager.swift */; };
 		4342DBBA2B31C2AE00D79AF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBB92B31C2AE00D79AF6 /* Images.swift */; };
 		4342DBBC2B31C32700D79AF6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBBB2B31C32700D79AF6 /* Colors.swift */; };
 		4342DBC22B31C41600D79AF6 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBC12B31C41600D79AF6 /* CustomButton.swift */; };
@@ -19,7 +20,6 @@
 		43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */; };
 		43AD2B802B5433680010B718 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B7F2B5433680010B718 /* Lottie */; };
 		43AD2B832B5438850010B718 /* LottieUI in Frameworks */ = {isa = PBXBuildFile; productRef = 43AD2B822B5438850010B718 /* LottieUI */; };
-		43AD2B852B543EEB0010B718 /* ScrollingHStackModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */; };
 		43AD2B882B5461D50010B718 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B872B5461D50010B718 /* Categories.swift */; };
 		43AD2B8A2B5528750010B718 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B892B5528750010B718 /* StorageManager.swift */; };
 		43AD2B8C2B5534A50010B718 /* BadgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B8B2B5534A50010B718 /* BadgeManager.swift */; };
@@ -84,6 +84,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		431C88AC2B567B8C00245E83 /* CommunityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityManager.swift; sourceTree = "<group>"; };
 		4342DBB92B31C2AE00D79AF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		4342DBBB2B31C32700D79AF6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4342DBC12B31C41600D79AF6 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 		43AD2B782B4E9EE00010B718 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		43AD2B7A2B4EADC70010B718 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithSymbol.swift; sourceTree = "<group>"; };
-		43AD2B842B543EEB0010B718 /* ScrollingHStackModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingHStackModifier.swift; sourceTree = "<group>"; };
 		43AD2B872B5461D50010B718 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		43AD2B892B5528750010B718 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		43AD2B8B2B5534A50010B718 /* BadgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeManager.swift; sourceTree = "<group>"; };
@@ -489,6 +489,7 @@
 				43AD2B782B4E9EE00010B718 /* UserManager.swift */,
 				43AD2B892B5528750010B718 /* StorageManager.swift */,
 				43AD2B8B2B5534A50010B718 /* BadgeManager.swift */,
+				431C88AC2B567B8C00245E83 /* CommunityManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -712,6 +713,7 @@
 				43C972042A4987D6000D1E6B /* LibraryView.swift in Sources */,
 				43C9720D2A4A9AEA000D1E6B /* DocumentCellComponent.swift in Sources */,
 				ACC72EC42A43EA450006AE64 /* Community.swift in Sources */,
+				431C88AD2B567B8C00245E83 /* CommunityManager.swift in Sources */,
 				43FA00F22B2316620035E6FC /* InterestPageView.swift in Sources */,
 				ACC72EC82A43EA8E0006AE64 /* Chat.swift in Sources */,
 				4342DBBC2B31C32700D79AF6 /* Colors.swift in Sources */,

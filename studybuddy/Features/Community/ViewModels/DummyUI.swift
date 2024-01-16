@@ -22,7 +22,7 @@ struct DummyUI: View {
             }
             
             List(CommunityViewModel.communities, id: \.id){ community in
-                Text(community.id)
+                Text(community.id!)
                 Text(community.description)
                 
             }

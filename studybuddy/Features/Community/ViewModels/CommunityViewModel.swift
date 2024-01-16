@@ -42,6 +42,10 @@ class CommunityViewModel: ObservableObject {
     }
     
     //MARK: GET SPECIFIC COMMUNITY
+    func getCommunity(id: String) async throws -> Community? {
+        return try await CommunityManager.shared.getCommunity(id)
+    }
+    
     func getCommunity(id: String, completion: @escaping (Community?) -> Void){
         db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -77,6 +81,11 @@ class CommunityViewModel: ObservableObject {
     
     
     //MARK: GET ALL COMMUNITY
+    func getCommunities() async throws -> [Community] {
+        let communities = try await CommunityManager.shared.getCommunities()
+        self.communities = communities
+        return communities
+    }
     func getCommunities() {
         db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
@@ -102,6 +111,16 @@ class CommunityViewModel: ObservableObject {
     }
     
     //MARK: ADD NEW COMMUNITY
+    func addCommunity(title: String, description: String, url: URL, category: String) async throws {
+        var imageURL = URL(string: "")
+        if url.absoluteString != "" {
+            imageURL = try await StorageManager.shared.saveCommunityImage(url: url)
+        }
+        
+        let community = Community(title: title, description: description, image: imageURL?.absoluteString ?? url.absoluteString, category: category)
+        
+        try await CommunityManager.shared.addCommunity(community: community)
+    }
     func addCommunity(title: String, description: String, url: URL, category: String) {
         let uid = UUID().uuidString
         let date = dateFormatting()

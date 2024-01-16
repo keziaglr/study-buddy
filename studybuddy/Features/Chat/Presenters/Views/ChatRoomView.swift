@@ -54,7 +54,7 @@ struct ChatRoomView: View {
                     }
                     .padding(.horizontal, 20)
                     .task {
-                        manager.getChats(communityID: community.id)
+                        manager.getChats(communityID: community.id!)
                     }
                     .onChange(of: manager.lastmessageID) { id in
                         proxy.scrollTo(id, anchor: .bottom)
@@ -64,7 +64,7 @@ struct ChatRoomView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 
                 //Message Input Field
-                MessageInputComponent(communityID: community.id)
+                MessageInputComponent(communityID: community.id!)
                     .environmentObject(manager)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
