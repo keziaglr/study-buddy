@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ChatMembersView: View {
-    @Binding var communityID: String
-    @StateObject var communityViewModel: CommunityViewModel
+    var communityID: String
+    @EnvironmentObject var communityViewModel: CommunityViewModel
+    @State var communityMembers: [CommunityMember] = []
 //    @State private var memberCount: Int = 0
     
     var body: some View {
@@ -37,14 +38,18 @@ struct ChatMembersView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.bottom, 116)
-            .onAppear {
-                communityViewModel.getMembers(communityId: communityID)
+            .task {
+                do {
+                    communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
+                } catch {
+                    print(error)
+                }
             }
         }
     }
     
     private var membersList: some View {
-        List(communityViewModel.members, id: \.id) { member in
+        List(communityMembers, id: \.id) { member in
             MembersBubbleComponent(member: member)
                 .listRowSeparator(.hidden)
                 .listStyle(.plain)
@@ -56,7 +61,8 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView(communityID: .constant("1qVFL6zpyxdDpO5TpSPo"), communityViewModel: CommunityViewModel())
+        ChatMembersView(communityID: "1qVFL6zpyxdDpO5TpSPo")
+            .environmentObject(CommunityViewModel())
     }
 }
 

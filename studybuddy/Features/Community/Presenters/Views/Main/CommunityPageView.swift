@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct CommunityPageView: View {
-    //TODO: fix stateobject
-    @StateObject var communityViewModel: CommunityViewModel
-    @State private var text = ""
-    @Binding var community : Community
+    @EnvironmentObject var communityViewModel: CommunityViewModel
+    @State private var searchText = ""
+    @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
     @State var showCommunityDetail : Bool = false
     
     var filteredCommunities: [Community] {
-        if text.isEmpty {
-            return communityViewModel.jCommunities
+        if searchText.isEmpty {
+            return communityViewModel.joinedCommunities
         } else {
-            return communityViewModel.jCommunities.filter {
-                $0.title.localizedCaseInsensitiveContains(text)
+            return communityViewModel.joinedCommunities.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText)
             }
         }
     }
@@ -31,7 +30,7 @@ struct CommunityPageView: View {
                     
                     HeaderComponent(text: "Your Learning Squad! 👥")
                     
-                    SearchBarComponent(text: $text)
+                    SearchBarComponent(searchText: $searchText)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
                     Text("Here’s some recommendation for you")
@@ -42,9 +41,22 @@ struct CommunityPageView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 25) {
-                            ForEach(communityViewModel.rcommunities) { community in
-                                CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                    communityViewModel.joinCommunity(communityID: community.id)
+                            ForEach(communityViewModel.recommendedCommunities) { community in
+                                if communityViewModel.validateCommunityJoined(communityID: community.id!) {
+                                    CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                        Task {
+                                            do {
+                                                try await communityViewModel.joinCommunity(communityID: community.id!)
+                                            } catch {
+                                                print(error)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    CommunityCardComponent(community: community, buttonLabel: "OPEN") {
+                                        self.chosenCommunity = community
+                                        showCommunityDetail = true
+                                    }
                                 }
                             }
                         }
@@ -65,7 +77,7 @@ struct CommunityPageView: View {
                     } else {
                         List(filteredCommunities) { community in
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
-                                self.community = community
+                                self.chosenCommunity = community
                                 showCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
@@ -78,19 +90,16 @@ struct CommunityPageView: View {
                 }
             }
             .ignoresSafeArea()
-            .onAppear {
-                communityViewModel.userRecommendation()
-                communityViewModel.getJoinedCommunity()
-            }
             .navigationDestination(isPresented: $showCommunityDetail) {
-                ChatRoomView(manager: ChatViewModel(), community: $community)
+                ChatRoomView(community: $chosenCommunity)
             }
         }
     }
+    
 }
 
 struct CommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")))
+        CommunityPageView()
     }
 }

@@ -22,7 +22,7 @@ struct MasterView: View {
             TabBarNavigation()
                 .environmentObject(vm)
         }
-        .navigationBarBackButtonHidden()
+//        .navigationBarBackButtonHidden()
     }
 }
 

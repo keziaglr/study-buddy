@@ -13,7 +13,6 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private let dbRef = Firestore.firestore().collection("users")
-    
     func addUser(user: UserModel) {
         do {
             try dbRef.document(user.id!).setData(from: user)

@@ -13,8 +13,34 @@ final class StorageManager {
     
     private let storage = Storage.storage().reference()
     
-    private var trashBinReference: StorageReference {
+    private var userReference: StorageReference {
         storage.child("users")
+    }
+    
+    private var communityReference: StorageReference {
+        storage.child("communities")
+    }
+    
+    func saveCommunityImage(url: URL) async throws -> URL {
+        let meta = StorageMetadata()
+        meta.contentType = "image/jpeg"
+        
+        let imageName = "\(UUID().uuidString).jpeg"
+        let imagePath = communityReference.child(imageName)
+        
+        do {
+            let imageData = try Data(contentsOf: url)
+            // Upload image data to Firebase Storage
+            _ = try await imagePath.putDataAsync(imageData, metadata: meta)
+            
+            // Fetch the download URL for the uploaded image
+            let downloadURL = try await imagePath.downloadURL()
+            
+            // Return the download URL
+            return downloadURL
+        } catch {
+            throw error
+        }
     }
     
     func saveUserProfileImage(url: URL) async throws -> URL {
@@ -22,7 +48,7 @@ final class StorageManager {
         meta.contentType = "image/jpeg"
         
         let imageName = "\(UUID().uuidString).jpeg"
-        let imagePath = trashBinReference.child(imageName)
+        let imagePath = userReference.child(imageName)
         
         do {
             let imageData = try Data(contentsOf: url)

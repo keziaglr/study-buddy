@@ -8,27 +8,29 @@
 import SwiftUI
 
 struct TabBarNavigation: View {
-    @State private var community = Community(id: "", title: "", description: "", image: "", category: "")
-    @EnvironmentObject var authVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @StateObject var communityViewModel = CommunityViewModel()
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationStack {
             ZStack{
                 TabView {
-                    CommunityPageView(communityViewModel: CommunityViewModel(), community: $community)
+                    CommunityPageView()
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
                     
-                    DiscoverPageView(communityViewModel: CommunityViewModel())
+                    DiscoverPageView()
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
                     
                     ProfilePageView()
-                        .environmentObject(authVM)
+//                        .environmentObject(authenticationViewModel)
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
@@ -38,9 +40,17 @@ struct TabBarNavigation: View {
                 .background(Color.black)
             }
         }
-        .onChange(of: authVM.authenticated, perform: { value in
+        .onChange(of: authenticationViewModel.authenticated, perform: { value in
             presentationMode.wrappedValue.dismiss()
         })
+        .task {
+            do {
+                communityViewModel.currentUser = try await authenticationViewModel.getCurrentUser()
+            } catch {
+                print(error)
+            }
+        }
+        .environmentObject(communityViewModel)
     }
 }
 
