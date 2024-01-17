@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TabBarNavigation: View {
-    @State private var community = Community(id: "", title: "", description: "", image: "", category: "")
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     @StateObject var communityViewModel = CommunityViewModel()
     @Environment(\.presentationMode) var presentationMode
@@ -16,22 +15,22 @@ struct TabBarNavigation: View {
         NavigationStack {
             ZStack{
                 TabView {
-                    CommunityPageView(community: $community)
-                        .environmentObject(communityViewModel)
+                    CommunityPageView()
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
                     
                     DiscoverPageView()
-                        .environmentObject(communityViewModel)
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
                     
                     ProfilePageView()
-                        .environmentObject(authenticationViewModel)
+//                        .environmentObject(authenticationViewModel)
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
@@ -51,6 +50,7 @@ struct TabBarNavigation: View {
                 print(error)
             }
         }
+        .environmentObject(communityViewModel)
     }
 }
 

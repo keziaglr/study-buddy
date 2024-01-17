@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatMembersView: View {
     var communityID: String
     @EnvironmentObject var communityViewModel: CommunityViewModel
+    @State var communityMembers: [CommunityMember] = []
 //    @State private var memberCount: Int = 0
     
     var body: some View {
@@ -39,7 +40,7 @@ struct ChatMembersView: View {
             .padding(.bottom, 116)
             .task {
                 do {
-                    try await communityViewModel.getCommunityMembers(communityID: communityID)             
+                    communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
                 } catch {
                     print(error)
                 }
@@ -48,7 +49,7 @@ struct ChatMembersView: View {
     }
     
     private var membersList: some View {
-        List(communityViewModel.members, id: \.id) { member in
+        List(communityMembers, id: \.id) { member in
             MembersBubbleComponent(member: member)
                 .listRowSeparator(.hidden)
                 .listStyle(.plain)

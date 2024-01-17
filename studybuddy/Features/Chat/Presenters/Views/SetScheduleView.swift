@@ -17,7 +17,7 @@ struct SetScheduleView: View {
     @State var startStudySchedule = Date()
     @State var endStudySchedule = Date()
     @State var vm = BadgeViewModel()
-    @State var cvm = CommunityViewModel()
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var showAlert = false
     
     
@@ -96,7 +96,7 @@ struct SetScheduleView: View {
                 Button {
                     Task {
                         do {
-                            try await cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
+                            try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
                             showAlert = true
                         } catch {
                             print(error)

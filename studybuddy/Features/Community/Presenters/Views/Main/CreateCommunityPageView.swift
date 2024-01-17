@@ -14,6 +14,7 @@ struct CreateCommunityPageView: View {
     let pills = ["Mathematics", "Physics", "Biology", "Chemistry", "Economics", "Geography", "Sociology", "Law", "History - Social Science", "Computer Science", "Information Technology", "Art", "Graphic Design", "Foreign Languages", "Literature"]
     
     @EnvironmentObject var communityViewModel: CommunityViewModel
+    @Binding var showModal: Bool
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var image: String = ""
@@ -78,6 +79,7 @@ struct CreateCommunityPageView: View {
                     Task {
                         do {
                             try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+                            showModal = false
                         } catch {
                             print(error)
                         }
@@ -95,10 +97,12 @@ struct CreateCommunityPageView: View {
                       dismissButton: .default(Text("OK"))
                       )
             }
-        }.ignoresSafeArea()
+        }
+        .ignoresSafeArea()
             .sheet(isPresented: $showpicker) {
                 ImagePicker(show: $showpicker) { url in
                     self.url = url
+                    self.image = url.lastPathComponent
                 }
             }
     }
@@ -107,7 +111,7 @@ struct CreateCommunityPageView: View {
 
 struct CreateCommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateCommunityPageView()
+        CreateCommunityPageView(showModal: .constant(true))
             .environmentObject(CommunityViewModel())
     }
 }

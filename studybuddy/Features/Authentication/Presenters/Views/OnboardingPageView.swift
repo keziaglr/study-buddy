@@ -63,11 +63,11 @@ struct OnboardingPageView: View {
             }
             .navigationDestination(isPresented: $goToRegister) {
                 RegisterPageView()
-                    .environmentObject(authViewModel)
+//                    .environmentObject(authViewModel)
             }
             .navigationDestination(isPresented: $goToLogin) {
                 LoginPageView()
-                    .environmentObject(authViewModel)
+//                    .environmentObject(authViewModel)
             }
         }
     }

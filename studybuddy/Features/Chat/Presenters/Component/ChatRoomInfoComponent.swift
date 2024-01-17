@@ -14,7 +14,7 @@ struct ChatRoomInfoComponent: View {
 //    @Binding var showTabView : Bool
     @Binding var community : Community
 //    @Binding var communityId : String
-    @EnvironmentObject var cvm: CommunityViewModel
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
@@ -67,13 +67,13 @@ struct ChatRoomInfoComponent: View {
                         .foregroundColor(.black)
                     
                     //Number of Members
-                    Text("\(cvm.memberCount) members")
+                    Text("\(communityViewModel.memberCount) members")
                         .fontWeight(.regular)
                         .font(.system(size: 15))
                         .foregroundColor(.black)
                         .task {
                             do {
-                                try await cvm.getCommunityMembers(communityID: community.id!)
+                                try await communityViewModel.getCommunityMembers(communityID: community.id!)
                             } catch {
                                 print(error)
                             }
@@ -93,7 +93,8 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), community: $community)
+                ChatRoomSettingsComponent(community: $community)
+//                    .environmentObject(communityViewModel)
 //                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), communityId: $communityId, community: $community)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 

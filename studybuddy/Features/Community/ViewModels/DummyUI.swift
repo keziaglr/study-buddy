@@ -11,11 +11,12 @@ struct DummyUI: View {
     
     @StateObject var communityViewModel = CommunityViewModel()
     @Binding var communityID : String
+    @State var communityMembers: [CommunityMember] = []
     
     var body: some View {
         VStack{
             Text("Test")
-            List(communityViewModel.members, id: \.id){ member in
+            List(communityMembers, id: \.id){ member in
                 Text(member.id)
                 Text(member.name)
 
@@ -37,18 +38,19 @@ struct DummyUI: View {
                 Text("Exit")
             }
         }
-//        .onAppear{
-//            //                CommunityViewModel.getMembers(communityId: communityID)
-//            CommunityViewModel.getMembers(communityId: communityID)
-//            CommunityViewModel.userRecommendation()
-//            
-//        }
+        .task{
+            do {
+                communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
+            } catch {
+                print(error)
+            }
+        }
     }
     
 }
 
 struct DummyUI_Previews: PreviewProvider {
     static var previews: some View {
-        DummyUI(communityID: .constant(String("DXZWbcD5WVhfsGNiB6JZ")))
+        DummyUI(communityID: .constant(String("1qVFL6zpyxdDpO5TpSPo")))
     }
 }

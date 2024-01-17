@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatRoomSettingsComponent: View {
     
-    @StateObject var communityViewModel : CommunityViewModel
+    @EnvironmentObject var communityViewModel : CommunityViewModel
 //    @Binding var communityId : String
     @Binding var community: Community
     @State private var isSetStudySchedulePresented = false
@@ -98,6 +98,7 @@ struct ChatRoomSettingsComponent: View {
 //            }
             .sheet(isPresented: $isSetStudySchedulePresented) {
                 SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
+//                    .environmentObject(communityViewModel)
             }
             .sheet(isPresented: $isViewMembersPresented){
                 ChatMembersView(communityID: community.id!)

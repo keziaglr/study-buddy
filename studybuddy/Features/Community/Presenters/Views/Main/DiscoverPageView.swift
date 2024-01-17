@@ -12,7 +12,6 @@ import LottieUI
 struct DiscoverPageView: View {
 
     @EnvironmentObject var communityViewModel: CommunityViewModel
-//    @State var bvm = BadgeViewModel()
     @State private var text = ""
     @State private var showModal = false
     @State private var communityID = ""
@@ -77,8 +76,8 @@ struct DiscoverPageView: View {
 //                communityViewModel.getCommunities()
 //            }
             .sheet(isPresented: $showModal) {
-                CreateCommunityPageView()
-                    .environmentObject(communityViewModel)
+                CreateCommunityPageView(showModal: $showModal)
+//                    .environmentObject(communityViewModel)
             }
             .sheet(isPresented: $communityViewModel.showBadge) {
                 BadgeEarnedView(image: communityViewModel.badge)

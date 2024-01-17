@@ -19,7 +19,6 @@ class CommunityViewModel: ObservableObject {
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
     @Published var recommendedCommunities = [Community]()
-    @Published var members = [CommunityMember]()
     @Published var badge = ""
     @Published var showBadge = false
     @Published var showRespon = false
@@ -30,9 +29,18 @@ class CommunityViewModel: ObservableObject {
     
     init() {
         Task {
-            communities = try await getCommunities()
-            try await getJoinedCommunity()
-            getUserRecommendation()
+            do {
+                communities = try await getCommunities()
+                try await getJoinedCommunity()
+                getUserRecommendation()
+//                communities = communities.filter({ community in
+//                    !joinedCommunities.contains { jCom in
+//                        jCom.id == community.id
+//                    }
+//                })
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -123,7 +131,17 @@ class CommunityViewModel: ObservableObject {
         
         let community = Community(title: title, description: description, image: imageURL?.absoluteString ?? url.absoluteString, category: category)
         
-        CommunityManager.shared.addCommunity(community: community)
+        guard let currentUser = currentUser else {
+            print("no current user")
+            return
+        }
+        
+        let communityCreator = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
+        
+        CommunityManager.shared.addCommunity(community: community, creator: communityCreator)
+        
+        communities.append(community)
+        joinedCommunities.append(community)
     }
 //    func addCommunity(title: String, description: String, url: URL, category: String) {
 //        let uid = UUID().uuidString
@@ -156,6 +174,8 @@ class CommunityViewModel: ObservableObject {
     //MARK: JOIN COMMUNITY
     func joinCommunity(communityID: String) async throws {
         //check user already join or not
+        let members = try await getCommunityMembers(communityID: communityID)
+        
         for member in members {
             if member.id == currentUser?.id {
                 self.respons = "You have already joined this community."
@@ -276,12 +296,24 @@ class CommunityViewModel: ObservableObject {
             print("no current user")
             return
         }
-        guard let userCommunityMember = members.filter({$0.id ==  currentUser.id}).first else {
-            print("user not joined in community")
-            return
+        //TODO: put this function in chatroomviewmodel
+        Task {
+            do {
+                let members = try await getCommunityMembers(communityID: communityID)
+                guard let userCommunityMember = members.filter({$0.id ==  currentUser.id}).first else {
+                    print("user not joined in community")
+                    return
+                }
+                
+                CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
+                joinedCommunities.removeAll { community in
+                    community.id == communityID
+                }
+            } catch {
+                print(error)
+            }
         }
         
-        CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
     }
     
 //    func leaveCommunity(communityID: String) {
@@ -379,10 +411,11 @@ class CommunityViewModel: ObservableObject {
 //    }
     
     //MARK: GET COMMUNITY MEMBER
-    func getCommunityMembers(communityID: String) async throws {
+    func getCommunityMembers(communityID: String) async throws -> [CommunityMember] {
         let members = try await CommunityManager.shared.getMembers(communityID)
-        self.members = members
         self.memberCount = members.count
+        return members
+//        self.members = members
     }
 //    func getMembers(communityId: String) {
 //        db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in

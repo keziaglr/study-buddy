@@ -25,9 +25,11 @@ final class CommunityManager {
         return communities
     }
 
-    func addCommunity(community: Community) {
+    func addCommunity(community: Community, creator: CommunityMember) {
         do {
-            try dbRef.document().setData(from: community)
+            let communityRef = try dbRef.addDocument(from: community)
+            let memberRef = communityRef.collection("members")
+            try memberRef.addDocument(from: creator)
         } catch {
             print(error)
         }

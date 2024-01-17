@@ -15,7 +15,7 @@ import Firebase
 struct ChatRoomView: View {
     //TODO: change to stateobject
     @StateObject var manager : ChatViewModel = ChatViewModel()
-    @Binding var community : Community
+    @Binding var community: Community
     
     var body: some View {
         NavigationStack {

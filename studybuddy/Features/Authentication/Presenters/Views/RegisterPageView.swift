@@ -97,7 +97,7 @@ struct RegisterPageView: View {
             }
             .navigationDestination(isPresented: $goToLogin) {
                 LoginPageView()
-                    .environmentObject(viewModel)
+//                    .environmentObject(viewModel)
             }
             .alert(isPresented: $showingAlert) {
                 Alerts.errorRegister

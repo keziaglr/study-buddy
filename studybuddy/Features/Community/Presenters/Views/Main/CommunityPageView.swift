@@ -10,7 +10,7 @@ import SwiftUI
 struct CommunityPageView: View {
     @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var searchText = ""
-    @Binding var community : Community
+    @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
     @State var showCommunityDetail : Bool = false
     
     var filteredCommunities: [Community] {
@@ -70,7 +70,7 @@ struct CommunityPageView: View {
                     } else {
                         List(filteredCommunities) { community in
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
-                                self.community = community
+                                self.chosenCommunity = community
                                 showCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
@@ -84,8 +84,8 @@ struct CommunityPageView: View {
             }
             .ignoresSafeArea()
             .navigationDestination(isPresented: $showCommunityDetail) {
-                ChatRoomView(community: $community)
-                    .environmentObject(communityViewModel)
+                ChatRoomView(community: $chosenCommunity)
+//                    .environmentObject(communityViewModel)
             }
         }
     }
@@ -93,7 +93,6 @@ struct CommunityPageView: View {
 
 struct CommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPageView(community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")))
-            .environmentObject(CommunityViewModel())
+        CommunityPageView()
     }
 }
