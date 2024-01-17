@@ -41,7 +41,6 @@ struct ChatRoomSettingsComponent: View {
                     //Library Button
                     NavigationLink {
                         LibraryView(communityID: community.id!)
-                        
                     } label: {
                         Label(
                             title: {
@@ -101,7 +100,7 @@ struct ChatRoomSettingsComponent: View {
                 SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
             }
             .sheet(isPresented: $isViewMembersPresented){
-                ChatMembersView(communityID: community.id!, communityViewModel: CommunityViewModel())
+                ChatMembersView(communityID: community.id!)
             }
             .sheet(isPresented: $isBadgeEarned) {
                 BadgeEarnedView(image: badge)

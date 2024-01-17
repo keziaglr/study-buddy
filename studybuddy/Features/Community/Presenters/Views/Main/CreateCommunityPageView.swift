@@ -13,7 +13,7 @@ struct CreateCommunityPageView: View {
     @State private var selectedValue = "Mathematics"
     let pills = ["Mathematics", "Physics", "Biology", "Chemistry", "Economics", "Geography", "Sociology", "Law", "History - Social Science", "Computer Science", "Information Technology", "Art", "Graphic Design", "Foreign Languages", "Literature"]
     
-    @ObservedObject var communityViewModel: CommunityViewModel
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var image: String = ""
@@ -75,7 +75,13 @@ struct CreateCommunityPageView: View {
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2.3)
                 
                 Button{
-                    communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+                    Task {
+                        do {
+                            try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+                        } catch {
+                            print(error)
+                        }
+                    }
                     if title.isEmpty || description.isEmpty{
                         showError = true
                     }
@@ -101,6 +107,7 @@ struct CreateCommunityPageView: View {
 
 struct CreateCommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateCommunityPageView(communityViewModel: CommunityViewModel())
+        CreateCommunityPageView()
+            .environmentObject(CommunityViewModel())
     }
 }

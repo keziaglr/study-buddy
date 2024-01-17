@@ -14,7 +14,7 @@ struct ChatRoomInfoComponent: View {
 //    @Binding var showTabView : Bool
     @Binding var community : Community
 //    @Binding var communityId : String
-    @State private var cvm = CommunityViewModel()
+    @EnvironmentObject var cvm: CommunityViewModel
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
@@ -71,8 +71,12 @@ struct ChatRoomInfoComponent: View {
                         .fontWeight(.regular)
                         .font(.system(size: 15))
                         .foregroundColor(.black)
-                        .onAppear{
-                            cvm.getMembers(communityId: community.id!)
+                        .task {
+                            do {
+                                try await cvm.getCommunityMembers(communityID: community.id!)
+                            } catch {
+                                print(error)
+                            }
                         }
                     
                     //Group Description

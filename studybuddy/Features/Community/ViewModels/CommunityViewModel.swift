@@ -14,7 +14,7 @@ import FirebaseStorage
 class CommunityViewModel: ObservableObject {
     
     @Published var memberCount: Int = 0
-    @Published var userManager = UserViewModel()
+//    @Published var userManager = UserViewModel()
     @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
@@ -32,6 +32,7 @@ class CommunityViewModel: ObservableObject {
         Task {
             communities = try await getCommunities()
             try await getJoinedCommunity()
+            getUserRecommendation()
         }
     }
     

@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct CommunityPageView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
-    @StateObject var communityViewModel = CommunityViewModel()
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var searchText = ""
     @Binding var community : Community
     @State var showCommunityDetail : Bool = false
     
     var filteredCommunities: [Community] {
         if searchText.isEmpty {
-            return communityViewModel.jCommunities
+            return communityViewModel.joinedCommunities
         } else {
-            return communityViewModel.jCommunities.filter {
+            return communityViewModel.joinedCommunities.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText)
             }
         }
@@ -42,9 +41,15 @@ struct CommunityPageView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 25) {
-                            ForEach(communityViewModel.rcommunities) { community in
+                            ForEach(communityViewModel.recommendedCommunities) { community in
                                 CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                    communityViewModel.joinCommunity(communityID: community.id!)
+                                    Task {
+                                        do {
+                                            try await communityViewModel.joinCommunity(communityID: community.id!)
+                                        } catch {
+                                            print(error)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -78,12 +83,9 @@ struct CommunityPageView: View {
                 }
             }
             .ignoresSafeArea()
-            .onAppear {
-                communityViewModel.userRecommendation()
-                communityViewModel.getJoinedCommunity()
-            }
             .navigationDestination(isPresented: $showCommunityDetail) {
-                ChatRoomView(manager: ChatViewModel(), community: $community)
+                ChatRoomView(community: $community)
+                    .environmentObject(communityViewModel)
             }
         }
     }
@@ -91,6 +93,7 @@ struct CommunityPageView: View {
 
 struct CommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
-        CommunityPageView(communityViewModel: CommunityViewModel(), community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")))
+        CommunityPageView(community: .constant(Community(id: "1", title: "title", description: "description", image: "1", category: "Mathematics")))
+            .environmentObject(CommunityViewModel())
     }
 }

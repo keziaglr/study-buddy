@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatMembersView: View {
     var communityID: String
-    @StateObject var communityViewModel: CommunityViewModel
+    @EnvironmentObject var communityViewModel: CommunityViewModel
 //    @State private var memberCount: Int = 0
     
     var body: some View {
@@ -37,8 +37,12 @@ struct ChatMembersView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.bottom, 116)
-            .onAppear {
-                communityViewModel.getMembers(communityId: communityID)
+            .task {
+                do {
+                    try await communityViewModel.getCommunityMembers(communityID: communityID)             
+                } catch {
+                    print(error)
+                }
             }
         }
     }
@@ -56,7 +60,8 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView(communityID: "1qVFL6zpyxdDpO5TpSPo", communityViewModel: CommunityViewModel())
+        ChatMembersView(communityID: "1qVFL6zpyxdDpO5TpSPo")
+            .environmentObject(CommunityViewModel())
     }
 }
 

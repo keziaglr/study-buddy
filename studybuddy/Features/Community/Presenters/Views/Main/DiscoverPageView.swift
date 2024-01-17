@@ -11,8 +11,8 @@ import LottieUI
 
 struct DiscoverPageView: View {
 
-    @ObservedObject var communityViewModel: CommunityViewModel
-    @State var bvm = BadgeViewModel()
+    @EnvironmentObject var communityViewModel: CommunityViewModel
+//    @State var bvm = BadgeViewModel()
     @State private var text = ""
     @State private var showModal = false
     @State private var communityID = ""
@@ -41,7 +41,13 @@ struct DiscoverPageView: View {
                 if !filteredCommunities.isEmpty {
                     List(filteredCommunities) { community in
                         CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                            communityViewModel.joinCommunity(communityID: community.id!)
+                            Task {
+                                do {
+                                    try await communityViewModel.joinCommunity(communityID: community.id!)
+                                } catch {
+                                    print(error)
+                                }
+                            }
                             communityID = community.id!
                         }.listRowSeparator(.hidden)
                             
@@ -66,11 +72,13 @@ struct DiscoverPageView: View {
                 }
 
 
-            }.onAppear {
-                communityViewModel.getCommunities()
             }
+//            .onAppear {
+//                communityViewModel.getCommunities()
+//            }
             .sheet(isPresented: $showModal) {
-                CreateCommunityPageView(communityViewModel: CommunityViewModel())
+                CreateCommunityPageView()
+                    .environmentObject(communityViewModel)
             }
             .sheet(isPresented: $communityViewModel.showBadge) {
                 BadgeEarnedView(image: communityViewModel.badge)
@@ -82,6 +90,7 @@ struct DiscoverPageView: View {
 
 struct DiscoverPageView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverPageView(communityViewModel: CommunityViewModel())
+        DiscoverPageView()
+            .environmentObject(CommunityViewModel())
     }
 }

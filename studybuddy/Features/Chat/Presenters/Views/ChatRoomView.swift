@@ -14,16 +14,12 @@ import Firebase
 
 struct ChatRoomView: View {
     //TODO: change to stateobject
-    @ObservedObject var manager : ChatViewModel = ChatViewModel()
+    @StateObject var manager : ChatViewModel = ChatViewModel()
     @Binding var community : Community
     
     var body: some View {
         NavigationStack {
             VStack (spacing: 0){
-                
-//                Image("header_gradient")
-//                    .frame(height: UIScreen.main.bounds.height * 0.07)
-                
                 //Info
                 ChatRoomInfoComponent(community: $community)
                 
@@ -31,7 +27,6 @@ struct ChatRoomView: View {
                 StudyScheduleComponent(community: $community)
                 
                 //Chat Window
-                
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false){
                         if manager.chats.count != 0 {

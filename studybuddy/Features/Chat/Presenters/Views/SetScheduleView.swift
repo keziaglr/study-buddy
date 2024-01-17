@@ -94,8 +94,14 @@ struct SetScheduleView: View {
                 
                 //Set Schedule Button
                 Button {
-                    cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
-                    showAlert = true
+                    Task {
+                        do {
+                            try await cvm.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
+                            showAlert = true
+                        } catch {
+                            print(error)
+                        }
+                    }
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)
                 } .alert(isPresented: $showAlert) {
