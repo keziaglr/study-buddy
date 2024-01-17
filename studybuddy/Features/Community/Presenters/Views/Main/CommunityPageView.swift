@@ -42,13 +42,20 @@ struct CommunityPageView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 25) {
                             ForEach(communityViewModel.recommendedCommunities) { community in
-                                CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                                    Task {
-                                        do {
-                                            try await communityViewModel.joinCommunity(communityID: community.id!)
-                                        } catch {
-                                            print(error)
+                                if communityViewModel.validateCommunityJoined(communityID: community.id!) {
+                                    CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                        Task {
+                                            do {
+                                                try await communityViewModel.joinCommunity(communityID: community.id!)
+                                            } catch {
+                                                print(error)
+                                            }
                                         }
+                                    }
+                                } else {
+                                    CommunityCardComponent(community: community, buttonLabel: "OPEN") {
+                                        self.chosenCommunity = community
+                                        showCommunityDetail = true
                                     }
                                 }
                             }
@@ -85,10 +92,10 @@ struct CommunityPageView: View {
             .ignoresSafeArea()
             .navigationDestination(isPresented: $showCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)
-//                    .environmentObject(communityViewModel)
             }
         }
     }
+    
 }
 
 struct CommunityPageView_Previews: PreviewProvider {

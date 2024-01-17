@@ -44,6 +44,12 @@ class CommunityViewModel: ObservableObject {
         }
     }
     
+    func validateCommunityJoined(communityID: String) -> Bool {
+        return !joinedCommunities.contains { jCom in
+            jCom.id == communityID
+        }
+    }
+    
     func dateFormatting() -> String {
         let date = Date()
         let dateFormatter = DateFormatter()
