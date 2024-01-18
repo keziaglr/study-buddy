@@ -20,11 +20,11 @@ struct CreateCommunityPageView: View {
     @State private var image: String = ""
     @State private var category: String = ""
     @State private var url: URL = URL(string: "https://www.example.com")!
-    @State private var showError: Bool = false
+    @State private var showAlert: Bool = false
     @State var selectedPhoto: [PhotosPickerItem] = []
     @State var data: Data?
     @State var showpicker = false
-    
+    @State var showedAlert = Alerts.fillAllFields
     var body: some View {
         
         ZStack{
@@ -76,35 +76,55 @@ struct CreateCommunityPageView: View {
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2.3)
                 
                 Button{
-                    Task {
-                        do {
-                            try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
-                            showModal = false
-                        } catch {
-                            print(error)
+                    if title.isEmpty || description.isEmpty || image == "" {
+                        showedAlert = Alerts.fillAllFields
+                        showAlert.toggle()
+                    } else {
+                        Task {
+                            do {
+                                communityViewModel.isLoading = true
+                                try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+                            } catch {
+                                print(error)
+                            }
+                            communityViewModel.isLoading = false
+                            showedAlert = Alert(
+                                title: Text("Success Create Community"),
+                                message: Text("Find Your Buddies"),
+                                dismissButton: .default(Text("OK"), action: {
+                                    showModal = false
+                                    Task {
+                                        do {
+                                            communityViewModel.isLoading = true
+                                            try await communityViewModel.refreshCommunities()
+                                        } catch {
+                                            print(error)
+                                        }
+                                        communityViewModel.isLoading = false
+                                    }
+                                })
+                            )
+                            showAlert.toggle()
                         }
                     }
-                    if title.isEmpty || description.isEmpty{
-                        showError = true
-                    }
-                }label: {
+                } label: {
                     CustomButton(text: "Create Community", primary: false)
-                }.position(x: geometry.size.width / 2, y: geometry.size.height * 0.85)
-            }
-            .alert(isPresented: $showError){
-                Alert(title: Text("Error"),
-                      message: Text("Please fill in all the fields."),
-                      dismissButton: .default(Text("OK"))
-                      )
+                }
+                .position(x: geometry.size.width / 2, y: geometry.size.height * 0.85)
+                
+                LoaderComponent(isLoading: $communityViewModel.isLoading)
             }
         }
         .ignoresSafeArea()
-            .sheet(isPresented: $showpicker) {
-                ImagePicker(show: $showpicker) { url in
-                    self.url = url
-                    self.image = url.lastPathComponent
-                }
+        .sheet(isPresented: $showpicker) {
+            ImagePicker(show: $showpicker) { url in
+                self.url = url
+                self.image = url.lastPathComponent
             }
+        }
+        .alert(isPresented: $showAlert, content: {
+            showedAlert
+        })
     }
     
 }

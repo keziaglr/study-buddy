@@ -46,10 +46,12 @@ struct CommunityPageView: View {
                                     CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                         Task {
                                             do {
+                                                communityViewModel.isLoading = true
                                                 try await communityViewModel.joinCommunity(community: community)
                                             } catch {
                                                 print(error)
                                             }
+                                            communityViewModel.isLoading = false
                                         }
                                     }
                                 } else {
@@ -88,6 +90,8 @@ struct CommunityPageView: View {
                         .listStyle(.plain)
                         .scrollIndicators(.hidden)
                     }
+                    
+                    LoaderComponent(isLoading: $communityViewModel.isLoading)
                 }
             }
             .ignoresSafeArea()
@@ -95,6 +99,9 @@ struct CommunityPageView: View {
                 ChatRoomView(community: $chosenCommunity)
             }
         }
+        .alert(isPresented: $communityViewModel.showRespon, content: {
+            communityViewModel.alert
+        })
     }
     
 }

@@ -91,9 +91,9 @@ struct RegisterPageView: View {
                     .padding(.bottom, 90)
                     .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
                     
-                    if isLoading {
-                        LoaderComponent()
-                    }
+//                    if isLoading {
+                        LoaderComponent(isLoading: $isLoading)
+//                    }
                 }
                 .navigationDestination(isPresented: $viewModel.created) {
                     InterestPageView()

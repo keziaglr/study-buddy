@@ -93,9 +93,7 @@ struct LoginPageView: View {
                         .padding(.bottom, 90)
                     }
                     .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
-                    if isLoading {
-                        LoaderComponent()
-                    }
+                    LoaderComponent(isLoading: $isLoading)
                 }
             }
             .navigationBarBackButtonHidden()

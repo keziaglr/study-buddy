@@ -44,10 +44,12 @@ struct DiscoverPageView: View {
                             CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                 Task {
                                     do {
+                                        communityViewModel.isLoading = true
                                         try await communityViewModel.joinCommunity(community: community)
                                     } catch {
                                         print(error)
                                     }
+                                    communityViewModel.isLoading = false
                                 }
                             }
                             .listRowSeparator(.hidden)
@@ -80,6 +82,7 @@ struct DiscoverPageView: View {
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
                 
+                LoaderComponent(isLoading: $communityViewModel.isLoading)
                 
             }
             .sheet(isPresented: $showModal) {
@@ -93,6 +96,9 @@ struct DiscoverPageView: View {
             }
         }
         .ignoresSafeArea()
+        .alert(isPresented: $communityViewModel.showRespon, content: {
+            communityViewModel.alert
+        })
     }
     
 }

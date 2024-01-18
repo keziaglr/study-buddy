@@ -49,9 +49,9 @@ struct FileViewerView: View {
             }
             .edgesIgnoringSafeArea(.all)
             
-            if self.vm.showLoader() {
-                LoaderComponent()
-            }
+//            if self.vm.showLoader() {
+            LoaderComponent(isLoading: $vm.isLoading)
+//            }
         }
     }
 }

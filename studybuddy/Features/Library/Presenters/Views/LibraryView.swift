@@ -54,9 +54,9 @@ struct LibraryView: View {
                     }
                 }
                 
-                if self.vm.showLoader() {
-                    LoaderComponent()
-                }
+//                if self.vm.showLoader() {
+                    LoaderComponent(isLoading: $vm.isLoading)
+//                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
