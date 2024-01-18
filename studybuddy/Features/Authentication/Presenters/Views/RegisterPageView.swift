@@ -106,6 +106,7 @@ struct RegisterPageView: View {
                 }
                 .navigationBarBackButtonHidden()
             }
+        }
     }
 }
 

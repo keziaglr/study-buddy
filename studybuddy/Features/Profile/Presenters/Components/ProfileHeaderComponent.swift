@@ -83,39 +83,40 @@ struct ProfileHeaderComponent: View {
                             }.offset(x: 35, y: 35)
                             
                         }
-                    }
-                    
-                    //name
-                    Text(userViewModel.currentUser?.name ?? "")
-                        .fontWeight(.bold)
-                        .font(.system(size: 20))
-                        .foregroundColor(Colors.orange)
-                        .kerning(0.6)
-                    
-                    //email
-                    Text(userViewModel.currentUser?.email ?? "")
-                        .fontWeight(.light)
-                        .font(.system(size: 18))
-                        .foregroundColor(Colors.orange)
-                        .padding(.bottom, 8)
-                    VStack{
-                        Button(action: {
-                            do {
-                                try authVM.logout()
-                            } catch {
-                                print(error)
+                        
+                        //name
+                        Text(userViewModel.currentUser?.name ?? "")
+                            .fontWeight(.bold)
+                            .font(.system(size: 20))
+                            .foregroundColor(Colors.orange)
+                            .kerning(0.6)
+                        
+                        //email
+                        Text(userViewModel.currentUser?.email ?? "")
+                            .fontWeight(.light)
+                            .font(.system(size: 18))
+                            .foregroundColor(Colors.orange)
+                            .padding(.bottom, 8)
+                        VStack{
+                            Button(action: {
+                                do {
+                                    try authVM.logout()
+                                } catch {
+                                    print(error)
+                                }
+                            }) {
+                                Text("Logout")
+                                    .padding(.horizontal, 15)
+                                    .padding(.vertical, 7)
+                                    .font(.system(size: 19))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .background(Colors.orange)
+                                    .cornerRadius(100)
                             }
-                        }) {
-                            Text("Logout")
-                                .padding(.horizontal, 15)
-                                .padding(.vertical, 7)
-                                .font(.system(size: 19))
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .background(Colors.orange)
-                                .cornerRadius(100)
                         }
-                    }.padding(.top, 30)
+//                        .padding(.top, 30)
+                    }
                 }
                 .ignoresSafeArea()
             }
