@@ -26,4 +26,34 @@ struct Alerts {
         dismissButton: .default(Text("OK"))
     )
     
+    static let memberIsFull = Alert(
+        title: Text("Cannot Join Community"),
+        message: Text("The community already has 6 members"),
+        dismissButton: .default(Text("OK"))
+    )
+    
+    static let successLeaveCommunity = Alert(
+        title: Text("Success Leave Community"),
+        message: Text("Bye Buddy"),
+        dismissButton: .default(Text("OK"))
+    )
+    
+    static let successJoinCommunity = Alert(
+        title: Text("Success Join Community"),
+        message: Text("Let's Study Together"),
+        dismissButton: .default(Text("OK"))
+    )
+    
+    static let successCreateCommunity = Alert(
+        title: Text("Success Create Community"),
+        message: Text("Find Your Buddies"),
+        dismissButton: .default(Text("OK"))
+    )
+    
+    static let fillAllFields = Alert(
+        title: Text("Error"),
+        message: Text("Please fill in all the fields."),
+        dismissButton: .default(Text("OK"))
+    )
+    
 }

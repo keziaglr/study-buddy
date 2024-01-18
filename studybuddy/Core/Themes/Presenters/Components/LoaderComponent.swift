@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LoaderComponent: View {
+    @Binding var isLoading: Bool
     var body: some View {
-        GeometryReader{_ in
+        if isLoading {
             VStack{
                 Spacer()
                 HStack {
@@ -22,13 +23,13 @@ struct LoaderComponent: View {
                 }
                 Spacer()
             }
+            .background(Color.black.opacity(0.15).edgesIgnoringSafeArea(.all))
         }
-        .background(Color.black.opacity(0.15).edgesIgnoringSafeArea(.all))
     }
 }
 
 struct LoaderComponent_Previews: PreviewProvider {
     static var previews: some View {
-        LoaderComponent()
+        LoaderComponent(isLoading: .constant(true))
     }
 }
