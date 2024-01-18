@@ -44,7 +44,7 @@ struct DiscoverPageView: View {
                             CommunityCardComponent(community: community, buttonLabel: "JOIN") {
                                 Task {
                                     do {
-                                        try await communityViewModel.joinCommunity(communityID: community.id!)
+                                        try await communityViewModel.joinCommunity(community: community)
                                     } catch {
                                         print(error)
                                     }
