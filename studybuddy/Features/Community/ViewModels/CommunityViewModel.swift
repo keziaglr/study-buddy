@@ -178,8 +178,12 @@ class CommunityViewModel: ObservableObject {
     
     
     //MARK: JOIN COMMUNITY
-    func joinCommunity(communityID: String) async throws {
+    func joinCommunity(community: Community) async throws {
         //check user already join or not
+        guard let communityID = community.id else {
+            print("no community id")
+            return
+        }
         let members = try await getCommunityMembers(communityID: communityID)
         
         for member in members {
@@ -204,6 +208,7 @@ class CommunityViewModel: ObservableObject {
         }
         let newMember = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
         CommunityManager.shared.addMember(communityID, newMember)
+        joinedCommunities.append(community)
         self.respons = "Successfully joined the community"
         self.showRespon.toggle()
     }
