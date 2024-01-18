@@ -28,7 +28,6 @@ struct DocumentCellComponent: View {
             
             Spacer()
         }
-        .background(.white)
         .cornerRadius(10)
         .frame(maxHeight: 90)
     }

@@ -12,57 +12,35 @@ struct MembersBubbleComponent: View {
     let member : communityMember
     
     var body: some View {
-        ZStack{
-            Rectangle()
-                .fill(Color.white)
-                .frame(width: 302, height: 53)
-                .cornerRadius(10, corners: .allCorners)
+        
+        //Name and Profile Picture
+        HStack{
             
-            //Name and Profile Picture
-            HStack{
-                
-                //Profile Picture
-                VStack(alignment: .leading){
-                    KFImage(URL(string: member.image))
-                        .placeholder ({ progress in
-                            ProgressView()
-                        })
-                        .resizable()
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .frame(width: 50, height: 50)
-                        .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
-                        .padding(.horizontal, 30)
-//                    AsyncImage(url: URL(string: member.image)) { image in
-//                        image
-//                        
-//                            .resizable()
-//                            .clipShape(RoundedRectangle(cornerRadius: 10))
-//                            .frame(width: 50, height: 50)
-//                            .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
-//                            .padding(.horizontal, 30)
-//                        
-//                    } placeholder: {
-//                        ProgressView()
-//                    }
-                }
-                .frame(width: 50)
-                
-//                Spacer()
-                
-                VStack(alignment: .leading){
-                    //Name
-                    Text(member.name)
-                        .fontWeight(.regular)
-                        .font(.system(size: 18))
-                        .foregroundColor(Color.black)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .padding(.leading, 30)
-                }
-                Spacer()
-//                .frame(width: 200)
+            //Profile Picture
+            VStack(alignment: .leading){
+                KFImage(URL(string: member.image))
+                    .placeholder ({ progress in
+                        ProgressView()
+                    })
+                    .resizable()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .frame(width: 50, height: 50)
+                    .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+                    .padding(.horizontal, 30)
             }
+            .frame(width: 50)
+            
+            VStack(alignment: .leading){
+                //Name
+                Text(member.name)
+                    .fontWeight(.regular)
+                    .font(.system(size: 18))
+                    .foregroundColor(Colors.black)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .padding(.leading, 30)
+            }
+            Spacer()
         }
-        .frame(width: 280, height: 53)
     }
 }
 

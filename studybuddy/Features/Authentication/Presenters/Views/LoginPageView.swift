@@ -65,7 +65,7 @@ struct LoginPageView: View {
                             isLoading = false
                         }
                     } label: {
-                        CustomButton(text: "LOGIN")
+                        CustomButton(text: "Login")
                     }
                     .disabled(viewModel.checkLogin())
                     .opacity(viewModel.checkLogin() ? 0.5 : 1.0)

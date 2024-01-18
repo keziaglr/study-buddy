@@ -31,9 +31,10 @@ struct ChatMembersView: View {
               
                 
                 membersList
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.6)
+                    .frame(width: geometry.size.width * 1.1, height: geometry.size.height * 0.6)
                     .listStyle(.plain)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.73)
+                    
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.bottom, 116)
@@ -49,7 +50,7 @@ struct ChatMembersView: View {
                 .listRowSeparator(.hidden)
                 .listStyle(.plain)
                 .frame(alignment: .leading)
-            
+                .padding(.leading, 15)
         }
     }
 }

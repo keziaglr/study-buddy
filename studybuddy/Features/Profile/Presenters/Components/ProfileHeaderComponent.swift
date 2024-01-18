@@ -14,9 +14,10 @@ import Kingfisher
 
 struct ProfileHeaderComponent: View {
     @ObservedObject private var userViewModel = UserViewModel()
-//    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -26,6 +27,20 @@ struct ProfileHeaderComponent: View {
                         .scaledToFit()
                         .ignoresSafeArea()
                     
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            isDarkMode.toggle()
+                        }) {
+                            Image(systemName: isDarkMode ? "moon.fill" : "moon")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(isDarkMode ? Colors.orange : .primary)
+                        }
+                        
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, -80)
                     
                     VStack {
                         //profile image
@@ -63,7 +78,7 @@ struct ProfileHeaderComponent: View {
                                     Image(systemName: "pencil")
                                         .foregroundColor(.white)
                                 }
-                            }.offset(x: 35, y: 30)
+                            }.offset(x: 35, y: 35)
                             
                         }
                         
@@ -103,6 +118,7 @@ struct ProfileHeaderComponent: View {
                 }
                 .ignoresSafeArea()
             }
+            .preferredColorScheme(isDarkMode ? .dark : .light)
             .task {
                 do {
                     _ = try await userViewModel.getUserProfile()

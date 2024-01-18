@@ -34,7 +34,7 @@ struct CommunityPageView: View {
                     SearchBarComponent(text: $text)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
                     
-                    Text("Here’s some recommendation for you")
+                    Text("Check another community, based on your interests ")
                         .font(.system(size: 20))
                         .kerning(0.6)
                         .frame(width: 317, alignment: .leading)
@@ -53,11 +53,12 @@ struct CommunityPageView: View {
                     .frame(height:145)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.42)
                     
-                    Text("Joined Community")
+                    Text("Your Community ✨")
                         .font(.system(size: 20))
+                        .fontWeight(.bold)
                         .kerning(0.6)
                         .frame(width: 317, alignment: .leading)
-                        .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.55)
+                        .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.53)
                     
                     if filteredCommunities.isEmpty {
                         Text("Start joining community!")
@@ -71,7 +72,7 @@ struct CommunityPageView: View {
                             .listRowSeparator(.hidden)
                         }
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.75)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.73)
                         .listStyle(.plain)
                         .scrollIndicators(.hidden)
                     }

@@ -43,7 +43,7 @@ struct CommunityCardComponent: View {
                 RoundedRectangle(cornerRadius: 15)
                     .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
                     .foregroundStyle(LinearGradient(
-                        gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
+                        gradient: Gradient(colors: [Colors.darkBlue, Colors.orange]),
                         startPoint: .leading,
                         endPoint: .trailing
                     ))
