@@ -55,7 +55,7 @@ struct MessageBubbleComponent: View {
                         .scaledToFill()
                         .frame(width: 42, height: 42)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
                 } else {
                     Image("profile_placeholder")
                         .resizable()
@@ -75,8 +75,8 @@ struct MessageBubbleComponent: View {
                         .font(.system(size: 15))
                         .fontWeight(.semibold)
                         .kerning(0.45)
-                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 5))
-                        .foregroundColor(Color.black)
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                        .foregroundColor(Colors.black)
                 }
                     
                 //Message Content
@@ -85,11 +85,11 @@ struct MessageBubbleComponent: View {
                     .fontWeight(.regular)
                     .kerning(0.45)
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                    .foregroundColor(Color.black)
+                    .foregroundColor(Colors.black)
                     .frame(alignment: .leading)
 //                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
-                    .background(Color(red: 240/255, green: 240/255, blue: 240/255))
-                    .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .bottomLeft, .bottomRight]))
+                    .background(Color("Gray"))
+                    .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .topRight, .bottomLeft]))
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                 
@@ -98,7 +98,7 @@ struct MessageBubbleComponent: View {
                     .font(.system(size: 15))
                     .fontWeight(.regular)
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 10))
-                    .foregroundColor(Color.black)
+                    .foregroundColor(Colors.black)
             }
         }.task {
             um.getUser(id: message.user) { retrievedUser in

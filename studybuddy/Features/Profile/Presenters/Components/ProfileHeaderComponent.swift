@@ -18,53 +18,71 @@ struct ProfileHeaderComponent: View {
     //    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     var body: some View {
-        VStack {
-            ZStack {
-                Image("profile_gradient")
-                    .resizable()
-                    .scaledToFit()
-                    .ignoresSafeArea()
-                
-                
-                VStack {
-                    //profile image
-                    ZStack {
-                        if let userImage = userViewModel.currentUser?.image {
-                            KFImage(URL(string: userImage))
-                                .placeholder({ progress in
-                                    ProgressView()
-                                })
+        NavigationStack {
+            VStack {
+                ZStack {
+                    Image("profile_gradient")
+                        .resizable()
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                    
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            isDarkMode.toggle()
+                        }) {
+                            Image(systemName: isDarkMode ? "moon.fill" : "moon")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(15)
-                                .padding(.top, 21)
-                                .padding(.bottom, 8)
-                        } else {
-                            Image("profile_placeholder")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(15)
-                                .padding(.top, 21)
-                                .padding(.bottom, 8)
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(isDarkMode ? Colors.orange : .primary)
                         }
                         
-                        Button {
-                            showPicker = true
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .fill()
-                                    .foregroundColor(Colors.orange)
-                                    .frame(width: 25)
-                                    .fontWeight(.bold)
-                                Image(systemName: "pencil")
-                                    .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, -80)
+                    
+                    VStack {
+                        //profile image
+                        ZStack {
+                            if let userImage = userViewModel.currentUser?.image {
+                                KFImage(URL(string: userImage))
+                                    .placeholder({ progress in
+                                        ProgressView()
+                                    })
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 80, height: 80)
+                                    .cornerRadius(15)
+                                    .padding(.top, 21)
+                                    .padding(.bottom, 8)
+                            } else {
+                                Image("profile_placeholder")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .cornerRadius(15)
+                                    .padding(.top, 21)
+                                    .padding(.bottom, 8)
                             }
-                        }.offset(x: 35, y: 30)
-                        
+                            
+                            Button {
+                                showPicker = true
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill()
+                                        .foregroundColor(Colors.orange)
+                                        .frame(width: 25)
+                                        .fontWeight(.bold)
+                                    Image(systemName: "pencil")
+                                        .foregroundColor(.white)
+                                }
+                            }.offset(x: 35, y: 35)
+                            
+                        }
                     }
                     
                     //name
@@ -97,18 +115,20 @@ struct ProfileHeaderComponent: View {
                                 .background(Colors.orange)
                                 .cornerRadius(100)
                         }
-                    }
-                }.padding(.top, 30)
+                    }.padding(.top, 30)
+                }
+                .ignoresSafeArea()
             }
-            .ignoresSafeArea()
-        }
-        .task {
-            do {
-                _ = try await userViewModel.getUserProfile()
-            } catch {
-                print(error)
+            .preferredColorScheme(isDarkMode ? .dark : .light)
+            .task {
+                do {
+                    _ = try await userViewModel.getUserProfile()
+                } catch {
+                    print(error)
+                }
             }
         }
+        .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {
             ImagePicker(show: $showPicker) { url in
                 Task {

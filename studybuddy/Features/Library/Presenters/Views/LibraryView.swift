@@ -61,7 +61,7 @@ struct LibraryView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbarBackground(
-                            Color("LightBlue"),
+                            Colors.lightBlue,
                             for: .navigationBar)
                         .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
@@ -73,7 +73,7 @@ struct LibraryView: View {
                         Image(systemName: "arrow.backward")
                             .resizable()
                             .scaledToFit()
-                            .foregroundColor(.black)
+                            .foregroundColor(Colors.black)
                     }
                     
                 }
@@ -88,7 +88,7 @@ struct LibraryView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 20)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(Colors.black)
                             }
                         }
                         Menu{
@@ -109,14 +109,14 @@ struct LibraryView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
-                                .foregroundColor(.black)
+                                .foregroundColor(Colors.black)
                         }
                         
                     }
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Library")
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                         .kerning(0.45)
                         .bold()
                 }

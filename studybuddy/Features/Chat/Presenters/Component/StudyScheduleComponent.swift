@@ -32,7 +32,7 @@ struct StudyScheduleComponent: View {
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
         }
-        .background(Color("LightOrange"))
+        .background(Colors.lightOrange)
         .frame(width: 374)
         .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
     }
