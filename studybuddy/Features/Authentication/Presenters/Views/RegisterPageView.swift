@@ -16,94 +16,98 @@ struct RegisterPageView: View {
     @State private var goToLogin = false
     
     var body: some View {
-        NavigationStack {
-            ZStack{
-                Images.backgroundGradient
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                VStack{
-                    Text("Let's get Started!")
-                        .fontWeight(.bold)
-                        .font(.system(size: 30))
-                        .kerning(0.9)
-                        .foregroundColor(Colors.orange)
-                        .padding(.top, 105)
+        GeometryReader { geometry in
+            NavigationStack {
+                ZStack{
+                    Images.backgroundGradient
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     
-                    ZStack{
-                        Image("login-register")
-                            .resizable()
-                            .frame(width: 250, height: 250)
-                            .padding(.bottom, 400)
-                            .padding(.top, 60)
-
-                        VStack(spacing: 20) {
-                            CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
-                                .padding(.top, 160)
+                    VStack{
+                        Text("Let's get Started!")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .kerning(0.9)
+                            .foregroundColor(Colors.orange)
+                            .padding(.top, 105)
+                        
+                        ZStack{
+                            Image("login-register")
+                                .resizable()
+                                .frame(width: 250, height: 250)
+                                .padding(.bottom, 400)
+                                .padding(.top, 60)
                             
-                            CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
-                            
-                            CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
-                        }
-                    }
-                }
-                
-                VStack{
-                    Spacer()
-                    
-                    Button{
-                        Task {
-                            do {
-                                isLoading = true
-                                try await viewModel.createUser()
-                                showingAlert = false
-                            } catch {
-                                print(error)
-                                showingAlert = true
+                            VStack(spacing: 20) {
+                                CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
+                                    .padding(.top, 160)
+                                
+                                CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
+                                
+                                CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
                             }
-                            isLoading = false
                         }
-                    } label: {
-                        CustomButton(text: "Register")
-                            .disabled(viewModel.checkRegister())
-                            .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
                     }
+                    .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
                     
-                    HStack {
-                        Text("Already have an account yet?")
-                            .italic()
-                            .fontWeight(.light)
-                            .font(.system(size: 15))
+                    VStack{
+                        Spacer()
+                        
                         Button{
-//                            changePage = 2
-                            goToLogin = true
+                            Task {
+                                do {
+                                    isLoading = true
+                                    try await viewModel.createUser()
+                                    showingAlert = false
+                                } catch {
+                                    print(error)
+                                    showingAlert = true
+                                }
+                                isLoading = false
+                            }
                         } label: {
-                            Text("Login Now")
+                            CustomButton(text: "Register")
+                                .disabled(viewModel.checkRegister())
+                                .opacity(viewModel.checkRegister() ? 0.5 : 1.0)
+                        }
+                        
+                        HStack {
+                            Text("Already have an account yet?")
                                 .italic()
-                                .fontWeight(.bold)
-                                .foregroundColor(Colors.orange)
+                                .fontWeight(.light)
                                 .font(.system(size: 15))
+                            Button{
+                                //                            changePage = 2
+                                goToLogin = true
+                            } label: {
+                                Text("Login Now")
+                                    .italic()
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Colors.orange)
+                                    .font(.system(size: 15))
+                            }
                         }
                     }
+                    .padding(.bottom, 90)
+                    .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
+                    
+                    if isLoading {
+                        LoaderComponent()
+                    }
                 }
-                .padding(.bottom, 90)
-                
-                if isLoading {
-                    LoaderComponent()
+                .navigationDestination(isPresented: $viewModel.created) {
+                    InterestPageView()
                 }
+                .navigationDestination(isPresented: $goToLogin) {
+                    LoginPageView()
+                        .environmentObject(viewModel)
+                }
+                .alert(isPresented: $showingAlert) {
+                    Alerts.errorRegister
+                }
+                .navigationBarBackButtonHidden()
             }
-            .navigationDestination(isPresented: $viewModel.created) {
-                InterestPageView()
-            }
-            .navigationDestination(isPresented: $goToLogin) {
-                LoginPageView()
-                    .environmentObject(viewModel)
-            }
-            .alert(isPresented: $showingAlert) {
-                Alerts.errorRegister
-            }
-            .navigationBarBackButtonHidden()
         }
     }
 }

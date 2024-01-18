@@ -16,91 +16,98 @@ struct LoginPageView: View {
     @State private var isLoading = false
     @State private var goToRegister = false
     var body: some View {
-        NavigationStack {
-            ZStack{
-                Images.backgroundGradient
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
+        GeometryReader { geometry in
+            NavigationStack {
                 
-                VStack{
-                    Text("Welcome Back 👋🏼")
-                        .fontWeight(.bold)
-                        .font(.system(size: 30))
-                        .kerning(0.9)
-                        .foregroundColor(Colors.orange)
-                        .padding(.top, 105)
+                ZStack{
+                    Images.backgroundGradient
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     
+                    
+                    VStack{
+                        Text("Welcome Back 👋🏼")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .kerning(0.9)
+                            .foregroundColor(Colors.orange)
+                            .padding(.top, 105)
+                        
                         ZStack{
-//                            LottieView("community")
-//                                .loopMode(.loop)
-//                                .frame(width: 329)
-//                                .padding(.bottom, 391)
+                            //                            LottieView("community")
+                            //                                .loopMode(.loop)
+                            //                                .frame(width: 329)
+                            //                                .padding(.bottom, 391)
                             
                             Image("login-register")
                                 .resizable()
                                 .frame(width: 250, height: 250)
                                 .padding(.bottom, 400)
                                 .padding(.top, 60)
-                        VStack(spacing: 20) {
-                            CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
-                                .padding(.top, 105)
-                            
-                            CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
-                        }
-                    }
-                }
-                
-                VStack{
-                    Spacer()
-                    Button {
-                        Task {
-                            do {
-                                isLoading = true
-                                try await viewModel.auth()
-                            } catch {
-                                print(error)
-                                showingAlert = true
+                            VStack(spacing: 20) {
+                                CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
+                                    .padding(.top, 105)
+                                
+                                CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
                             }
-                            isLoading = false
                         }
-                    } label: {
-                        CustomButton(text: "Login")
                     }
-                    .disabled(viewModel.checkLogin())
-                    .opacity(viewModel.checkLogin() ? 0.5 : 1.0)
+                    .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
                     
-                    HStack {
-                        Text("Don't have an account yet?")
-                            .italic()
-                            .fontWeight(.light)
-                            .font(.system(size: 15))
-                        Button{
-                            goToRegister = true
+                    VStack{
+                        Spacer()
+                        Button {
+                            Task {
+                                do {
+                                    isLoading = true
+                                    try await viewModel.auth()
+                                } catch {
+                                    print(error)
+                                    showingAlert = true
+                                }
+                                isLoading = false
+                            }
                         } label: {
-                            Text("Register Now")
-                                .italic()
-                                .fontWeight(.bold)
-                                .foregroundColor(Colors.orange)
-                                .font(.system(size: 15))
+                            CustomButton(text: "Login")
                         }
+                        .disabled(viewModel.checkLogin())
+                        .opacity(viewModel.checkLogin() ? 0.5 : 1.0)
+                        
+                        HStack {
+                            Text("Don't have an account yet?")
+                                .italic()
+                                .fontWeight(.light)
+                                .font(.system(size: 15))
+                            Button{
+                                goToRegister = true
+                            } label: {
+                                Text("Register Now")
+                                    .italic()
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Colors.orange)
+                                    .font(.system(size: 15))
+                            }
+                        }
+                        .kerning(0.45)
+                        .padding(.bottom, 90)
                     }
-                    .kerning(0.45)
-                    .padding(.bottom, 90)
-                }
-                .navigationDestination(isPresented: $viewModel.authenticated) {
-                    TabBarNavigation()
-                }
-                .navigationDestination(isPresented: $goToRegister) {
-                    RegisterPageView()
-                        .environmentObject(viewModel)
-                }
-                if isLoading {
-                    LoaderComponent()
+                    .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
+                    .navigationDestination(isPresented: $viewModel.authenticated) {
+                        TabBarNavigation()
+                    }
+                    .navigationDestination(isPresented: $goToRegister) {
+                        RegisterPageView()
+                            .environmentObject(viewModel)
+                    }
+                    if isLoading {
+                        LoaderComponent()
+                    }
                 }
             }
             
         }
+        
         .navigationBarBackButtonHidden()
         .onAppear{
             viewModel.password = ""
