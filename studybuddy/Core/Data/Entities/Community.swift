@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct Community: Identifiable, Codable{
-    var id: String
+    @DocumentID var id: String?
     var title: String
     var description: String
     var image: String

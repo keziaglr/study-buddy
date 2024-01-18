@@ -8,43 +8,55 @@
 import SwiftUI
 
 struct TabBarNavigation: View {
-//    @State private var showTabView = false
-    @State private var community = Community(id: "", title: "", description: "", image: "", category: "")
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @StateObject var communityViewModel = CommunityViewModel()
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationStack {
             ZStack{
-                    TabView {
-//                        NavigationView {
-                            CommunityPageView(communityViewModel: CommunityViewModel(), community: $community)
-//                        }
+                TabView {
+                    CommunityPageView()
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
-//                        NavigationView {
-                            DiscoverPageView(communityViewModel: CommunityViewModel())
-//                        }
+                    
+                    DiscoverPageView()
+//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
-                        
-//                        NavigationView {
-                            ProfilePageView()
-//                        }
+                    
+                    ProfilePageView()
+//                        .environmentObject(authenticationViewModel)
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
                         }
-                    }.navigationBarBackButtonHidden()
-                        .background(Color.black)
+                }
+                .navigationBarBackButtonHidden()
+                .background(Color.black)
             }
         }
+        .onChange(of: authenticationViewModel.authenticated, perform: { value in
+            presentationMode.wrappedValue.dismiss()
+        })
+        .task {
+            do {
+                communityViewModel.currentUser = try await authenticationViewModel.getCurrentUser()
+            } catch {
+                print(error)
+            }
+        }
+        .environmentObject(communityViewModel)
     }
 }
 
 struct TTabBarNavigation_Previews: PreviewProvider {
     static var previews: some View {
         TabBarNavigation()
+            .environmentObject(AuthenticationViewModel())
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatRoomSettingsComponent: View {
     
-    @StateObject var communityViewModel : CommunityViewModel
+    @EnvironmentObject var communityViewModel : CommunityViewModel
 //    @Binding var communityId : String
     @Binding var community: Community
     @State private var isSetStudySchedulePresented = false
@@ -40,8 +40,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Library Button
                     NavigationLink {
-                        LibraryView(communityID: $community.id)
-                        
+                        LibraryView(communityID: community.id!)
                     } label: {
                         Label(
                             title: {
@@ -74,7 +73,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        communityViewModel.leaveCommunity(communityID: community.id)
+                        communityViewModel.leaveCommunity(communityID: community.id!)
                     }) {
                         Label(
                             title: {
@@ -99,9 +98,10 @@ struct ChatRoomSettingsComponent: View {
 //            }
             .sheet(isPresented: $isSetStudySchedulePresented) {
                 SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
+//                    .environmentObject(communityViewModel)
             }
             .sheet(isPresented: $isViewMembersPresented){
-                ChatMembersView(communityID: $community.id, communityViewModel: CommunityViewModel())
+                ChatMembersView(communityID: community.id!)
             }
             .sheet(isPresented: $isBadgeEarned) {
                 BadgeEarnedView(image: badge)

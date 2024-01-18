@@ -89,9 +89,6 @@ class UserViewModel: ObservableObject {
         self.currentUser?.image = downloadURL.absoluteString
     }
 
-    func logout() throws {
-        try AuthenticationManager.shared.signOut()
-        currentUser = nil
-    }
+    
     
 }

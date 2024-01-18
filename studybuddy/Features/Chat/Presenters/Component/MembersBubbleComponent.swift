@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct MembersBubbleComponent: View {
-    let member : communityMember
+    let member : CommunityMember
     
     var body: some View {
         
@@ -46,7 +46,7 @@ struct MembersBubbleComponent: View {
 
 struct MembersBubbleComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MembersBubbleComponent(member: communityMember(id: "Test", name: "Test", image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg"))
+        MembersBubbleComponent(member: CommunityMember(id: "Test", name: "Test", image: "gs://mc2-studybuddy.appspot.com/communities/ab6761610000e5eb006ff3c0136a71bfb9928d34.jpeg"))
             .previewLayout(PreviewLayout.sizeThatFits)
     }
 }

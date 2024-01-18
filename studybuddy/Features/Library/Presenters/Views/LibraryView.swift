@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 struct LibraryView: View {
     @StateObject var vm = LibraryViewModel()
-    @Binding var communityID: String
+    var communityID: String
     @State var showImagePicker = false
     @State var showDocPicker = false
     
@@ -164,6 +164,6 @@ struct LibraryView: View {
 
 struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryView(communityID: .constant("SQdVEsc9RiT1Us2cDlEs"))
+        LibraryView(communityID: "SQdVEsc9RiT1Us2cDlEs")
     }
 }

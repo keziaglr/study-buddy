@@ -10,14 +10,14 @@ import SwiftUI
 import LottieUI
 
 struct DiscoverPageView: View {
-
-    @ObservedObject var communityViewModel: CommunityViewModel
-    @State var bvm = BadgeViewModel()
+    
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var text = ""
     @State private var showModal = false
-    @State private var communityID = ""
+    @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
+    @State var showCommunityDetail : Bool = false
     @State private var badge = Badge(id: "", name: "", image: "", description: "")
-
+    
     var filteredCommunities: [Community] {
         if text.isEmpty {
             return communityViewModel.communities
@@ -28,30 +28,45 @@ struct DiscoverPageView: View {
             }
         }
     }
-
+    
     var body: some View {
         ZStack{
             GeometryReader { geometry in
                 HeaderComponent(text: "Explore the Network 🌐")
                 
-                SearchBarComponent(text: $text)
+                SearchBarComponent(searchText: $text)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.21)
-              
-
+                
+                
                 if !filteredCommunities.isEmpty {
                     List(filteredCommunities) { community in
-                        CommunityCardComponent(community: community, buttonLabel: "JOIN") {
-                            communityViewModel.joinCommunity(communityID: community.id)
-                            communityID = community.id
-                        }.listRowSeparator(.hidden)
-                            
-                    }.frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
-                        .listStyle(.plain)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height / 1.75)
-                        .scrollIndicators(.hidden)
+                        if communityViewModel.validateCommunityJoined(communityID: community.id!) {
+                            CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                Task {
+                                    do {
+                                        try await communityViewModel.joinCommunity(communityID: community.id!)
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                            }
+                            .listRowSeparator(.hidden)
+                        } else {
+                            CommunityCardComponent(community: community, buttonLabel: "OPEN") {
+                                self.chosenCommunity = community
+                                showCommunityDetail = true
+                            }
+                            .listRowSeparator(.hidden)
+                        }
                         
-
-                }else {
+                    }
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
+                    .listStyle(.plain)
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height / 1.75)
+                    .scrollIndicators(.hidden)
+                    
+                    
+                } else {
                     LottieView("notfound")
                         .loopMode(.repeat(10))
                         .frame(width: 200)
@@ -62,26 +77,29 @@ struct DiscoverPageView: View {
                         .fontWeight(.semibold)
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
                     CreateCommunityButtonComponent  (showModal: $showModal)
-                   .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
+                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
-
-
-            }.onAppear {
-                communityViewModel.getCommunities()
+                
+                
             }
             .sheet(isPresented: $showModal) {
-                CreateCommunityPageView(communityViewModel: CommunityViewModel())
+                CreateCommunityPageView(showModal: $showModal)
             }
             .sheet(isPresented: $communityViewModel.showBadge) {
                 BadgeEarnedView(image: communityViewModel.badge)
             }
-        }.ignoresSafeArea()
+            .navigationDestination(isPresented: $showCommunityDetail) {
+                ChatRoomView(community: $chosenCommunity)
+            }
+        }
+        .ignoresSafeArea()
     }
-
+    
 }
 
 struct DiscoverPageView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverPageView(communityViewModel: CommunityViewModel())
+        DiscoverPageView()
+            .environmentObject(CommunityViewModel())
     }
 }

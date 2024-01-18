@@ -93,22 +93,17 @@ struct LoginPageView: View {
                         .padding(.bottom, 90)
                     }
                     .position(x : geometry.size.width / 2, y : geometry.size.height / 2)
-                    .navigationDestination(isPresented: $viewModel.authenticated) {
-                        TabBarNavigation()
-                    }
-                    .navigationDestination(isPresented: $goToRegister) {
-                        RegisterPageView()
-                            .environmentObject(viewModel)
-                    }
                     if isLoading {
                         LoaderComponent()
                     }
                 }
             }
-            
+            .navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $goToRegister) {
+                RegisterPageView()
+                    .environmentObject(viewModel)
+            }
         }
-        
-        .navigationBarBackButtonHidden()
         .onAppear{
             viewModel.password = ""
         }

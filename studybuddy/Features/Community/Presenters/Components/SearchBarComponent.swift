@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct SearchBarComponent: View {
-    @Binding var text: String
+    @Binding var searchText: String
     
     var body: some View {
         ZStack {
@@ -22,11 +22,11 @@ struct SearchBarComponent: View {
             
             HStack {
                 Spacer()
-                TextField("Search your community here...", text: $text)
+                TextField("Search your community here...", text: $searchText)
                     .italic()
                     .padding(.leading , 20)
                 Button{
-                    text = ""
+                    searchText = ""
                 }label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.gray)
@@ -43,5 +43,5 @@ struct SearchBarComponent: View {
 }
 
 #Preview {
-    SearchBarComponent(text: .constant(""))
+    SearchBarComponent(searchText: .constant(""))
 }

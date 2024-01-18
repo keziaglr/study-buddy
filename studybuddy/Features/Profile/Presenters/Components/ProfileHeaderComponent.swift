@@ -14,6 +14,8 @@ import Kingfisher
 
 struct ProfileHeaderComponent: View {
     @ObservedObject private var userViewModel = UserViewModel()
+    @EnvironmentObject var authVM: AuthenticationViewModel
+    //    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
     @AppStorage("isDarkMode") private var isDarkMode = false
@@ -81,38 +83,37 @@ struct ProfileHeaderComponent: View {
                             }.offset(x: 35, y: 35)
                             
                         }
-                        
-                        //name
-                        Text(userViewModel.currentUser?.name ?? "")
-                            .fontWeight(.bold)
-                            .font(.system(size: 20))
-                            .foregroundColor(Colors.orange)
-                            .kerning(0.6)
-                        //                            .padding(.bottom, 2)
-                        
-                        //email
-                        Text(userViewModel.currentUser?.email ?? "")
-                            .fontWeight(.light)
-                            .font(.system(size: 18))
-                            .foregroundColor(Colors.orange)
-                            .padding(.bottom, 8)
-                        VStack{
-                            Button(action: {
-                                do {
-                                    try userViewModel.logout()
-                                } catch {
-                                    print(error)
-                                }
-                            }) {
-                                Text("Logout")
-                                    .padding(.horizontal, 15)
-                                    .padding(.vertical, 7)
-                                    .font(.system(size: 19))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                    .background(Colors.orange)
-                                    .cornerRadius(100)
+                    }
+                    
+                    //name
+                    Text(userViewModel.currentUser?.name ?? "")
+                        .fontWeight(.bold)
+                        .font(.system(size: 20))
+                        .foregroundColor(Colors.orange)
+                        .kerning(0.6)
+                    
+                    //email
+                    Text(userViewModel.currentUser?.email ?? "")
+                        .fontWeight(.light)
+                        .font(.system(size: 18))
+                        .foregroundColor(Colors.orange)
+                        .padding(.bottom, 8)
+                    VStack{
+                        Button(action: {
+                            do {
+                                try authVM.logout()
+                            } catch {
+                                print(error)
                             }
+                        }) {
+                            Text("Logout")
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 7)
+                                .font(.system(size: 19))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .background(Colors.orange)
+                                .cornerRadius(100)
                         }
                     }.padding(.top, 30)
                 }
@@ -126,8 +127,6 @@ struct ProfileHeaderComponent: View {
                     print(error)
                 }
             }
-        }.navigationDestination(isPresented: $logout) {
-            MasterView()
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {
