@@ -77,7 +77,7 @@ struct MessageBubbleComponent: View {
                     .foregroundColor(Colors.black)
                     .frame(alignment: .leading)
 //                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
-                    .background(Color("Gray"))
+                    .background(Colors.gray)
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .topRight, .bottomLeft]))
                     .padding(.leading, 10)
                     .padding(.trailing, 10)

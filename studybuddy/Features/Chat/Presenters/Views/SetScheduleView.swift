@@ -64,7 +64,7 @@ struct SetScheduleView: View {
 //                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.12)
                     
                     Divider()
-                        .foregroundColor(Color("Gray"))
+                        .foregroundColor(Colors.gray)
                         .frame(width: geometry.size.width*0.6)
                         .padding(EdgeInsets(top: geometry.size.height*0.02567394, leading: 0, bottom: geometry.size.height*0.02567394, trailing: 0))
                     
@@ -121,7 +121,7 @@ struct SetScheduleView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
-            .background(Color("Grey"))
+            .background(Colors.gray)
             .alert(isPresented: $showAlert, content: {
                 Alerts.successSetSchedule {
                     isPresent = false

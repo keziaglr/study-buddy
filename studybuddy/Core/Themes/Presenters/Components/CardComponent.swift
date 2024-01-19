@@ -26,7 +26,7 @@ struct CardComponent: View {
                 .cornerRadius(15)
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
-                        .foregroundColor(Color("DarkBlue"))
+                        .foregroundColor(Colors.darkBlue)
                         .opacity(0.42)
                 )
             
@@ -51,7 +51,7 @@ struct CardComponent: View {
                     Text(String(CommunityMemberCount))
                         .fontWeight(.medium)
                         .font(.system(size: 14))
-                        .foregroundColor(Color("Gray"))
+                        .foregroundColor(Colors.gray)
                         .padding(.leading, 23)
                     Spacer()
                 }
