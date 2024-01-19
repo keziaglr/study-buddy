@@ -55,7 +55,6 @@ struct SetScheduleView: View {
                         DatePicker("", selection: $startStudySchedule, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(.compact)
                             .labelsHidden()
-                            .colorMultiply(Colors.lightBlue)
                             .onAppear{
                                 startStudySchedule = community.startDate ?? Date()
                             }
@@ -81,8 +80,6 @@ struct SetScheduleView: View {
                         DatePicker("", selection: $endStudySchedule, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(.compact)
                             .labelsHidden()
-//                            .colorInvert()
-                            .colorMultiply(Colors.lightBlue)
                             .onAppear{
                                 endStudySchedule = community.endDate ?? Date()
                             }

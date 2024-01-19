@@ -23,8 +23,9 @@ struct MembersBubbleComponent: View {
                         ProgressView()
                     })
                     .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .scaledToFill()
                     .frame(width: 50, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
                     .padding(.horizontal, 30)
             }
