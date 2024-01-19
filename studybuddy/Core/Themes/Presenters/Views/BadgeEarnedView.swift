@@ -14,8 +14,18 @@ struct BadgeEarnedView: View {
     let bounceInterval: TimeInterval = 0.8
     
     var body: some View {
-        VStack {
-            ZStack{
+        ZStack {
+            
+            VStack{
+                Text("New Badge Earned!")
+                    .fontWeight(.bold)
+                    .foregroundStyle(Colors.orange)
+                    .font(.system(size: 26))
+                    .padding(.top, 70)
+                
+                Spacer()
+            }
+            
                 Image(image)
                     .resizable()
                     .frame(width: isBouncing ? 260 : 236, height: isBouncing ? 260 : 236)
@@ -24,20 +34,17 @@ struct BadgeEarnedView: View {
                     }
                 LottieView("confetti")
                     .ignoresSafeArea()
+            
+            VStack{
+                Spacer()
+
+                Text("Congratulatios! You just\nachieved a new badge!")
+                    .fontWeight(.medium)
+                    .font(.system(size: 18))
+                    .padding(.bottom, 70)
+                    .foregroundStyle(Colors.black)
+                    .multilineTextAlignment(.center)
             }
-            .ignoresSafeArea()
-            
-            Text("New Badge Earned!")
-                .fontWeight(.bold)
-                .font(.system(size: 26))
-                .padding(.top, 50)
-            
-            Text("Congratulatios! You just\nachieved a new badge!")
-                .fontWeight(.medium)
-                .font(.system(size: 18))
-                .padding(.top, 10)
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
             
         }
     }
@@ -51,8 +58,8 @@ struct BadgeEarnedView: View {
         }
 }
 
-struct BadgeEarnedView_Previews: PreviewProvider {
-    static var previews: some View {
-        BadgeEarnedView()
-    }
-}
+//struct BadgeEarnedView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BadgeEarnedView()
+//    }
+//}

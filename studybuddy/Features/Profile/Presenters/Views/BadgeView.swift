@@ -16,7 +16,7 @@ struct BadgeView: View {
             Text("Your Badges Collection")
                 .fontWeight(.bold)
                 .font(.system(size: 20))
-                .padding(.bottom, 19)
+                .padding(.bottom, 10)
             if !bm.badges.isEmpty {
                 List(bm.badges, id: \.id) { (badge: Badge) in
                     BadgeComponent(badge: badge, bm: bm)
@@ -28,7 +28,7 @@ struct BadgeView: View {
                 Text("Empty")
             }
         }
-        .padding(.top, -40)
+        .padding(.top, -35)
         .task {
             self.bm.getBadges()
         }
