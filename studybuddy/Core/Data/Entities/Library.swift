@@ -9,8 +9,8 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct Library: Identifiable, Codable{
-    var id: String
-    var url: String
+    @DocumentID var id: String?
+    var url: String //child path in storage, not downloadURL
     var dateCreated: Date
     var type: String
     var user: String

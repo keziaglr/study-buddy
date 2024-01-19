@@ -39,7 +39,7 @@ struct LibraryView: View {
                         }
                     }
                     
-                    if self.vm.isEmpty {
+                    if self.vm.libraries.isEmpty {
                         GeometryReader {_ in
                             VStack {
                                 Spacer()

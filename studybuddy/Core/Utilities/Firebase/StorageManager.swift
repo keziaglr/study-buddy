@@ -20,6 +20,9 @@ final class StorageManager {
     private var communityReference: StorageReference {
         storage.child("communities")
     }
+    private var libraryReference: StorageReference {
+        storage.child("libraries")
+    }
     
     func saveCommunityImage(url: URL) async throws -> URL {
         let meta = StorageMetadata()
@@ -77,5 +80,36 @@ final class StorageManager {
                 // You may want to update your UI or perform other actions after successful deletion
             }
         }
+    }
+    
+    func uploadLibraryToCloudStorage(url: URL, filePath: String, communityID: String) async throws {
+        _ = try await libraryReference.child(filePath).putFileAsync(from: url, metadata: nil)
+    }
+    
+    func deleteLibrary(filePath: String) {
+        let fileRef = libraryReference.child(filePath)
+        // Delete the file in storage
+        fileRef.delete { error in
+            if let error = error {
+                print("Error deleting file:", error)
+            } else {
+                // Delete the item from your data source
+                print("File deleted successfully")
+            }
+        }
+    }
+    
+    func getFileDownloadURL(filePath: String) async throws -> URL {
+        let fileRef = libraryReference.child(filePath)
+        
+        let downloadURL = try await fileRef.downloadURL()
+        return downloadURL
+    }
+    
+    
+    func saveToLocal(localURL: URL, filePathInCloudStorage: String) async throws{
+        let fileRef = libraryReference.child(filePathInCloudStorage)
+        // Download the image from Firebase Storage
+        _ = try await fileRef.writeAsync(toFile: localURL)
     }
 }

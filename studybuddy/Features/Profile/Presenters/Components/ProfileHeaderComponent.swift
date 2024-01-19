@@ -47,7 +47,7 @@ struct ProfileHeaderComponent: View {
                     VStack {
                         //profile image
                         ZStack {
-                            if let userImage = userViewModel.currentUser?.image {
+                            if let userImage = userViewModel.currentUser?.image, !userImage.isEmpty {
                                 KFImage(URL(string: userImage))
                                     .placeholder({ progress in
                                         ProgressView()

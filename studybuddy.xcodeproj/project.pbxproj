@@ -10,6 +10,7 @@
 		431C88AD2B567B8C00245E83 /* CommunityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88AC2B567B8C00245E83 /* CommunityManager.swift */; };
 		431C88B02B5684F500245E83 /* CommunityMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88AF2B5684F500245E83 /* CommunityMember.swift */; };
 		431C88B22B59B1D900245E83 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88B12B59B1D900245E83 /* ChatManager.swift */; };
+		431C88B42B5A806C00245E83 /* LibraryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431C88B32B5A806C00245E83 /* LibraryManager.swift */; };
 		4342DBBA2B31C2AE00D79AF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBB92B31C2AE00D79AF6 /* Images.swift */; };
 		4342DBBC2B31C32700D79AF6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBBB2B31C32700D79AF6 /* Colors.swift */; };
 		4342DBC22B31C41600D79AF6 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBC12B31C41600D79AF6 /* CustomButton.swift */; };
@@ -89,6 +90,7 @@
 		431C88AC2B567B8C00245E83 /* CommunityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityManager.swift; sourceTree = "<group>"; };
 		431C88AF2B5684F500245E83 /* CommunityMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityMember.swift; sourceTree = "<group>"; };
 		431C88B12B59B1D900245E83 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		431C88B32B5A806C00245E83 /* LibraryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryManager.swift; sourceTree = "<group>"; };
 		4342DBB92B31C2AE00D79AF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		4342DBBB2B31C32700D79AF6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4342DBC12B31C41600D79AF6 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 				43AD2B8B2B5534A50010B718 /* BadgeManager.swift */,
 				431C88AC2B567B8C00245E83 /* CommunityManager.swift */,
 				431C88B12B59B1D900245E83 /* ChatManager.swift */,
+				431C88B32B5A806C00245E83 /* LibraryManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				43FA00D82B2316620035E6FC /* ChatRoomInfoComponent.swift in Sources */,
 				43FA00E42B2316620035E6FC /* ProfileHeaderComponent.swift in Sources */,
 				43C9720F2A4AF081000D1E6B /* LibraryViewModel.swift in Sources */,
+				431C88B42B5A806C00245E83 /* LibraryManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
