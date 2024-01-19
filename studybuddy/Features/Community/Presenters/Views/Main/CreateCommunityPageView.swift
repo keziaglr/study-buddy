@@ -29,7 +29,6 @@ struct CreateCommunityPageView: View {
         
         ZStack{
             GeometryReader { geometry in
-                Color("Gray")
                 
                 VStack{
                     Text("Set Up New Community")
