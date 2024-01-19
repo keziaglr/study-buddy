@@ -132,34 +132,66 @@ struct SetScheduleView: View {
     
     private func addEventToCalendar() {
         let eventStore = EKEventStore()
-        
-        eventStore.requestAccess(to: .event) { granted, error in
-            if granted && error == nil {
-                let event = EKEvent(eventStore: eventStore)
-                event.title = "\(community.title)'s Study Schedule"
-                event.startDate = startStudySchedule
-                event.endDate = endStudySchedule
-                
-                
-                
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
-                do {
-                    try eventStore.save(event, span: .thisEvent)
-                    print("Event added to calendar")
-                    isPresent = false
-                    vm.validateBadge(badgeId: badgeId) { b in
-                        if !b {
-                            badge = "Collaborative Dynamo"
-                            isBadge = true
-                            vm.achieveBadge(badgeId: badgeId)
+        if #available(iOS 17.0, *) {
+            eventStore.requestFullAccessToEvents { granted, error in
+                if granted && error == nil {
+                    let event = EKEvent(eventStore: eventStore)
+                    event.title = "\(community.title)'s Study Schedule"
+                    event.startDate = startStudySchedule
+                    event.endDate = endStudySchedule
+                    
+                    
+                    
+                    event.calendar = eventStore.defaultCalendarForNewEvents
+                    let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
+                    do {
+                        try eventStore.save(event, span: .thisEvent)
+                        print("Event added to calendar")
+                        isPresent = false
+                        vm.validateBadge(badgeId: badgeId) { b in
+                            if !b {
+                                badge = "Collaborative Dynamo"
+                                isBadge = true
+                                vm.achieveBadge(badgeId: badgeId)
+                            }
                         }
+                    } catch {
+                        print("Error saving event: \(error.localizedDescription)")
                     }
-                } catch {
-                    print("Error saving event: \(error.localizedDescription)")
+                } else {
+                    print("Access denied or error: \(error?.localizedDescription ?? "")")
                 }
-            } else {
-                print("Access denied or error: \(error?.localizedDescription ?? "")")
+            }
+        } else {
+            // Fallback on earlier versions
+            eventStore.requestAccess(to: .event) { granted, error in
+                if granted && error == nil {
+                    let event = EKEvent(eventStore: eventStore)
+                    event.title = "\(community.title)'s Study Schedule"
+                    event.startDate = startStudySchedule
+                    event.endDate = endStudySchedule
+                    
+                    
+                    
+                    event.calendar = eventStore.defaultCalendarForNewEvents
+                    let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
+                    do {
+                        try eventStore.save(event, span: .thisEvent)
+                        print("Event added to calendar")
+                        isPresent = false
+                        vm.validateBadge(badgeId: badgeId) { b in
+                            if !b {
+                                badge = "Collaborative Dynamo"
+                                isBadge = true
+                                vm.achieveBadge(badgeId: badgeId)
+                            }
+                        }
+                    } catch {
+                        print("Error saving event: \(error.localizedDescription)")
+                    }
+                } else {
+                    print("Access denied or error: \(error?.localizedDescription ?? "")")
+                }
             }
         }
     }
