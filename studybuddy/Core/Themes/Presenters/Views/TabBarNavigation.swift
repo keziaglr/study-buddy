@@ -39,6 +39,7 @@ struct TabBarNavigation: View {
         }
         .onChange(of: authenticationViewModel.authenticated, perform: { value in
             presentationMode.wrappedValue.dismiss()
+            authenticationViewModel.created = false
         })
         .task {
             do {

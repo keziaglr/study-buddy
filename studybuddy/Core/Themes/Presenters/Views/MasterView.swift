@@ -18,6 +18,9 @@ struct MasterView: View {
         if Auth.auth().currentUser == nil {
             OnboardingPageView()
                 .environmentObject(vm)
+        } else if vm.created == true {
+            InterestPageView()
+                .environmentObject(vm)
         } else {
             TabBarNavigation()
                 .environmentObject(vm)
