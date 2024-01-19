@@ -99,7 +99,7 @@ struct CommunityPageView: View {
                 ChatRoomView(community: $chosenCommunity)
             }
         }
-        .alert(isPresented: $communityViewModel.showRespon, content: {
+        .alert(isPresented: $communityViewModel.communityAlert, content: {
             communityViewModel.alert
         })
     }

@@ -35,17 +35,6 @@ struct MessageBubbleComponent: View {
         HStack(alignment: .top) {
             
             if Auth.auth().currentUser?.uid != message.user  {
-//                AsyncImage(url: URL(string: user?.image ?? "")) { image in
-//                    image
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 42, height: 42)
-//                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-//                        
-//                } placeholder: {
-//                    ProgressView()
-//                }
                 if let userImage = user?.image {
                     KFImage(URL(string: userImage))
                         .placeholder ({ progress in

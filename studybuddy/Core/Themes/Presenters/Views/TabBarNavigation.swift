@@ -45,10 +45,13 @@ struct TabBarNavigation: View {
         })
         .task {
             do {
+                communityViewModel.isLoading = true
                 communityViewModel.currentUser = try await authenticationViewModel.getCurrentUser()
+                try await communityViewModel.refreshCommunities()
             } catch {
                 print(error)
             }
+            communityViewModel.isLoading = false
         }
         .environmentObject(communityViewModel)
     }

@@ -13,65 +13,68 @@ import Firebase
 
 final class ChatViewModel: ObservableObject {
     
-    @Published private(set) var chats : [Chat] = []
-    @Published private(set) var lastmessageID = ""
-    @Published private var um = UserViewModel()
-    @Published private var bm = BadgeViewModel()
+    @Published var chats : [Chat] = []
+    @Published var lastmessageID = ""
+    @Published var bm = BadgeViewModel()
     @Published var showAchievedScholarSupremeBadge = false
     @Published var badgeImageURL = ""
+    @Published var currentUser: UserModel?
     
-    
-    let db = Firestore.firestore()
-    
-    func getChats(communityID: String) -> [Chat]{
-        db.collection("communities").document(communityID).collection("chats").addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("Error fetching data \(String(describing: error))")
+    func getChats(communityID: String) {
+        ChatManager.shared.listenNewChat(communityID: communityID) { chat, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let newChat = chat else {
+                print("new chat error")
                 return
             }
             
-            self.chats = documents.compactMap{ document -> Chat? in
-                do{
-                    return try document.data(as : Chat.self)
-                }catch{
-                    print("Error decoding document into message \(String(describing: error))")
-                    return nil
-                }
-            }
-            
+            self.chats.append(newChat)
             self.chats.sort{ $0.dateCreated < $1.dateCreated}
-            
             if let id = self.chats.last?.id {
                 self.lastmessageID = id
             }
-            
         }
-        return chats
     }
     
-    func sendChats(text: String, communityID: String){
-        um.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
-            if let user = user {
-                let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id!)
-                
-                
-                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
-                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
-                        self.checkScholarSupremeBadge()
-                    }
-                }
-                
-                do {
-                    try self.db.collection("communities").document(communityID).collection("chats").document(newChat.id).setData(from: newChat)
-                    
-                } catch {
-                    print("Error sending chat: \(error)")
-                }
-            } else {
-                print("Failed to retrieve user")
+    func sendChats(text: String, communityID: String) {
+        guard let user = currentUser else {
+            print("no user")
+            return
+        }
+        let newChat = Chat(content: text, dateCreated: Date(), user: user.id!)
+        bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
+            if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
+                self.checkScholarSupremeBadge()
             }
         }
+        ChatManager.shared.sendChat(chat: newChat, communityID: communityID)
     }
+//    func sendChats(text: String, communityID: String){
+//        um.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
+//            if let user = user {
+//                let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id!)
+//                
+//                
+//                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
+//                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
+//                        self.checkScholarSupremeBadge()
+//                    }
+//                }
+//                
+//                do {
+//                    try self.db.collection("communities").document(communityID).collection("chats").document(newChat.id!).setData(from: newChat)
+//                    
+//                } catch {
+//                    print("Error sending chat: \(error)")
+//                }
+//            } else {
+//                print("Failed to retrieve user")
+//            }
+//        }
+//    }
     
     func isFirstChatOfTheDay(newChat: Chat) -> Bool {
         guard let lastChat = chats.last else {
@@ -148,4 +151,5 @@ final class ChatViewModel: ObservableObject {
             print("User has not been chatting for 7 consecutive days")
         }
     }
+    
 }

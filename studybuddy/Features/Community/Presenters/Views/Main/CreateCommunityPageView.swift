@@ -88,22 +88,18 @@ struct CreateCommunityPageView: View {
                                 print(error)
                             }
                             communityViewModel.isLoading = false
-                            showedAlert = Alert(
-                                title: Text("Success Create Community"),
-                                message: Text("Find Your Buddies"),
-                                dismissButton: .default(Text("OK"), action: {
-                                    showModal = false
-                                    Task {
-                                        do {
-                                            communityViewModel.isLoading = true
-                                            try await communityViewModel.refreshCommunities()
-                                        } catch {
-                                            print(error)
-                                        }
-                                        communityViewModel.isLoading = false
+                            showedAlert = Alerts.successCreateCommunity(action: {
+                                showModal = false
+                                Task {
+                                    do {
+                                        communityViewModel.isLoading = true
+                                        try await communityViewModel.refreshCommunities()
+                                    } catch {
+                                        print(error)
                                     }
-                                })
-                            )
+                                    communityViewModel.isLoading = false
+                                }
+                            })
                             showAlert.toggle()
                         }
                     }

@@ -10,15 +10,20 @@ import SwiftUI
 struct ChatRoomSettingsComponent: View {
     
     @EnvironmentObject var communityViewModel : CommunityViewModel
-//    @Binding var communityId : String
+    
     @Binding var community: Community
+    @Binding var communityMembers: [CommunityMember]
+    
     @State private var isSetStudySchedulePresented = false
-    @State private var badge = ""
-    @State private var isBadgeEarned = false
     @State private var isLibraryButtonPresented = false
     @State private var isViewMembersPresented = false
-    @State private var isLeaveCommunityPresented = false
+    @State private var isLeaveCommunityPressed = false
+    @State private var badge = ""
+    @State private var isBadgeEarned = false
     @State var bvm = BadgeViewModel()
+    
+    
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
 //        NavigationStack{
@@ -73,7 +78,7 @@ struct ChatRoomSettingsComponent: View {
                     
                     //Leave Community
                     Button(action: {
-                        communityViewModel.leaveCommunity(communityID: community.id!)
+                        isLeaveCommunityPressed = true
                     }) {
                         Label(
                             title: {
@@ -93,18 +98,20 @@ struct ChatRoomSettingsComponent: View {
                         .padding(EdgeInsets(top: 17, leading: 0, bottom: 0, trailing: 10))
                 }
             }
-//            .navigationDestination(isPresented: $isLibraryButtonPresented) {
-//                LibraryView(communityID: $community.id)
-//            }
             .sheet(isPresented: $isSetStudySchedulePresented) {
                 SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
-//                    .environmentObject(communityViewModel)
             }
             .sheet(isPresented: $isViewMembersPresented){
-                ChatMembersView(communityID: community.id!)
+                ChatMembersView(communityMembers: $communityMembers)
             }
             .sheet(isPresented: $isBadgeEarned) {
                 BadgeEarnedView(image: badge)
+            }
+            .alert(isPresented: $isLeaveCommunityPressed) {
+                Alerts.successLeaveCommunity(action: {
+                    communityViewModel.leaveCommunity(communityID: community.id!, communityMembers: communityMembers)
+                    presentationMode.wrappedValue.dismiss()
+                })
             }
         }
 //    }

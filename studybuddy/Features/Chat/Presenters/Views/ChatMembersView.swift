@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct ChatMembersView: View {
-    var communityID: String
-    @EnvironmentObject var communityViewModel: CommunityViewModel
-    @State var communityMembers: [CommunityMember] = []
-//    @State private var memberCount: Int = 0
+    @Binding var communityMembers: [CommunityMember]
     
     var body: some View {
         GeometryReader { geometry in
@@ -39,13 +36,13 @@ struct ChatMembersView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.bottom, 116)
-            .task {
-                do {
-                    communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
-                } catch {
-                    print(error)
-                }
-            }
+//            .task {
+//                do {
+//                    communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
+//                } catch {
+//                    print(error)
+//                }
+//            }
         }
     }
     
@@ -62,8 +59,8 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView(communityID: "1qVFL6zpyxdDpO5TpSPo")
-            .environmentObject(CommunityViewModel())
+        ChatMembersView(communityMembers: .constant([]))
+//            .environmentObject(CommunityViewModel())
     }
 }
 
