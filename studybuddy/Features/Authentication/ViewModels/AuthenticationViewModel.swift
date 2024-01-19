@@ -10,10 +10,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-
+@MainActor
 final class AuthenticationViewModel : ObservableObject {
     
-    let db = Firestore.firestore()
     @Published var authenticated = false
     @Published var created = false
     @Published var name = ""
@@ -22,7 +21,9 @@ final class AuthenticationViewModel : ObservableObject {
     @Published var authenticatedUser: UserModel?
     func auth() async throws {
         try await AuthenticationManager.shared.signInUser(email: email, password: password)
-        authenticated = true
+        DispatchQueue.main.async {
+            self.authenticated = true
+        }
     }
     
     func createUser() async throws {
@@ -46,7 +47,9 @@ final class AuthenticationViewModel : ObservableObject {
     
     func logout() throws {
         try AuthenticationManager.shared.signOut()
-        authenticated = false
+        DispatchQueue.main.async {
+            self.authenticated = false
+        }
     }
     
     func getCurrentUser() async throws -> UserModel? {
