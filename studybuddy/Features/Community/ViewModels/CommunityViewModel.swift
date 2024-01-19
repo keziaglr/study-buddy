@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
 
+@MainActor
 class CommunityViewModel: ObservableObject {
     
     //    @Published var memberCount: Int = 0
