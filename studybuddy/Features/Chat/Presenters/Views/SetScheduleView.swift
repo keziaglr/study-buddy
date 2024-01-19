@@ -150,7 +150,7 @@ struct SetScheduleView: View {
                         isPresent = false
                         vm.validateBadge(badgeId: badgeId) { b in
                             if !b {
-                                badge = "Collaborative Dynamo"
+                                self.badge = "Collaborative Dynamo"
                                 isBadge = true
                                 vm.achieveBadge(badgeId: badgeId)
                             }

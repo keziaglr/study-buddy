@@ -14,13 +14,12 @@ struct ChatRoomSettingsComponent: View {
     @Binding var community: Community
     @Binding var communityMembers: [CommunityMember]
     
-    @State private var isSetStudySchedulePresented = false
-    @State private var isLibraryButtonPresented = false
-    @State private var isViewMembersPresented = false
-    @State private var isLeaveCommunityPressed = false
-    @State private var badge = ""
-    @State private var isBadgeEarned = false
-    @State var bvm = BadgeViewModel()
+    @State var isSetStudySchedulePresented = false
+    @State var isLibraryButtonPresented = false
+    @State var isViewMembersPresented = false
+    @State var isLeaveCommunityPressed = false
+    @State var badge = "Collaborative Dynamo"
+    @State var isBadgeEarned = false
     
     
     @Environment(\.presentationMode) var presentationMode
