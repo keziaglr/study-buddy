@@ -21,7 +21,7 @@ final class StorageManager {
         storage.child("communities")
     }
     private var libraryReference: StorageReference {
-        storage.child("libraries")
+        storage
     }
     
     func saveCommunityImage(url: URL) async throws -> URL {
@@ -83,7 +83,8 @@ final class StorageManager {
     }
     
     func uploadLibraryToCloudStorage(url: URL, filePath: String, communityID: String) async throws {
-        _ = try await libraryReference.child(filePath).putFileAsync(from: url, metadata: nil)
+        let path = "libraries/\(filePath)"
+        _ = try await libraryReference.child(path).putFileAsync(from: url, metadata: nil)
     }
     
     func deleteLibrary(filePath: String) {

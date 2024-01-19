@@ -10,9 +10,9 @@ import FirebaseFirestore
 import FirebaseStorage
 import Firebase
 
+@MainActor
 class LibraryViewModel: ObservableObject {
     @Published var libraries = [Library]()
-//    @Published var isEmpty = false
     @Published var isLoading = false
     @Published var showFileViewer = false
     @Published var selectedFileURL: URL? = nil
@@ -20,9 +20,6 @@ class LibraryViewModel: ObservableObject {
     @Published var showAchievedBadge = false
     @Published private var bvm = BadgeViewModel()
     @Published var badgeImageURL = ""
-    
-//    let db = Firestore.firestore()
-//    let storageRef = Storage.storage().reference()
     
     func showLoader() -> Bool {
         return self.isLoading || (self.libraries.count == 0)
@@ -42,24 +39,10 @@ class LibraryViewModel: ObservableObject {
             }
             isLoading = false
         }
-        // Fetch the download URL
-//        starsRef.downloadURL { url, error in
-//            self.isLoading = false
-//            if let error = error {
-//                print(error)
-//                // Handle any errors
-//            } else {
-//                self.selectedFileURL = url?.absoluteURL
-//                self.selectedFilePathForDownload = library.url
-//                self.showFileViewer.toggle()
-//            }
-//        }
     }
     
     func downloadLibrary() {
         self.isLoading = true
-//        let starsRef = storageRef.child(self.selectedFilePathForDownload!)
-
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         
@@ -78,52 +61,15 @@ class LibraryViewModel: ObservableObject {
         }
     }
     
-//    func saveToLocal(localURL: URL, starsRef: StorageReference) {
-//        // Download the image from Firebase Storage
-//        starsRef.write(toFile: localURL) { url, error in
-//            self.isLoading = false
-//            self.showFileViewer = false
-//            if let error = error {
-//                print("Error downloading image: \(error.localizedDescription)")
-//            } else {
-//                // Save the image to the Files app
-//                print("Success download file")
-//                self.checkKnowledgeNavigatorBadge()
-//            }
-//        }
-//    }
-    
     func updateLibrary(communityID: String) {
-        
-//        db.collection("communities").document(communityID).collection("libraries").getDocuments { snapshot, error in
-//            
-//            guard let documents = snapshot?.documents else {
-//                print("Error fetching data \(String(describing: error))")
-//                self.isEmpty = true
-//                return
-//            }
-//            
-//            if documents.isEmpty {
-//                self.isEmpty = true
-//                return
-//            }
-//            
-//            for doc in documents {
-//                let id = doc.documentID
-//                let url = doc["url"] as! String
-//                let date = doc["dateCreated"] as! Timestamp
-//                let type = doc["type"] as! String
-//                let user = doc["user"] as! String
-//                self.isEmpty = false
-//                self.libraries.append(Library(id: id, url: url, dateCreated: date.dateValue(), type: type, user: user))
-//            }
-//        }
+        isLoading = true
         Task {
             do {
                 libraries = try await LibraryManager.shared.getLibraries(communityID:communityID)
             } catch {
                 print(error)
             }
+            isLoading = false
         }
     }
     
@@ -169,23 +115,6 @@ class LibraryViewModel: ObservableObject {
                 print(error)
             }
         }
-        
-//        storageRef.child("libraries").child(filePath).putFile(from: url, metadata: nil) { metadata, error in
-//            self.isLoading = false
-//            if let error = error {
-//                print("Error uploading file to Firebase Storage: \(error.localizedDescription)")
-//            } else {
-//                print("File uploaded successfully.")
-//                self.uploadLibraryToFirestore(filePath: filePath, communityID: communityID)
-//                self.bvm.validateBadge(badgeId: self.bvm.getBadgeID(badgeName: "Research Guru")) { hasBadge in
-//                    if !hasBadge {
-//                        self.checkResearchGuruBadge()
-//                    }
-//                    NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
-//                }
-//                // Handle success case here
-//            }
-//        }
     }
     
     
