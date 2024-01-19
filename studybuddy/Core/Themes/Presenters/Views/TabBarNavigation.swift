@@ -16,21 +16,18 @@ struct TabBarNavigation: View {
             ZStack{
                 TabView {
                     CommunityPageView()
-//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
                     
                     DiscoverPageView()
-//                        .environmentObject(communityViewModel)
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
                     
                     ProfilePageView()
-//                        .environmentObject(authenticationViewModel)
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
@@ -57,7 +54,7 @@ struct TabBarNavigation: View {
     }
 }
 
-struct TTabBarNavigation_Previews: PreviewProvider {
+struct TabBarNavigation_Previews: PreviewProvider {
     static var previews: some View {
         TabBarNavigation()
             .environmentObject(AuthenticationViewModel())
