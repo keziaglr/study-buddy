@@ -189,7 +189,7 @@ class CommunityViewModel: ObservableObject {
     func getUserRecommendation() {
         recommendedCommunities = []
         for community in communities {
-            if ((currentUser?.category.contains(community.category)) != nil) {
+            if currentUser?.category.contains(community.category) == true {
                 recommendedCommunities.append(community)
             }
         }

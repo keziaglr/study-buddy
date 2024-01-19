@@ -116,6 +116,7 @@ struct CreateCommunityPageView: View {
                 self.url = url
                 self.image = url.lastPathComponent
             }
+            .ignoresSafeArea()
         }
         .alert(isPresented: $showAlert, content: {
             showedAlert

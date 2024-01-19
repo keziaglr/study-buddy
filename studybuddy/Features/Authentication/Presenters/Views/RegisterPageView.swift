@@ -95,9 +95,6 @@ struct RegisterPageView: View {
                         LoaderComponent(isLoading: $isLoading)
 //                    }
                 }
-                .navigationDestination(isPresented: $viewModel.created) {
-                    InterestPageView()
-                }
                 .navigationDestination(isPresented: $goToLogin) {
                     LoginPageView()
                 }
