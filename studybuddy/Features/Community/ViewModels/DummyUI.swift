@@ -32,11 +32,11 @@ struct DummyUI: View {
             
             Text(communityID)
             
-            Button{
-                communityViewModel.leaveCommunity(communityID: communityID)
-            }label: {
-                Text("Exit")
-            }
+//            Button{
+//                communityViewModel.leaveCommunity(communityID: communityID)
+//            }label: {
+//                Text("Exit")
+//            }
         }
         .task{
             do {

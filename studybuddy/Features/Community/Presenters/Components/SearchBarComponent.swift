@@ -18,7 +18,7 @@ struct SearchBarComponent: View {
             RoundedRectangle(cornerRadius: 50)
                 .frame(width: UIScreen.main.bounds.width * 0.83 , height: UIScreen.main.bounds.height * 0.04)
                 .frame(height: 45)
-                .foregroundColor(Color("Gray"))
+                .foregroundColor(Colors.gray)
             
             HStack {
                 Spacer()

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Alerts {
+    
+    // for login register
     static let incorrectPassword = Alert(
         title: Text("Incorrect Password"),
         message: Text("The password you entered is not same with password confirmation. Please try again."),
@@ -26,15 +28,10 @@ struct Alerts {
         dismissButton: .default(Text("OK"))
     )
     
+    // for community
     static let memberIsFull = Alert(
         title: Text("Cannot Join Community"),
         message: Text("The community already has 6 members"),
-        dismissButton: .default(Text("OK"))
-    )
-    
-    static let successLeaveCommunity = Alert(
-        title: Text("Success Leave Community"),
-        message: Text("Bye Buddy"),
         dismissButton: .default(Text("OK"))
     )
     
@@ -44,16 +41,31 @@ struct Alerts {
         dismissButton: .default(Text("OK"))
     )
     
-    static let successCreateCommunity = Alert(
-        title: Text("Success Create Community"),
-        message: Text("Find Your Buddies"),
-        dismissButton: .default(Text("OK"))
-    )
+    static func successCreateCommunity(action: @escaping () -> Void) -> Alert {
+        Alert(title: Text("Success Create Community"), dismissButton: .default(Text("Yes"), action: {
+            action()
+        }))
+    }
     
     static let fillAllFields = Alert(
         title: Text("Error"),
         message: Text("Please fill in all the fields."),
         dismissButton: .default(Text("OK"))
     )
+    
+    //for chatroom
+    static func successLeaveCommunity(action: @escaping () -> Void) -> Alert {
+        Alert(title: Text("Are You Sure?"), primaryButton: .cancel(), secondaryButton: .destructive(Text("Yes"), action: {
+            action()
+        }))
+    }
+    
+    //for setschedule
+    
+    static func successSetSchedule(action: @escaping () -> Void) -> Alert {
+        Alert(title: Text("Success Set Schedule"), dismissButton: .default(Text("Yes"), action: {
+            action()
+        }))
+    }
     
 }

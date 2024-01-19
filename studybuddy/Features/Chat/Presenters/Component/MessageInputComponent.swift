@@ -9,13 +9,13 @@ import SwiftUI
 
 struct MessageInputComponent: View {
     
-    @State private var testText: String = ""
-    @EnvironmentObject var manager : ChatViewModel
-    @State var communityID = ""
+    @EnvironmentObject var chatViewModel : ChatViewModel
+    var communityID: String
+    @State var messageText: String = ""
     
     var body: some View {
         ZStack {
-            TextField("", text: $testText, axis: .vertical)
+            TextField("", text: $messageText, axis: .vertical)
                 .keyboardType(.default)
                 .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 50))
                 .overlay(
@@ -28,8 +28,8 @@ struct MessageInputComponent: View {
             HStack {
                 Spacer()
                 Button {
-                    manager.sendChats(text: testText, communityID: communityID)
-                    testText = ""
+                    chatViewModel.sendChats(text: messageText, communityID: communityID)
+                    messageText = ""
                 } label: {
                     ZStack(alignment: .center) {
                         Circle()
@@ -43,8 +43,8 @@ struct MessageInputComponent: View {
                     }
                     .frame(width: 33, height: 33)
                 }
-                .disabled(testText == "")
-                .opacity(testText == "" ? 0.5 : 1.0)
+                .disabled(messageText == "")
+                .opacity(messageText == "" ? 0.5 : 1.0)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
             }
         }
@@ -84,7 +84,7 @@ struct CustomTextfield: TextFieldStyle {
 
 struct MessageInputComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MessageInputComponent()
+        MessageInputComponent(communityID: "")
     }
 }
 

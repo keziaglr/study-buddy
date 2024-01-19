@@ -14,7 +14,8 @@ import Firebase
 
 struct ChatRoomView: View {
     //TODO: change to stateobject
-    @StateObject var manager : ChatViewModel = ChatViewModel()
+    @StateObject var chatViewModel : ChatViewModel = ChatViewModel()
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Binding var community: Community
     
     var body: some View {
@@ -28,17 +29,19 @@ struct ChatRoomView: View {
                 
                 //Chat Window
                 ScrollViewReader { proxy in
-                    ScrollView(showsIndicators: false){
-                        if manager.chats.count != 0 {
-                            ForEach(manager.chats, id: \.id) {
+                    ScrollView(.vertical, showsIndicators: false){
+                        if chatViewModel.chats.count != 0 {
+                            ForEach(chatViewModel.chats, id: \.id) {
                                 message in
                                 HStack {
                                     if Auth.auth().currentUser?.uid != message.user{
                                         MessageBubbleComponent(message: message)
+                                            .id(message.id)
                                         Spacer()
                                     }else{
                                         Spacer()
                                         MessageBubbleComponent(message: message)
+                                            .id(message.id)
                                     }
                                 }
                             }
@@ -48,10 +51,7 @@ struct ChatRoomView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .task {
-                        manager.getChats(communityID: community.id!)
-                    }
-                    .onChange(of: manager.lastmessageID) { id in
+                    .onChange(of: chatViewModel.lastmessageID) { id in
                         proxy.scrollTo(id, anchor: .bottom)
                     }
 
@@ -60,18 +60,22 @@ struct ChatRoomView: View {
                 
                 //Message Input Field
                 MessageInputComponent(communityID: community.id!)
-                    .environmentObject(manager)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 
                 
             }
             .ignoresSafeArea(edges: .top)
             .navigationBarBackButtonHidden()
-            .sheet(isPresented: $manager.showAchievedScholarSupremeBadge) {
+            .onAppear {
+                chatViewModel.currentUser = authViewModel.authenticatedUser
+                chatViewModel.getChats(communityID: community.id!)
+            }
+            .sheet(isPresented: $chatViewModel.showAchievedScholarSupremeBadge) {
                 // TODO: ganti ya pake yang sesuai badgenya
-                BadgeEarnedView(image: manager.badgeImageURL)
+                BadgeEarnedView(image: chatViewModel.badgeImageURL)
             }
         }
+        .environmentObject(chatViewModel)
     }
     
 }

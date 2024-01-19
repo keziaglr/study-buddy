@@ -96,7 +96,7 @@ struct DiscoverPageView: View {
             }
         }
         .ignoresSafeArea()
-        .alert(isPresented: $communityViewModel.showRespon, content: {
+        .alert(isPresented: $communityViewModel.communityAlert, content: {
             communityViewModel.alert
         })
     }

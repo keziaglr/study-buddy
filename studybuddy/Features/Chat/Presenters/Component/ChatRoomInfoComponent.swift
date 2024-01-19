@@ -10,11 +10,10 @@ import Kingfisher
 
 struct ChatRoomInfoComponent: View {
     
-    @State private var showStudySchedule = false
-//    @Binding var showTabView : Bool
     @Binding var community : Community
-//    @Binding var communityId : String
     @EnvironmentObject var communityViewModel: CommunityViewModel
+    @State private var showStudySchedule = false
+    @State var communityMembers = [CommunityMember]()
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         
@@ -45,17 +44,6 @@ struct ChatRoomInfoComponent: View {
                     .scaledToFill()
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
-//                AsyncImage(url: URL(string: community.image)) { image in
-//                    image
-//                        .resizable()
-//                        .frame(width: 70, height: 70)
-//                        .scaledToFill()
-//                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                        .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
-//                        
-//                } placeholder: {
-//                    ProgressView()
-//                }
                 
                 //Title
                 VStack(alignment: .leading, spacing: 5){
@@ -67,17 +55,10 @@ struct ChatRoomInfoComponent: View {
                         .foregroundColor(.black)
                     
                     //Number of Members
-                    Text("\(communityViewModel.memberCount) members")
+                    Text("\(communityMembers.count) members")
                         .fontWeight(.regular)
                         .font(.system(size: 15))
                         .foregroundColor(.black)
-                        .task {
-                            do {
-                                try await communityViewModel.getCommunityMembers(communityID: community.id!)
-                            } catch {
-                                print(error)
-                            }
-                        }
                     
                     //Group Description
                     Text(community.description)
@@ -93,9 +74,7 @@ struct ChatRoomInfoComponent: View {
                 Spacer()
                 
                 //Settings Button
-                ChatRoomSettingsComponent(community: $community)
-//                    .environmentObject(communityViewModel)
-//                ChatRoomSettingsComponent(communityViewModel: CommunityViewModel(), communityId: $communityId, community: $community)
+                ChatRoomSettingsComponent(community: $community, communityMembers: $communityMembers)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
             }
@@ -106,7 +85,13 @@ struct ChatRoomInfoComponent: View {
             .ignoresSafeArea()
         }
         .ignoresSafeArea()
-//        .background(Color(red: 0.906, green: 0.467, blue: 0.157))
+        .task {
+            do {
+                communityMembers = try await communityViewModel.getCommunityMembers(communityID: community.id!)
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 

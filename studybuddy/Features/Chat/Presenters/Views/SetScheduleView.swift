@@ -18,8 +18,8 @@ struct SetScheduleView: View {
     @State var endStudySchedule = Date()
     @State var vm = BadgeViewModel()
     @EnvironmentObject var communityViewModel: CommunityViewModel
-    @State private var showAlert = false
     
+    @State var showAlert = false
     
     var body: some View {
         
@@ -64,7 +64,7 @@ struct SetScheduleView: View {
 //                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.12)
                     
                     Divider()
-                        .foregroundColor(Color("Gray"))
+                        .foregroundColor(Colors.gray)
                         .frame(width: geometry.size.width*0.6)
                         .padding(EdgeInsets(top: geometry.size.height*0.02567394, leading: 0, bottom: geometry.size.height*0.02567394, trailing: 0))
                     
@@ -96,6 +96,8 @@ struct SetScheduleView: View {
                     Task {
                         do {
                             try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
+                            community.startDate = startStudySchedule
+                            community.endDate = endStudySchedule
                             showAlert = true
                         } catch {
                             print(error)
@@ -103,13 +105,7 @@ struct SetScheduleView: View {
                     }
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)
-                } .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Success!"),
-                        message: Text("Your action was successful."),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
+                } 
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 3.3)
                 
                 
@@ -125,8 +121,12 @@ struct SetScheduleView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
-            .background(Color("Grey"))
-        
+            .background(Colors.gray)
+            .alert(isPresented: $showAlert, content: {
+                Alerts.successSetSchedule {
+                    isPresent = false
+                }
+            })
         }
     }
     
