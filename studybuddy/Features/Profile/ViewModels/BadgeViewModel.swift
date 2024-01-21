@@ -14,7 +14,7 @@ import Firebase
 class BadgeViewModel: ObservableObject {
     
     @Published var badges = [Badge]()
-    @Published private var um = UserViewModel()
+    @StateObject private var um = UserViewModel()
     
     var db = Firestore.firestore()
     

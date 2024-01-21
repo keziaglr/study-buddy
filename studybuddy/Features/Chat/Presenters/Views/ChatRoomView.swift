@@ -14,7 +14,7 @@ import Firebase
 
 struct ChatRoomView: View {
     //TODO: change to stateobject
-    @StateObject var chatViewModel : ChatViewModel = ChatViewModel()
+    @StateObject var chatViewModel = ChatViewModel()
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Binding var community: Community
     
@@ -67,7 +67,6 @@ struct ChatRoomView: View {
             .ignoresSafeArea(edges: .top)
             .navigationBarBackButtonHidden()
             .onAppear {
-                chatViewModel.currentUser = authViewModel.authenticatedUser
                 chatViewModel.getChats(communityID: community.id!)
             }
             .sheet(isPresented: $chatViewModel.showAchievedScholarSupremeBadge) {

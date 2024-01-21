@@ -108,8 +108,16 @@ struct ChatRoomSettingsComponent: View {
             }
             .alert(isPresented: $isLeaveCommunityPressed) {
                 Alerts.successLeaveCommunity(action: {
-                    communityViewModel.leaveCommunity(communityID: community.id!, communityMembers: communityMembers)
-                    presentationMode.wrappedValue.dismiss()
+                    Task{
+                        do {
+                            communityViewModel.isLoading = true
+                            try await communityViewModel.leaveCommunity(communityID: community.id!, communityMembers: communityMembers)
+                        } catch {
+                            print(error)
+                        }
+                        communityViewModel.isLoading = false
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 })
             }
         }

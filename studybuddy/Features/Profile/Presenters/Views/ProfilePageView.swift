@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ProfilePageView: View {
-    @EnvironmentObject var authVM: AuthenticationViewModel
+    @State var isLoading = false
     var body: some View {
-        VStack{
-            ProfileHeaderComponent()
-                .environmentObject(authVM)
-            BadgeView()
+        ZStack {
+            VStack{
+                ProfileHeaderComponent(isLoading: $isLoading)
+                BadgeView()
+            }
+            LoaderComponent(isLoading: $isLoading)
         }
     }
 }

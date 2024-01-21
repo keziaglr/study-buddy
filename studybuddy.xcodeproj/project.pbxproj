@@ -14,6 +14,7 @@
 		4342DBBA2B31C2AE00D79AF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBB92B31C2AE00D79AF6 /* Images.swift */; };
 		4342DBBC2B31C32700D79AF6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBBB2B31C32700D79AF6 /* Colors.swift */; };
 		4342DBC22B31C41600D79AF6 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4342DBC12B31C41600D79AF6 /* CustomButton.swift */; };
+		4371149D2B5CF5F000B5DD2E /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371149C2B5CF5F000B5DD2E /* DateExtension.swift */; };
 		43AD2B6B2B4E7BF40010B718 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */; };
 		43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */; };
 		43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B742B4E84A00010B718 /* CardComponent.swift */; };
@@ -41,7 +42,6 @@
 		43FA00D02B2316620035E6FC /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009D2B2316620035E6FC /* CommunityViewModel.swift */; };
 		43FA00D12B2316620035E6FC /* DummyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009E2B2316620035E6FC /* DummyUI.swift */; };
 		43FA00D42B2316620035E6FC /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A12B2316620035E6FC /* AuthenticationViewModel.swift */; };
-		43FA00D52B2316620035E6FC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A22B2316620035E6FC /* ProfileViewModel.swift */; };
 		43FA00D62B2316620035E6FC /* CustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A52B2316620035E6FC /* CustomRoundedButton.swift */; };
 		43FA00D72B2316620035E6FC /* ChatRoomSettingsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A62B2316620035E6FC /* ChatRoomSettingsComponent.swift */; };
 		43FA00D82B2316620035E6FC /* ChatRoomInfoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA00A72B2316620035E6FC /* ChatRoomInfoComponent.swift */; };
@@ -94,6 +94,7 @@
 		4342DBB92B31C2AE00D79AF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		4342DBBB2B31C32700D79AF6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4342DBC12B31C41600D79AF6 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		4371149C2B5CF5F000B5DD2E /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCardComponent.swift; sourceTree = "<group>"; };
 		43AD2B742B4E84A00010B718 /* CardComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardComponent.swift; sourceTree = "<group>"; };
@@ -119,7 +120,6 @@
 		43FA009D2B2316620035E6FC /* CommunityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		43FA009E2B2316620035E6FC /* DummyUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyUI.swift; sourceTree = "<group>"; };
 		43FA00A12B2316620035E6FC /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
-		43FA00A22B2316620035E6FC /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		43FA00A52B2316620035E6FC /* CustomRoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomRoundedButton.swift; sourceTree = "<group>"; };
 		43FA00A62B2316620035E6FC /* ChatRoomSettingsComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomSettingsComponent.swift; sourceTree = "<group>"; };
 		43FA00A72B2316620035E6FC /* ChatRoomInfoComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoComponent.swift; sourceTree = "<group>"; };
@@ -198,6 +198,14 @@
 				4342DBC12B31C41600D79AF6 /* CustomButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		4371149B2B5CF5E000B5DD2E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4371149C2B5CF5F000B5DD2E /* DateExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		43AD2B622B4E79250010B718 /* Presenters */ = {
@@ -280,7 +288,6 @@
 			children = (
 				43FA009C2B2316620035E6FC /* BadgeViewModel.swift */,
 				43FA009A2B2316620035E6FC /* UserViewModel.swift */,
-				43FA00A22B2316620035E6FC /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -560,6 +567,7 @@
 		ACF808472A42D5A20050D549 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4371149B2B5CF5E000B5DD2E /* Extensions */,
 				43FA01032B2324B40035E6FC /* Utilities */,
 				ACF8084C2A42D6430050D549 /* Data */,
 				ACF8084B2A42D63B0050D549 /* Themes */,
@@ -724,6 +732,7 @@
 				43FA00D42B2316620035E6FC /* AuthenticationViewModel.swift in Sources */,
 				43AD2B772B4E95250010B718 /* AuthenticationManager.swift in Sources */,
 				43C972142A4C362F000D1E6B /* WebView.swift in Sources */,
+				4371149D2B5CF5F000B5DD2E /* DateExtension.swift in Sources */,
 				43FA00E02B2316620035E6FC /* CustomTextField.swift in Sources */,
 				43AD2B7B2B4EADC70010B718 /* Alerts.swift in Sources */,
 				431C88B02B5684F500245E83 /* CommunityMember.swift in Sources */,
@@ -758,7 +767,6 @@
 				43FA00D92B2316620035E6FC /* MessageInputComponent.swift in Sources */,
 				43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */,
 				43FA00DC2B2316620035E6FC /* StudyScheduleComponent.swift in Sources */,
-				43FA00D52B2316620035E6FC /* ProfileViewModel.swift in Sources */,
 				43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */,
 				43FA00ED2B2316620035E6FC /* DiscoverPageView.swift in Sources */,
 				43AD2B7D2B5432530010B718 /* CustomTextFieldWithSymbol.swift in Sources */,

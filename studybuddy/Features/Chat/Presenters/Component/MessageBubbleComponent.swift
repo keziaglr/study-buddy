@@ -16,7 +16,7 @@ struct MessageBubbleComponent: View {
     
     var isCurrentUser: Bool
     var message: Chat
-    @State private var um = UserViewModel()
+    @StateObject private var um = UserViewModel()
     @State private var showTime = false
     @State private var user: UserModel? = nil
     

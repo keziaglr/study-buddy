@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
 
+@MainActor
 final class ChatViewModel: ObservableObject {
     
     @Published var chats : [Chat] = []
@@ -18,7 +19,7 @@ final class ChatViewModel: ObservableObject {
     @Published var bm = BadgeViewModel()
     @Published var showAchievedScholarSupremeBadge = false
     @Published var badgeImageURL = ""
-    @Published var currentUser: UserModel?
+    var currentUser = UserManager.shared.currentUser
     
     func getChats(communityID: String) {
         ChatManager.shared.listenNewChat(communityID: communityID) { chat, error in

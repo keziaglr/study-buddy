@@ -18,12 +18,10 @@ final class AuthenticationViewModel : ObservableObject {
     @Published var name = ""
     @Published var email = ""
     @Published var password = ""
-    @Published var authenticatedUser: UserModel?
+    
     func auth() async throws {
         try await AuthenticationManager.shared.signInUser(email: email, password: password)
-        DispatchQueue.main.async {
-            self.authenticated = true
-        }
+        authenticated = true
     }
     
     func createUser() async throws {
@@ -33,7 +31,7 @@ final class AuthenticationViewModel : ObservableObject {
     }
     
     func addUserToFirestore(userUID: String) {
-        let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
+        let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [], communities: [])
         UserManager.shared.addUser(user: user)
     }
     
@@ -47,17 +45,7 @@ final class AuthenticationViewModel : ObservableObject {
     
     func logout() throws {
         try AuthenticationManager.shared.signOut()
-        DispatchQueue.main.async {
-            self.authenticated = false
-        }
+        authenticated = false
     }
     
-    func getCurrentUser() async throws -> UserModel? {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            print("User is not authenticated or user ID could not be retrieved.")
-            return nil
-        }
-        authenticatedUser = try await UserManager.shared.getCurrentUser(userID: currentUserID)
-        return authenticatedUser
-    }
 }

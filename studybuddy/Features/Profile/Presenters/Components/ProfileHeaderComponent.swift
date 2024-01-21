@@ -13,12 +13,13 @@ import Firebase
 import Kingfisher
 
 struct ProfileHeaderComponent: View {
-    @ObservedObject private var userViewModel = UserViewModel()
+    @StateObject private var userViewModel = UserViewModel()
     @EnvironmentObject var authVM: AuthenticationViewModel
-    //    @State private var user: UserModel? = nil
     @State var logout = false
     @State var showPicker = false
+    @Binding var isLoading: Bool
     @AppStorage("isDarkMode") private var isDarkMode = false
+    @ObservedObject var userManager = UserManager.shared
     
     var body: some View {
         NavigationStack {
@@ -47,7 +48,7 @@ struct ProfileHeaderComponent: View {
                     VStack {
                         //profile image
                         ZStack {
-                            if let userImage = userViewModel.currentUser?.image, !userImage.isEmpty {
+                            if let userImage = userManager.currentUser?.image, !userImage.isEmpty {
                                 KFImage(URL(string: userImage))
                                     .placeholder({ progress in
                                         ProgressView()
@@ -81,18 +82,17 @@ struct ProfileHeaderComponent: View {
                                         .foregroundColor(.white)
                                 }
                             }.offset(x: 35, y: 35)
-                            
                         }
                         
                         //name
-                        Text(userViewModel.currentUser?.name ?? "")
+                        Text(userManager.currentUser?.name ?? "")
                             .fontWeight(.bold)
                             .font(.system(size: 20))
                             .foregroundColor(Colors.orange)
                             .kerning(0.6)
                         
                         //email
-                        Text(userViewModel.currentUser?.email ?? "")
+                        Text(userManager.currentUser?.email ?? "")
                             .fontWeight(.light)
                             .font(.system(size: 18))
                             .foregroundColor(Colors.orange)
@@ -115,29 +115,23 @@ struct ProfileHeaderComponent: View {
                                     .cornerRadius(100)
                             }
                         }
-//                        .padding(.top, 30)
                     }
                 }
                 .ignoresSafeArea()
             }
             .preferredColorScheme(isDarkMode ? .dark : .light)
-            .task {
-                do {
-                    _ = try await userViewModel.getUserProfile()
-                } catch {
-                    print(error)
-                }
-            }
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {
             ImagePicker(show: $showPicker) { url in
                 Task {
                     do {
+                        isLoading = true
                         try await self.userViewModel.uploadUserProfile(localURL: url)
                     } catch {
                         print(error)
                     }
+                    isLoading = false
                 }
             }
         }
@@ -147,6 +141,6 @@ struct ProfileHeaderComponent: View {
 
 struct ProfileHeaderComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileHeaderComponent()
+        ProfileHeaderComponent(isLoading: .constant(false))
     }
 }

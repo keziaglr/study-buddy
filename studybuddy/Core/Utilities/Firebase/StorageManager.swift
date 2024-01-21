@@ -50,7 +50,7 @@ final class StorageManager {
         let meta = StorageMetadata()
         meta.contentType = "image/jpeg"
         
-        let imageName = "\(UUID().uuidString).jpeg"
+        let imageName = "\(Date().dateFormat())-\(url.lastPathComponent)"
         let imagePath = userReference.child(imageName)
         
         do {

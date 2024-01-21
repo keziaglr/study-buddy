@@ -14,7 +14,6 @@ import FirebaseStorage
 @MainActor
 class CommunityViewModel: ObservableObject {
     
-    //    @Published var memberCount: Int = 0
     @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
@@ -26,10 +25,8 @@ class CommunityViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var newCommunityAdded = false
     @Published var chatRoomAlert = false
-    var currentUser: UserModel?
+    var userManager = UserManager.shared
     
-    init() {
-    }
     //MARK: GET SPECIFIC COMMUNITY
     func getCommunity(id: String) async throws -> Community? {
         return try await CommunityManager.shared.getCommunity(id)
@@ -51,7 +48,7 @@ class CommunityViewModel: ObservableObject {
         
         let community = Community(title: title, description: description, image: imageURL?.absoluteString ?? url.absoluteString, category: category)
         
-        guard let currentUser = currentUser else {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
@@ -77,8 +74,9 @@ class CommunityViewModel: ObservableObject {
         let members = try await getCommunityMembers(communityID: communityID)
         
         for member in members {
-            if member.id == currentUser?.id {
-                //                self.communityAlert.toggle()
+            if member.id == userManager.currentUser?.id {
+                self.alert = Alerts.alreadyJoined
+                self.communityAlert.toggle()
                 return
             }
         }
@@ -91,13 +89,22 @@ class CommunityViewModel: ObservableObject {
         }
         
         //join the member to community
-        guard let currentUser = currentUser else {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
         let newMember = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
+        //add user to member subcollection
         CommunityManager.shared.addMember(communityID, newMember)
+        
+        //update the joinedCommunities array
         joinedCommunities.append(community)
+        
+        
+        //add community to user field
+        var userCommunities = currentUser.communities
+        userCommunities.append(communityID)
+        try await userManager.updateCommunity(communities: userCommunities)
         
         self.alert = Alerts.successJoinCommunity
         self.communityAlert.toggle()
@@ -146,8 +153,8 @@ class CommunityViewModel: ObservableObject {
     
     
     //MARK: LEAVE COMMUNITY
-    func leaveCommunity(communityID: String, communityMembers: [CommunityMember]) {
-        guard let currentUser = currentUser else {
+    func leaveCommunity(communityID: String, communityMembers: [CommunityMember]) async throws {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
@@ -157,23 +164,37 @@ class CommunityViewModel: ObservableObject {
         }
         
         CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
+        
         joinedCommunities.removeAll { community in
             community.id == communityID
         }
+        
+        
+        //remove community to from user field
+        var userCommunities = currentUser.communities
+        userCommunities.removeAll { uCom in
+            uCom == communityID
+        }
+        try await userManager.updateCommunity(communities: userCommunities)
     }
     
     //MARK: GET USER JOINED COMMUNITY
     func getJoinedCommunity() async throws {
         joinedCommunities = []
+        let userCommunities = userManager.currentUser?.communities
         for community in communities {
-            // get members in each communities
-            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            // get members in each communities
+//            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            
+//            // check is currentUser joined in members
+//            let member = members.filter({$0.id == userManager.currentUser?.id}).first
             
-            // check is currentUser joined in members
-            let member = members.filter({$0.id == currentUser?.id}).first
+//            // if member exist / user i joined then append the community to jCommunities
+//            if member != nil {
+//                joinedCommunities.append(community)
+//            }
             
-            // if member exist / user i joined then append the community to jCommunities
-            if member != nil {
+            if userManager.currentUser?.communities.contains(community.id!) == true {
                 joinedCommunities.append(community)
             }
         }
@@ -181,7 +202,16 @@ class CommunityViewModel: ObservableObject {
     
     //MARK: GET COMMUNITY MEMBER
     func getCommunityMembers(communityID: String) async throws -> [CommunityMember] {
-        let members = try await CommunityManager.shared.getMembers(communityID)
+        var members = try await CommunityManager.shared.getMembers(communityID)
+        guard let currentUser = userManager.currentUser else {
+                return members
+            }
+
+        for index in 0..<members.count {
+            if members[index].id == currentUser.id {
+                members[index].image = currentUser.image
+            }
+        }
         return members
     }
     
@@ -189,7 +219,7 @@ class CommunityViewModel: ObservableObject {
     func getUserRecommendation() {
         recommendedCommunities = []
         for community in communities {
-            if currentUser?.category.contains(community.category) == true {
+            if userManager.currentUser?.category.contains(community.category) == true {
                 recommendedCommunities.append(community)
             }
         }
@@ -208,15 +238,6 @@ class CommunityViewModel: ObservableObject {
         return !joinedCommunities.contains { jCom in
             jCom.id == communityID
         }
-    }
-    
-    func dateFormatting() -> String {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
-        let mydt = dateFormatter.string(from: date).capitalized
-        
-        return "\(mydt)"
     }
     
 }
