@@ -10,12 +10,15 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-final class UserManager {
+@MainActor
+final class UserManager: ObservableObject {
     static let shared = UserManager()
+    @Published var currentUser: UserModel?
     private let dbRef = Firestore.firestore().collection("users")
     func addUser(user: UserModel) {
         do {
             try dbRef.document(user.id!).setData(from: user)
+            currentUser = user
         } catch {
             print(error)
         }
@@ -25,16 +28,22 @@ final class UserManager {
         try await dbRef.document(userID).updateData([
             "category" : category
         ])
+        currentUser?.category = category
     }
     
     func updateProfileImage(userID: String, image: String) async throws{
         try await dbRef.document(userID).updateData([
             "image" : image
         ])
+        currentUser?.image = image
     }
     
-    func getCurrentUser(userID: String) async throws -> UserModel? {
+    func getCurrentUser() async throws {
+        guard let userID = Auth.auth().currentUser?.uid else{
+            print("no user")
+            return
+        }
         let docRef = dbRef.document(userID)
-        return try await docRef.getDocument(as: UserModel.self)
+        currentUser = try await docRef.getDocument(as: UserModel.self)
     }
 }

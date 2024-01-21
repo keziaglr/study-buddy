@@ -11,20 +11,12 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
 
+@MainActor
 class UserViewModel: ObservableObject {
     
-    @Published var users = [UserModel]()
-    @Published var currentUser: UserModel?
-    var db = Firestore.firestore()
+    var userManager = UserManager.shared
     
-    func getUserProfile() async throws -> UserModel? {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            print("User is not authenticated or user ID could not be retrieved.")
-            return nil
-        }
-        currentUser = try await UserManager.shared.getCurrentUser(userID: currentUserID)
-        return currentUser
-    }
+    var db = Firestore.firestore()
     
     func getUser(id: String, completion: @escaping (UserModel?) -> Void){
         db.collection("users").document(id).getDocument { (documentSnapshot, error) in
@@ -61,16 +53,17 @@ class UserViewModel: ObservableObject {
     }
     
     func updateUserInterest(categories: Set<String>) async throws {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
+        guard let currentUserID = userManager.currentUser?.id else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
         
         try await UserManager.shared.updateUserInterest(userID: currentUserID, category: Array(categories))
+//        self.currentUser?.category = Array(categories)
     }
     
     func uploadUserProfile(localURL: URL) async throws{
-        guard let currentUser = currentUser else {
+        guard let currentUser = userManager.currentUser else {
             print("No user model")
             return
         }
@@ -86,9 +79,7 @@ class UserViewModel: ObservableObject {
         
         let downloadURL = try await StorageManager.shared.saveUserProfileImage(url: localURL)
         try await UserManager.shared.updateProfileImage(userID: currentUserID, image: downloadURL.absoluteString)
-        self.currentUser?.image = downloadURL.absoluteString
+//        self.currentUser?.image = downloadURL.absoluteString
     }
-
-    
     
 }

@@ -44,7 +44,7 @@ struct TabBarNavigation: View {
         .task {
             do {
                 communityViewModel.isLoading = true
-                communityViewModel.currentUser = try await authenticationViewModel.getCurrentUser()
+                try await UserManager.shared.getCurrentUser()
                 try await communityViewModel.refreshCommunities()
             } catch {
                 print(error)
