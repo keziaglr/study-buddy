@@ -41,7 +41,8 @@ class UserViewModel: ObservableObject {
                 let image = data?["image"] as? String ?? ""
                 let badges = data?["badges"] as? [String] ?? []
                 let category = data?["category"] as? [String] ?? []
-                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, category: category, badges: badges)
+                let communities = data?["communities"] as? [String] ?? []
+                let user = UserModel(id: documentID, name: name, email: email, password: password, image: image, category: category, badges: badges, communities: communities)
                 
                 print("Retrieved user: \(user)")
                 completion(user)
@@ -53,12 +54,12 @@ class UserViewModel: ObservableObject {
     }
     
     func updateUserInterest(categories: Set<String>) async throws {
-        guard let currentUserID = userManager.currentUser?.id else {
+        guard let _ = userManager.currentUser?.id else {
             print("User is not authenticated or user ID could not be retrieved.")
             return
         }
         
-        try await UserManager.shared.updateUserInterest(userID: currentUserID, category: Array(categories))
+        try await UserManager.shared.updateUserInterest(category: Array(categories))
 //        self.currentUser?.category = Array(categories)
     }
     
@@ -68,17 +69,12 @@ class UserViewModel: ObservableObject {
             return
         }
         
-        guard let currentUserID = currentUser.id else {
-            print("No user ID")
-            return
-        }
-        
         if currentUser.image != "" {
             StorageManager.shared.deleteUserProfileImage(downloadURL: currentUser.image)
         }
         
         let downloadURL = try await StorageManager.shared.saveUserProfileImage(url: localURL)
-        try await UserManager.shared.updateProfileImage(userID: currentUserID, image: downloadURL.absoluteString)
+        try await UserManager.shared.updateProfileImage(image: downloadURL.absoluteString)
 //        self.currentUser?.image = downloadURL.absoluteString
     }
     

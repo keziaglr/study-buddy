@@ -24,14 +24,20 @@ final class UserManager: ObservableObject {
         }
     }
      
-    func updateUserInterest(userID: String, category: [String]) async throws{
+    func updateUserInterest(category: [String]) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
         try await dbRef.document(userID).updateData([
             "category" : category
         ])
         currentUser?.category = category
     }
     
-    func updateProfileImage(userID: String, image: String) async throws{
+    func updateProfileImage(image: String) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
         try await dbRef.document(userID).updateData([
             "image" : image
         ])
@@ -45,5 +51,15 @@ final class UserManager: ObservableObject {
         }
         let docRef = dbRef.document(userID)
         currentUser = try await docRef.getDocument(as: UserModel.self)
+    }
+    
+    func updateCommunity(communities: [String]) async throws {
+        guard let userID = currentUser?.id else {
+            return
+        }
+        try await dbRef.document(userID).updateData([
+            "communities" : communities
+        ])
+        currentUser?.communities = communities
     }
 }

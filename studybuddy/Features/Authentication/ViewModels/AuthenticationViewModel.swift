@@ -31,7 +31,7 @@ final class AuthenticationViewModel : ObservableObject {
     }
     
     func addUserToFirestore(userUID: String) {
-        let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [])
+        let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [], communities: [])
         UserManager.shared.addUser(user: user)
     }
     

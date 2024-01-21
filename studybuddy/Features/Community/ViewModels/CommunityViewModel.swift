@@ -75,7 +75,8 @@ class CommunityViewModel: ObservableObject {
         
         for member in members {
             if member.id == userManager.currentUser?.id {
-                //                self.communityAlert.toggle()
+                self.alert = Alerts.alreadyJoined
+                self.communityAlert.toggle()
                 return
             }
         }
@@ -93,8 +94,17 @@ class CommunityViewModel: ObservableObject {
             return
         }
         let newMember = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
+        //add user to member subcollection
         CommunityManager.shared.addMember(communityID, newMember)
+        
+        //update the joinedCommunities array
         joinedCommunities.append(community)
+        
+        
+        //add community to user field
+        var userCommunities = currentUser.communities
+        userCommunities.append(communityID)
+        try await userManager.updateCommunity(communities: userCommunities)
         
         self.alert = Alerts.successJoinCommunity
         self.communityAlert.toggle()
@@ -143,7 +153,7 @@ class CommunityViewModel: ObservableObject {
     
     
     //MARK: LEAVE COMMUNITY
-    func leaveCommunity(communityID: String, communityMembers: [CommunityMember]) {
+    func leaveCommunity(communityID: String, communityMembers: [CommunityMember]) async throws {
         guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
@@ -154,23 +164,37 @@ class CommunityViewModel: ObservableObject {
         }
         
         CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
+        
         joinedCommunities.removeAll { community in
             community.id == communityID
         }
+        
+        
+        //remove community to from user field
+        var userCommunities = currentUser.communities
+        userCommunities.removeAll { uCom in
+            uCom == communityID
+        }
+        try await userManager.updateCommunity(communities: userCommunities)
     }
     
     //MARK: GET USER JOINED COMMUNITY
     func getJoinedCommunity() async throws {
         joinedCommunities = []
+        let userCommunities = userManager.currentUser?.communities
         for community in communities {
-            // get members in each communities
-            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            // get members in each communities
+//            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            
+//            // check is currentUser joined in members
+//            let member = members.filter({$0.id == userManager.currentUser?.id}).first
             
-            // check is currentUser joined in members
-            let member = members.filter({$0.id == userManager.currentUser?.id}).first
+//            // if member exist / user i joined then append the community to jCommunities
+//            if member != nil {
+//                joinedCommunities.append(community)
+//            }
             
-            // if member exist / user i joined then append the community to jCommunities
-            if member != nil {
+            if userManager.currentUser?.communities.contains(community.id!) == true {
                 joinedCommunities.append(community)
             }
         }

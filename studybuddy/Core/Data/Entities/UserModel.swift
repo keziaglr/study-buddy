@@ -17,6 +17,7 @@ struct UserModel: Codable {
     var image: String
     var category: [String]
     var badges: [String]
+    var communities: [String]
     
     enum Preferences: String {
         case category

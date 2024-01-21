@@ -29,6 +29,11 @@ struct Alerts {
     )
     
     // for community
+    static let alreadyJoined = Alert(
+        title: Text("Cannot Join Community"),
+        message: Text("You are already in this community"),
+        dismissButton: .default(Text("OK"))
+    )
     static let memberIsFull = Alert(
         title: Text("Cannot Join Community"),
         message: Text("The community already has 6 members"),
