@@ -14,7 +14,7 @@ import Firebase
 class LibraryViewModel: ObservableObject {
     @Published var libraries = [Library]()
     @Published var isLoading = false
-//    @Published var showFileViewer = false
+    @Published var showFileViewer = false
     @Published var selectedFileURL: URL? = nil
     @Published var selectedFilePathForDownload: String? = nil
     @Published var showBadge = false
@@ -25,23 +25,16 @@ class LibraryViewModel: ObservableObject {
         return self.isLoading || (self.libraries.count == 0)
     }
     
-    func getFileDetail(library: Library) {
-        self.isLoading = true
+    func getFileDetail(library: Library) async throws {
+        isLoading = true
         
-        Task {
-            do {
-                let downloadURL = try await StorageManager.shared.getFileDownloadURL(filePath: library.url)
-                selectedFileURL = downloadURL.absoluteURL
-                selectedFilePathForDownload = library.url
-//                showFileViewer.toggle()
-            } catch {
-                print(error)
-            }
-            isLoading = false
-        }
+        let downloadURL = try await StorageManager.shared.getFileDownloadURL(filePath: library.url)
+        selectedFileURL = downloadURL.absoluteURL
+        selectedFilePathForDownload = library.url
+        isLoading = false
     }
     
-    func downloadLibrary() {
+    func downloadLibrary() async throws {
         self.isLoading = true
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -50,14 +43,9 @@ class LibraryViewModel: ObservableObject {
         let fileName = URL(filePath: self.selectedFilePathForDownload!).lastPathComponent
         let localURL = documentsURL.appendingPathComponent(fileName)
         
-        Task {
-            do {
-                try await StorageManager.shared.saveToLocal(localURL: localURL, filePathInCloudStorage: self.selectedFilePathForDownload!)
-            } catch {
-                print(error)
-            }
-            self.isLoading = false
-        }
+        try await StorageManager.shared.saveToLocal(localURL: localURL, filePathInCloudStorage: self.selectedFilePathForDownload!)
+        
+        self.isLoading = false
     }
     
     func updateLibrary(communityID: String) {
@@ -125,7 +113,7 @@ class LibraryViewModel: ObservableObject {
     
     // achieved when download file for the first time
     func checkKnowledgeNavigatorBadge() async throws -> Bool{
-        let knowledgeNavigatorBadgeID = badgeManager.getBadgeID(badgeName: Badges.knowledgeNavigator)
+//        let knowledgeNavigatorBadgeID = badgeManager.getBadgeID(badgeName: Badges.knowledgeNavigator)
         if badgeManager.validateBadge(badgeName: Badges.knowledgeNavigator) == false {
             try await badgeManager.achieveBadge(badgeName: Badges.knowledgeNavigator)
             let badge = badgeManager.getBadge(badgeName: Badges.knowledgeNavigator)
@@ -162,13 +150,10 @@ class LibraryViewModel: ObservableObject {
                 let badge = badgeManager.getBadge(badgeName: badgeName)
                 showedBadge = badge!.image
                 return true
-//                showAchievedBadge = true
             } else {
-//                showAchievedBadge = false
                 return false
             }
         }
-//        NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
         return false
     }
 

@@ -21,12 +21,16 @@ final class ChatViewModel: ObservableObject {
     var currentUser = UserManager.shared.currentUser
     var badgeManager = BadgeManager.shared
     
+    
     func getChats(communityID: String) {
+        lastmessageID = ""
+        chats = []
         ChatManager.shared.listenNewChat(communityID: communityID) { chat, error in
             if let error = error {
                 print(error)
                 return
             }
+            
             guard let newChat = chat else {
                 print("new chat error")
                 return
@@ -60,36 +64,8 @@ final class ChatViewModel: ObservableObject {
             }
             
         }
-//        bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
-//            if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
-//                self.checkScholarSupremeBadge()
-//            }
-//        }
         ChatManager.shared.sendChat(chat: newChat, communityID: communityID)
     }
-//    func sendChats(text: String, communityID: String){
-//        um.getUser(id: Auth.auth().currentUser?.uid ?? "") { user in
-//            if let user = user {
-//                let newChat = Chat(id: "\(UUID())", content: text, dateCreated: Date(), user: user.id!)
-//                
-//                
-//                self.bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
-//                    if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
-//                        self.checkScholarSupremeBadge()
-//                    }
-//                }
-//                
-//                do {
-//                    try self.db.collection("communities").document(communityID).collection("chats").document(newChat.id!).setData(from: newChat)
-//                    
-//                } catch {
-//                    print("Error sending chat: \(error)")
-//                }
-//            } else {
-//                print("Failed to retrieve user")
-//            }
-//        }
-//    }
     
     func isFirstChatOfTheDay(newChat: Chat) -> Bool {
         guard let lastChat = chats.last else {
@@ -143,10 +119,6 @@ final class ChatViewModel: ObservableObject {
         // Check if there are at least 7 consecutive days
         var currentDate = startDate // a variable to iterate from the first date until the 7th date
         var consecutiveCount = 0
-        
-        if uniqueChats.count < 7 {
-            
-        }
 
         for chat in uniqueChats {
             // Check if the current chat's date is the same as the current date
@@ -159,11 +131,6 @@ final class ChatViewModel: ObservableObject {
                     let badge = badgeManager.getBadge(badgeName: Badges.scholarSupereme)
                     badgeImageURL = badge!.image
                     showAchievedScholarSupremeBadge = true
-//                    bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
-//                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
-//                        badgeImageURL  = badge!.name
-//                        showAchievedScholarSupremeBadge = true
-//                    }
                     break
                 }
                 // Move to the next consecutive day

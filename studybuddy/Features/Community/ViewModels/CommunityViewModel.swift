@@ -113,7 +113,7 @@ class CommunityViewModel: ObservableObject {
                 return false
             }
         } else {
-            let hasBadge = badgeManager.validateBadge(badgeName: Badges.engagedExplorer) // if the user join new community with different category with current joined community
+            let hasBadge = badgeManager.validateBadge(badgeName: Badges.engagedExplorer) // if the user join new community with different category with current joined community and currently has more or less than 2 communities
             if hasBadge == false {
                 for joinedCommunity in joinedCommunities {
                     if joinedCommunity.category != community.category {

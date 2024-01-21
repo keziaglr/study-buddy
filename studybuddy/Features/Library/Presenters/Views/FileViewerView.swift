@@ -18,7 +18,7 @@ struct FileViewerView: View {
                 HStack(alignment: .center) {
                     Spacer()
                     Button{
-                        showFileDetail.toggle()
+                        showFileDetail = false
                     } label: {
                         Text("Done")
                             .font(.headline)
@@ -36,13 +36,15 @@ struct FileViewerView: View {
                     }
                     Spacer()
                     Button {
-                        self.vm.downloadLibrary()
                         Task {
                             do {
+                                try await self.vm.downloadLibrary()
                                 let getBadge = try await vm.checkKnowledgeNavigatorBadge()
                                 if getBadge == true {
-                                    showFileDetail.toggle()
-                                    vm.showBadge = true
+                                    showFileDetail = false
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        vm.showBadge = true
+                                    }
                                 }
                             } catch {
                                 print(error)

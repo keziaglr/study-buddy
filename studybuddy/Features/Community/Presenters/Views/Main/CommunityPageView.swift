@@ -13,10 +13,10 @@ struct CommunityPageView: View {
     @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
     @State var goToCommunityDetail : Bool = false
     
-    @State var showSuccessJoinAlert = false
-    @State var showCannotJoinAlert = false
+    @State var showAlert = false
     @State var showBadge = false
     @State var badgeImage = ""
+    @State var showedAlert = Alerts.memberIsFull
     
     var filteredCommunities: [Community] {
         if searchText.isEmpty {
@@ -54,7 +54,25 @@ struct CommunityPageView: View {
                                             do {
                                                 communityViewModel.isLoading = true
                                                 try await communityViewModel.joinCommunity(community: community)
-                                                showSuccessJoinAlert.toggle()
+                                                showedAlert = Alerts.successJoinCommunity {
+                                                    Task {
+                                                        do {
+                                                            showBadge = try await communityViewModel.validateBadgeWhenJoinCommunity(community: chosenCommunity)
+                                                            if !showBadge {
+                                                                goToCommunityDetail = true
+                                                            }
+                                                        } catch {
+                                                            print(error)
+                                                        }
+                                                    }
+                                                }
+                                                showAlert.toggle()
+                                            } catch CommunityError.alreadyJoined {
+                                                showedAlert = Alerts.alreadyJoined
+                                                showAlert.toggle()
+                                            } catch CommunityError.memberIsFull {
+                                                showedAlert = Alerts.memberIsFull
+                                                showAlert.toggle()
                                             } catch {
                                                 print(error)
                                             }
@@ -106,10 +124,7 @@ struct CommunityPageView: View {
                 ChatRoomView(community: $chosenCommunity)
             }
         }
-        .alert(isPresented: $communityViewModel.showErrorAlert, content: {
-            communityViewModel.errorAlert
-        })
-        .alert(isPresented: $showSuccessJoinAlert) {
+        .alert(isPresented: $showAlert) {
             Alerts.successJoinCommunity {
                 Task {
                     do {
