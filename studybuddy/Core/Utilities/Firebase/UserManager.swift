@@ -23,7 +23,15 @@ final class UserManager: ObservableObject {
             print(error)
         }
     }
-     
+    func updateBadges(badge: String) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
+        try await dbRef.document(userID).updateData([
+            "badges" : FieldValue.arrayUnion([badge])
+        ])
+        currentUser?.badges.append(badge)
+    }
     func updateUserInterest(category: [String]) async throws{
         guard let userID = currentUser?.id else {
             return

@@ -15,7 +15,8 @@ struct LibraryView: View {
     var communityID: String
     @State var showImagePicker = false
     @State var showDocPicker = false
-    
+//    @State var showBadge = false
+    @State var showFileDetail = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationStack {
@@ -26,7 +27,8 @@ struct LibraryView: View {
                         List {
                             ForEach(self.vm.libraries) {library in
                                 Button {
-                                    self.vm.showFileViewer(library: library)
+                                    self.vm.getFileDetail(library: library)
+                                    showFileDetail.toggle()
                                 } label: {
                                     DocumentCellComponent(data: library)
                                 }
@@ -131,27 +133,25 @@ struct LibraryView: View {
             
         })
         .sheet(isPresented: $showImagePicker) {
-//            if self.pickerType == "doc" {
-//            } else {
             ImagePicker(show: $showImagePicker) { url in
                 self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
+                
             }
             .edgesIgnoringSafeArea(.all)
-//            }
         }
-        .sheet(isPresented: $vm.showFileViewer, content: {
-            FileViewerView()
+        .sheet(isPresented: $showFileDetail, content: {
+            FileViewerView(showFileDetail: $showFileDetail)
                 .environmentObject(vm)
                 .edgesIgnoringSafeArea(.all)
         })
         .onAppear {
             self.vm.updateLibrary(communityID: self.communityID)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
-                self.vm.refreshLibrary(communityID: communityID)
-            }
+//            NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
+//                self.vm.refreshLibrary(communityID: communityID)
+//            }
         }
-        .sheet(isPresented: $vm.showAchievedBadge) {
-            BadgeEarnedView(image: vm.badgeImageURL)
+        .sheet(isPresented: $vm.showBadge) {
+            BadgeEarnedView(image: vm.showedBadge)
                 .edgesIgnoringSafeArea(.all)
         }
     }

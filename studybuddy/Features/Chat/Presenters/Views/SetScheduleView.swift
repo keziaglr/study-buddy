@@ -6,17 +6,16 @@
 //
 
 import SwiftUI
-import EventKit
 
 struct SetScheduleView: View {
     
     @Binding var isPresent: Bool
-    @Binding var isBadge: Bool
-    @Binding var badge: String
+//    @Binding var isBadge: Bool
+    @Binding var showBadge: Bool
     @Binding var community : Community
     @State var startStudySchedule = Date()
     @State var endStudySchedule = Date()
-    @State var vm = BadgeViewModel()
+//    @State var vm = BadgeViewModel()
     @EnvironmentObject var communityViewModel: CommunityViewModel
     
     @State var showAlert = false
@@ -95,6 +94,7 @@ struct SetScheduleView: View {
                             try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
                             community.startDate = startStudySchedule
                             community.endDate = endStudySchedule
+                            try await communityViewModel.addEventToCalendar(community: community)
                             showAlert = true
                         } catch {
                             print(error)
@@ -105,14 +105,6 @@ struct SetScheduleView: View {
                 } 
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 3.3)
                 
-                
-                Button {
-                    addEventToCalendar()
-                } label: {
-                    Text("Add to Calendar")
-                        .fontWeight(.medium)
-                        .font(.system(size: 18))
-                }
                 Spacer()
                 
             }
@@ -122,76 +114,19 @@ struct SetScheduleView: View {
             .alert(isPresented: $showAlert, content: {
                 Alerts.successSetSchedule {
                     isPresent = false
+                    Task {
+                        do {
+                            showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
+                        } catch {
+                            print(error)
+                        }
+                    }
                 }
             })
         }
     }
     
-    private func addEventToCalendar() {
-        let eventStore = EKEventStore()
-        if #available(iOS 17.0, *) {
-            eventStore.requestFullAccessToEvents { granted, error in
-                if granted && error == nil {
-                    let event = EKEvent(eventStore: eventStore)
-                    event.title = "\(community.title)'s Study Schedule"
-                    event.startDate = startStudySchedule
-                    event.endDate = endStudySchedule
-                    
-                    
-                    
-                    event.calendar = eventStore.defaultCalendarForNewEvents
-                    let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
-                    do {
-                        try eventStore.save(event, span: .thisEvent)
-                        print("Event added to calendar")
-                        isPresent = false
-                        vm.validateBadge(badgeId: badgeId) { b in
-                            if !b {
-                                self.badge = "Collaborative Dynamo"
-                                isBadge = true
-                                vm.achieveBadge(badgeId: badgeId)
-                            }
-                        }
-                    } catch {
-                        print("Error saving event: \(error.localizedDescription)")
-                    }
-                } else {
-                    print("Access denied or error: \(error?.localizedDescription ?? "")")
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-            eventStore.requestAccess(to: .event) { granted, error in
-                if granted && error == nil {
-                    let event = EKEvent(eventStore: eventStore)
-                    event.title = "\(community.title)'s Study Schedule"
-                    event.startDate = startStudySchedule
-                    event.endDate = endStudySchedule
-                    
-                    
-                    
-                    event.calendar = eventStore.defaultCalendarForNewEvents
-                    let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
-                    do {
-                        try eventStore.save(event, span: .thisEvent)
-                        print("Event added to calendar")
-                        isPresent = false
-                        vm.validateBadge(badgeId: badgeId) { b in
-                            if !b {
-                                badge = "Collaborative Dynamo"
-                                isBadge = true
-                                vm.achieveBadge(badgeId: badgeId)
-                            }
-                        }
-                    } catch {
-                        print("Error saving event: \(error.localizedDescription)")
-                    }
-                } else {
-                    print("Access denied or error: \(error?.localizedDescription ?? "")")
-                }
-            }
-        }
-    }
+
 }
 
 

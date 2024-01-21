@@ -16,10 +16,10 @@ final class ChatViewModel: ObservableObject {
     
     @Published var chats : [Chat] = []
     @Published var lastmessageID = ""
-    @Published var bm = BadgeViewModel()
     @Published var showAchievedScholarSupremeBadge = false
     @Published var badgeImageURL = ""
     var currentUser = UserManager.shared.currentUser
+    var badgeManager = BadgeManager.shared
     
     func getChats(communityID: String) {
         ChatManager.shared.listenNewChat(communityID: communityID) { chat, error in
@@ -46,11 +46,25 @@ final class ChatViewModel: ObservableObject {
             return
         }
         let newChat = Chat(content: text, dateCreated: Date(), user: user.id!)
-        bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
-            if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
-                self.checkScholarSupremeBadge()
+        
+        //MARK: SCHOLAR SUPREME BADGE
+        let hasBadge = badgeManager.validateBadge(badgeName: Badges.scholarSupereme)
+        
+        if hasBadge && isFirstChatOfTheDay(newChat: newChat) {
+            Task {
+                do {
+                    try await checkScholarSupremeBadge()
+                } catch {
+                    print(error)
+                }
             }
+            
         }
+//        bm.validateBadge(badgeId: self.getScholarSupremeBadgeID()) { hasBadge in
+//            if !hasBadge && self.isFirstChatOfTheDay(newChat: newChat){
+//                self.checkScholarSupremeBadge()
+//            }
+//        }
         ChatManager.shared.sendChat(chat: newChat, communityID: communityID)
     }
 //    func sendChats(text: String, communityID: String){
@@ -90,18 +104,23 @@ final class ChatViewModel: ObservableObject {
     }
 
     func getScholarSupremeBadgeID() -> String {
-        return bm.getBadgeID(badgeName: "Scholar Supreme")
+        return badgeManager.getBadgeID(badgeName: "Scholar Supreme")
     }
 
     
-    func checkScholarSupremeBadge() {
+    func checkScholarSupremeBadge() async throws {
         // Sort the chats array by dateCreated in descending order
         
-        let currentUserChats = chats.filter { $0.user == Auth.auth().currentUser?.uid }
+        let currentUserChats = chats.filter { $0.user == currentUser?.id } // get all user chat in the chat room
         
-        let sortedChats = currentUserChats.sorted { $0.dateCreated > $1.dateCreated }
+        if currentUserChats.count < 7 {
+            print("User's chats are less than 7")
+            return
+        }
         
-        var uniqueChats: [Chat] = []
+        let sortedChats = currentUserChats.sorted { $0.dateCreated > $1.dateCreated } // sort that chat
+        
+        var uniqueChats: [Chat] = [] // this is to get only 1 chat for each day so we dont check too much
         var previousDate: Date?
         
         let calendar = Calendar.current
@@ -114,16 +133,20 @@ final class ChatViewModel: ObservableObject {
             }
         }
 
-        // Get the latest date of the first chat
+        // Get the latest DATE of the first chat
         guard let startDate = uniqueChats.first?.dateCreated else {
             // Handle the case where there are no chats
             return
         }
 
-        // Iterate over the sorted chats array and check if there is a chat for each consecutive day
+        // Iterate over the sorted  unique chats array and check if there is a chat for each consecutive day
         // Check if there are at least 7 consecutive days
-        var currentDate = startDate
+        var currentDate = startDate // a variable to iterate from the first date until the 7th date
         var consecutiveCount = 0
+        
+        if uniqueChats.count < 7 {
+            
+        }
 
         for chat in uniqueChats {
             // Check if the current chat's date is the same as the current date
@@ -132,11 +155,15 @@ final class ChatViewModel: ObservableObject {
                 if consecutiveCount == 7 {
                     // User has been chatting for 7 consecutive days
                     print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
-                    bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
-                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
-                        badgeImageURL  = badge!.name
-                        showAchievedScholarSupremeBadge = true
-                    }
+                    try await badgeManager.achieveBadge(badgeName: Badges.scholarSupereme)
+                    let badge = badgeManager.getBadge(badgeName: Badges.scholarSupereme)
+                    badgeImageURL = badge!.image
+                    showAchievedScholarSupremeBadge = true
+//                    bm.achieveBadge(badgeId: getScholarSupremeBadgeID())
+//                    bm.getBadge(id: getScholarSupremeBadgeID()) { [self] badge in
+//                        badgeImageURL  = badge!.name
+//                        showAchievedScholarSupremeBadge = true
+//                    }
                     break
                 }
                 // Move to the next consecutive day

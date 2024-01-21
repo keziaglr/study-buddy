@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FileViewerView: View {
     @EnvironmentObject var vm: LibraryViewModel
+    @Binding var showFileDetail: Bool
     var body: some View {
         ZStack {
             WebView(fileURL: self.vm.selectedFileURL!)
@@ -17,7 +18,7 @@ struct FileViewerView: View {
                 HStack(alignment: .center) {
                     Spacer()
                     Button{
-                        self.vm.showFileViewer.toggle()
+                        showFileDetail.toggle()
                     } label: {
                         Text("Done")
                             .font(.headline)
@@ -36,6 +37,18 @@ struct FileViewerView: View {
                     Spacer()
                     Button {
                         self.vm.downloadLibrary()
+                        Task {
+                            do {
+                                let getBadge = try await vm.checkKnowledgeNavigatorBadge()
+                                if getBadge == true {
+                                    showFileDetail.toggle()
+                                    vm.showBadge = true
+                                }
+                            } catch {
+                                print(error)
+                            }
+                        }
+                        
                     } label: {
                         Image(systemName: "arrow.down.circle")
                             .font(.system(size: 22))
@@ -49,9 +62,7 @@ struct FileViewerView: View {
             }
             .edgesIgnoringSafeArea(.all)
             
-//            if self.vm.showLoader() {
             LoaderComponent(isLoading: $vm.isLoading)
-//            }
         }
     }
 }
