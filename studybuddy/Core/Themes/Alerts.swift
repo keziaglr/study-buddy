@@ -40,11 +40,13 @@ struct Alerts {
         dismissButton: .default(Text("OK"))
     )
     
-    static let successJoinCommunity = Alert(
-        title: Text("Success Join Community"),
-        message: Text("Let's Study Together"),
-        dismissButton: .default(Text("OK"))
-    )
+    static func successJoinCommunity(action: @escaping () -> Void) -> Alert {
+        Alert(
+            title: Text("Success Join Community"),
+            message: Text("Let's Study Together"),
+            dismissButton: .default(Text("OK"), action: action)
+        )
+    }
     
     static func successCreateCommunity(action: @escaping () -> Void) -> Alert {
         Alert(title: Text("Success Create Community"), dismissButton: .default(Text("Yes"), action: {

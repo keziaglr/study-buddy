@@ -11,7 +11,12 @@ struct CommunityPageView: View {
     @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var searchText = ""
     @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
-    @State var showCommunityDetail : Bool = false
+    @State var goToCommunityDetail : Bool = false
+    
+    @State var showAlert = false
+    @State var showBadge = false
+    @State var badgeImage = ""
+    @State var showedAlert = Alerts.memberIsFull
     
     var filteredCommunities: [Community] {
         if searchText.isEmpty {
@@ -44,10 +49,30 @@ struct CommunityPageView: View {
                             ForEach(communityViewModel.recommendedCommunities) { community in
                                 if communityViewModel.validateCommunityJoined(communityID: community.id!) {
                                     CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                        self.chosenCommunity = community
                                         Task {
                                             do {
                                                 communityViewModel.isLoading = true
                                                 try await communityViewModel.joinCommunity(community: community)
+                                                showedAlert = Alerts.successJoinCommunity {
+                                                    Task {
+                                                        do {
+                                                            showBadge = try await communityViewModel.validateBadgeWhenJoinCommunity(community: chosenCommunity)
+                                                            if !showBadge {
+                                                                goToCommunityDetail = true
+                                                            }
+                                                        } catch {
+                                                            print(error)
+                                                        }
+                                                    }
+                                                }
+                                                showAlert.toggle()
+                                            } catch CommunityError.alreadyJoined {
+                                                showedAlert = Alerts.alreadyJoined
+                                                showAlert.toggle()
+                                            } catch CommunityError.memberIsFull {
+                                                showedAlert = Alerts.memberIsFull
+                                                showAlert.toggle()
                                             } catch {
                                                 print(error)
                                             }
@@ -57,7 +82,7 @@ struct CommunityPageView: View {
                                 } else {
                                     CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                         self.chosenCommunity = community
-                                        showCommunityDetail = true
+                                        goToCommunityDetail = true
                                     }
                                 }
                             }
@@ -81,7 +106,7 @@ struct CommunityPageView: View {
                         List(filteredCommunities) { community in
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                 self.chosenCommunity = community
-                                showCommunityDetail = true
+                                goToCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
                         }
@@ -95,13 +120,24 @@ struct CommunityPageView: View {
                 }
             }
             .ignoresSafeArea()
-            .navigationDestination(isPresented: $showCommunityDetail) {
+            .navigationDestination(isPresented: $goToCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)
             }
         }
-        .alert(isPresented: $communityViewModel.communityAlert, content: {
-            communityViewModel.alert
-        })
+        .alert(isPresented: $showAlert) {
+            Alerts.successJoinCommunity {
+                Task {
+                    do {
+                        showBadge = try await communityViewModel.validateBadgeWhenJoinCommunity(community: chosenCommunity)
+                        if !showBadge {
+                            goToCommunityDetail = true
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }
     }
     
 }

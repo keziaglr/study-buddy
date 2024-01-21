@@ -10,22 +10,20 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import EventKit
 
 @MainActor
 class CommunityViewModel: ObservableObject {
     
-    @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
     @Published var recommendedCommunities = [Community]()
-    @Published var badge = ""
-    @Published var showBadge = false
-    @Published var communityAlert = false
-    @Published var alert = Alerts.memberIsFull
+    @Published var showedBadge = ""
     @Published var isLoading = false
     @Published var newCommunityAdded = false
     @Published var chatRoomAlert = false
     var userManager = UserManager.shared
+    var badgeManager = BadgeManager.shared
     
     //MARK: GET SPECIFIC COMMUNITY
     func getCommunity(id: String) async throws -> Community? {
@@ -75,17 +73,13 @@ class CommunityViewModel: ObservableObject {
         
         for member in members {
             if member.id == userManager.currentUser?.id {
-                self.alert = Alerts.alreadyJoined
-                self.communityAlert.toggle()
-                return
+                throw CommunityError.alreadyJoined
             }
         }
         
         //check members availablility
         if members.count >= 6 {
-            self.alert = Alerts.memberIsFull
-            self.communityAlert.toggle()
-            return
+            throw CommunityError.memberIsFull
         }
         
         //join the member to community
@@ -100,41 +94,62 @@ class CommunityViewModel: ObservableObject {
         //update the joinedCommunities array
         joinedCommunities.append(community)
         
-        
         //add community to user field
         var userCommunities = currentUser.communities
         userCommunities.append(communityID)
         try await userManager.updateCommunity(communities: userCommunities)
         
-        self.alert = Alerts.successJoinCommunity
-        self.communityAlert.toggle()
     }
     
     //MARK: VALIDATE BADGE
-    func validateBadge(communityID: String){
+    func validateBadgeWhenJoinCommunity(community: Community) async throws -> Bool {
         if joinedCommunities.count == 2 {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary") // if joined > 2 communities
-            bvm.validateBadge(badgeId: badgeId) { b in
-                if !b{
-                    self.showBadge = true
-                    self.badge = "Learning Luminary"
-                    self.bvm.achieveBadge(badgeId: badgeId)
-                }
+            let hasBadge = badgeManager.validateBadge(badgeName: Badges.learningLuminary) // if joined > 2 communities
+            if hasBadge == false {
+                showedBadge = Badges.learningLuminary
+                try await badgeManager.achieveBadge(badgeName: showedBadge)
+                return true
+            } else {
+                return false
             }
         } else {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
-            let community = communities.first(where: {$0.id == communityID})
-            for joinedCommunity in joinedCommunities {
-                if joinedCommunity.category != community?.category { // if the user join new community with different category with current joined community
-                    self.bvm.validateBadge(badgeId: badgeId) { b in
-                        if !b{
-                            self.showBadge = true
-                            self.badge = "Engaged Explorer"
-                            self.bvm.achieveBadge(badgeId: badgeId)
-                        }
+            let hasBadge = badgeManager.validateBadge(badgeName: Badges.engagedExplorer) // if the user join new community with different category with current joined community and currently has more or less than 2 communities
+            if hasBadge == false {
+                for joinedCommunity in joinedCommunities {
+                    if joinedCommunity.category != community.category {
+                        showedBadge = Badges.engagedExplorer
+                        try await badgeManager.achieveBadge(badgeName: showedBadge)
+                        return true
                     }
                 }
+            } else {
+                return false
             }
+        }
+        return false
+//        if joinedCommunities.count == 2 {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary") // if joined > 2 communities
+//            bvm.validateBadge(badgeId: badgeId) { b in
+//                if !b{
+//                    self.showBadge = true
+//                    self.badge = "Learning Luminary"
+//                    self.bvm.achieveBadge(badgeId: badgeId)
+//                }
+//            }
+//        } else {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
+//            let community = communities.first(where: {$0.id == communityID})
+//            for joinedCommunity in joinedCommunities {
+//                if joinedCommunity.category != community?.category { // if the user join new community with different category with current joined community
+//                    self.bvm.validateBadge(badgeId: badgeId) { b in
+//                        if !b{
+//                            self.showBadge = true
+//                            self.badge = "Engaged Explorer"
+//                            self.bvm.achieveBadge(badgeId: badgeId)
+//                        }
+//                    }
+//                }
+//            }
             //            getCommunity(id: communityID) { c in
             //                for jc in self.jCommunities {
             //                    if jc.category != c?.category{
@@ -148,7 +163,7 @@ class CommunityViewModel: ObservableObject {
             //                    }
             //                }
             //            }
-        }
+//        }
     }
     
     
@@ -234,10 +249,71 @@ class CommunityViewModel: ObservableObject {
         try await CommunityManager.shared.setCommunitySchedule(communityID: communityID, data: data)
     }
     
+    func addEventToCalendar(community: Community) async throws {
+        let eventStore = EKEventStore()
+        if #available(iOS 17.0, *) {
+            let grantedAccess = try await eventStore.requestFullAccessToEvents()
+            if grantedAccess == true {
+                let event = EKEvent(eventStore: eventStore)
+                event.title = "\(community.title)'s Study Schedule"
+                event.startDate = community.startDate
+                event.endDate = community.endDate
+                
+                
+                
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                do {
+                    try eventStore.save(event, span: .thisEvent)
+                    print("Event added to calendar")
+                } catch {
+                    print("Error saving event: \(error.localizedDescription)")
+                }
+            } else {
+                print("Access denied or error")
+            }
+        } else {
+            // Fallback on earlier versions
+            let grantedAccess = try await eventStore.requestAccess(to: .event)
+            if grantedAccess == true {
+                let event = EKEvent(eventStore: eventStore)
+                event.title = "\(community.title)'s Study Schedule"
+                event.startDate = community.startDate
+                event.endDate = community.endDate
+                
+                
+                
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                do {
+                    try eventStore.save(event, span: .thisEvent)
+                    print("Event added to calendar")
+                } catch {
+                    print("Error saving event: \(error.localizedDescription)")
+                }
+            } else {
+                print("Access denied or error")
+            }
+        }
+    }
+    
+    func validateGetCollaborativeDynamoBadge() async throws -> Bool {
+//      let badgeId = badgeManager.getBadgeID(badgeName: Badges.collaborativeDynamo)
+        if badgeManager.validateBadge(badgeName: Badges.collaborativeDynamo) == false {
+            try await badgeManager.achieveBadge(badgeName: Badges.collaborativeDynamo)
+            self.showedBadge = Badges.collaborativeDynamo
+            return true
+        }
+        return false
+    }
+    
     func validateCommunityJoined(communityID: String) -> Bool {
         return !joinedCommunities.contains { jCom in
             jCom.id == communityID
         }
     }
     
+}
+
+enum CommunityError: Error {
+    case memberIsFull
+    case alreadyJoined
 }

@@ -18,9 +18,8 @@ struct ChatRoomSettingsComponent: View {
     @State var isLibraryButtonPresented = false
     @State var isViewMembersPresented = false
     @State var isLeaveCommunityPressed = false
-    @State var badge = "Collaborative Dynamo"
-    @State var isBadgeEarned = false
     
+    @State var showBadge = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -98,13 +97,13 @@ struct ChatRoomSettingsComponent: View {
                 }
             }
             .sheet(isPresented: $isSetStudySchedulePresented) {
-                SetScheduleView(isPresent: $isSetStudySchedulePresented, isBadge: $isBadgeEarned, badge: $badge, community: $community)
+                SetScheduleView(isPresent: $isSetStudySchedulePresented, showBadge: $showBadge, community: $community)
             }
             .sheet(isPresented: $isViewMembersPresented){
                 ChatMembersView(communityMembers: $communityMembers)
             }
-            .sheet(isPresented: $isBadgeEarned) {
-                BadgeEarnedView(image: badge)
+            .sheet(isPresented: $showBadge) {
+                BadgeEarnedView(image: communityViewModel.showedBadge)
             }
             .alert(isPresented: $isLeaveCommunityPressed) {
                 Alerts.successLeaveCommunity(action: {
