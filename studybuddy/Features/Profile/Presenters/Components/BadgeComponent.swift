@@ -28,9 +28,6 @@ struct BadgeComponent: View {
             }
             .opacity(valid ? 1.0 : 0.2)
             .onAppear {
-//                bm.validateBadge(badgeId: badge.id) { isValid in
-//                    valid = isValid
-//                }
                 valid = badgeManager.validateBadge(badgeName: badge.name)
             }
         }
@@ -38,3 +35,6 @@ struct BadgeComponent: View {
     }
 }
 
+#Preview {
+    BadgeComponent(badge: Badge.data[0])
+}

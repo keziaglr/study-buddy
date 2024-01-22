@@ -9,7 +9,7 @@ import SwiftUI
 import LottieUI
 
 struct BadgeEarnedView: View {
-    @State var image : String = "badge1"
+    @State var badge: Badge?
     @State private var isBouncing = false
     let bounceInterval: TimeInterval = 0.8
     
@@ -26,7 +26,7 @@ struct BadgeEarnedView: View {
                 Spacer()
             }
             
-                Image(image)
+            Image(badge!.image)
                     .resizable()
                     .frame(width: isBouncing ? 260 : 236, height: isBouncing ? 260 : 236)
                     .onAppear {
@@ -38,14 +38,15 @@ struct BadgeEarnedView: View {
             VStack{
                 Spacer()
 
-                Text("Congratulatios! You just\nachieved a new badge!")
+                Text(badge!.description)
                     .fontWeight(.medium)
-                    .font(.system(size: 18))
+                    .font(.system(size: 20))
                     .padding(.bottom, 70)
-                    .foregroundStyle(Colors.black)
+                    .kerning(0.6)
                     .multilineTextAlignment(.center)
+                    .foregroundColor(Colors.black)
+                    .frame(width: 344, alignment: .top)
             }
-            
         }
     }
     
@@ -63,3 +64,6 @@ struct BadgeEarnedView: View {
 //        BadgeEarnedView()
 //    }
 //}
+#Preview {
+    BadgeEarnedView(badge: Badge.data[0])
+}

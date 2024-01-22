@@ -71,7 +71,7 @@ struct ChatRoomView: View {
             }
             .sheet(isPresented: $chatViewModel.showAchievedScholarSupremeBadge) {
                 // TODO: ganti ya pake yang sesuai badgenya
-                BadgeEarnedView(image: chatViewModel.badgeImageURL)
+                BadgeEarnedView(badge: chatViewModel.showedBadge)
             }
         }
         .environmentObject(chatViewModel)

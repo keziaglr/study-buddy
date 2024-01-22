@@ -103,7 +103,7 @@ struct ChatRoomSettingsComponent: View {
                 ChatMembersView(communityMembers: $communityMembers)
             }
             .sheet(isPresented: $showBadge) {
-                BadgeEarnedView(image: communityViewModel.showedBadge)
+                BadgeEarnedView(badge: communityViewModel.showedBadge)
             }
             .alert(isPresented: $isLeaveCommunityPressed) {
                 Alerts.successLeaveCommunity(action: {

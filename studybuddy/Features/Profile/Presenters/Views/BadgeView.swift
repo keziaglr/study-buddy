@@ -28,9 +28,6 @@ struct BadgeView: View {
             }
         }
         .padding(.top, -35)
-//        .task {
-//            self.badgeManager.getBadges()
-//        }
     }
 }
 

@@ -18,7 +18,7 @@ class LibraryViewModel: ObservableObject {
     @Published var selectedFileURL: URL? = nil
     @Published var selectedFilePathForDownload: String? = nil
     @Published var showBadge = false
-    @Published var showedBadge = ""
+    @Published var showedBadge: Badge?
     var badgeManager = BadgeManager.shared
     
     func showLoader() -> Bool {
@@ -117,7 +117,7 @@ class LibraryViewModel: ObservableObject {
         if badgeManager.validateBadge(badgeName: Badges.knowledgeNavigator) == false {
             try await badgeManager.achieveBadge(badgeName: Badges.knowledgeNavigator)
             let badge = badgeManager.getBadge(badgeName: Badges.knowledgeNavigator)
-            showedBadge = badge!.name
+            showedBadge = badge
             return true
         }
         return false
@@ -148,7 +148,7 @@ class LibraryViewModel: ObservableObject {
                 let badgeName = Badges.researchGuru
                 try await badgeManager.achieveBadge(badgeName: badgeName)
                 let badge = badgeManager.getBadge(badgeName: badgeName)
-                showedBadge = badge!.image
+                showedBadge = badge
                 return true
             } else {
                 return false
