@@ -18,6 +18,7 @@ final class ChatViewModel: ObservableObject {
     @Published var lastmessageID = ""
     @Published var showAchievedScholarSupremeBadge = false
     @Published var showedBadge: Badge?
+//    @Published var previousMessageDate: Date?
     var currentUser = UserManager.shared.currentUser
     var badgeManager = BadgeManager.shared
     
@@ -41,6 +42,7 @@ final class ChatViewModel: ObservableObject {
             if let id = self.chats.last?.id {
                 self.lastmessageID = id
             }
+//            self.previousMessageDate = self.chats.first?.dateCreated
         }
     }
     

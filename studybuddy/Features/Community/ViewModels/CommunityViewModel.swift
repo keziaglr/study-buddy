@@ -127,43 +127,6 @@ class CommunityViewModel: ObservableObject {
             }
         }
         return false
-//        if joinedCommunities.count == 2 {
-//            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary") // if joined > 2 communities
-//            bvm.validateBadge(badgeId: badgeId) { b in
-//                if !b{
-//                    self.showBadge = true
-//                    self.badge = "Learning Luminary"
-//                    self.bvm.achieveBadge(badgeId: badgeId)
-//                }
-//            }
-//        } else {
-//            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
-//            let community = communities.first(where: {$0.id == communityID})
-//            for joinedCommunity in joinedCommunities {
-//                if joinedCommunity.category != community?.category { // if the user join new community with different category with current joined community
-//                    self.bvm.validateBadge(badgeId: badgeId) { b in
-//                        if !b{
-//                            self.showBadge = true
-//                            self.badge = "Engaged Explorer"
-//                            self.bvm.achieveBadge(badgeId: badgeId)
-//                        }
-//                    }
-//                }
-//            }
-            //            getCommunity(id: communityID) { c in
-            //                for jc in self.jCommunities {
-            //                    if jc.category != c?.category{
-            //                        self.bvm.validateBadge(badgeId: badgeId) { b in
-            //                            if !b{
-            //                                self.showBadge = true
-            //                                self.badge = "Engaged Explorer"
-            //                                self.bvm.achieveBadge(badgeId: badgeId)
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            }
-//        }
     }
     
     
@@ -198,16 +161,6 @@ class CommunityViewModel: ObservableObject {
         joinedCommunities = []
         let userCommunities = userManager.currentUser?.communities
         for community in communities {
-//            // get members in each communities
-//            let members = try await CommunityManager.shared.getMembers(community.id!)
-//            
-//            // check is currentUser joined in members
-//            let member = members.filter({$0.id == userManager.currentUser?.id}).first
-            
-//            // if member exist / user i joined then append the community to jCommunities
-//            if member != nil {
-//                joinedCommunities.append(community)
-//            }
             
             if userManager.currentUser?.communities.contains(community.id!) == true {
                 joinedCommunities.append(community)
@@ -310,6 +263,20 @@ class CommunityViewModel: ObservableObject {
             jCom.id == communityID
         }
     }
+    
+    func getLastChat(communityID: String) async throws -> Chat? {
+        return try await ChatManager.shared.getLatestChat(communityID: communityID)
+    }
+    
+    //MARK: GET UNREAD CHAT COUNT
+//    func getUnreadChatCount(communityID: String) async throws -> Int? {
+//        guard let currentUser = userManager.currentUser else {
+//            print("no current user")
+//            return nil
+//        }
+//        let userMember = try await CommunityManager.shared.getMember(communityID, currentUser.id!)
+//        let count = try await ChatManager.shared.getUnreadChatCount(communityID: communityID, lastOpenedDate: userMember.lastChatDate)
+//    }
     
 }
 

@@ -34,6 +34,22 @@ final class ChatManager {
         return chats
     }
     
+    func getLatestChat(communityID: String) async throws -> Chat? {
+        let latestChatQuery = chatRef(communityID: communityID)
+            .order(by: "dateCreated", descending: true)
+            .limit(to: 1)
+        let snapshot = try await latestChatQuery.getDocuments()
+        guard let document = snapshot.documents.first else {
+            print("No chats found")
+            return nil
+        }
+
+        // Access the data of the latest chat document
+        let chat = try document.data(as: Chat.self)
+        
+        return chat
+    }
+    
     func listenNewChat(communityID: String, completion: @escaping (Chat?, Error?) -> Void) {
         chatRef(communityID: communityID).addSnapshotListener { querySnapshot, error in
             if let error = error {
@@ -59,6 +75,18 @@ final class ChatManager {
                     }
                 }
             }
+        }
+    }
+    
+    func getUnreadChatCount(communityID: String, lastOpenedDate: Date) async throws -> Int {
+        let unreadChatQuery = chatRef(communityID: communityID)
+            .whereField("dateCreated", isGreaterThan: Timestamp(date: lastOpenedDate))
+        do {
+            let querySnapshot = try await unreadChatQuery.getDocuments()
+            let unreadChatCount = querySnapshot.documents.count
+            return unreadChatCount
+        } catch {
+            throw error
         }
     }
 
