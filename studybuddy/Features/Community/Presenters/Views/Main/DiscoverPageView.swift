@@ -113,7 +113,7 @@ struct DiscoverPageView: View {
                 CreateCommunityPageView(showModal: $showModal)
             }
             .sheet(isPresented: $showBadge) {
-                BadgeEarnedView(image: communityViewModel.showedBadge)
+                BadgeEarnedView(badge: communityViewModel.showedBadge)
             }
             .navigationDestination(isPresented: $goToCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)

@@ -158,7 +158,7 @@ struct LibraryView: View {
         }
         .sheet(isPresented: $libraryViewModel.showBadge) {
             if showFileDetail == false {
-                BadgeEarnedView(image: libraryViewModel.showedBadge)
+                BadgeEarnedView(badge: libraryViewModel.showedBadge)
                     .edgesIgnoringSafeArea(.all)
             }
         }

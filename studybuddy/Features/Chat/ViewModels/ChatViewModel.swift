@@ -17,7 +17,7 @@ final class ChatViewModel: ObservableObject {
     @Published var chats : [Chat] = []
     @Published var lastmessageID = ""
     @Published var showAchievedScholarSupremeBadge = false
-    @Published var badgeImageURL = ""
+    @Published var showedBadge: Badge?
     var currentUser = UserManager.shared.currentUser
     var badgeManager = BadgeManager.shared
     
@@ -129,7 +129,7 @@ final class ChatViewModel: ObservableObject {
                     print("User has been chatting for 7 consecutive days until \(chat.dateCreated)")
                     try await badgeManager.achieveBadge(badgeName: Badges.scholarSupereme)
                     let badge = badgeManager.getBadge(badgeName: Badges.scholarSupereme)
-                    badgeImageURL = badge!.image
+                    showedBadge = badge
                     showAchievedScholarSupremeBadge = true
                     break
                 }

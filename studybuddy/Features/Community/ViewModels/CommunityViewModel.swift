@@ -18,7 +18,7 @@ class CommunityViewModel: ObservableObject {
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
     @Published var recommendedCommunities = [Community]()
-    @Published var showedBadge = ""
+    @Published var showedBadge: Badge?
     @Published var isLoading = false
     @Published var newCommunityAdded = false
     @Published var chatRoomAlert = false
@@ -106,8 +106,8 @@ class CommunityViewModel: ObservableObject {
         if joinedCommunities.count == 2 {
             let hasBadge = badgeManager.validateBadge(badgeName: Badges.learningLuminary) // if joined > 2 communities
             if hasBadge == false {
-                showedBadge = Badges.learningLuminary
-                try await badgeManager.achieveBadge(badgeName: showedBadge)
+                showedBadge = badgeManager.getBadge(badgeName: Badges.learningLuminary)
+                try await badgeManager.achieveBadge(badgeName: Badges.learningLuminary)
                 return true
             } else {
                 return false
@@ -117,8 +117,8 @@ class CommunityViewModel: ObservableObject {
             if hasBadge == false {
                 for joinedCommunity in joinedCommunities {
                     if joinedCommunity.category != community.category {
-                        showedBadge = Badges.engagedExplorer
-                        try await badgeManager.achieveBadge(badgeName: showedBadge)
+                        showedBadge = badgeManager.getBadge(badgeName: Badges.engagedExplorer)
+                        try await badgeManager.achieveBadge(badgeName: Badges.engagedExplorer)
                         return true
                     }
                 }
@@ -299,7 +299,7 @@ class CommunityViewModel: ObservableObject {
 //      let badgeId = badgeManager.getBadgeID(badgeName: Badges.collaborativeDynamo)
         if badgeManager.validateBadge(badgeName: Badges.collaborativeDynamo) == false {
             try await badgeManager.achieveBadge(badgeName: Badges.collaborativeDynamo)
-            self.showedBadge = Badges.collaborativeDynamo
+            self.showedBadge = badgeManager.getBadge(badgeName: Badges.collaborativeDynamo)
             return true
         }
         return false
