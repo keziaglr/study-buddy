@@ -35,6 +35,10 @@ struct HeaderComponent: View {
             Spacer()
                 
         }
+        .onTapGesture {
+            print("tapped")
+            hideKeyboard()
+        }
     }
 }
 

@@ -16,6 +16,10 @@ struct CommunityCardComponent: View {
     var body: some View {
         ZStack {
             communityImage
+                .onTapGesture {
+                    print("tapped")
+                    hideKeyboard()
+                }
             VStack(alignment: .leading) {
                 Spacer()
                 communityTitle

@@ -34,7 +34,7 @@ struct DiscoverPageView: View {
     }
     
     var body: some View {
-        ZStack{
+        ZStack {
             GeometryReader { geometry in
                 HeaderComponent(text: "Explore the Network 🌐")
                 
@@ -77,37 +77,46 @@ struct DiscoverPageView: View {
                                 }
                             }
                             .listRowSeparator(.hidden)
+                            .onTapGesture {
+                                print("tapped")
+                                hideKeyboard()
+                            }
                         } else {
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                 self.chosenCommunity = community
                                 goToCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
+                            .onTapGesture {
+                                print("tapped")
+                                hideKeyboard()
+                            }
                         }
-                        
                     }
                     .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)
                     .listStyle(.plain)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height / 1.75)
                     .scrollIndicators(.hidden)
                     
-                    
                 } else {
-                    LottieView("notfound")
-                        .loopMode(.repeat(10))
-                        .frame(width: 200)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.45)
-                    Text("No result found!\nYou can create your community")
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 20))
-                        .fontWeight(.semibold)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.62)
-                    CreateCommunityButtonComponent  (showModal: $showModal)
-                        .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
+                    VStack {
+                        LottieView("notfound")
+                            .loopMode(.repeat(10))
+                            .frame(width: 200, height: 200)
+                        Text("No result found!\nYou can create your community")
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 20))
+                            .fontWeight(.semibold)
+                        CreateCommunityButtonComponent  (showModal: $showModal)
+                    }
+                    .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.55)
+                    .onTapGesture {
+                        print("tapped")
+                        hideKeyboard()
+                    }
                 }
                 
                 LoaderComponent(isLoading: $communityViewModel.isLoading)
-                
             }
             .sheet(isPresented: $showModal) {
                 CreateCommunityPageView(showModal: $showModal)

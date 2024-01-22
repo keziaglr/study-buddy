@@ -8,7 +8,6 @@ import SwiftUI
 
 struct SearchBarComponent: View {
     @Binding var searchText: String
-    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)
