@@ -14,6 +14,14 @@ extension Date {
         return dateFormatter.string(from: self).capitalized
 
     }
+    
+    func dateFormatWithDay() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, dd MMM yyyy"
+        return dateFormatter.string(from: self).capitalized
+
+    }
+    
     func onlyHourMinute() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
