@@ -33,8 +33,9 @@ struct ChatRoomView: View {
                             ForEach(Array(chatViewModel.chats.enumerated()), id: \.1.id) { index, message in
                                 VStack {
                                     if index > 0 && isDayDifferenceOne(previousDate: chatViewModel.chats[index - 1].dateCreated, messageDate: message.dateCreated) {
+                                        //TODO: CHANGE WITH BETTER DIVIDER
                                         Divider()
-                                        Text(message.dateCreated.dateFormat())
+                                        Text(message.dateCreated.dateFormatWithDay())
                                     }
                                     HStack {
                                         if Auth.auth().currentUser?.uid != message.user{
@@ -76,6 +77,10 @@ struct ChatRoomView: View {
             .sheet(isPresented: $chatViewModel.showAchievedScholarSupremeBadge) {
                 // TODO: ganti ya pake yang sesuai badgenya
                 BadgeEarnedView(badge: chatViewModel.showedBadge)
+            }
+            .onTapGesture {
+                print("tapped")
+                hideKeyboard()
             }
         }
         .environmentObject(chatViewModel)
