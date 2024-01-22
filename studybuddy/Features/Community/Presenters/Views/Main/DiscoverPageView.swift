@@ -77,20 +77,12 @@ struct DiscoverPageView: View {
                                 }
                             }
                             .listRowSeparator(.hidden)
-                            .onTapGesture {
-                                print("tapped")
-                                hideKeyboard()
-                            }
                         } else {
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                 self.chosenCommunity = community
                                 goToCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
-                            .onTapGesture {
-                                print("tapped")
-                                hideKeyboard()
-                            }
                         }
                     }
                     .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.65)

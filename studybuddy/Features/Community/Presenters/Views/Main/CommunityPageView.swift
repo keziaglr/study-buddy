@@ -83,11 +83,13 @@ struct CommunityPageView: View {
                                             communityViewModel.isLoading = false
                                         }
                                     }
+                                    .frame(width: geometry.size.width * 0.8)
                                 } else {
                                     CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                         self.chosenCommunity = community
                                         goToCommunityDetail = true
                                     }
+                                    .frame(width: geometry.size.width * 0.8)
                                 }
                             }
                         }
