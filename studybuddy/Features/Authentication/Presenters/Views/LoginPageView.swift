@@ -36,11 +36,6 @@ struct LoginPageView: View {
                             .padding(.top, 105)
                         
                         ZStack{
-                            //                            LottieView("community")
-                            //                                .loopMode(.loop)
-                            //                                .frame(width: 329)
-                            //                                .padding(.bottom, 391)
-                            
                             Image("login-register")
                                 .resizable()
                                 .frame(width: 250, height: 250)
@@ -115,6 +110,10 @@ struct LoginPageView: View {
             .navigationDestination(isPresented: $goToReset) {
                 ResetPasswordPageView()
                     .environmentObject(viewModel)
+            }
+            .onTapGesture {
+                print("tapped")
+                hideKeyboard()
             }
         }
         .onAppear{

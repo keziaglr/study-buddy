@@ -17,13 +17,13 @@ struct LoaderComponent: View {
                     Spacer()
                     ProgressView()
                         .frame(width: 80, height: 80)
-                        .background(Colors.white)
+                        .background(Colors.gray)
                         .cornerRadius(15)
                     Spacer()
                 }
                 Spacer()
             }
-            .background(Colors.black.opacity(0.15).edgesIgnoringSafeArea(.all))
+            .background(Color.black.opacity(0.15).edgesIgnoringSafeArea(.all))
         }
     }
 }

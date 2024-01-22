@@ -59,11 +59,6 @@ struct BadgeEarnedView: View {
         }
 }
 
-//struct BadgeEarnedView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BadgeEarnedView()
-//    }
-//}
 #Preview {
     BadgeEarnedView(badge: Badge.data[0])
 }
