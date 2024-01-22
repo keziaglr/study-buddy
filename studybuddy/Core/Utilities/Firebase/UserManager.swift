@@ -10,31 +10,64 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-final class UserManager {
+@MainActor
+final class UserManager: ObservableObject {
     static let shared = UserManager()
+    @Published var currentUser: UserModel?
     private let dbRef = Firestore.firestore().collection("users")
     func addUser(user: UserModel) {
         do {
             try dbRef.document(user.id!).setData(from: user)
+            currentUser = user
         } catch {
             print(error)
         }
     }
-     
-    func updateUserInterest(userID: String, category: [String]) async throws{
+    func updateBadges(badge: String) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
+        try await dbRef.document(userID).updateData([
+            "badges" : FieldValue.arrayUnion([badge])
+        ])
+        currentUser?.badges.append(badge)
+    }
+    func updateUserInterest(category: [String]) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
         try await dbRef.document(userID).updateData([
             "category" : category
         ])
+        currentUser?.category = category
     }
     
-    func updateProfileImage(userID: String, image: String) async throws{
+    func updateProfileImage(image: String) async throws{
+        guard let userID = currentUser?.id else {
+            return
+        }
         try await dbRef.document(userID).updateData([
             "image" : image
         ])
+        currentUser?.image = image
     }
     
-    func getCurrentUser(userID: String) async throws -> UserModel? {
+    func getCurrentUser() async throws {
+        guard let userID = Auth.auth().currentUser?.uid else{
+            print("no user")
+            return
+        }
         let docRef = dbRef.document(userID)
-        return try await docRef.getDocument(as: UserModel.self)
+        currentUser = try await docRef.getDocument(as: UserModel.self)
+    }
+    
+    func updateCommunity(communities: [String]) async throws {
+        guard let userID = currentUser?.id else {
+            return
+        }
+        try await dbRef.document(userID).updateData([
+            "communities" : communities
+        ])
+        currentUser?.communities = communities
     }
 }

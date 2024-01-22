@@ -11,22 +11,30 @@ import UniformTypeIdentifiers
 import FirebaseFirestore
 
 struct LibraryView: View {
-    @StateObject var vm = LibraryViewModel()
+    @StateObject var libraryViewModel = LibraryViewModel()
     var communityID: String
     @State var showImagePicker = false
     @State var showDocPicker = false
-    
+//    @State var showBadge = false
+    @State var showFileDetail = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.black.opacity(0.05).edgesIgnoringSafeArea(.bottom)
                 ZStack(alignment: .bottomTrailing) {
-                    if self.vm.libraries.count != 0 {
+                    if self.libraryViewModel.libraries.count != 0 {
                         List {
-                            ForEach(self.vm.libraries) {library in
+                            ForEach(self.libraryViewModel.libraries) {library in
                                 Button {
-                                    self.vm.showFileViewer(library: library)
+                                    Task {
+                                        do {
+                                            try await libraryViewModel.getFileDetail(library: library)
+                                        } catch {
+                                            print(error)
+                                        }
+                                        showFileDetail = true
+                                    }
                                 } label: {
                                     DocumentCellComponent(data: library)
                                 }
@@ -34,12 +42,12 @@ struct LibraryView: View {
                                 .listRowSeparator(.hidden)
                             }
                             .onDelete { indexSet in
-                                self.vm.deleteLibrary(indexSet: indexSet, communityID: communityID)
+                                self.libraryViewModel.deleteLibrary(indexSet: indexSet, communityID: communityID)
                             }
                         }
                     }
                     
-                    if self.vm.isEmpty {
+                    if self.libraryViewModel.libraries.isEmpty {
                         GeometryReader {_ in
                             VStack {
                                 Spacer()
@@ -54,9 +62,9 @@ struct LibraryView: View {
                     }
                 }
                 
-                if self.vm.showLoader() {
-                    LoaderComponent()
-                }
+//                if self.libraryViewModel.showLoader() {
+                    LoaderComponent(isLoading: $libraryViewModel.isLoading)
+//                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
@@ -80,9 +88,9 @@ struct LibraryView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack{
-                        if self.vm.libraries.count != 0 && !self.vm.isLoading{
+                        if self.libraryViewModel.libraries.count != 0 && !self.libraryViewModel.isLoading{
                             Button {
-                                self.vm.refreshLibrary(communityID: communityID)
+                                self.libraryViewModel.refreshLibrary(communityID: communityID)
                             }label: {
                                 Image(systemName: "arrow.clockwise")
                                     .resizable()
@@ -125,34 +133,34 @@ struct LibraryView: View {
         }
         .sheet(isPresented: $showDocPicker, content: {
             DocumentPickerView(onFilePicked: { url in
-                self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
+                self.libraryViewModel.uploadLibraryToFirebase(url: url, communityID: communityID)
             })
             .edgesIgnoringSafeArea(.all) 
             
         })
         .sheet(isPresented: $showImagePicker) {
-//            if self.pickerType == "doc" {
-//            } else {
             ImagePicker(show: $showImagePicker) { url in
-                self.vm.uploadLibraryToFirebase(url: url, communityID: communityID)
+                self.libraryViewModel.uploadLibraryToFirebase(url: url, communityID: communityID)
+                
             }
             .edgesIgnoringSafeArea(.all)
-//            }
         }
-        .sheet(isPresented: $vm.showFileViewer, content: {
-            FileViewerView()
-                .environmentObject(vm)
+        .sheet(isPresented: $showFileDetail, content: {
+            FileViewerView(showFileDetail: $showFileDetail)
+                .environmentObject(libraryViewModel)
                 .edgesIgnoringSafeArea(.all)
         })
         .onAppear {
-            self.vm.updateLibrary(communityID: self.communityID)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
-                self.vm.refreshLibrary(communityID: communityID)
-            }
+            self.libraryViewModel.updateLibrary(communityID: self.communityID)
+//            NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
+//                self.libraryViewModel.refreshLibrary(communityID: communityID)
+//            }
         }
-        .sheet(isPresented: $vm.showAchievedBadge) {
-            BadgeEarnedView(image: vm.badgeImageURL)
-                .edgesIgnoringSafeArea(.all)
+        .sheet(isPresented: $libraryViewModel.showBadge) {
+            if showFileDetail == false {
+                BadgeEarnedView(image: libraryViewModel.showedBadge)
+                    .edgesIgnoringSafeArea(.all)
+            }
         }
     }
     

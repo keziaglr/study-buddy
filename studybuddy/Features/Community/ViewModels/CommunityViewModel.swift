@@ -10,123 +10,32 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import EventKit
 
+@MainActor
 class CommunityViewModel: ObservableObject {
     
-    @Published var memberCount: Int = 0
-//    @Published var userManager = UserViewModel()
-    @Published var bvm = BadgeViewModel()
     @Published var communities = [Community]()
     @Published var joinedCommunities = [Community]()
     @Published var recommendedCommunities = [Community]()
-    @Published var badge = ""
-    @Published var showBadge = false
-    @Published var showRespon = false
-    @Published var respons = ""
-//    var db = Firestore.firestore()
-//    let storageRef = Storage.storage().reference()
-    var currentUser: UserModel?
-    
-    init() {
-        Task {
-            do {
-                communities = try await getCommunities()
-                try await getJoinedCommunity()
-                getUserRecommendation()
-//                communities = communities.filter({ community in
-//                    !joinedCommunities.contains { jCom in
-//                        jCom.id == community.id
-//                    }
-//                })
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func validateCommunityJoined(communityID: String) -> Bool {
-        return !joinedCommunities.contains { jCom in
-            jCom.id == communityID
-        }
-    }
-    
-    func dateFormatting() -> String {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ddMMyyyy"//"EE" to get short style
-        let mydt = dateFormatter.string(from: date).capitalized
-        
-        return "\(mydt)"
-    }
+    @Published var showedBadge = ""
+    @Published var isLoading = false
+    @Published var newCommunityAdded = false
+    @Published var chatRoomAlert = false
+    var userManager = UserManager.shared
+    var badgeManager = BadgeManager.shared
     
     //MARK: GET SPECIFIC COMMUNITY
     func getCommunity(id: String) async throws -> Community? {
         return try await CommunityManager.shared.getCommunity(id)
     }
     
-//    func getCommunity(id: String, completion: @escaping (Community?) -> Void){
-//        db.collection("communities").document(id).getDocument { (documentSnapshot, error) in
-//            if let error = error {
-//                print("Error getting community: \(error)")
-//                completion(nil)
-//                return
-//            }
-//            guard let document = documentSnapshot else {
-//                print("Communities document does not exist")
-//                completion(nil)
-//                return
-//            }
-//            
-//            if document.exists {
-//                let data = document.data()
-//                let documentID = document.documentID
-//                let title = data?["title"] as? String ?? ""
-//                let image = data?["image"] as? String ?? ""
-//                let description = data?["description"] as? String ?? ""
-//                let category = data?["category"] as? String ?? ""
-//                let startDate = data?["startDate"] as? Date ?? nil
-//                let endDate = data?["endDate"] as? Date ?? nil
-//                let community = Community(id: documentID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
-//                
-//                print("Retrieved user: \(community)")
-//                completion(community)
-//            } else {
-//                print("Communities document does not exist")
-//                completion(nil)
-//            }
-//        }
-//    }
-    
     
     //MARK: GET ALL COMMUNITY
-    func getCommunities() async throws -> [Community] {
+    func getCommunities() async throws {
         let communities = try await CommunityManager.shared.getCommunities()
         self.communities = communities
-        return communities
     }
-//    func getCommunities() {
-//        db.collection("communities").addSnapshotListener { [weak self] (querySnapshot, error) in
-//            guard let documents = querySnapshot?.documents else {
-//                print("No Documents")
-//                return
-//            }
-//            
-//            
-//            let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
-//                let documentID = queryDocumentSnapshot.documentID
-//                let data = queryDocumentSnapshot.data()
-//                let title = data["title"] as? String ?? ""
-//                let image = data["image"] as? String ?? ""
-//                let description = data["description"] as? String ?? ""
-//                let category = data["category"] as? String ?? ""
-//                return Community(id: documentID, title: title, description: description, image: image, category: category)
-//            }
-//            
-//            DispatchQueue.main.async {
-//                self?.communities = communities
-//            }
-//        }
-//    }
     
     //MARK: ADD NEW COMMUNITY
     func addCommunity(title: String, description: String, url: URL, category: String) async throws {
@@ -137,7 +46,7 @@ class CommunityViewModel: ObservableObject {
         
         let community = Community(title: title, description: description, image: imageURL?.absoluteString ?? url.absoluteString, category: category)
         
-        guard let currentUser = currentUser else {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
@@ -145,353 +54,191 @@ class CommunityViewModel: ObservableObject {
         let communityCreator = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
         
         CommunityManager.shared.addCommunity(community: community, creator: communityCreator)
-        
-        communities.append(community)
-        joinedCommunities.append(community)
     }
-//    func addCommunity(title: String, description: String, url: URL, category: String) {
-//        let uid = UUID().uuidString
-//        let date = dateFormatting()
-//        let filePath = "\(date)-\(url.lastPathComponent)"
-//        storageRef.child("communities").child(filePath).putFile(from: url, metadata: nil) { metadata, error in
-//            if let error = error {
-//                print("Error uploading file to Firebase Storage: \(error.localizedDescription)")
-//            } else {
-//                print("File uploaded successfully.")
-//                
-//                self.storageRef.child("communities/\(filePath)").downloadURL { (url, error) in
-//                    if let error = error {
-//                        print("Error getting download URL: \(error.localizedDescription)")
-//                    } else if let downloadURL = url {
-//                        print("Download URL: \(downloadURL.absoluteString)")
-//                        do {
-//                            let newCommunity = Community(id: uid, title: title, description: description, image: downloadURL.absoluteString, category: category, startDate: nil, endDate: nil)
-//                            try self.db.collection("communities").document(uid).setData(from: newCommunity)
-//                        } catch {
-//                            print(error)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
     
+    func refreshCommunities() async throws {
+        try await getCommunities()
+        try await getJoinedCommunity()
+        getUserRecommendation()
+    }
     
     //MARK: JOIN COMMUNITY
-    func joinCommunity(communityID: String) async throws {
+    func joinCommunity(community: Community) async throws {
         //check user already join or not
+        guard let communityID = community.id else {
+            print("no community id")
+            return
+        }
         let members = try await getCommunityMembers(communityID: communityID)
         
         for member in members {
-            if member.id == currentUser?.id {
-                self.respons = "You have already joined this community."
-                self.showRespon.toggle()
-                return
+            if member.id == userManager.currentUser?.id {
+                throw CommunityError.alreadyJoined
             }
         }
         
         //check members availablility
         if members.count >= 6 {
-            self.respons = "The community already has 6 members. You cannot join at the moment."
-            self.showRespon.toggle()
-            return
+            throw CommunityError.memberIsFull
         }
         
         //join the member to community
-        guard let currentUser = currentUser else {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
         let newMember = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
+        //add user to member subcollection
         CommunityManager.shared.addMember(communityID, newMember)
-        self.respons = "Successfully joined the community"
-        self.showRespon.toggle()
+        
+        //update the joinedCommunities array
+        joinedCommunities.append(community)
+        
+        //add community to user field
+        var userCommunities = currentUser.communities
+        userCommunities.append(communityID)
+        try await userManager.updateCommunity(communities: userCommunities)
+        
     }
-//    func joinCommunity(communityID: String) {
-//        userManager.getUser(id: Auth.auth().currentUser?.uid ?? "") { [weak self] user in
-//            if let user = user {
-//                let newMember = CommunityMember(id: user.id!, name: user.name, image: user.image)
-//                
-//                let membersRef = self?.db.collection("communities").document(communityID).collection("members")
-//                
-//                membersRef?.whereField("id", isEqualTo: user.id as Any).getDocuments { [weak self] (querySnapshot, error) in
-//                    if let error = error {
-//                        print("Error checking community members: \(error.localizedDescription)")
-//                        return
-//                    }
-//                    
-//                    if let documents = querySnapshot?.documents, !documents.isEmpty {
-//                        self?.respons = "You have already joined this community."
-//                        self?.showRespon.toggle()
-//                        return
-//                    }
-//                    membersRef?.getDocuments(completion: { (snapshot, error) in
-//                        if let error = error {
-//                            print("Error checking community member count: \(error.localizedDescription)")
-//                            return
-//                        }
-//                        
-//                        if let memberCount = snapshot?.documents.count, memberCount >= 6 {
-//                            self?.respons = "The community already has 6 members. You cannot join at the moment."
-//                            self?.showRespon.toggle()
-//                            return
-//                        }
-//                        
-//                        do {
-//                            try membersRef?.document().setData(from: newMember)
-//                            self?.respons = "Successfully joined the community"
-//                            self?.showRespon.toggle()
-//                            
-//                            self!.validateBadge(communityID: communityID)
-//                        } catch {
-//                            print("Error joining community: \(error.localizedDescription)")
-//                        }
-//                    })
-//                }
-//            } else {
-//                print("No user found")
-//            }
-//        }
-//    }
     
     //MARK: VALIDATE BADGE
-    func validateBadge(communityID: String){
+    func validateBadgeWhenJoinCommunity(community: Community) async throws -> Bool {
         if joinedCommunities.count == 2 {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary") // if joined > 2 communities
-            bvm.validateBadge(badgeId: badgeId) { b in
-                if !b{
-                    self.showBadge = true
-                    self.badge = "Learning Luminary"
-                    self.bvm.achieveBadge(badgeId: badgeId)
-                }
+            let hasBadge = badgeManager.validateBadge(badgeName: Badges.learningLuminary) // if joined > 2 communities
+            if hasBadge == false {
+                showedBadge = Badges.learningLuminary
+                try await badgeManager.achieveBadge(badgeName: showedBadge)
+                return true
+            } else {
+                return false
             }
         } else {
-            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
-            let community = communities.first(where: {$0.id == communityID})
-            for joinedCommunity in joinedCommunities {
-                if joinedCommunity.category != community?.category { // if the user join new community with different category with current joined community
-                    self.bvm.validateBadge(badgeId: badgeId) { b in
-                        if !b{
-                            self.showBadge = true
-                            self.badge = "Engaged Explorer"
-                            self.bvm.achieveBadge(badgeId: badgeId)
-                        }
+            let hasBadge = badgeManager.validateBadge(badgeName: Badges.engagedExplorer) // if the user join new community with different category with current joined community and currently has more or less than 2 communities
+            if hasBadge == false {
+                for joinedCommunity in joinedCommunities {
+                    if joinedCommunity.category != community.category {
+                        showedBadge = Badges.engagedExplorer
+                        try await badgeManager.achieveBadge(badgeName: showedBadge)
+                        return true
                     }
                 }
+            } else {
+                return false
             }
-//            getCommunity(id: communityID) { c in
-//                for jc in self.jCommunities {
-//                    if jc.category != c?.category{
-//                        self.bvm.validateBadge(badgeId: badgeId) { b in
-//                            if !b{
-//                                self.showBadge = true
-//                                self.badge = "Engaged Explorer"
-//                                self.bvm.achieveBadge(badgeId: badgeId)
-//                            }
+        }
+        return false
+//        if joinedCommunities.count == 2 {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Learning Luminary") // if joined > 2 communities
+//            bvm.validateBadge(badgeId: badgeId) { b in
+//                if !b{
+//                    self.showBadge = true
+//                    self.badge = "Learning Luminary"
+//                    self.bvm.achieveBadge(badgeId: badgeId)
+//                }
+//            }
+//        } else {
+//            let badgeId = self.bvm.getBadgeID(badgeName: "Engaged Explorer")
+//            let community = communities.first(where: {$0.id == communityID})
+//            for joinedCommunity in joinedCommunities {
+//                if joinedCommunity.category != community?.category { // if the user join new community with different category with current joined community
+//                    self.bvm.validateBadge(badgeId: badgeId) { b in
+//                        if !b{
+//                            self.showBadge = true
+//                            self.badge = "Engaged Explorer"
+//                            self.bvm.achieveBadge(badgeId: badgeId)
 //                        }
 //                    }
 //                }
 //            }
-        }
+            //            getCommunity(id: communityID) { c in
+            //                for jc in self.jCommunities {
+            //                    if jc.category != c?.category{
+            //                        self.bvm.validateBadge(badgeId: badgeId) { b in
+            //                            if !b{
+            //                                self.showBadge = true
+            //                                self.badge = "Engaged Explorer"
+            //                                self.bvm.achieveBadge(badgeId: badgeId)
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+//        }
     }
     
     
     //MARK: LEAVE COMMUNITY
-    func leaveCommunity(communityID: String) {
-        guard let currentUser = currentUser else {
+    func leaveCommunity(communityID: String, communityMembers: [CommunityMember]) async throws {
+        guard let currentUser = userManager.currentUser else {
             print("no current user")
             return
         }
-        //TODO: put this function in chatroomviewmodel
-        Task {
-            do {
-                let members = try await getCommunityMembers(communityID: communityID)
-                guard let userCommunityMember = members.filter({$0.id ==  currentUser.id}).first else {
-                    print("user not joined in community")
-                    return
-                }
-                
-                CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
-                joinedCommunities.removeAll { community in
-                    community.id == communityID
-                }
-            } catch {
-                print(error)
-            }
+        guard let userCommunityMember = communityMembers.filter({$0.id ==  currentUser.id}).first else {
+            print("user not joined in community")
+            return
         }
         
+        CommunityManager.shared.deleteMember(communityID, userCommunityMember.documentID!)
+        
+        joinedCommunities.removeAll { community in
+            community.id == communityID
+        }
+        
+        
+        //remove community to from user field
+        var userCommunities = currentUser.communities
+        userCommunities.removeAll { uCom in
+            uCom == communityID
+        }
+        try await userManager.updateCommunity(communities: userCommunities)
     }
-    
-//    func leaveCommunity(communityID: String) {
-//        guard let currentUserID = Auth.auth().currentUser?.uid else {
-//            print("User is not authenticated or user ID could not be retrieved.")
-//            return
-//        }
-//        let membersRef = db.collection("communities").document(communityID).collection("members")
-//        let query = membersRef.whereField("id", isEqualTo: currentUserID)
-//        query.getDocuments { [weak self] (querySnapshot, error) in
-//            if let error = error {
-//                print("Error removing member from community: \(error.localizedDescription)")
-//            } else {
-//                if let document = querySnapshot?.documents.first {
-//                    membersRef.document(document.documentID).delete { error in
-//                        if let error = error {
-//                            print("Error removing member from community: \(error.localizedDescription)")
-//                        } else {
-//                            print("Member removed successfully")
-//                        }
-//                    }
-//                } else {
-//                    print("Member not found in the community")
-//                }
-//            }
-//        }
-//    }
     
     //MARK: GET USER JOINED COMMUNITY
     func getJoinedCommunity() async throws {
+        joinedCommunities = []
+        let userCommunities = userManager.currentUser?.communities
         for community in communities {
-            // get members in each communities
-            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            // get members in each communities
+//            let members = try await CommunityManager.shared.getMembers(community.id!)
+//            
+//            // check is currentUser joined in members
+//            let member = members.filter({$0.id == userManager.currentUser?.id}).first
             
-            // check is currentUser joined in members
-            let member = members.filter({$0.id == currentUser?.id}).first
+//            // if member exist / user i joined then append the community to jCommunities
+//            if member != nil {
+//                joinedCommunities.append(community)
+//            }
             
-            // if member exist / user i joined then append the community to jCommunities
-            if member != nil {
+            if userManager.currentUser?.communities.contains(community.id!) == true {
                 joinedCommunities.append(community)
             }
         }
     }
-//    func getJoinedCommunity() {
-//        guard let userId = Auth.auth().currentUser?.uid else {
-//            print("User is not authenticated or user ID could not be retrieved.")
-//            return
-//        }
-//        let communitiesRef = db.collection("communities")
-//        communitiesRef.getDocuments { [weak self] (querySnapshot, error) in
-//            if let error = error {
-//                print("Error getting community documents: \(error)")
-//                return
-//            }
-//            
-//            guard let documents = querySnapshot?.documents else {
-//                print("No matching communities found")
-//                return
-//            }
-//            var joinedCommunities = [Community]() // Create an empty array to store joined communities
-//            for document in documents {
-//                let communityID = document.documentID
-//                let membersRef = communitiesRef.document(communityID).collection("members")
-//                
-//                membersRef.whereField("id", isEqualTo: userId).getDocuments { [weak self] (membersSnapshot, membersError) in
-//                    if let membersError = membersError {
-//                        print("Error getting members documents: \(membersError)")
-//                        return
-//                    }
-//                    
-//                    if let membersDocument = membersSnapshot?.documents.first {
-//                        let data = document.data()
-//                        
-//                        let id = membersDocument.documentID
-//                        let title = data["title"] as? String ?? ""
-//                        let description = data["description"] as? String ?? ""
-//                        let image = data["image"] as? String ?? ""
-//                        let category = data["category"] as? String ?? ""
-//                        let startDateTimestamp = data["startDate"] as? Timestamp ?? nil
-//                        let startDate = (startDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(startDateTimestamp!.seconds)) : nil
-//                        let endDateTimestamp = data["endDate"] as? Timestamp ?? nil
-//                        let endDate = (endDateTimestamp != nil) ? Date(timeIntervalSince1970: TimeInterval(endDateTimestamp!.seconds)) : nil
-//                        let community = Community(id: communityID, title: title, description: description, image: image, category: category, startDate: startDate, endDate: endDate)
-//                        
-//                        joinedCommunities.append(community) // Add the joined community to the array
-//                        
-//                        print("Community ID: \(communityID), Title: \(title), Description: \(description), Image: \(image) \(endDateTimestamp) \(startDateTimestamp)")
-//                    }
-//                    DispatchQueue.main.async {
-//                        self?.jCommunities = joinedCommunities
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     //MARK: GET COMMUNITY MEMBER
     func getCommunityMembers(communityID: String) async throws -> [CommunityMember] {
-        let members = try await CommunityManager.shared.getMembers(communityID)
-        self.memberCount = members.count
+        var members = try await CommunityManager.shared.getMembers(communityID)
+        guard let currentUser = userManager.currentUser else {
+                return members
+            }
+
+        for index in 0..<members.count {
+            if members[index].id == currentUser.id {
+                members[index].image = currentUser.image
+            }
+        }
         return members
-//        self.members = members
     }
-//    func getMembers(communityId: String) {
-//        db.collection("communities").document(communityId).collection("members").addSnapshotListener { [weak self] (querySnapshot, error) in
-//            guard let documents = querySnapshot?.documents else {
-//                print("No Documents")
-//                return
-//            }
-//            let members = documents.compactMap { (queryDocumentSnapshot) -> CommunityMember? in
-//                let data = queryDocumentSnapshot.data()
-//                let name = data["name"] as? String ?? ""
-//                let id = data["id"] as? String ?? ""
-//                let image = data["image"] as? String ?? ""
-//                print(name)
-//                print(id)
-//                return CommunityMember(id: id, name: name, image: image)
-//            }
-//            DispatchQueue.main.async {
-//                self?.members = members
-//                self?.memberCount = members.count
-//            }
-//        }
-//    }
     
     //MARK: USER RECOMMENDATION
     func getUserRecommendation() {
+        recommendedCommunities = []
         for community in communities {
-            if ((currentUser?.category.contains(community.category)) != nil) {
+            if userManager.currentUser?.category.contains(community.category) == true {
                 recommendedCommunities.append(community)
             }
         }
     }
-//    func userRecommendation() {
-//        guard let currentUserID = Auth.auth().currentUser?.uid else {
-//            print("User is not authenticated or user ID could not be retrieved.")
-//            return
-//        }
-//        
-//        userManager.getUser(id: currentUserID) { user in
-//            
-//            if let interest = user?.category {
-//                self.db.collection("communities").whereField("category", in: interest).getDocuments { (querySnapshot, error) in
-//                    if let error = error {
-//                        print("Error getting community documents: \(error)")
-//                        return
-//                    }
-//                    
-//                    guard let documents = querySnapshot?.documents else {
-//                        print("No matching communities found")
-//                        return
-//                    }
-//                    
-//                    let communities = documents.compactMap { (queryDocumentSnapshot) -> Community? in
-//                        let documentID = queryDocumentSnapshot.documentID
-//                        let data = queryDocumentSnapshot.data()
-//                        let title = data["title"] as? String ?? ""
-//                        let description = data["description"] as? String ?? ""
-//                        let image = data["image"] as? String ?? ""
-//                        let category = data["category"] as? String ?? ""
-//                        return Community(id: documentID, title: title, description: description, image: image, category: category)
-//                    }
-//                    
-//                    DispatchQueue.main.async {
-//                        self.rcommunities = communities
-//                    }
-//                    
-//                    print("Matching Communities: \(communities)")
-//                }
-//            }
-//        }
-//    }
     
     //MARK: SET SCHEDULE
     func setSchedule(startDate: Date, endDate: Date, communityID: String) async throws {
@@ -501,18 +248,72 @@ class CommunityViewModel: ObservableObject {
         ]
         try await CommunityManager.shared.setCommunitySchedule(communityID: communityID, data: data)
     }
-//    func setSchedule(startDate: Date, endDate: Date, communityID: String) {
-//        let data: [String: Any] = [
-//            "startDate": startDate,
-//            "endDate": endDate
-//        ]
-//        
-//        self.db.collection("communities").document(communityID).updateData(data) { error in
-//            if let error = error {
-//                print("Error updating schedule: \(error)")
-//            } else {
-//                NotificationCenter.default.post(name: NSNotification.Name("Update"), object: nil)
-//            }
-//        }
-//    }
+    
+    func addEventToCalendar(community: Community) async throws {
+        let eventStore = EKEventStore()
+        if #available(iOS 17.0, *) {
+            let grantedAccess = try await eventStore.requestFullAccessToEvents()
+            if grantedAccess == true {
+                let event = EKEvent(eventStore: eventStore)
+                event.title = "\(community.title)'s Study Schedule"
+                event.startDate = community.startDate
+                event.endDate = community.endDate
+                
+                
+                
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                do {
+                    try eventStore.save(event, span: .thisEvent)
+                    print("Event added to calendar")
+                } catch {
+                    print("Error saving event: \(error.localizedDescription)")
+                }
+            } else {
+                print("Access denied or error")
+            }
+        } else {
+            // Fallback on earlier versions
+            let grantedAccess = try await eventStore.requestAccess(to: .event)
+            if grantedAccess == true {
+                let event = EKEvent(eventStore: eventStore)
+                event.title = "\(community.title)'s Study Schedule"
+                event.startDate = community.startDate
+                event.endDate = community.endDate
+                
+                
+                
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                do {
+                    try eventStore.save(event, span: .thisEvent)
+                    print("Event added to calendar")
+                } catch {
+                    print("Error saving event: \(error.localizedDescription)")
+                }
+            } else {
+                print("Access denied or error")
+            }
+        }
+    }
+    
+    func validateGetCollaborativeDynamoBadge() async throws -> Bool {
+//      let badgeId = badgeManager.getBadgeID(badgeName: Badges.collaborativeDynamo)
+        if badgeManager.validateBadge(badgeName: Badges.collaborativeDynamo) == false {
+            try await badgeManager.achieveBadge(badgeName: Badges.collaborativeDynamo)
+            self.showedBadge = Badges.collaborativeDynamo
+            return true
+        }
+        return false
+    }
+    
+    func validateCommunityJoined(communityID: String) -> Bool {
+        return !joinedCommunities.contains { jCom in
+            jCom.id == communityID
+        }
+    }
+    
+}
+
+enum CommunityError: Error {
+    case memberIsFull
+    case alreadyJoined
 }

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct BadgeView: View {
-    @ObservedObject var bm = BadgeViewModel()
-    
+    @StateObject var badgeManager = BadgeManager.shared
     
     var body: some View {
         VStack {
@@ -17,21 +16,21 @@ struct BadgeView: View {
                 .fontWeight(.bold)
                 .font(.system(size: 20))
                 .padding(.bottom, 10)
-            if !bm.badges.isEmpty {
-                List(bm.badges, id: \.id) { (badge: Badge) in
-                    BadgeComponent(badge: badge, bm: bm)
+            if !badgeManager.badges.isEmpty {
+                List(badgeManager.badges, id: \.id) { (badge: Badge) in
+                    BadgeComponent(badge: badge)
                 }
                 .listStyle(.plain)
                 .scrollIndicators(.hidden)
                 .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 32))
-            }else{
+            } else {
                 Text("Empty")
             }
         }
         .padding(.top, -35)
-        .task {
-            self.bm.getBadges()
-        }
+//        .task {
+//            self.badgeManager.getBadges()
+//        }
     }
 }
 

@@ -5,36 +5,58 @@
 //  Created by Eric Prasetya Sentosa on 15/01/24.
 //
 
-import Firebase
+
+import SwiftUI
+import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Firebase
 
-final class BadgeManager {
+@MainActor
+class BadgeManager: ObservableObject {
     static let shared = BadgeManager()
-    private let dbRef = Firestore.firestore().collection("users")
+    @Published var badges = [Badge]()
+    var userManager = UserManager.shared
     
-    func addUser(user: UserModel) {
-        do {
-            try dbRef.document(user.id!).setData(from: user)
-        } catch {
-            print(error)
+    var db = Firestore.firestore()
+    
+    init() {
+        getBadges()
+    }
+    
+    func getBadgeID(badgeName: String) -> String {
+        let badge = self.badges.first { badge in
+            badge.name == badgeName
+        }
+        return badge!.id
+    }
+    
+    func validateBadge(badgeName: String) -> Bool {
+        guard let currentUser = userManager.currentUser else {
+            return false
+        }
+        return currentUser.badges.contains(badgeName)
+    }
+    
+    func getBadge(badgeName: String) -> Badge? {
+        return badges.first { badge in
+            badge.name == badgeName
         }
     }
-     
-    func updateUserInterest(userID: String, category: [String]) async throws{
-        try await dbRef.document(userID).updateData([
-            "category" : category
-        ])
+    
+    
+    func achieveBadge(badgeName: String) async throws {
+        guard let userBadges = userManager.currentUser?.badges else {
+            return
+        }
+        if userBadges.contains(where: {$0 == badgeName}) == true {
+            return
+        } else {
+            try await UserManager.shared.updateBadges(badge: badgeName)
+        }
     }
     
-    func updateProfileImage(userID: String, image: String) async throws{
-        try await dbRef.document(userID).updateData([
-            "image" : image
-        ])
-    }
-    
-    func getCurrentUser(userID: String) async throws -> UserModel? {
-        let docRef = dbRef.document(userID)
-        return try await docRef.getDocument(as: UserModel.self)
+    func getBadges(){
+        self.badges = Badge.data
     }
 }

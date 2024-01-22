@@ -15,8 +15,12 @@ struct DiscoverPageView: View {
     @State private var text = ""
     @State private var showModal = false
     @State var chosenCommunity: Community = Community(title: "", description: "", image: "", category: "")
-    @State var showCommunityDetail : Bool = false
-    @State private var badge = Badge(id: "", name: "", image: "", description: "")
+    @State var goToCommunityDetail : Bool = false
+    
+    @State var showAlert = false
+    @State var showBadge = false
+    @State var badgeImage = ""
+    @State var showedAlert = Alerts.memberIsFull
     
     var filteredCommunities: [Community] {
         if text.isEmpty {
@@ -42,19 +46,41 @@ struct DiscoverPageView: View {
                     List(filteredCommunities) { community in
                         if communityViewModel.validateCommunityJoined(communityID: community.id!) {
                             CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                self.chosenCommunity = community
                                 Task {
                                     do {
-                                        try await communityViewModel.joinCommunity(communityID: community.id!)
+                                        communityViewModel.isLoading = true
+                                        try await communityViewModel.joinCommunity(community: community)
+                                        showedAlert = Alerts.successJoinCommunity {
+                                            Task {
+                                                do {
+                                                    showBadge = try await communityViewModel.validateBadgeWhenJoinCommunity(community: chosenCommunity)
+                                                    if !showBadge {
+                                                        goToCommunityDetail = true
+                                                    }
+                                                } catch {
+                                                    print(error)
+                                                }
+                                            }
+                                        }
+                                        showAlert.toggle()
+                                    } catch CommunityError.alreadyJoined {
+                                        showedAlert = Alerts.alreadyJoined
+                                        showAlert.toggle()
+                                    } catch CommunityError.memberIsFull {
+                                        showedAlert = Alerts.memberIsFull
+                                        showAlert.toggle()
                                     } catch {
                                         print(error)
                                     }
+                                    communityViewModel.isLoading = false
                                 }
                             }
                             .listRowSeparator(.hidden)
                         } else {
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                 self.chosenCommunity = community
-                                showCommunityDetail = true
+                                goToCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
                         }
@@ -80,19 +106,23 @@ struct DiscoverPageView: View {
                         .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.7)
                 }
                 
+                LoaderComponent(isLoading: $communityViewModel.isLoading)
                 
             }
             .sheet(isPresented: $showModal) {
                 CreateCommunityPageView(showModal: $showModal)
             }
-            .sheet(isPresented: $communityViewModel.showBadge) {
-                BadgeEarnedView(image: communityViewModel.badge)
+            .sheet(isPresented: $showBadge) {
+                BadgeEarnedView(image: communityViewModel.showedBadge)
             }
-            .navigationDestination(isPresented: $showCommunityDetail) {
+            .navigationDestination(isPresented: $goToCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)
             }
         }
         .ignoresSafeArea()
+        .alert(isPresented: $showAlert) {
+            showedAlert
+        }
     }
     
 }

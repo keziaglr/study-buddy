@@ -6,20 +6,19 @@
 //
 
 import SwiftUI
-import EventKit
 
 struct SetScheduleView: View {
     
     @Binding var isPresent: Bool
-    @Binding var isBadge: Bool
-    @Binding var badge: String
+//    @Binding var isBadge: Bool
+    @Binding var showBadge: Bool
     @Binding var community : Community
     @State var startStudySchedule = Date()
     @State var endStudySchedule = Date()
-    @State var vm = BadgeViewModel()
+//    @State var vm = BadgeViewModel()
     @EnvironmentObject var communityViewModel: CommunityViewModel
-    @State private var showAlert = false
     
+    @State var showAlert = false
     
     var body: some View {
         
@@ -93,6 +92,9 @@ struct SetScheduleView: View {
                     Task {
                         do {
                             try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
+                            community.startDate = startStudySchedule
+                            community.endDate = endStudySchedule
+                            try await communityViewModel.addEventToCalendar(community: community)
                             showAlert = true
                         } catch {
                             print(error)
@@ -100,66 +102,31 @@ struct SetScheduleView: View {
                     }
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)
-                } .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Success!"),
-                        message: Text("Your action was successful."),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
+                } 
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 3.3)
                 
-                
-                Button {
-                    addEventToCalendar()
-                } label: {
-                    Text("Add to Calendar")
-                        .fontWeight(.medium)
-                        .font(.system(size: 18))
-                }
                 Spacer()
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
-            .background(Color("Grey"))
-        
+            .background(Colors.gray)
+            .alert(isPresented: $showAlert, content: {
+                Alerts.successSetSchedule {
+                    isPresent = false
+                    Task {
+                        do {
+                            showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            })
         }
     }
     
-    private func addEventToCalendar() {
-        let eventStore = EKEventStore()
-        
-        eventStore.requestAccess(to: .event) { granted, error in
-            if granted && error == nil {
-                let event = EKEvent(eventStore: eventStore)
-                event.title = "\(community.title)'s Study Schedule"
-                event.startDate = startStudySchedule
-                event.endDate = endStudySchedule
-                
-                
-                
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                let badgeId = self.vm.getBadgeID(badgeName: "Collaborative Dynamo")
-                do {
-                    try eventStore.save(event, span: .thisEvent)
-                    print("Event added to calendar")
-                    isPresent = false
-                    vm.validateBadge(badgeId: badgeId) { b in
-                        if !b {
-                            badge = "Collaborative Dynamo"
-                            isBadge = true
-                            vm.achieveBadge(badgeId: badgeId)
-                        }
-                    }
-                } catch {
-                    print("Error saving event: \(error.localizedDescription)")
-                }
-            } else {
-                print("Access denied or error: \(error?.localizedDescription ?? "")")
-            }
-        }
-    }
+
 }
 
 

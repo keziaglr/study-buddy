@@ -16,7 +16,7 @@ struct MessageBubbleComponent: View {
     
     var isCurrentUser: Bool
     var message: Chat
-    @State private var um = UserViewModel()
+    @StateObject private var um = UserViewModel()
     @State private var showTime = false
     @State private var user: UserModel? = nil
     
@@ -35,17 +35,6 @@ struct MessageBubbleComponent: View {
         HStack(alignment: .top) {
             
             if Auth.auth().currentUser?.uid != message.user  {
-//                AsyncImage(url: URL(string: user?.image ?? "")) { image in
-//                    image
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 42, height: 42)
-//                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-//                        
-//                } placeholder: {
-//                    ProgressView()
-//                }
                 if let userImage = user?.image {
                     KFImage(URL(string: userImage))
                         .placeholder ({ progress in
@@ -88,7 +77,7 @@ struct MessageBubbleComponent: View {
                     .foregroundColor(Colors.black)
                     .frame(alignment: .leading)
 //                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
-                    .background(Color("Gray"))
+                    .background(Colors.gray)
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .topRight, .bottomLeft]))
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
