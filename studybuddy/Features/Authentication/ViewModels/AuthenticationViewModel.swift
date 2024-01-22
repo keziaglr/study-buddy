@@ -48,4 +48,14 @@ final class AuthenticationViewModel : ObservableObject {
         authenticated = false
     }
     
+    func resetPassword() {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            
+            print("reset password")
+        }
+    }
 }

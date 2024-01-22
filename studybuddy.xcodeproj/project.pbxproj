@@ -75,6 +75,7 @@
 		767B371E2A4D2570004B38FE /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 767B371D2A4D2570004B38FE /* FirebaseFirestoreSwift */; };
 		767B372C2A4D2570004B38FE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 767B372B2A4D2570004B38FE /* FirebaseMessaging */; };
 		767B37342A4D2570004B38FE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 767B37332A4D2570004B38FE /* FirebaseStorage */; };
+		83DD4BAC2B5E479200D14B5A /* ResetPasswordPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83DD4BAB2B5E479200D14B5A /* ResetPasswordPageView.swift */; };
 		ACC72EC22A43E9E90006AE64 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC12A43E9E90006AE64 /* Badge.swift */; };
 		ACC72EC42A43EA450006AE64 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC32A43EA450006AE64 /* Community.swift */; };
 		ACC72EC62A43EA650006AE64 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC72EC52A43EA650006AE64 /* Library.swift */; };
@@ -149,6 +150,7 @@
 		43FA00CA2B2316620035E6FC /* OnboardingPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		43FA00CC2B2316620035E6FC /* LoginPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		769D72AA2A4D200C004E9E74 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83DD4BAB2B5E479200D14B5A /* ResetPasswordPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordPageView.swift; sourceTree = "<group>"; };
 		ACC72EC12A43E9E90006AE64 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		ACC72EC32A43EA450006AE64 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		ACC72EC52A43EA650006AE64 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				43FA00C92B2316620035E6FC /* RegisterPageView.swift */,
 				43FA00CA2B2316620035E6FC /* OnboardingPageView.swift */,
 				43FA00CC2B2316620035E6FC /* LoginPageView.swift */,
+				83DD4BAB2B5E479200D14B5A /* ResetPasswordPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -781,6 +784,7 @@
 				4342DBBA2B31C2AE00D79AF6 /* Images.swift in Sources */,
 				43FA00DE2B2316620035E6FC /* MessageBubbleComponent.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
+				83DD4BAC2B5E479200D14B5A /* ResetPasswordPageView.swift in Sources */,
 				43FA00CD2B2316620035E6FC /* UserViewModel.swift in Sources */,
 				43FA00E62B2316620035E6FC /* HeaderComponent.swift in Sources */,
 				43FA00D82B2316620035E6FC /* ChatRoomInfoComponent.swift in Sources */,
@@ -910,7 +914,7 @@
 		ACF273A42A41FDA100DB1BA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon 1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = studybuddy/studybuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -945,7 +949,7 @@
 		ACF273A52A41FDA100DB1BA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon 1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = studybuddy/studybuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;

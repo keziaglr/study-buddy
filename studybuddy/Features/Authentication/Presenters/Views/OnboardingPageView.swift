@@ -13,6 +13,7 @@ struct OnboardingPageView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State var goToRegister = false
     @State var goToLogin = false
+    @State var goToReset = false
     var body: some View {
         NavigationStack {
             ZStack {
@@ -68,6 +69,9 @@ struct OnboardingPageView: View {
             .navigationDestination(isPresented: $goToLogin) {
                 LoginPageView()
 //                    .environmentObject(authViewModel)
+            }
+            .navigationDestination(isPresented: $goToReset) {
+                ResetPasswordPageView()
             }
         }
     }

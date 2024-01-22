@@ -15,6 +15,7 @@ struct LoginPageView: View {
     @State private var showingAlert = false
     @State private var isLoading = false
     @State private var goToRegister = false
+    @State private var goToReset = false
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
@@ -50,6 +51,16 @@ struct LoginPageView: View {
                                     .padding(.top, 105)
                                 
                                 CustomTextField(label: "Password", placeholder: "Password", text: $viewModel.password, showText: false)
+                                
+                                Button{
+                                    goToReset = true
+                                } label: {
+                                    Text("Forgot Password?")
+                                        .italic()
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Colors.orange)
+                                        .font(.system(size: 15))
+                                }
                             }
                         }
                     }
@@ -99,6 +110,10 @@ struct LoginPageView: View {
             .navigationBarBackButtonHidden()
             .navigationDestination(isPresented: $goToRegister) {
                 RegisterPageView()
+                    .environmentObject(viewModel)
+            }
+            .navigationDestination(isPresented: $goToReset) {
+                ResetPasswordPageView()
                     .environmentObject(viewModel)
             }
         }
