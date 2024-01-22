@@ -119,7 +119,6 @@ struct ProfileHeaderComponent: View {
                 }
                 .ignoresSafeArea()
             }
-            .preferredColorScheme(isDarkMode ? .dark : .light)
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {

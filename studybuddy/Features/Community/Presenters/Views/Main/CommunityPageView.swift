@@ -43,6 +43,10 @@ struct CommunityPageView: View {
                         .kerning(0.6)
                         .frame(width: 317, alignment: .leading)
                         .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.29)
+                        .onTapGesture {
+                            print("tapped")
+                            hideKeyboard()
+                        }
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 25) {
@@ -79,11 +83,13 @@ struct CommunityPageView: View {
                                             communityViewModel.isLoading = false
                                         }
                                     }
+                                    .frame(width: geometry.size.width * 0.8)
                                 } else {
                                     CommunityCardComponent(community: community, buttonLabel: "OPEN") {
                                         self.chosenCommunity = community
                                         goToCommunityDetail = true
                                     }
+                                    .frame(width: geometry.size.width * 0.8)
                                 }
                             }
                         }
@@ -98,10 +104,18 @@ struct CommunityPageView: View {
                         .kerning(0.6)
                         .frame(width: 317, alignment: .leading)
                         .position(x: geometry.size.width * 0.5 , y: geometry.size.height * 0.53)
+                        .onTapGesture {
+                            print("tapped")
+                            hideKeyboard()
+                        }
                     
                     if filteredCommunities.isEmpty {
                         Text("Start joining community!")
                             .position(x: geometry.size.width / 2, y: geometry.size.height * 0.6)
+                            .onTapGesture {
+                                print("tapped")
+                                hideKeyboard()
+                            }
                     } else {
                         List(filteredCommunities) { community in
                             CommunityCardComponent(community: community, buttonLabel: "OPEN") {
@@ -109,6 +123,7 @@ struct CommunityPageView: View {
                                 goToCommunityDetail = true
                             }
                             .listRowSeparator(.hidden)
+                            
                         }
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.35)
                         .position(x: geometry.size.width / 2, y: geometry.size.height * 0.73)

@@ -14,21 +14,23 @@ struct CommunityCardComponent: View {
     @EnvironmentObject var communityViewModel: CommunityViewModel
     @State var lastChat: Chat?
     var body: some View {
-        ZStack {
+        ZStack(alignment: .leading) {
             communityImage
-            VStack(alignment: .leading) {
-                Spacer()
-                communityTitle
-                Spacer()
-                memberCount
-                Spacer()
+            VStack(alignment: .leading, spacing: UIScreen.main.bounds.height * 0.01) {
+                Text(community.title)
+                    .fontWeight(.bold)
+                    .font(.system(size: 19))
+                
+                Text(String(community.category))
+                    .fontWeight(.medium)
+                    .font(.system(size: 14))
                 actionButton
-                Spacer()
             }
-            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.1)
             .padding(.leading, UIScreen.main.bounds.width * 0.052)
             .foregroundColor(.white)
+            
         }
+        .frame(height: UIScreen.main.bounds.height * 0.15)
         .task {
             if buttonLabel == "OPEN" {
                 do {
@@ -47,11 +49,11 @@ struct CommunityCardComponent: View {
             })
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+            .frame(height: UIScreen.main.bounds.height * 0.15)
             .clipShape(RoundedRectangle(cornerRadius: 15))
             .overlay {
                 RoundedRectangle(cornerRadius: 15)
-                    .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
+                    .frame(height: UIScreen.main.bounds.height * 0.15)
                     .foregroundStyle(LinearGradient(
                         gradient: Gradient(colors: [Colors.darkBlue, Colors.orange]),
                         startPoint: .leading,
@@ -59,26 +61,10 @@ struct CommunityCardComponent: View {
                     ))
                     .opacity(0.6)
             }
-    }
-
-    private var communityTitle: some View {
-        HStack {
-            Text(community.title)
-                .fontWeight(.bold)
-                .font(.system(size: 19))
-                .shadow(radius: 6, x: 2, y: 2)
-                .padding(.leading, 15)
-            Spacer()
-        }
-    }
-
-    private var memberCount: some View {
-        HStack {
-            Text(String(community.category)) // Replace with the actual member count value
-                .fontWeight(.medium)
-                .font(.system(size: 14))
-                .padding(.leading, 15)
-        }
+//            .onTapGesture {
+//                print("tapped")
+//                hideKeyboard()
+//            }
     }
 
     private var actionButton: some View {
@@ -98,6 +84,6 @@ struct CommunityCardComponent: View {
 }
 
 
-//#Preview {
-//    CommunityCardComponent(community: Community(id: "", title: "", description: "", image: "", category: ""), buttonLabel: "JOIN", joinAction: {})
-//}
+#Preview {
+    CommunityCardComponent(community: Community(id: "Test", title: "Test", description: "Test", image: "", category: "Test"), buttonLabel: "JOIN", joinAction: {})
+}
