@@ -41,4 +41,8 @@ final class AuthenticationManager {
           print("Error signing out: %@", signOutError)
         }
     }
+    
+    func resetPassword(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
 }

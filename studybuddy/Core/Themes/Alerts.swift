@@ -28,11 +28,13 @@ struct Alerts {
         dismissButton: .default(Text("OK"))
     )
     
-    static let successSendEmail = Alert(
-        title: Text("Success Send Reset Password Link"),
-        message: Text("Please check on your registered email."),
-        dismissButton: .default(Text("OK"))
-    )
+    static func successSendEmail(action: @escaping () -> Void) -> Alert {
+        Alert(
+            title: Text("Success Send Reset Password Link"),
+            message: Text("Please check on your registered email."),
+            dismissButton: .default(Text("OK"), action: action)
+        )
+    }
 
     // for community
     static let alreadyJoined = Alert(
