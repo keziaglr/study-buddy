@@ -11,7 +11,8 @@ struct CommunityCardComponent: View {
     let community: Community
     let buttonLabel: String // New parameter for the button label
     let joinAction: () -> Void
-
+    @EnvironmentObject var communityViewModel: CommunityViewModel
+    @State var lastChat: Chat?
     var body: some View {
         ZStack {
             communityImage
@@ -27,6 +28,15 @@ struct CommunityCardComponent: View {
             .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.1)
             .padding(.leading, UIScreen.main.bounds.width * 0.052)
             .foregroundColor(.white)
+        }
+        .task {
+            if buttonLabel == "OPEN" {
+                do {
+                    lastChat = try await communityViewModel.getLastChat(communityID: community.id!)
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
 
@@ -49,26 +59,6 @@ struct CommunityCardComponent: View {
                     ))
                     .opacity(0.6)
             }
-        
-//        AsyncImage(url: URL(string: community.image)) { image in
-//            image
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//                .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-//                .clipShape(RoundedRectangle(cornerRadius: 15))
-//                .overlay {
-//                    RoundedRectangle(cornerRadius: 15)
-//                        .frame(width: UIScreen.main.bounds.width * 0.76, height: UIScreen.main.bounds.height * 0.15)
-//                        .foregroundStyle(LinearGradient(
-//                            gradient: Gradient(colors: [Color("DarkBlue"), Colors.orange]),
-//                            startPoint: .leading,
-//                            endPoint: .trailing
-//                        ))
-//                        .opacity(0.6)
-//                }
-//        } placeholder: {
-//            ProgressView()
-//        }
     }
 
     private var communityTitle: some View {
@@ -92,15 +82,22 @@ struct CommunityCardComponent: View {
     }
 
     private var actionButton: some View {
-        HStack {
+        HStack() {
             Button(action: joinAction) {
                 CustomRoundedButton(text: buttonLabel)
+            }
+            if let lastChat = lastChat {
+                Text("Latest message at \(lastChat.dateCreated.onlyHourMinute())")
+                    .font(.system(size: 15))
+                    .italic()
+                    .foregroundColor(.white)
+                    .padding(.leading, 15)
             }
         }
     }
 }
 
 
-#Preview {
-    CommunityCardComponent(community: Community(id: "", title: "", description: "", image: "", category: ""), buttonLabel: "JOIN", joinAction: {})
-}
+//#Preview {
+//    CommunityCardComponent(community: Community(id: "", title: "", description: "", image: "", category: ""), buttonLabel: "JOIN", joinAction: {})
+//}

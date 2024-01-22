@@ -48,13 +48,17 @@ struct ResetPasswordPageView: View {
                     VStack{
                         Spacer()
                         Button {
-                            viewModel.resetPassword()
-                            goToLogin = true
+                            Task {
+                                do {
+                                    try await viewModel.resetPassword()
+                                    showingAlert = true
+//                                    goToLogin = true
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         } label: {
                             CustomButton(text: "Send Email Verification")
-                        }
-                        .alert(isPresented: $showingAlert) {
-                            Alerts.successSendEmail
                         }
                     }
                     .position(x : geometry.size.width / 2, y : geometry.size.height / 2.85)
@@ -63,7 +67,11 @@ struct ResetPasswordPageView: View {
             .navigationBarBackButtonHidden()
             .navigationDestination(isPresented: $goToLogin) {
                 LoginPageView()
-                    .environmentObject(viewModel)
+            }
+            .alert(isPresented: $showingAlert) {
+                Alerts.successSendEmail {
+                    goToLogin = true
+                }
             }
         }
     }
@@ -71,4 +79,5 @@ struct ResetPasswordPageView: View {
 
 #Preview {
     ResetPasswordPageView()
+        .environmentObject(AuthenticationViewModel())
 }

@@ -17,7 +17,6 @@ struct ChatRoomView: View {
     @StateObject var chatViewModel = ChatViewModel()
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Binding var community: Community
-    
     var body: some View {
         NavigationStack {
             VStack (spacing: 0){
@@ -31,17 +30,22 @@ struct ChatRoomView: View {
                 ScrollViewReader { proxy in
                     ScrollView(.vertical, showsIndicators: false){
                         if chatViewModel.chats.count != 0 {
-                            ForEach(chatViewModel.chats, id: \.id) {
-                                message in
-                                HStack {
-                                    if Auth.auth().currentUser?.uid != message.user{
-                                        MessageBubbleComponent(message: message)
-                                            .id(message.id)
-                                        Spacer()
-                                    }else{
-                                        Spacer()
-                                        MessageBubbleComponent(message: message)
-                                            .id(message.id)
+                            ForEach(Array(chatViewModel.chats.enumerated()), id: \.1.id) { index, message in
+                                VStack {
+                                    if index > 0 && isDayDifferenceOne(previousDate: chatViewModel.chats[index - 1].dateCreated, messageDate: message.dateCreated) {
+                                        Divider()
+                                        Text(message.dateCreated.dateFormat())
+                                    }
+                                    HStack {
+                                        if Auth.auth().currentUser?.uid != message.user{
+                                            MessageBubbleComponent(message: message)
+                                                .id(message.id)
+                                            Spacer()
+                                        }else{
+                                            Spacer()
+                                            MessageBubbleComponent(message: message)
+                                                .id(message.id)
+                                        }
                                     }
                                 }
                             }
@@ -54,7 +58,7 @@ struct ChatRoomView: View {
                     .onChange(of: chatViewModel.lastmessageID) { id in
                         proxy.scrollTo(id, anchor: .bottom)
                     }
-
+                    
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
@@ -76,7 +80,20 @@ struct ChatRoomView: View {
         }
         .environmentObject(chatViewModel)
     }
-    
+    func isDayDifferenceOne(previousDate: Date, messageDate: Date) -> Bool {
+//        guard let previousDate = previousDate else {
+//            return false
+//        }
+        let calendar = Calendar.current
+        let startOfDayStartDate = calendar.startOfDay(for: previousDate)
+        let startOfDayEndDate = calendar.startOfDay(for: messageDate)
+
+        let components = calendar.dateComponents([.day], from: startOfDayStartDate, to: startOfDayEndDate)
+//        if components.day! >= 1 {
+//            previousDate = messageDate
+//        }
+        return components.day! >= 1
+    }
 }
 
 //struct ContentView_Previews: PreviewProvider {

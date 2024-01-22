@@ -42,6 +42,17 @@ final class CommunityManager {
         }
         return members
     }
+    
+    func getMember(_ communityID: String, _ userID: String) async throws -> CommunityMember? {
+        let query = dbRef.document(communityID).collection("members").whereField("id", in: [userID])
+        let querySnapshot = try await query.getDocuments()
+        guard let document = querySnapshot.documents.first else {
+            print("No member found")
+            return nil
+        }
+        let member = try document.data(as: CommunityMember.self)
+        return member
+    }
 
     func addMember(_ communityID: String, _ member: CommunityMember) {
         do {
