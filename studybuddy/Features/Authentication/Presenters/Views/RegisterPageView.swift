@@ -103,6 +103,10 @@ struct RegisterPageView: View {
                 }
                 .navigationBarBackButtonHidden()
             }
+            .onTapGesture {
+                print("tapped")
+                hideKeyboard()
+            }
         }
     }
 }

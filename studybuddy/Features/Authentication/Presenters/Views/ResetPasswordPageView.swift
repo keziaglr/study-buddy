@@ -12,6 +12,8 @@ struct ResetPasswordPageView: View {
     @EnvironmentObject private var viewModel: AuthenticationViewModel
     @State private var showingAlert = false
     @State private var goToLogin = false
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
@@ -22,14 +24,27 @@ struct ResetPasswordPageView: View {
                         .scaledToFill()
                         .ignoresSafeArea()
                     
-                    
                     VStack{
+                        HStack {
+                            Button {
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Image(systemName: "arrow.backward")
+                                    .resizable()
+                                    .foregroundColor(Color.black)
+                                    .frame(width: 20, height: 18)
+                                    .padding(.leading, geometry.size.width*0.043257)
+                            }
+                            Spacer()
+                        }
+                        .padding(.top, 55)
+                        
                         Text("Reset Your Password")
                             .fontWeight(.bold)
                             .font(.system(size: 30))
                             .kerning(0.9)
                             .foregroundColor(Colors.orange)
-                            .padding(.top, 105)
+                            .padding(.top, 15)
                         
                         ZStack{
                             Image("login-register")
@@ -52,7 +67,7 @@ struct ResetPasswordPageView: View {
                                 do {
                                     try await viewModel.resetPassword()
                                     showingAlert = true
-//                                    goToLogin = true
+                                    //                                    goToLogin = true
                                 } catch {
                                     print(error)
                                 }
@@ -72,6 +87,10 @@ struct ResetPasswordPageView: View {
                 Alerts.successSendEmail {
                     goToLogin = true
                 }
+            }
+            .onTapGesture {
+                print("tapped")
+                hideKeyboard()
             }
         }
     }

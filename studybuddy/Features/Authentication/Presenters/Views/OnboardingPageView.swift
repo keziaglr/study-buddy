@@ -9,7 +9,6 @@ import SwiftUI
 import LottieUI
 
 struct OnboardingPageView: View {
-//    @Binding var changePage : Int
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State var goToRegister = false
     @State var goToLogin = false
@@ -64,11 +63,9 @@ struct OnboardingPageView: View {
             }
             .navigationDestination(isPresented: $goToRegister) {
                 RegisterPageView()
-//                    .environmentObject(authViewModel)
             }
             .navigationDestination(isPresented: $goToLogin) {
                 LoginPageView()
-//                    .environmentObject(authViewModel)
             }
             .navigationDestination(isPresented: $goToReset) {
                 ResetPasswordPageView()

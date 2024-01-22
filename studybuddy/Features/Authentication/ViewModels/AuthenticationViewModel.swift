@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 
-@MainActor
+//@MainActor
 final class AuthenticationViewModel : ObservableObject {
     
     @Published var authenticated = false
@@ -24,12 +24,14 @@ final class AuthenticationViewModel : ObservableObject {
         authenticated = true
     }
     
+    @MainActor 
     func createUser() async throws {
         let user = try await AuthenticationManager.shared.createUser(email: email, password: password)
         created = true
         addUserToFirestore(userUID: user.uid)
     }
     
+    @MainActor 
     func addUserToFirestore(userUID: String) {
         let user = UserModel(id: userUID, name: name, email: email, password: password, image: "", category: ["placeholder"], badges: [], communities: [])
         UserManager.shared.addUser(user: user)

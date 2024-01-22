@@ -52,7 +52,7 @@ struct CommunityPageView: View {
                         LazyHStack(spacing: 25) {
                             ForEach(communityViewModel.recommendedCommunities) { community in
                                 if communityViewModel.validateCommunityJoined(communityID: community.id!) {
-                                    CommunityCardComponent(community: community, buttonLabel: "JOIN") {
+                                    CommunityCardComponent(community: community, buttonLabel: "JOIN", joinAction: {
                                         self.chosenCommunity = community
                                         Task {
                                             do {
@@ -82,13 +82,14 @@ struct CommunityPageView: View {
                                             }
                                             communityViewModel.isLoading = false
                                         }
-                                    }
+                                    })
                                     .frame(width: geometry.size.width * 0.8)
                                 } else {
-                                    CommunityCardComponent(community: community, buttonLabel: "OPEN") {
+                                    CommunityCardComponent(community: community, buttonLabel: "OPEN", joinAction: {
                                         self.chosenCommunity = community
                                         goToCommunityDetail = true
-                                    }
+                                        
+                                    })
                                     .frame(width: geometry.size.width * 0.8)
                                 }
                             }
@@ -118,10 +119,10 @@ struct CommunityPageView: View {
                             }
                     } else {
                         List(filteredCommunities) { community in
-                            CommunityCardComponent(community: community, buttonLabel: "OPEN") {
+                            CommunityCardComponent(community: community, buttonLabel: "OPEN", joinAction: {
                                 self.chosenCommunity = community
                                 goToCommunityDetail = true
-                            }
+                            })
                             .listRowSeparator(.hidden)
                             
                         }
