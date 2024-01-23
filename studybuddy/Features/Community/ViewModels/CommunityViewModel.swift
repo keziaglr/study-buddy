@@ -6,10 +6,6 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseStorage
 import EventKit
 
 @MainActor

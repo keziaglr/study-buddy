@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseStorage
-import Firebase
 
 @MainActor
 class LibraryViewModel: ObservableObject {
@@ -20,6 +17,7 @@ class LibraryViewModel: ObservableObject {
     @Published var showBadge = false
     @Published var showedBadge: Badge?
     var badgeManager = BadgeManager.shared
+    var userManager = UserManager.shared
     
     func showLoader() -> Bool {
         return self.isLoading || (self.libraries.count == 0)
@@ -104,7 +102,7 @@ class LibraryViewModel: ObservableObject {
         let path = "libraries/\(filePath)"
         
         let type = URL(filePath: path).pathExtension
-        let newFile = Library(url: path, dateCreated: Date(), type: String(type), user: Auth.auth().currentUser?.uid ?? "")
+        let newFile = Library(url: path, dateCreated: Date(), type: String(type), user: userManager.currentUser?.id ?? "")
         LibraryManager.shared.addLibrary(file: newFile, communityID: communityID)
         
         libraries.append(newFile)
@@ -133,7 +131,7 @@ class LibraryViewModel: ObservableObject {
     }
     
     var filteredLibraries: [Library] {
-        let user = Auth.auth().currentUser?.uid
+        let user = userManager.currentUser?.id
         return libraries.filter { $0.user == user }
     }
 

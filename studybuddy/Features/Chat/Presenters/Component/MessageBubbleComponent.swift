@@ -16,7 +16,7 @@ struct MessageBubbleComponent: View {
     
     var isCurrentUser: Bool
     var message: Chat
-    @StateObject private var um = UserViewModel()
+    @StateObject private var userViewModel = UserViewModel()
     @State private var showTime = false
     @State private var user: UserModel? = nil
     
@@ -35,7 +35,7 @@ struct MessageBubbleComponent: View {
         HStack(alignment: .top) {
             
             if Auth.auth().currentUser?.uid != message.user  {
-                if let userImage = user?.image {
+                if let userImage = user?.image, userImage != "" {
                     KFImage(URL(string: userImage))
                         .placeholder ({ progress in
                             ProgressView()
@@ -53,8 +53,6 @@ struct MessageBubbleComponent: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
-            } else {
-                
             }
             
             //User Name
@@ -89,9 +87,12 @@ struct MessageBubbleComponent: View {
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 10))
                     .foregroundColor(Colors.black)
             }
-        }.task {
-            um.getUser(id: message.user) { retrievedUser in
-                self.user = retrievedUser
+        }
+        .task {
+            do {
+                self.user = try await userViewModel.getUser(userID: message.user)
+            } catch {
+                print(error)
             }
         }
     }

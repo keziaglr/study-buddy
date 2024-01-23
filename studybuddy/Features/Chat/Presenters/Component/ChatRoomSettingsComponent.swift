@@ -119,8 +119,8 @@ struct ChatRoomSettingsComponent: View {
                     }
                 })
             }
-        }
-//    }
+//        }
+    }
 }
 
 //struct ChatRoomSettingsComponent_Previews: PreviewProvider {

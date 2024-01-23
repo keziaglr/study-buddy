@@ -7,9 +7,6 @@
 
 import SwiftUI
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import Firebase
 import Kingfisher
 
 struct ProfileHeaderComponent: View {
@@ -22,8 +19,8 @@ struct ProfileHeaderComponent: View {
     @ObservedObject var userManager = UserManager.shared
     
     var body: some View {
-        NavigationStack {
-            VStack {
+//        NavigationStack {
+//            VStack {
                 ZStack {
                     Images.profileGradient
                         .resizable()
@@ -118,8 +115,8 @@ struct ProfileHeaderComponent: View {
                     }
                 }
                 .ignoresSafeArea()
-            }
-        }
+//            }
+//        }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showPicker) {
             ImagePicker(show: $showPicker) { url in

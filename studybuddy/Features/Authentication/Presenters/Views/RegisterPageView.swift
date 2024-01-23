@@ -38,6 +38,10 @@ struct RegisterPageView: View {
                                 .frame(width: 250, height: 250)
                                 .padding(.bottom, 400)
                                 .padding(.top, 60)
+                                .onTapGesture {
+                                    print("tapped")
+                                    hideKeyboard()
+                                }
                             
                             VStack(spacing: 20) {
                                 CustomTextField(label: "Name", placeholder: "Name", text: $viewModel.name)
@@ -102,10 +106,6 @@ struct RegisterPageView: View {
                     Alerts.errorRegister
                 }
                 .navigationBarBackButtonHidden()
-            }
-            .onTapGesture {
-                print("tapped")
-                hideKeyboard()
             }
         }
     }

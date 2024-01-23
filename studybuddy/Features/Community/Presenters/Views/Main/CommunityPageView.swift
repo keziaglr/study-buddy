@@ -29,8 +29,8 @@ struct CommunityPageView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
+//        NavigationStack {
+//            ZStack {
                 GeometryReader { geometry in
                     
                     HeaderComponent(text: "Your Learning Squad! 👥")
@@ -132,14 +132,14 @@ struct CommunityPageView: View {
                         .scrollIndicators(.hidden)
                     }
                     
-                    LoaderComponent(isLoading: $communityViewModel.isLoading)
                 }
-            }
+//            }
             .ignoresSafeArea()
             .navigationDestination(isPresented: $goToCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)
+                    .environmentObject(communityViewModel)
             }
-        }
+//        }
         .alert(isPresented: $showAlert) {
             Alerts.successJoinCommunity {
                 Task {

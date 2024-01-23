@@ -70,4 +70,8 @@ final class UserManager: ObservableObject {
         ])
         currentUser?.communities = communities
     }
+    
+    func getUser(userID: String) async throws -> UserModel {
+        return try await dbRef.document(userID).getDocument(as: UserModel.self)
+    }
 }
