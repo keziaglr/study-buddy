@@ -133,6 +133,7 @@ struct ProfileHeaderComponent: View {
                     isLoading = false
                 }
             }
+            .ignoresSafeArea()
         }
     }
 }
