@@ -33,7 +33,7 @@ struct SetScheduleView: View {
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
                 //Clock Image
-                Image("studytime")
+                Images.studyTime
                     .resizable()
                     .frame(width: 220, height: 220)
 //                    .aspectRatio(contentMode: .fill)

@@ -78,7 +78,7 @@ struct ChatRoomInfoComponent: View {
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: UIScreen.main.bounds.width*0.043257))
                 
             }
-            .background(Image("header_gradient"))
+            .background(Images.headerGradient)
             .frame(height: 152)
             .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

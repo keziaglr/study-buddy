@@ -6,10 +6,6 @@
 //
 
 import Foundation
-import Firebase
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseStorage
 import EventKit
 
 @MainActor
@@ -108,7 +104,7 @@ class CommunityViewModel: ObservableObject {
     
     //MARK: VALIDATE BADGE
     func validateBadgeWhenJoinCommunity(community: Community) async throws -> Bool {
-        if joinedCommunities.count == 2 {
+        if joinedCommunities.count == 3 {
             let hasBadge = badgeManager.validateBadge(badgeName: Badges.learningLuminary) // if joined > 2 communities
             if hasBadge == false {
                 showedBadge = badgeManager.getBadge(badgeName: Badges.learningLuminary)

@@ -7,8 +7,6 @@
 
 import SwiftUI
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 import Firebase
 
 struct MasterView: View {
@@ -25,9 +23,11 @@ struct MasterView: View {
                 .environmentObject(vm)
                 .preferredColorScheme(isDarkMode ? .dark : .light)
         } else {
-            TabBarNavigation()
-                .environmentObject(vm)
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+            NavigationStack{
+                TabBarNavigation()
+            }
+            .environmentObject(vm)
+            .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }

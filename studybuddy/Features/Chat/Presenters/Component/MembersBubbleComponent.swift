@@ -18,16 +18,26 @@ struct MembersBubbleComponent: View {
             
             //Profile Picture
             VStack(alignment: .leading){
-                KFImage(URL(string: member.image))
-                    .placeholder ({ progress in
-                        ProgressView()
-                    })
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
-                    .padding(.horizontal, 30)
+                if member.image == "" {
+                    Images.profilePlaceholder
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+                        .padding(.horizontal, 30)
+                } else {
+                    KFImage(URL(string: member.image))
+                        .placeholder ({ progress in
+                            ProgressView()
+                        })
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 50, height: 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 0))
+                        .padding(.horizontal, 30)
+                }
             }
             .frame(width: 50)
             

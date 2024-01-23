@@ -7,9 +7,6 @@
 
 import SwiftUI
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import Firebase
 
 @MainActor
 final class ChatViewModel: ObservableObject {

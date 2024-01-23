@@ -7,18 +7,17 @@
 
 import SwiftUI
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import Firebase
 
 
 struct ChatRoomView: View {
     //TODO: change to stateobject
     @StateObject var chatViewModel = ChatViewModel()
     @EnvironmentObject var authViewModel: AuthenticationViewModel
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @Binding var community: Community
+    var userManager = UserManager.shared
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             VStack (spacing: 0){
                 //Info
                 ChatRoomInfoComponent(community: $community)
@@ -38,7 +37,7 @@ struct ChatRoomView: View {
                                         Text(message.dateCreated.dateFormatWithDay())
                                     }
                                     HStack {
-                                        if Auth.auth().currentUser?.uid != message.user{
+                                        if userManager.currentUser?.id != message.user{
                                             MessageBubbleComponent(message: message)
                                                 .id(message.id)
                                             Spacer()
@@ -82,7 +81,7 @@ struct ChatRoomView: View {
                 print("tapped")
                 hideKeyboard()
             }
-        }
+//        }
         .environmentObject(chatViewModel)
     }
     func isDayDifferenceOne(previousDate: Date, messageDate: Date) -> Bool {

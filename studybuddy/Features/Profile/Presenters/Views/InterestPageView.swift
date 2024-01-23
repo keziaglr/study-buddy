@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import FirebaseAuth
 
 struct InterestPageView: View {
     @State private var selectedPills: Set<String> = []

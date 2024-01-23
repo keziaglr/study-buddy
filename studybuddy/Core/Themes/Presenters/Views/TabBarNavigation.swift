@@ -12,7 +12,7 @@ struct TabBarNavigation: View {
     @StateObject var communityViewModel = CommunityViewModel()
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             ZStack{
                 TabView {
                     CommunityPageView()
@@ -20,23 +20,28 @@ struct TabBarNavigation: View {
                             Image(systemName: "person.2.fill")
                             Text("Community")
                         }
+                        .toolbarBackground(.visible, for: .tabBar)
                     
                     DiscoverPageView()
                         .tabItem {
                             Image(systemName: "magnifyingglass")
                             Text("Discover")
                         }
+                        .toolbarBackground(.visible, for: .tabBar)
                     
                     ProfilePageView()
                         .tabItem {
                             Image(systemName: "person.fill")
                             Text("Profile")
                         }
+                        .toolbarBackground(.visible, for: .tabBar)
                 }
                 .navigationBarBackButtonHidden()
                 .background(Color.black)
+                
+                LoaderComponent(isLoading: $communityViewModel.isLoading)
             }
-        }
+//        }
         .onChange(of: authenticationViewModel.authenticated, perform: { value in
             presentationMode.wrappedValue.dismiss()
             authenticationViewModel.created = false
