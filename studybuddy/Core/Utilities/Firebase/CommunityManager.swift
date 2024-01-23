@@ -25,14 +25,16 @@ final class CommunityManager {
         return communities
     }
 
-    func addCommunity(community: Community, creator: CommunityMember) {
+    func addCommunity(community: Community, creator: CommunityMember) -> String {
         do {
             let communityRef = try dbRef.addDocument(from: community)
             let memberRef = communityRef.collection("members")
             try memberRef.addDocument(from: creator)
+            return communityRef.documentID //return the new communityID
         } catch {
             print(error)
         }
+        return ""
     }
     
     func getMembers(_ communityID: String) async throws -> [CommunityMember] {

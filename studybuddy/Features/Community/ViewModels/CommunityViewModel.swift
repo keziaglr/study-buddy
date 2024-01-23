@@ -53,7 +53,12 @@ class CommunityViewModel: ObservableObject {
         
         let communityCreator = CommunityMember(id: currentUser.id!, name: currentUser.name, image: currentUser.image)
         
-        CommunityManager.shared.addCommunity(community: community, creator: communityCreator)
+        let documentID = CommunityManager.shared.addCommunity(community: community, creator: communityCreator)
+        
+        //add community to user field
+        var userCommunities = currentUser.communities
+        userCommunities.append(documentID)
+        try await userManager.updateCommunity(communities: userCommunities)
     }
     
     func refreshCommunities() async throws {

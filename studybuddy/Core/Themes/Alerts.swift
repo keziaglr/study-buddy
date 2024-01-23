@@ -57,7 +57,7 @@ struct Alerts {
     }
     
     static func successCreateCommunity(action: @escaping () -> Void) -> Alert {
-        Alert(title: Text("Success Create Community"), dismissButton: .default(Text("Yes"), action: {
+        Alert(title: Text("Success Create Community"), dismissButton: .default(Text("OK"), action: {
             action()
         }))
     }
@@ -78,7 +78,7 @@ struct Alerts {
     //for setschedule
     
     static func successSetSchedule(action: @escaping () -> Void) -> Alert {
-        Alert(title: Text("Success Set Schedule"), dismissButton: .default(Text("Yes"), action: {
+        Alert(title: Text("Success Set Schedule"), dismissButton: .default(Text("OK"), action: {
             action()
         }))
     }
