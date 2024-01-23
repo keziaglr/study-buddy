@@ -46,7 +46,7 @@ struct MessageBubbleComponent: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
                 } else {
-                    Image("profile_placeholder")
+                    Images.profilePlaceholder
                         .resizable()
                         .scaledToFill()
                         .frame(width: 42, height: 42)

@@ -36,7 +36,7 @@ struct LoginPageView: View {
                             .padding(.top, 105)
                         
                         ZStack{
-                            Image("login-register")
+                            Images.loginRegister
                                 .resizable()
                                 .frame(width: 250, height: 250)
                                 .padding(.bottom, 400)

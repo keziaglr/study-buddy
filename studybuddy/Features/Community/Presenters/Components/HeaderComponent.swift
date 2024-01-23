@@ -13,7 +13,7 @@ struct HeaderComponent: View {
     var body: some View {
         VStack {
             ZStack{
-                Image("header_gradient")
+                Images.headerGradient
                     .resizable()
                     .scaledToFit()
                 

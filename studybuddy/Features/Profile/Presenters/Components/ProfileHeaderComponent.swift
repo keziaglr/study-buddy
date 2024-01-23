@@ -25,7 +25,7 @@ struct ProfileHeaderComponent: View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Image("profile_gradient")
+                    Images.profileGradient
                         .resizable()
                         .scaledToFit()
                         .ignoresSafeArea()
@@ -60,7 +60,7 @@ struct ProfileHeaderComponent: View {
                                     .padding(.top, 21)
                                     .padding(.bottom, 8)
                             } else {
-                                Image("profile_placeholder")
+                                Images.profilePlaceholder
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 80, height: 80)

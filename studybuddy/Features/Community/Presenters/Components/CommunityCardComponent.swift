@@ -15,7 +15,25 @@ struct CommunityCardComponent: View {
     @State var lastChat: Chat?
     var body: some View {
         ZStack(alignment: .leading) {
-            communityImage
+            if community.image == "" {
+                Images.communityPicture
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: UIScreen.main.bounds.height * 0.15)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 15)
+                            .frame(height: UIScreen.main.bounds.height * 0.15)
+                            .foregroundStyle(LinearGradient(
+                                gradient: Gradient(colors: [Colors.darkBlue, Colors.orange]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                            .opacity(0.6)
+                    }
+            } else {
+                communityImage
+            }
             VStack(alignment: .leading, spacing: UIScreen.main.bounds.height * 0.01) {
                 Text(community.title)
                     .fontWeight(.bold)
@@ -61,10 +79,6 @@ struct CommunityCardComponent: View {
                     ))
                     .opacity(0.6)
             }
-//            .onTapGesture {
-//                print("tapped")
-//                hideKeyboard()
-//            }
     }
 
     private var actionButton: some View {
