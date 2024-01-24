@@ -94,7 +94,7 @@ struct SetScheduleView: View {
                             try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
                             community.startDate = startStudySchedule
                             community.endDate = endStudySchedule
-                            try await communityViewModel.addEventToCalendar(community: community)
+                            try communityViewModel.addEventToCalendar(community: community)
                             showAlert = true
                         } catch {
                             print(error)
@@ -123,6 +123,13 @@ struct SetScheduleView: View {
                     }
                 }
             })
+            .task {
+                do {
+                    try await EventStoreManager.shared.setupEventStore()
+                } catch{
+                    print(error)
+                }
+            }
         }
     }
     

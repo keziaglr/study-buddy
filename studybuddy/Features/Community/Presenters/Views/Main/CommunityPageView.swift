@@ -141,18 +141,7 @@ struct CommunityPageView: View {
             }
 //        }
         .alert(isPresented: $showAlert) {
-            Alerts.successJoinCommunity {
-                Task {
-                    do {
-                        showBadge = try await communityViewModel.validateBadgeWhenJoinCommunity(community: chosenCommunity)
-                        if !showBadge {
-                            goToCommunityDetail = true
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
-            }
+            showedAlert
         }
     }
     
