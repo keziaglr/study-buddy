@@ -99,6 +99,9 @@ struct CommunityPageView: View {
             
         }
         .ignoresSafeArea()
+        .sheet(isPresented: $showBadge) {
+            BadgeEarnedView(badge: communityViewModel.showedBadge)
+        }
         .navigationDestination(isPresented: $goToCommunityDetail) {
             ChatRoomView(community: $chosenCommunity)
                 .environmentObject(communityViewModel)
