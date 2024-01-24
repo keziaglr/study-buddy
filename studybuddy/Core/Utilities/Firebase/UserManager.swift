@@ -15,6 +15,7 @@ final class UserManager: ObservableObject {
     static let shared = UserManager()
     @Published var currentUser: UserModel?
     private let dbRef = Firestore.firestore().collection("users")
+    
     func addUser(user: UserModel) {
         do {
             try dbRef.document(user.id!).setData(from: user)
@@ -23,6 +24,7 @@ final class UserManager: ObservableObject {
             print(error)
         }
     }
+    
     func updateBadges(badge: String) async throws{
         guard let userID = currentUser?.id else {
             return
@@ -32,6 +34,7 @@ final class UserManager: ObservableObject {
         ])
         currentUser?.badges.append(badge)
     }
+    
     func updateUserInterest(category: [String]) async throws{
         guard let userID = currentUser?.id else {
             return

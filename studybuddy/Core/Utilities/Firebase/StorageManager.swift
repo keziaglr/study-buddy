@@ -12,11 +12,9 @@ final class StorageManager {
     private init() { }
     
     private let storage = Storage.storage().reference()
-    
     private var userReference: StorageReference {
         storage.child("users")
     }
-    
     private var communityReference: StorageReference {
         storage.child("communities")
     }
@@ -106,7 +104,6 @@ final class StorageManager {
         let downloadURL = try await fileRef.downloadURL()
         return downloadURL
     }
-    
     
     func saveToLocal(localURL: URL, filePathInCloudStorage: String) async throws{
         let fileRef = libraryReference.child(filePathInCloudStorage)
