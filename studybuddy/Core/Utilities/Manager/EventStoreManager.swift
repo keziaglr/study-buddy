@@ -11,7 +11,6 @@ import EventKit
 @MainActor
 class EventStoreManager: ObservableObject {
     @Published var eventStore: EKEventStore
-    /// Specifies the authorization status for the app.
     @Published var authorizationStatus: EKAuthorizationStatus
     static let shared = EventStoreManager()
     
@@ -25,7 +24,6 @@ class EventStoreManager: ObservableObject {
        authorizationStatus = EKEventStore.authorizationStatus(for: .event)
     }
     
-    /// Prompts the user for full-access authorization to Calendar.
     private func requestFullAccess() async throws -> Bool {
         if #available(iOS 17.0, *) {
             return try await eventStore.requestFullAccessToEvents()
@@ -35,7 +33,6 @@ class EventStoreManager: ObservableObject {
         }
     }
     
-    /// Verifies the authorization status for the app.
     func verifyAuthorizationStatus() async throws -> Bool {
         let status = EKEventStore.authorizationStatus(for: .event)
         switch status {

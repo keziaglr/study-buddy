@@ -10,13 +10,11 @@ import SwiftUI
 struct SetScheduleView: View {
     
     @Binding var isPresent: Bool
-//    @Binding var isBadge: Bool
     @Binding var showBadge: Bool
     @Binding var community : Community
     @State var startStudySchedule = Date()
     @State var endStudySchedule = Date()
     @State var showedAlert = Alert(title: Text(""))
-//    @State var vm = BadgeViewModel()
     @EnvironmentObject var communityViewModel: CommunityViewModel
     
     @State var showAlert = false
@@ -37,7 +35,6 @@ struct SetScheduleView: View {
                 Images.studyTime
                     .resizable()
                     .frame(width: 220, height: 220)
-//                    .aspectRatio(contentMode: .fill)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
                 

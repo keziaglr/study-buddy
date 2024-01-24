@@ -39,7 +39,6 @@ class BadgeManager: ObservableObject {
         }
     }
     
-    
     func achieveBadge(badgeName: String) async throws {
         guard let userBadges = userManager.currentUser?.badges else {
             return
