@@ -19,12 +19,12 @@ struct CustomTextField: View {
                     TextField(placeholder, text: $text)
                         .kerning(0.54)
                         .keyboardType(.default)
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                 }else{
                     SecureField(placeholder, text: $text)
                         .kerning(0.54)
                         .keyboardType(.default)
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                 }
             }
             .padding(.horizontal, 20)
