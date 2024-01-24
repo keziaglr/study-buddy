@@ -68,16 +68,7 @@ struct LoginPageView: View {
                     VStack{
                         Spacer()
                         Button {
-                            Task {
-                                do {
-                                    isLoading = true
-                                    try await viewModel.auth()
-                                } catch {
-                                    print(error)
-                                    showingAlert = true
-                                }
-                                isLoading = false
-                            }
+                            login()
                         } label: {
                             CustomButton(text: "Login")
                         }
@@ -121,6 +112,19 @@ struct LoginPageView: View {
         }
         .alert(isPresented: $showingAlert) {
             Alerts.invalidCredentials
+        }
+    }
+    
+    func login() {
+        Task {
+            do {
+                isLoading = true
+                try await viewModel.auth()
+            } catch {
+                print(error)
+                showingAlert = true
+            }
+            isLoading = false
         }
     }
 }

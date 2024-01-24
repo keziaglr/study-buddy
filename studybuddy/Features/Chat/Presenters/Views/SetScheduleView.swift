@@ -90,37 +90,7 @@ struct SetScheduleView: View {
                 
                 //Set Schedule Button
                 Button {
-                    Task {
-                        do {
-                            try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
-                            community.startDate = startStudySchedule
-                            community.endDate = endStudySchedule
-                            showedAlert = Alerts.successSetSchedule {
-                                isPresent = false
-                                Task {
-                                    do {
-                                        showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
-                                    } catch {
-                                        print(error)
-                                    }
-                                }
-                            }
-                            try communityViewModel.addEventToCalendar(community: community)
-                        } catch {
-                            showedAlert = Alert(title: Text("The schedule cannot be inputted to your calendar") , message: Text("Please check in your settings") ,dismissButton: .default(Text("OK"), action: {
-                                isPresent = false
-                                Task {
-                                    do {
-                                        showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
-                                    } catch {
-                                        print(error)
-                                    }
-                                }
-                            }))
-                            print(error)
-                        }
-                        showAlert = true
-                    }
+                    setSchedule()
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)
                 } 
@@ -142,6 +112,37 @@ struct SetScheduleView: View {
                     print(error)
                 }
             }
+        }
+    }
+    
+    func successSetSchedule() {
+        isPresent = false
+        Task {
+            do {
+                showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func setSchedule() {
+        Task {
+            do {
+                try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
+                community.startDate = startStudySchedule
+                community.endDate = endStudySchedule
+                showedAlert = Alerts.successSetSchedule {
+                    successSetSchedule()
+                }
+                try communityViewModel.addEventToCalendar(community: community)
+            } catch {
+                showedAlert = Alerts.calendarPermissionFailed {
+                    successSetSchedule()
+                }
+                print(error)
+            }
+            showAlert = true
         }
     }
     

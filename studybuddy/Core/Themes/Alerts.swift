@@ -83,4 +83,9 @@ struct Alerts {
         }))
     }
     
+    static func calendarPermissionFailed(action: @escaping() -> Void) -> Alert {
+        Alert(title: Text("The schedule cannot be inputted to your calendar") , message: Text("Please check in your settings") ,dismissButton: .default(Text("OK"), action: {
+            action()
+        }))
+    }
 }

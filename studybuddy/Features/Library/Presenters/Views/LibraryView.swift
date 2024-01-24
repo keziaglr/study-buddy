@@ -13,127 +13,113 @@ struct LibraryView: View {
     var communityID: String
     @State var showImagePicker = false
     @State var showDocPicker = false
-//    @State var showBadge = false
     @State var showFileDetail = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-//        NavigationStack {
-            ZStack {
-                Color.black.opacity(0.05).edgesIgnoringSafeArea(.bottom)
-                ZStack(alignment: .bottomTrailing) {
-                    if self.libraryViewModel.libraries.count != 0 {
-                        List {
-                            ForEach(self.libraryViewModel.libraries) {library in
-                                Button {
-                                    Task {
-                                        do {
-                                            try await libraryViewModel.getFileDetail(library: library)
-                                        } catch {
-                                            print(error)
-                                        }
-                                        showFileDetail = true
-                                    }
-                                } label: {
-                                    DocumentCellComponent(data: library)
-                                }
-                                .padding(.vertical, 10)
-                                .listRowSeparator(.hidden)
+        ZStack {
+            Color.black.opacity(0.05).edgesIgnoringSafeArea(.bottom)
+            ZStack(alignment: .bottomTrailing) {
+                if self.libraryViewModel.libraries.count != 0 {
+                    List {
+                        ForEach(self.libraryViewModel.libraries) {library in
+                            Button {
+                                viewFile(library: library)
+                            } label: {
+                                DocumentCellComponent(data: library)
                             }
-                            .onDelete { indexSet in
-                                self.libraryViewModel.deleteLibrary(indexSet: indexSet, communityID: communityID)
-                            }
+                            .padding(.vertical, 10)
+                            .listRowSeparator(.hidden)
                         }
-                    }
-                    
-                    if self.libraryViewModel.libraries.isEmpty {
-                        GeometryReader {_ in
-                            VStack {
-                                Spacer()
-                                HStack{
-                                    Spacer()
-                                    Text("Library is empty")
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
+                        .onDelete { indexSet in
+                            self.libraryViewModel.deleteLibrary(indexSet: indexSet, communityID: communityID)
                         }
                     }
                 }
                 
-//                if self.libraryViewModel.showLoader() {
-                    LoaderComponent(isLoading: $libraryViewModel.isLoading)
-//                }
+                if self.libraryViewModel.libraries.isEmpty {
+                    GeometryReader {_ in
+                        VStack {
+                            Spacer()
+                            HStack{
+                                Spacer()
+                                Text("Library is empty")
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                    }
+                }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden()
-            .toolbarBackground(
-                            Colors.lightBlue,
-                            for: .navigationBar)
-                        .toolbarBackground(.visible, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button{
-                        print("Library back button clicked")
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "arrow.backward")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(Colors.black)
-                    }
-                    
+            
+            LoaderComponent(isLoading: $libraryViewModel.isLoading)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbarBackground(
+            Colors.lightBlue,
+            for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button{
+                    print("Library back button clicked")
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "arrow.backward")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(Colors.black)
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack{
-                        if self.libraryViewModel.libraries.count != 0 && !self.libraryViewModel.isLoading{
-                            Button {
-                                self.libraryViewModel.refreshLibrary(communityID: communityID)
-                            }label: {
-                                Image(systemName: "arrow.clockwise")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20)
-                                    .foregroundColor(Colors.black)
-                            }
-                        }
-                        Menu{
-                            Button {
-//                                self.pickerType = "doc"
-                                self.showDocPicker.toggle()
-                            } label: {
-                                Label("Add Document", systemImage: "doc")
-                            }
-                            Button{
-//                                self.pickerType = "image"
-                                self.showImagePicker.toggle()
-                            } label: {
-                                Label("Add Photo or Video", systemImage: "photo.on.rectangle")
-                            }
-                        } label: {
-                            Image(systemName: "plus")
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack{
+                    if self.libraryViewModel.libraries.count != 0 && !self.libraryViewModel.isLoading{
+                        Button {
+                            self.libraryViewModel.refreshLibrary(communityID: communityID)
+                        }label: {
+                            Image(systemName: "arrow.clockwise")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20)
                                 .foregroundColor(Colors.black)
                         }
-                        
                     }
-                }
-                ToolbarItem(placement: .principal) {
-                    Text("Library")
-                        .foregroundColor(Colors.black)
-                        .kerning(0.45)
-                        .bold()
+                    Menu{
+                        Button {
+                            self.showDocPicker.toggle()
+                        } label: {
+                            Label("Add Document", systemImage: "doc")
+                        }
+                        Button{
+                            self.showImagePicker.toggle()
+                        } label: {
+                            Label("Add Photo or Video", systemImage: "photo.on.rectangle")
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20)
+                            .foregroundColor(Colors.black)
+                    }
+                    
                 }
             }
-            
-//        }
+            ToolbarItem(placement: .principal) {
+                Text("Library")
+                    .foregroundColor(Colors.black)
+                    .kerning(0.45)
+                    .bold()
+            }
+        }
+        
         .sheet(isPresented: $showDocPicker, content: {
             DocumentPickerView(onFilePicked: { url in
                 self.libraryViewModel.uploadLibraryToFirebase(url: url, communityID: communityID)
             })
-            .edgesIgnoringSafeArea(.all) 
+            .edgesIgnoringSafeArea(.all)
             
         })
         .sheet(isPresented: $showImagePicker) {
@@ -150,9 +136,6 @@ struct LibraryView: View {
         })
         .onAppear {
             self.libraryViewModel.updateLibrary(communityID: self.communityID)
-//            NotificationCenter.default.addObserver(forName: NSNotification.Name("Update"), object: nil, queue: .main) { _ in
-//                self.libraryViewModel.refreshLibrary(communityID: communityID)
-//            }
         }
         .sheet(isPresented: $libraryViewModel.showBadge) {
             if showFileDetail == false {
@@ -162,6 +145,16 @@ struct LibraryView: View {
         }
     }
     
+    func viewFile(library: Library) {
+        Task {
+            do {
+                try await libraryViewModel.getFileDetail(library: library)
+            } catch {
+                print(error)
+            }
+            showFileDetail = true
+        }
+    }
     
 }
 

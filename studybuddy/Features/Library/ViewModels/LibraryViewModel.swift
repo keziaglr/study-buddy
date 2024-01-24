@@ -111,7 +111,6 @@ class LibraryViewModel: ObservableObject {
     
     // achieved when download file for the first time
     func checkKnowledgeNavigatorBadge() async throws -> Bool{
-//        let knowledgeNavigatorBadgeID = badgeManager.getBadgeID(badgeName: Badges.knowledgeNavigator)
         if badgeManager.validateBadge(badgeName: Badges.knowledgeNavigator) == false {
             try await badgeManager.achieveBadge(badgeName: Badges.knowledgeNavigator)
             let badge = badgeManager.getBadge(badgeName: Badges.knowledgeNavigator)

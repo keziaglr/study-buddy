@@ -76,31 +76,9 @@ struct CreateCommunityPageView: View {
                 
                 Button{
                     if title.isEmpty || description.isEmpty || image == "" {
-                        showedAlert = Alerts.fillAllFields
-                        showAlert.toggle()
+                        showErrorField()
                     } else {
-                        Task {
-                            do {
-                                communityViewModel.isLoading = true
-                                try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
-                            } catch {
-                                print(error)
-                            }
-                            communityViewModel.isLoading = false
-                            showedAlert = Alerts.successCreateCommunity(action: {
-                                showModal = false
-                                Task {
-                                    do {
-                                        communityViewModel.isLoading = true
-                                        try await communityViewModel.refreshCommunities()
-                                    } catch {
-                                        print(error)
-                                    }
-                                    communityViewModel.isLoading = false
-                                }
-                            })
-                            showAlert.toggle()
-                        }
+                        createCommunity()
                     }
                 } label: {
                     CustomButton(text: "Create Community", primary: false)
@@ -121,6 +99,36 @@ struct CreateCommunityPageView: View {
         .alert(isPresented: $showAlert, content: {
             showedAlert
         })
+    }
+    
+    func showErrorField() {
+        showedAlert = Alerts.fillAllFields
+        showAlert.toggle()
+    }
+    
+    func createCommunity() {
+        Task {
+            do {
+                communityViewModel.isLoading = true
+                try await communityViewModel.addCommunity(title: title, description: description, url: url, category: selectedValue)
+            } catch {
+                print(error)
+            }
+            communityViewModel.isLoading = false
+            showedAlert = Alerts.successCreateCommunity(action: {
+                showModal = false
+                Task {
+                    do {
+                        communityViewModel.isLoading = true
+                        try await communityViewModel.refreshCommunities()
+                    } catch {
+                        print(error)
+                    }
+                    communityViewModel.isLoading = false
+                }
+            })
+            showAlert.toggle()
+        }
     }
     
 }

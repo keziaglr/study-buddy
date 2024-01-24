@@ -421,7 +421,9 @@
 		43FA00A32B2316620035E6FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				43FA00B72B2316620035E6FC /* Main */,
+				43FA00BA2B2316620035E6FC /* CommunityPageView.swift */,
+				43FA00BD2B2316620035E6FC /* DiscoverPageView.swift */,
+				43FA00C62B2316620035E6FC /* CreateCommunityPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -436,16 +438,6 @@
 				43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		43FA00B72B2316620035E6FC /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				43FA00BA2B2316620035E6FC /* CommunityPageView.swift */,
-				43FA00BD2B2316620035E6FC /* DiscoverPageView.swift */,
-				43FA00C62B2316620035E6FC /* CreateCommunityPageView.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		43FA00FC2B231F6E0035E6FC /* Presenters */ = {
