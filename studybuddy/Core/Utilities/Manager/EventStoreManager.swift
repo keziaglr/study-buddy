@@ -25,16 +25,8 @@ class EventStoreManager: ObservableObject {
        authorizationStatus = EKEventStore.authorizationStatus(for: .event)
     }
     
-    func requestWriteOnlyAccess() async throws -> Bool {
-        if #available(iOS 17.0, *) {
-            return try await eventStore.requestWriteOnlyAccessToEvents()
-        } else {
-            // Fall back on earlier versions.
-            return try await eventStore.requestAccess(to: .event)
-        }
-    }
-    
-    func requestFullAccess() async throws -> Bool {
+    /// Prompts the user for full-access authorization to Calendar.
+    private func requestFullAccess() async throws -> Bool {
         if #available(iOS 17.0, *) {
             return try await eventStore.requestFullAccessToEvents()
         } else {
@@ -46,7 +38,6 @@ class EventStoreManager: ObservableObject {
     /// Verifies the authorization status for the app.
     func verifyAuthorizationStatus() async throws -> Bool {
         let status = EKEventStore.authorizationStatus(for: .event)
-        
         switch status {
         case .notDetermined:
             return try await requestFullAccess()
@@ -57,7 +48,7 @@ class EventStoreManager: ObservableObject {
         case .fullAccess:
             return true
         case .writeOnly:
-            return try await requestFullAccess()
+            throw EventStoreError.upgrade
         @unknown default:
             throw EventStoreError.unknown
         }
@@ -74,6 +65,7 @@ enum EventStoreError: Error {
     case restricted
     case unknown
     case upgrade
+    case notDetermined
 }
 
 extension EventStoreError: LocalizedError {
@@ -89,6 +81,8 @@ extension EventStoreError: LocalizedError {
             let access = "The app has write-only access to Calendar in Settings."
             let update = "Please grant it full access so the app can fetch and delete your events."
             return NSLocalizedString("\(access) \(update)", comment: "Upgrade to full access")
+        case .notDetermined:
+            return NSLocalizedString("The access has not been determined", comment: "Access not determined")
         }
     }
 }

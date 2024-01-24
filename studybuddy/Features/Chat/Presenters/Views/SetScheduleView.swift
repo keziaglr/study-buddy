@@ -15,6 +15,7 @@ struct SetScheduleView: View {
     @Binding var community : Community
     @State var startStudySchedule = Date()
     @State var endStudySchedule = Date()
+    @State var showedAlert = Alert(title: Text(""))
 //    @State var vm = BadgeViewModel()
     @EnvironmentObject var communityViewModel: CommunityViewModel
     
@@ -94,11 +95,31 @@ struct SetScheduleView: View {
                             try await communityViewModel.setSchedule(startDate: startStudySchedule, endDate: endStudySchedule, communityID: community.id!)
                             community.startDate = startStudySchedule
                             community.endDate = endStudySchedule
+                            showedAlert = Alerts.successSetSchedule {
+                                isPresent = false
+                                Task {
+                                    do {
+                                        showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                            }
                             try communityViewModel.addEventToCalendar(community: community)
-                            showAlert = true
                         } catch {
+                            showedAlert = Alert(title: Text("The schedule cannot be inputted to your calendar") , message: Text("Please check in your settings") ,dismissButton: .default(Text("OK"), action: {
+                                isPresent = false
+                                Task {
+                                    do {
+                                        showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                            }))
                             print(error)
                         }
+                        showAlert = true
                     }
                 } label: {
                     CustomButton(text: "Set Study Schedule", primary: false)
@@ -112,16 +133,7 @@ struct SetScheduleView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 116, trailing: 0))
             .background(Colors.gray)
             .alert(isPresented: $showAlert, content: {
-                Alerts.successSetSchedule {
-                    isPresent = false
-                    Task {
-                        do {
-                            showBadge = try await communityViewModel.validateGetCollaborativeDynamoBadge()
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
+                showedAlert
             })
             .task {
                 do {

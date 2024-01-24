@@ -211,6 +211,7 @@ class CommunityViewModel: ObservableObject {
         switch EventStoreManager.shared.authorizationStatus {
         case .notDetermined:
             print("error event access not determined")
+            throw EventStoreError.unknown
         case .restricted:
             throw EventStoreError.restricted
         case .denied:

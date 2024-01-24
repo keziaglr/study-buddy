@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>To add study schedule to calendar</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
