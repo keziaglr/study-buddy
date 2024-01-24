@@ -77,8 +77,6 @@ struct DiscoverPageView: View {
                     hideKeyboard()
                 }
             }
-            
-            LoaderComponent(isLoading: $communityViewModel.isLoading)
         }
         .sheet(isPresented: $showModal) {
             CreateCommunityPageView(showModal: $showModal)
