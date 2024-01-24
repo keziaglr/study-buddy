@@ -19,7 +19,7 @@ struct ChatMembersView: View {
                     .foregroundStyle(Colors.orange)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.1)
                 
-                Image("members")
+                Images.members
                     .resizable()
                     .frame(width: 220, height: 220)
                     .aspectRatio(contentMode: .fill)

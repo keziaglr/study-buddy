@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-import FirebaseStorage
 import UniformTypeIdentifiers
-import FirebaseFirestore
 
 struct LibraryView: View {
     @StateObject var libraryViewModel = LibraryViewModel()
@@ -19,7 +17,7 @@ struct LibraryView: View {
     @State var showFileDetail = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             ZStack {
                 Color.black.opacity(0.05).edgesIgnoringSafeArea(.bottom)
                 ZStack(alignment: .bottomTrailing) {
@@ -130,7 +128,7 @@ struct LibraryView: View {
                 }
             }
             
-        }
+//        }
         .sheet(isPresented: $showDocPicker, content: {
             DocumentPickerView(onFilePicked: { url in
                 self.libraryViewModel.uploadLibraryToFirebase(url: url, communityID: communityID)

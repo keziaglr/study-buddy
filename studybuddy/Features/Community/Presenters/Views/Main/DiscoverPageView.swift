@@ -34,7 +34,7 @@ struct DiscoverPageView: View {
     }
     
     var body: some View {
-        ZStack {
+//        ZStack {
             GeometryReader { geometry in
                 HeaderComponent(text: "Explore the Network 🌐")
                 
@@ -118,8 +118,9 @@ struct DiscoverPageView: View {
             }
             .navigationDestination(isPresented: $goToCommunityDetail) {
                 ChatRoomView(community: $chosenCommunity)
+                    .environmentObject(communityViewModel)
             }
-        }
+//        }
         .ignoresSafeArea()
         .alert(isPresented: $showAlert) {
             showedAlert
