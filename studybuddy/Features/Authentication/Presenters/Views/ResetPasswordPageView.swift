@@ -52,6 +52,10 @@ struct ResetPasswordPageView: View {
                                 .frame(width: 250, height: 250)
                                 .padding(.bottom, 400)
                                 .padding(.top, 60)
+                                .onTapGesture {
+                                    print("tapped")
+                                    hideKeyboard()
+                                }
                             VStack(spacing: 20) {
                                 CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
                                     .padding(.top, 105)
@@ -87,10 +91,6 @@ struct ResetPasswordPageView: View {
                 Alerts.successSendEmail {
                     goToLogin = true
                 }
-            }
-            .onTapGesture {
-                print("tapped")
-                hideKeyboard()
             }
         }
     }

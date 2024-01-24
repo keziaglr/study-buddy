@@ -163,7 +163,7 @@ class CommunityViewModel: ObservableObject {
         let userCommunities = userManager.currentUser?.communities
         for community in communities {
             
-            if userManager.currentUser?.communities.contains(community.id!) == true {
+            if userCommunities?.contains(community.id!) == true {
                 joinedCommunities.append(community)
             }
         }
@@ -173,9 +173,9 @@ class CommunityViewModel: ObservableObject {
     func getCommunityMembers(communityID: String) async throws -> [CommunityMember] {
         var members = try await CommunityManager.shared.getMembers(communityID)
         guard let currentUser = userManager.currentUser else {
-                return members
-            }
-
+            return members
+        }
+        
         for index in 0..<members.count {
             if members[index].id == currentUser.id {
                 members[index].image = currentUser.image
@@ -203,54 +203,28 @@ class CommunityViewModel: ObservableObject {
         try await CommunityManager.shared.setCommunitySchedule(communityID: communityID, data: data)
     }
     
-    func addEventToCalendar(community: Community) async throws {
-        let eventStore = EKEventStore()
-        if #available(iOS 17.0, *) {
-            let grantedAccess = try await eventStore.requestFullAccessToEvents()
-            if grantedAccess == true {
-                let event = EKEvent(eventStore: eventStore)
-                event.title = "\(community.title)'s Study Schedule"
-                event.startDate = community.startDate
-                event.endDate = community.endDate
-                
-                
-                
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                do {
-                    try eventStore.save(event, span: .thisEvent)
-                    print("Event added to calendar")
-                } catch {
-                    print("Error saving event: \(error.localizedDescription)")
-                }
-            } else {
-                print("Access denied or error")
-            }
-        } else {
-            // Fallback on earlier versions
-            let grantedAccess = try await eventStore.requestAccess(to: .event)
-            if grantedAccess == true {
-                let event = EKEvent(eventStore: eventStore)
-                event.title = "\(community.title)'s Study Schedule"
-                event.startDate = community.startDate
-                event.endDate = community.endDate
-                
-                
-                
-                event.calendar = eventStore.defaultCalendarForNewEvents
-                do {
-                    try eventStore.save(event, span: .thisEvent)
-                    print("Event added to calendar")
-                } catch {
-                    print("Error saving event: \(error.localizedDescription)")
-                }
-            } else {
-                print("Access denied or error")
-            }
+    func addEventToCalendar(community: Community) throws {
+        let event = EKEvent(eventStore: EventStoreManager.shared.eventStore)
+        event.title = "\(community.title)'s Study Schedule"
+        event.startDate = community.startDate
+        event.endDate = community.endDate
+        switch EventStoreManager.shared.authorizationStatus {
+        case .notDetermined:
+            print("error event access not determined")
+            throw EventStoreError.unknown
+        case .restricted:
+            throw EventStoreError.restricted
+        case .denied:
+            throw EventStoreError.denied
+        case .fullAccess, .writeOnly, .authorized:
+            try EventStoreManager.shared.addEvent(event: event)
+        @unknown default:
+            fatalError("An error occurs.")
         }
     }
     
     func validateGetCollaborativeDynamoBadge() async throws -> Bool {
-//      let badgeId = badgeManager.getBadgeID(badgeName: Badges.collaborativeDynamo)
+        //      let badgeId = badgeManager.getBadgeID(badgeName: Badges.collaborativeDynamo)
         if badgeManager.validateBadge(badgeName: Badges.collaborativeDynamo) == false {
             try await badgeManager.achieveBadge(badgeName: Badges.collaborativeDynamo)
             self.showedBadge = badgeManager.getBadge(badgeName: Badges.collaborativeDynamo)
@@ -270,14 +244,14 @@ class CommunityViewModel: ObservableObject {
     }
     
     //MARK: GET UNREAD CHAT COUNT
-//    func getUnreadChatCount(communityID: String) async throws -> Int? {
-//        guard let currentUser = userManager.currentUser else {
-//            print("no current user")
-//            return nil
-//        }
-//        let userMember = try await CommunityManager.shared.getMember(communityID, currentUser.id!)
-//        let count = try await ChatManager.shared.getUnreadChatCount(communityID: communityID, lastOpenedDate: userMember.lastChatDate)
-//    }
+    //    func getUnreadChatCount(communityID: String) async throws -> Int? {
+    //        guard let currentUser = userManager.currentUser else {
+    //            print("no current user")
+    //            return nil
+    //        }
+    //        let userMember = try await CommunityManager.shared.getMember(communityID, currentUser.id!)
+    //        let count = try await ChatManager.shared.getUnreadChatCount(communityID: communityID, lastOpenedDate: userMember.lastChatDate)
+    //    }
     
 }
 

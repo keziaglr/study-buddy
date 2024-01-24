@@ -59,17 +59,7 @@ struct RegisterPageView: View {
                         Spacer()
                         
                         Button{
-                            Task {
-                                do {
-                                    isLoading = true
-                                    try await viewModel.createUser()
-                                    showingAlert = false
-                                } catch {
-                                    print(error)
-                                    showingAlert = true
-                                }
-                                isLoading = false
-                            }
+                            register()
                         } label: {
                             CustomButton(text: "Register")
                                 .disabled(viewModel.checkRegister())
@@ -107,6 +97,20 @@ struct RegisterPageView: View {
                 }
                 .navigationBarBackButtonHidden()
             }
+        }
+    }
+    
+    func register() {
+        Task {
+            do {
+                isLoading = true
+                try await viewModel.createUser()
+                showingAlert = false
+            } catch {
+                print(error)
+                showingAlert = true
+            }
+            isLoading = false
         }
     }
 }

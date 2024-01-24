@@ -29,6 +29,7 @@ struct MasterView: View {
             .environmentObject(vm)
             .preferredColorScheme(isDarkMode ? .dark : .light)
         }
+        
     }
 }
 

@@ -27,17 +27,17 @@ struct BadgeEarnedView: View {
             }
             
             Image(badge!.image)
-                    .resizable()
-                    .frame(width: isBouncing ? 260 : 236, height: isBouncing ? 260 : 236)
-                    .onAppear {
-                        startBounceTimer()
-                    }
-                LottieView("confetti")
-                    .ignoresSafeArea()
+                .resizable()
+                .frame(width: isBouncing ? 260 : 236, height: isBouncing ? 260 : 236)
+                .onAppear {
+                    startBounceTimer()
+                }
+            LottieView("confetti")
+                .ignoresSafeArea()
             
             VStack{
                 Spacer()
-
+                
                 Text(badge!.description)
                     .fontWeight(.medium)
                     .font(.system(size: 20))
@@ -51,12 +51,12 @@ struct BadgeEarnedView: View {
     }
     
     private func startBounceTimer() {
-            Timer.scheduledTimer(withTimeInterval: bounceInterval, repeats: true) { _ in
-                withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 100.0, damping: 10.0, initialVelocity: 0.0)) {
-                    isBouncing.toggle()
-                }
+        Timer.scheduledTimer(withTimeInterval: bounceInterval, repeats: true) { _ in
+            withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 100.0, damping: 10.0, initialVelocity: 0.0)) {
+                isBouncing.toggle()
             }
         }
+    }
 }
 
 #Preview {

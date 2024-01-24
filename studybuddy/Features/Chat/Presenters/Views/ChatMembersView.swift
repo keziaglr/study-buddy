@@ -25,24 +25,15 @@ struct ChatMembersView: View {
                     .aspectRatio(contentMode: .fill)
                     .position(x: geometry.size.width / 2 , y : geometry.size.height * 0.29)
                 
-//                Text("Total Member : \(communityViewModel.memberCount)")
-              
                 
                 membersList
                     .frame(width: geometry.size.width * 1.1, height: geometry.size.height * 0.6)
                     .listStyle(.plain)
                     .position(x: geometry.size.width / 2 , y: geometry.size.height * 0.73)
-                    
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.bottom, 116)
-//            .task {
-//                do {
-//                    communityMembers = try await communityViewModel.getCommunityMembers(communityID: communityID)
-//                } catch {
-//                    print(error)
-//                }
-//            }
         }
     }
     
@@ -60,7 +51,7 @@ struct ChatMembersView: View {
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
         ChatMembersView(communityMembers: .constant([]))
-//            .environmentObject(CommunityViewModel())
+            .environmentObject(CommunityViewModel())
     }
 }
 

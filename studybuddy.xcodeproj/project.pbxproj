@@ -39,6 +39,7 @@
 		43C972142A4C362F000D1E6B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972132A4C362F000D1E6B /* WebView.swift */; };
 		43C972162A4C36D2000D1E6B /* FileViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C972152A4C36D2000D1E6B /* FileViewerView.swift */; };
 		43E158A62B60320400CA513F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43E158A52B60320400CA513F /* GoogleService-Info.plist */; };
+		43E158CB2B60E3F000CA513F /* EventStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E158CA2B60E3F000CA513F /* EventStoreManager.swift */; };
 		43FA00CD2B2316620035E6FC /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009A2B2316620035E6FC /* UserViewModel.swift */; };
 		43FA00CE2B2316620035E6FC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009B2B2316620035E6FC /* ChatViewModel.swift */; };
 		43FA00D02B2316620035E6FC /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA009D2B2316620035E6FC /* CommunityViewModel.swift */; };
@@ -118,6 +119,7 @@
 		43C972152A4C36D2000D1E6B /* FileViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewerView.swift; sourceTree = "<group>"; };
 		43C972192A4E8383000D1E6B /* studybuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = studybuddy.entitlements; sourceTree = "<group>"; };
 		43E158A52B60320400CA513F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		43E158CA2B60E3F000CA513F /* EventStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStoreManager.swift; sourceTree = "<group>"; };
 		43FA009A2B2316620035E6FC /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		43FA009B2B2316620035E6FC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		43FA009D2B2316620035E6FC /* CommunityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
@@ -379,6 +381,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		43E158C92B60E3DB00CA513F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				43AD2B8B2B5534A50010B718 /* BadgeManager.swift */,
+				43E158CA2B60E3F000CA513F /* EventStoreManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		43FA00972B2316370035E6FC /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,7 +421,9 @@
 		43FA00A32B2316620035E6FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				43FA00B72B2316620035E6FC /* Main */,
+				43FA00BA2B2316620035E6FC /* CommunityPageView.swift */,
+				43FA00BD2B2316620035E6FC /* DiscoverPageView.swift */,
+				43FA00C62B2316620035E6FC /* CreateCommunityPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -425,16 +438,6 @@
 				43AD2B7C2B5432530010B718 /* CustomTextFieldWithSymbol.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		43FA00B72B2316620035E6FC /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				43FA00BA2B2316620035E6FC /* CommunityPageView.swift */,
-				43FA00BD2B2316620035E6FC /* DiscoverPageView.swift */,
-				43FA00C62B2316620035E6FC /* CreateCommunityPageView.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		43FA00FC2B231F6E0035E6FC /* Presenters */ = {
@@ -500,6 +503,7 @@
 		43FA01032B2324B40035E6FC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				43E158C92B60E3DB00CA513F /* Manager */,
 				43AD2B642B4E79B90010B718 /* FilePicker */,
 				43FA01042B2324C40035E6FC /* Firebase */,
 			);
@@ -513,7 +517,6 @@
 				43AD2B762B4E95250010B718 /* AuthenticationManager.swift */,
 				43AD2B782B4E9EE00010B718 /* UserManager.swift */,
 				43AD2B892B5528750010B718 /* StorageManager.swift */,
-				43AD2B8B2B5534A50010B718 /* BadgeManager.swift */,
 				431C88AC2B567B8C00245E83 /* CommunityManager.swift */,
 				431C88B12B59B1D900245E83 /* ChatManager.swift */,
 				431C88B32B5A806C00245E83 /* LibraryManager.swift */,
@@ -786,6 +789,7 @@
 				43FA00DE2B2316620035E6FC /* MessageBubbleComponent.swift in Sources */,
 				ACC72EC62A43EA650006AE64 /* Library.swift in Sources */,
 				83DD4BAC2B5E479200D14B5A /* ResetPasswordPageView.swift in Sources */,
+				43E158CB2B60E3F000CA513F /* EventStoreManager.swift in Sources */,
 				43FA00CD2B2316620035E6FC /* UserViewModel.swift in Sources */,
 				43FA00E62B2316620035E6FC /* HeaderComponent.swift in Sources */,
 				43FA00D82B2316620035E6FC /* ChatRoomInfoComponent.swift in Sources */,
@@ -956,7 +960,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"studybuddy/Preview Content\"";
-				DEVELOPMENT_TEAM = 3SC4Z3N76K;
+				DEVELOPMENT_TEAM = CL2T9LDG63;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = studybuddy/Info.plist;

@@ -20,11 +20,8 @@ struct PillsButtonComponent: View {
                             Button(action: {
                                 if selectedPills.contains(pill) {
                                     selectedPills.remove(pill)
-//                                    UserViewModel().deleteCategory(categoryToDelete: pill)
                                 } else {
                                     selectedPills.insert(pill)
-//                                    UserViewModel().updateCategory(category: pill)
-                                    
                                 }
                             }) {
                                 Text(pill)

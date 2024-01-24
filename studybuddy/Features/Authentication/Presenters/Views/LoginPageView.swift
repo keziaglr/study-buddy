@@ -41,6 +41,10 @@ struct LoginPageView: View {
                                 .frame(width: 250, height: 250)
                                 .padding(.bottom, 400)
                                 .padding(.top, 60)
+                                .onTapGesture {
+                                    print("tapped")
+                                    hideKeyboard()
+                                }
                             VStack(spacing: 20) {
                                 CustomTextField(label: "Email", placeholder: "Email", text: $viewModel.email)
                                     .padding(.top, 105)
@@ -64,16 +68,7 @@ struct LoginPageView: View {
                     VStack{
                         Spacer()
                         Button {
-                            Task {
-                                do {
-                                    isLoading = true
-                                    try await viewModel.auth()
-                                } catch {
-                                    print(error)
-                                    showingAlert = true
-                                }
-                                isLoading = false
-                            }
+                            login()
                         } label: {
                             CustomButton(text: "Login")
                         }
@@ -111,16 +106,25 @@ struct LoginPageView: View {
                 ResetPasswordPageView()
                     .environmentObject(viewModel)
             }
-            .onTapGesture {
-                print("tapped")
-                hideKeyboard()
-            }
         }
         .onAppear{
             viewModel.password = ""
         }
         .alert(isPresented: $showingAlert) {
             Alerts.invalidCredentials
+        }
+    }
+    
+    func login() {
+        Task {
+            do {
+                isLoading = true
+                try await viewModel.auth()
+            } catch {
+                print(error)
+                showingAlert = true
+            }
+            isLoading = false
         }
     }
 }

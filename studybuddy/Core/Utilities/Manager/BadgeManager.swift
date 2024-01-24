@@ -8,17 +8,12 @@
 
 import SwiftUI
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import Firebase
 
 @MainActor
 class BadgeManager: ObservableObject {
     static let shared = BadgeManager()
     @Published var badges = [Badge]()
     var userManager = UserManager.shared
-    
-    var db = Firestore.firestore()
     
     init() {
         getBadges()
