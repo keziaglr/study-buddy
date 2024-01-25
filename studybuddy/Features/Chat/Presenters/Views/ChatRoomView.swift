@@ -12,7 +12,6 @@ import Foundation
 struct ChatRoomView: View {
     //TODO: change to stateobject
     @StateObject var chatViewModel = ChatViewModel()
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @EnvironmentObject var communityViewModel: CommunityViewModel
     @Binding var community: Community
     var userManager = UserManager.shared
