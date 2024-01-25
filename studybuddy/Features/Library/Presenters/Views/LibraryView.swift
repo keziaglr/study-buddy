@@ -163,6 +163,8 @@ struct LibraryView: View {
 
 struct LibraryView_Previews: PreviewProvider {
     static var previews: some View {
-        LibraryView(communityID: Community.previewDummy.id!)
+        NavigationStack {
+            LibraryView(communityID: Community.previewDummy.id!)
+        }
     }
 }
