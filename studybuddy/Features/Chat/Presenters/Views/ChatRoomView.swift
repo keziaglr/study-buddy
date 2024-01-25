@@ -36,12 +36,12 @@ struct ChatRoomView: View {
                                 }
                                 HStack {
                                     if userManager.currentUser?.id != message.user{
-                                        MessageBubbleComponent(message: message)
+                                        MessageBubbleComponent(message: message, communityID: community.id!)
                                             .id(message.id)
                                         Spacer()
                                     }else{
                                         Spacer()
-                                        MessageBubbleComponent(message: message)
+                                        MessageBubbleComponent(message: message, communityID: community.id!)
                                             .id(message.id)
                                     }
                                 }

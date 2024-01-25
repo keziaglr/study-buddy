@@ -13,4 +13,6 @@ struct Chat: Identifiable, Codable{
     var content: String
     var dateCreated: Date
     var user: String
+    
+    static let previewDummy = Chat(id: "nIxePief0BMpG8ytuIdf", content: "Ajarin aku aljabar dong", dateCreated: Date(), user: "DWZEQwcVoPhGb9NMDrPTi5UluUy1")
 }

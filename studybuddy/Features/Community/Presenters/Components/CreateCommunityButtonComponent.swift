@@ -18,3 +18,7 @@ struct CreateCommunityButtonComponent: View {
         .padding(.top, 16)
     }
 }
+
+#Preview {
+    CreateCommunityButtonComponent(showModal: .constant(true))
+}

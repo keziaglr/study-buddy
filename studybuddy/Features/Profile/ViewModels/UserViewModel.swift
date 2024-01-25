@@ -24,7 +24,6 @@ class UserViewModel: ObservableObject {
         }
         
         try await UserManager.shared.updateUserInterest(category: Array(categories))
-//        self.currentUser?.category = Array(categories)
     }
     
     func uploadUserProfile(localURL: URL) async throws{
@@ -39,7 +38,10 @@ class UserViewModel: ObservableObject {
         
         let downloadURL = try await StorageManager.shared.saveUserProfileImage(url: localURL)
         try await UserManager.shared.updateProfileImage(image: downloadURL.absoluteString)
-//        self.currentUser?.image = downloadURL.absoluteString
+        // also update community member image in every joined community
+        for community in currentUser.communities {
+            try await CommunityManager.shared.updateMemberImage(communityID: community, userID: currentUser.id!, image: downloadURL.absoluteString)
+        }
     }
     
 }

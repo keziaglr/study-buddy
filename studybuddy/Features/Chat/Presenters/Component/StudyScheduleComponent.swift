@@ -38,10 +38,9 @@ struct StudyScheduleComponent: View {
     }
 }
 
-//struct StudyScheduleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StudyScheduleComponent()
-//            .previewLayout(PreviewLayout.sizeThatFits)
-//    }
-//}
+struct StudyScheduleView_Previews: PreviewProvider {
+    static var previews: some View {
+        StudyScheduleComponent(community: .constant(Community.previewDummy))
+    }
+}
 

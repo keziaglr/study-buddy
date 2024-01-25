@@ -82,9 +82,7 @@ struct CustomTextfield: TextFieldStyle {
     }
 }
 
-struct MessageInputComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageInputComponent(communityID: "")
-    }
+#Preview {
+    MessageInputComponent(communityID: Community.previewDummy.id!)
+        .environmentObject(ChatViewModel())
 }
-

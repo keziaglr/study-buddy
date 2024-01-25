@@ -146,11 +146,7 @@ struct SetScheduleView: View {
 
 }
 
-
-
-
-//struct SetSchedule_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SetScheduleView(isPresent: .constant(false), isBadge: .constant(false), badge: .constant("badge1"))
-//    }
-//}
+#Preview {
+    SetScheduleView(isPresent: .constant(true), showBadge: .constant(false), community: .constant(Community.previewDummy))
+        .environmentObject(CommunityViewModel())
+}

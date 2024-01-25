@@ -156,5 +156,6 @@ struct CommunityPageView: View {
 struct CommunityPageView_Previews: PreviewProvider {
     static var previews: some View {
         CommunityPageView()
+            .environmentObject(CommunityViewModel())
     }
 }

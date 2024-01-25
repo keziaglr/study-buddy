@@ -99,5 +99,5 @@ struct CommunityCardComponent: View {
 
 
 #Preview {
-    CommunityCardComponent(community: Community(id: "Test", title: "Test", description: "Test", image: "", category: "Test"), buttonLabel: "JOIN", joinAction: {})
+    CommunityCardComponent(community: Community.previewDummy, buttonLabel: "JOIN", joinAction: {})
 }

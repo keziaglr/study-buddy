@@ -50,7 +50,7 @@ struct ChatMembersView: View {
 
 struct ChatMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatMembersView(communityMembers: .constant([]))
+        ChatMembersView(communityMembers: .constant([CommunityMember.previewDummy]))
             .environmentObject(CommunityViewModel())
     }
 }

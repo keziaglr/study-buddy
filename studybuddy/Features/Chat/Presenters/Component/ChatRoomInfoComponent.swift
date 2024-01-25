@@ -24,7 +24,6 @@ struct ChatRoomInfoComponent: View {
                 
                 //Back Button
                 Button {
-//                    showTabView = false
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "arrow.backward")
@@ -95,9 +94,7 @@ struct ChatRoomInfoComponent: View {
     }
 }
 
-//struct ChatRoomInfoComponent_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChatRoomInfoComponent()
-//            .previewLayout(PreviewLayout.sizeThatFits)
-//    }
-//}
+#Preview {
+    ChatRoomInfoComponent(community: .constant(Community.previewDummy))
+        .environmentObject(CommunityViewModel())
+}

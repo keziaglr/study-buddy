@@ -19,7 +19,6 @@
 		437114A12B5EE88C00B5DD2E /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437114A02B5EE88C00B5DD2E /* ViewExtension.swift */; };
 		43AD2B6B2B4E7BF40010B718 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */; };
 		43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */; };
-		43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B742B4E84A00010B718 /* CardComponent.swift */; };
 		43AD2B772B4E95250010B718 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B762B4E95250010B718 /* AuthenticationManager.swift */; };
 		43AD2B792B4E9EE00010B718 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B782B4E9EE00010B718 /* UserManager.swift */; };
 		43AD2B7B2B4EADC70010B718 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD2B7A2B4EADC70010B718 /* Alerts.swift */; };
@@ -101,7 +100,6 @@
 		437114A02B5EE88C00B5DD2E /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		43AD2B6A2B4E7BF40010B718 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		43AD2B712B4E7F860010B718 /* CommunityCardComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCardComponent.swift; sourceTree = "<group>"; };
-		43AD2B742B4E84A00010B718 /* CardComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardComponent.swift; sourceTree = "<group>"; };
 		43AD2B762B4E95250010B718 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		43AD2B782B4E9EE00010B718 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		43AD2B7A2B4EADC70010B718 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				43C972112A4C344F000D1E6B /* LoaderComponent.swift */,
 				43FA00AF2B2316620035E6FC /* CustomTextField.swift */,
 				43FA00A52B2316620035E6FC /* CustomRoundedButton.swift */,
-				43AD2B742B4E84A00010B718 /* CardComponent.swift */,
 				4342DBC12B31C41600D79AF6 /* CustomButton.swift */,
 			);
 			path = Components;
@@ -773,7 +770,6 @@
 				431C88B22B59B1D900245E83 /* ChatManager.swift in Sources */,
 				43FA00F12B2316620035E6FC /* ProfilePageView.swift in Sources */,
 				43FA00D92B2316620035E6FC /* MessageInputComponent.swift in Sources */,
-				43AD2B752B4E84A00010B718 /* CardComponent.swift in Sources */,
 				43FA00DC2B2316620035E6FC /* StudyScheduleComponent.swift in Sources */,
 				43AD2B722B4E7F860010B718 /* CommunityCardComponent.swift in Sources */,
 				43FA00ED2B2316620035E6FC /* DiscoverPageView.swift in Sources */,

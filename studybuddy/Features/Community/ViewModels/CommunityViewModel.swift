@@ -184,6 +184,10 @@ class CommunityViewModel: ObservableObject {
         return members
     }
     
+    func getCommunityMember(communityID: String, userID: String) async throws -> CommunityMember? {
+        return try await CommunityManager.shared.getMember(communityID, userID)
+    }
+    
     //MARK: USER RECOMMENDATION
     func getUserRecommendation() {
         recommendedCommunities = []

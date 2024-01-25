@@ -13,19 +13,19 @@ import Firebase
 import Kingfisher
 
 struct MessageBubbleComponent: View {
-    
-    var isCurrentUser: Bool
-    var message: Chat
-    @StateObject private var userViewModel = UserViewModel()
+    @EnvironmentObject var communityViewModel: CommunityViewModel
     @State private var showTime = false
-    @State private var user: UserModel? = nil
+    @State private var member: CommunityMember?
     
     @State private var vStackHeight: CGFloat = 0
+    var isCurrentUser: Bool
+    var message: Chat
+    var communityID: String
     
-    init(message: Chat) {
-        
+    init(message: Chat, communityID: String) {
         self.message = message
         self.isCurrentUser = Auth.auth().currentUser?.uid != message.user
+        self.communityID = communityID
     }
     
     
@@ -35,7 +35,7 @@ struct MessageBubbleComponent: View {
         HStack(alignment: .top) {
             
             if Auth.auth().currentUser?.uid != message.user  {
-                if let userImage = user?.image, userImage != "" {
+                if let userImage = member?.image, userImage != "" {
                     KFImage(URL(string: userImage))
                         .placeholder ({ progress in
                             ProgressView()
@@ -58,14 +58,14 @@ struct MessageBubbleComponent: View {
             //User Name
             VStack(alignment: isCurrentUser ? .leading : .trailing, spacing: -1){
                 if isCurrentUser {
-                    Text(user?.name ?? "")
+                    Text(member?.name ?? "")
                         .font(.system(size: 15))
                         .fontWeight(.semibold)
                         .kerning(0.45)
                         .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                         .foregroundColor(Colors.black)
                 }
-                    
+                
                 //Message Content
                 Text(message.content)
                     .font(.system(size: 15))
@@ -74,7 +74,7 @@ struct MessageBubbleComponent: View {
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     .foregroundColor(Colors.black)
                     .frame(alignment: .leading)
-//                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
+                //                    .frame(minWidth: 10, maxWidth: 238, alignment: .leading)
                     .background(Colors.gray)
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .topRight, .bottomLeft]))
                     .padding(.leading, 10)
@@ -90,7 +90,7 @@ struct MessageBubbleComponent: View {
         }
         .task {
             do {
-                self.user = try await userViewModel.getUser(userID: message.user)
+                self.member = try await communityViewModel.getCommunityMember(communityID: communityID, userID: message.user)
             } catch {
                 print(error)
             }
@@ -118,9 +118,9 @@ struct RoundedCorner: Shape {
     }
 }
 
-//struct MessageBubbleComponent_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessageBubbleComponent(message: "")
-//            .previewLayout(PreviewLayout.sizeThatFits)
-//    }
-//}
+#Preview {
+    MessageBubbleComponent(message: Chat.previewDummy, communityID: Community.previewDummy.id!)
+        .environmentObject(CommunityViewModel())
+        .previewLayout(PreviewLayout.sizeThatFits)
+}
+

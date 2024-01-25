@@ -46,7 +46,7 @@ final class CommunityManager {
     }
     
     func getMember(_ communityID: String, _ userID: String) async throws -> CommunityMember? {
-        let query = dbRef.document(communityID).collection("members").whereField("id", in: [userID])
+        let query = dbRef.document(communityID).collection("members").whereField("id", isEqualTo: userID)
         let querySnapshot = try await query.getDocuments()
         guard let document = querySnapshot.documents.first else {
             print("No member found")
@@ -56,6 +56,20 @@ final class CommunityManager {
         return member
     }
 
+    func updateMemberImage(communityID: String, userID: String, image: String) async throws {
+        let communityRef = dbRef.document(communityID)
+        let query = communityRef.collection("members").whereField("id", isEqualTo: userID)
+        let querySnapshot = try await query.getDocuments()
+        guard let document = querySnapshot.documents.first else {
+            print("No member found")
+            return
+        }
+        try await communityRef.collection("members").document(document.documentID).updateData([
+            "image" : image
+        ])
+        
+    }
+    
     func addMember(_ communityID: String, _ member: CommunityMember) {
         do {
             try dbRef.document(communityID).collection("members").document().setData(from: member)
