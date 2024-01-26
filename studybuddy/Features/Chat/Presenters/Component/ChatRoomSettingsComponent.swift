@@ -90,7 +90,7 @@ struct ChatRoomSettingsComponent: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
-                    .foregroundColor(Color.black)
+                    .foregroundColor(Colors.black)
                     .frame(width: 20, height: 4)
                     .padding(EdgeInsets(top: 17, leading: 0, bottom: 0, trailing: 10))
             }

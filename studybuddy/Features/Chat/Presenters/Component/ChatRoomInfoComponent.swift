@@ -28,7 +28,7 @@ struct ChatRoomInfoComponent: View {
                 } label: {
                     Image(systemName: "arrow.backward")
                         .resizable()
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Colors.black)
                         .frame(width: 20, height: 18)
                         .padding(EdgeInsets(top: 75, leading: UIScreen.main.bounds.width*0.043257, bottom: 0, trailing: 0))
                     }
@@ -39,8 +39,8 @@ struct ChatRoomInfoComponent: View {
                         ProgressView()
                     })
                     .resizable()
-                    .frame(width: 70, height: 70)
                     .scaledToFill()
+                    .frame(width: 70, height: 70)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(EdgeInsets(top: 70, leading: 0, bottom: 0, trailing: 0))
                 
@@ -51,20 +51,20 @@ struct ChatRoomInfoComponent: View {
                     Text(community.title)
                         .fontWeight(.bold)
                         .font(.system(size: 18))
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                     
                     //Number of Members
                     Text("\(communityMembers.count) members")
                         .fontWeight(.regular)
                         .font(.system(size: 15))
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                     
                     //Group Description
                     Text(community.description)
                         .italic()
                         .fontWeight(.regular)
                         .font(.system(size: 15))
-                        .foregroundColor(.black)
+                        .foregroundColor(Colors.black)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
                     
                 }

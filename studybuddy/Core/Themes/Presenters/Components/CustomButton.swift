@@ -26,8 +26,8 @@ struct CustomButton: View {
                 .font(.system(size: 20))
                 .fontWeight(.bold)
                 .kerning(0.6)
-                .foregroundColor(.black)
-                .background(.white)
+                .foregroundColor(Colors.black)
+                .background(Colors.white)
                 .cornerRadius(100)
                 .overlay(
                     RoundedRectangle(cornerRadius: 100)

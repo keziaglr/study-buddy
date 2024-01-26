@@ -51,7 +51,7 @@ struct MessageBubbleComponent: View {
                         .scaledToFill()
                         .frame(width: 42, height: 42)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
                 }
             }
             
@@ -62,6 +62,7 @@ struct MessageBubbleComponent: View {
                         .font(.system(size: 15))
                         .fontWeight(.semibold)
                         .kerning(0.45)
+//                        .padding(.top, isCurrentUser ? 10 : 5)
                         .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                         .foregroundColor(Colors.black)
                 }
@@ -79,6 +80,7 @@ struct MessageBubbleComponent: View {
                     .clipShape(RoundedCorner(radius: 15, corners: isCurrentUser ? [.topRight, .bottomLeft, .bottomRight] : [.topLeft, .topRight, .bottomLeft]))
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
+                    .padding(.top, isCurrentUser ? 0 : 5)
                 
                 //Time Stamp
                 Text("\(message.dateCreated.formatted(.dateTime.hour().minute()))")
