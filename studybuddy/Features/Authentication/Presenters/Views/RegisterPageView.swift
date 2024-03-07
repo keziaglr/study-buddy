@@ -100,7 +100,7 @@ struct RegisterPageView: View {
         }
     }
     
-    func register() {
+    private func register() {
         Task {
             do {
                 isLoading = true

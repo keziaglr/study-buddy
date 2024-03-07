@@ -115,7 +115,7 @@ struct LoginPageView: View {
         }
     }
     
-    func login() {
+    private func login() {
         Task {
             do {
                 isLoading = true
