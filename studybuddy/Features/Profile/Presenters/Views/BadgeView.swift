@@ -22,7 +22,7 @@ struct BadgeView: View {
                 }
                 .listStyle(.plain)
                 .scrollIndicators(.hidden)
-                .padding(EdgeInsets(top: 0, leading: 32, bottom: 0, trailing: 32))
+                .padding(.horizontal, 32)
             } else {
                 Text("Empty")
             }
